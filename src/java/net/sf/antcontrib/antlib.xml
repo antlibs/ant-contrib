@@ -1,0 +1,9 @@
+<antlib>
+    <!-- typedef the tasks that work for ant less than 1.6 -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+    <taskdef
+        name="for"
+        classname="net.sf.antcontrib.logic.ForTask"
+        onerror="report"/>
+</antlib>

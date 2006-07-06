@@ -1,0 +1,27 @@
+<ivy-module version="1.1">
+    <info organisation="sourceforge" module="ant-contrib" />
+    
+    <configurations>
+        <conf name="default" />
+        <conf name="test" extends="default" />
+    </configurations>
+    <publications>
+        <artifact name="ant-contrib" type="jar" />
+    </publications>
+    
+    <dependencies>
+        <dependency org="apache"
+                    name="bcel"
+                    rev="5.1" />
+        <dependency org="apache"
+                    name="ant"
+                    rev="1.6.5" />
+        <dependency org="apache"
+                    name="xercesImpl"
+                    rev="2.6.2" />
+        <dependency org="junit"
+                    name="junit"
+                    rev="3.8.1"
+                    conf="test->default" />
+    </dependencies>
+</ivy-module>
