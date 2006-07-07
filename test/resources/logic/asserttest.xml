@@ -12,8 +12,12 @@
          
    <target name="test1">
       <property name="testprop" value="true"/>
-      <assert name="testprop"/>
-      <assert name="testprop" value="true"/>
+      <assert>
+      	<isset property="testprop"/>
+      </assert>
+      <assert>
+   	    <istrue value="${testprop}" />
+      </assert>
    </target>
    
    <target name="test2">

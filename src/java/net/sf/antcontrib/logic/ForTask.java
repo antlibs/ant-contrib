@@ -226,9 +226,12 @@ public class ForTask extends Task {
         int taskCount = 0;
 
         // Create a macro attribute
-        MacroDef.Attribute attribute = new MacroDef.Attribute();
-        attribute.setName(param);
-        macroDef.addConfiguredAttribute(attribute);
+        if (macroDef.getAttributes().isEmpty()) {
+        	MacroDef.Attribute attribute = new MacroDef.Attribute();
+        	attribute.setName(param);
+        	macroDef.addConfiguredAttribute(attribute);
+        }
+        
         // Take Care of the list attribute
         if (list != null) {
             StringTokenizer st = new StringTokenizer(list, delimiter);
