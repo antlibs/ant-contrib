@@ -197,6 +197,8 @@ public class TryCatchTask extends Task {
      * The heart of the task.
      */
     public void execute() throws BuildException {
+    	Throwable thrown = null;
+    	
         if (tryTasks == null) {
             throw new BuildException("A nested <try> element is required");
         }
@@ -222,10 +224,18 @@ public class TryCatchTask extends Task {
                 CatchBlock cb = (CatchBlock)blocks.nextElement();
                 executed = cb.execute(e);
             }
+            
+            if (! executed) {
+            	thrown = e;
+            }
         } finally {
             if (finallyTasks != null) {
                 finallyTasks.perform();
             }
+        }
+        
+        if (thrown != null) {
+        	throw new BuildException(thrown);
         }
     }
 
