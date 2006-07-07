@@ -53,6 +53,10 @@ public class Assert
 		tasks.add(task);
 	}
 	
+	public BooleanConditionBase createBool() {
+		return this;
+	}
+	
 	public void execute() {
 		if (countConditions() == 0) {
 			throw new BuildException("There is no condition specified.");
