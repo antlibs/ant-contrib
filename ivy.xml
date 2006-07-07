@@ -3,22 +3,27 @@
     
     <configurations>
         <conf name="default" />
+        <conf name="provided" extends="default" />
         <conf name="test" extends="default" />
     </configurations>
     <publications>
         <artifact name="ant-contrib" type="jar" />
     </publications>
     
+    
     <dependencies>
         <dependency org="apache"
                     name="bcel"
-                    rev="5.1" />
+                    rev="5.1"
+                    conf="default->default" />
         <dependency org="apache"
                     name="ant"
-                    rev="1.6.5" />
+                    rev="1.6.5"
+                    conf="provided->default" />
         <dependency org="apache"
                     name="xercesImpl"
-                    rev="2.6.2" />
+                    rev="2.6.2"
+                    conf="provided->default" />
         <dependency org="junit"
                     name="junit"
                     rev="3.8.1"

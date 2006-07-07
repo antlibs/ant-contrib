@@ -44,7 +44,8 @@
     </target>
     
 	<target name="classpath" depends="resolve">
-		<ivy:cachepath id="compile.classpath" type="jar" conf="default" />
+		<ivy:cachepath id="compile.classpath" type="jar" conf="provided" />
+		<ivy:cachepath id="runtime.classpath" type="jar" conf="default" />
 		<ivy:cachepath id="test.classpath" type="jar" conf="test" />
 	</target>
 		
@@ -62,7 +63,7 @@
 		</copy>
     </target>
 		
-	<target name="compile-tests" depends="classpath">
+	<target name="compile-tests" depends="classpath,compile">
 		<mkdir dir="${target.test-classes.dir}" />
 		<javac srcdir="${test.src.dir}"
 		       destdir="${target.test-classes.dir}"
@@ -77,7 +78,10 @@
 		    <fileset dir="${test.src.dir}"
 		             includes="**/*.properties,**/*.xml" />
 		    <fileset dir="${test.resources.dir}"
-		             includes="**/*.java,**/*.properties,**/*.xml" />
+		             includes="**/*.java,**/*.properties,**/*.xml"
+		             excludes="**/design/src/**/*" />
+		    <fileset dir="${test.resources.dir}/design/src"
+		             includes="**/design/src/**/*" />
 		</copy>
     </target>
 
@@ -199,4 +203,44 @@
 	
 	<target name="dist" depends="package">
 	</target>
+	
+	<target name="run-test" depends="compile-tests, jar">
+	    <junit haltonfailure="false" haltonerror="false"
+	           errorproperty="junit.error" failureproperty="junit.failure">
+	      <formatter type="brief" usefile="false"/>
+	      <batchtest>
+	        <fileset dir="${target.test-classes.dir}" excludes="${skip-tests}">
+	          <exclude name="**/antclipse/**" unless="eclipse.present"/>
+	        </fileset>
+	      </batchtest>
+	      <sysproperty key="antcontrib.jar" file="${target.dir}/${project.name}.jar"/>
+		  <classpath>
+			  <path refid="test.classpath" />
+			  <pathelement location="${target.classes.dir}" />
+			  <pathelement location="${target.test-classes.dir}" />
+		  </classpath>
+	    </junit>
+
+	      <fail message="JUnit error (${junit.error}) encountered." if="junit.error" />
+	      <fail message="JUnit failure (${junit.failure}) encountered." if="junit.failure" />
+	</target>
+	
+	<target name="test-all" depends="compile-tests">
+	    <antcall target="run-test">
+	        <param name="skip-tests" value="**/BuildFileTestBase.class"/>
+	    </antcall>
+	</target>
+
+
+	<target name="gump-safe-test" depends="compile-tests">
+	      <!--   all AntServerTest tests started failing on Gump 
+	             with IOException at 2004-12-06T15:00:16 
+	            after successfully completing at 2004-12-06T03:00:19 -->
+	    <antcall target="run-test">
+	      <param name="skip-tests" value="**/AntServerTest.class **/BuildFileTest*.class"/>
+	    </antcall>
+	</target>
+	  
+	  <target name="test" depends="gump-safe-test"/>
+	
 </project>
