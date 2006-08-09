@@ -25,6 +25,7 @@ import java.util.Vector;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Property;
 
 
 /****************************************************************************
@@ -45,8 +46,6 @@ public class IniFileTask
     {
         private String section;
         private String property;
-        private String ifCond;
-        private String unlessCond;
 
         public IniOperation()
         {
@@ -76,6 +75,23 @@ public class IniFileTask
             this.property = property;
         }
 
+        public void execute(Project project, IniFile iniFile)
+        {
+                operate(iniFile);
+        }
+
+        protected abstract void operate(IniFile file);
+    }
+
+    public static abstract class IniOperationConditional extends IniOperation
+    {
+        private String ifCond;
+        private String unlessCond;
+
+        public IniOperationConditional()
+        {
+            super();
+        }
 
         public void setIf(String ifCond)
         {
@@ -110,12 +126,52 @@ public class IniFileTask
             if (isActive(project))
                 operate(iniFile);
         }
-
-        protected abstract void operate(IniFile file);
     }
 
+	public static abstract class IniOperationPropertySetter extends IniOperation
+	{
+		private boolean override;
+		private String resultproperty;
+
+		public IniOperationPropertySetter()
+		{
+			super();
+		}
+
+		public void setOverride(boolean override)
+		{
+			this.override = override;
+		}
+
+		public void setResultProperty(String resultproperty)
+		{
+			this.resultproperty = resultproperty;
+		}
+
+		protected final void setResultPropertyValue(Project project, String value)
+		{
+			if (value != null)
+			{
+				if (override)
+				{
+					if (project.getUserProperty(resultproperty) == null)
+						project.setProperty(resultproperty, value);
+					else
+						project.setUserProperty(resultproperty, value);
+				}
+				else
+				{
+					Property p = (Property)project.createTask("property");
+					p.setName(resultproperty);
+					p.setValue(value);
+					p.execute();
+				}
+			}
+		}
+	}
+
     public static final class Remove
-            extends IniOperation
+            extends IniOperationConditional
     {
         public Remove()
         {
@@ -142,7 +198,7 @@ public class IniFileTask
 
 
     public final class Set
-            extends IniOperation
+            extends IniOperationConditional
     {
         private String value;
         private String operation;
@@ -199,7 +255,55 @@ public class IniFileTask
                 section.setProperty(new IniProperty(propName, value));
             }
         }
+    }
 
+	public final class Exists
+		extends IniOperationPropertySetter
+	{
+		public Exists()
+		{
+			super();
+		}
+
+		protected void operate(IniFile file)
+		{
+			boolean exists = false;
+			String secName = getSection();
+			String propName = getProperty();
+
+			if (secName == null)
+				throw new BuildException("You must supply a section to search for.");
+
+			if (propName == null)
+				exists = (file.getSection(secName) != null);
+			else
+				exists = (file.getProperty(secName, propName) != null);
+
+			setResultPropertyValue(getProject(), Boolean.valueOf(exists).toString());
+		}
+	}
+
+	public final class Get
+		extends IniOperationPropertySetter
+	{
+		public Get()
+		{
+			super();
+		}
+
+		protected void operate(IniFile file)
+		{
+			String secName = getSection();
+			String propName = getProperty();
+
+			if (secName == null)
+				throw new BuildException("You must supply a section to search for.");
+
+			if (propName == null)
+				throw new BuildException("You must supply a property name to search for.");
+
+			setResultPropertyValue(getProject(), file.getProperty(secName, propName));
+		}
     }
 
     private File source;
@@ -226,6 +330,19 @@ public class IniFileTask
         return remove;
     }
 
+    public Exists createExists()
+    {
+        Exists exists = new Exists();
+        operations.add(exists);
+        return exists;
+    }
+
+    public Get createGet()
+    {
+        Get get = new Get();
+        operations.add(get);
+        return get;
+    }
 
     public void setSource(File source)
     {

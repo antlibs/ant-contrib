@@ -190,16 +190,8 @@ public class IniFile
 
         while ((line = br.readLine()) != null)
         {
-            int pos = line.indexOf('#');
-            if (pos != -1)
-                line = line.substring(0,pos);
-
-            pos = line.indexOf(';');
-            if (pos != -1)
-                line = line.substring(0,pos);
-
             line = line.trim();
-            if (line.length() > 0)
+            if (line.length() > 0 && !line.startsWith("#") && !line.startsWith(";"))
             {
                 if(line.startsWith("[") && line.endsWith("]"))
                 {
@@ -215,7 +207,7 @@ public class IniFile
                 {
                     String name = line;
                     String value = "";
-                    pos = line.indexOf("=");
+                    int pos = line.indexOf("=");
                     if (pos != -1)
                     {
                         name = line.substring(0,pos);
