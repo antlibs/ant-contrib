@@ -118,9 +118,7 @@ public class MathTask
     public Operation createOperation()
     {
         if (locOperation != null || operation != null)
-            throw new BuildException("An operation must be specified");
-        if (locOperation != null && operation != null)
-            throw new BuildException("You cannot specify an <operation> subelement when using the 'operation' attribute.");
+            throw new BuildException("Only 1 operation can be specified");
         this.operation = new Operation();
         this.operation.setStrict(strict);
         this.operation.setDatatype(datatype);
