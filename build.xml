@@ -55,6 +55,8 @@
 		       destdir="${target.classes.dir}"
 		       debug="true"
 		       classpathref="compile.classpath"
+		       source="${jdk.source}"
+		       target="${jdk.target}"
 		  />
 		
 		<copy todir="${target.classes.dir}">
@@ -67,7 +69,9 @@
 		<mkdir dir="${target.test-classes.dir}" />
 		<javac srcdir="${test.src.dir}"
 		       destdir="${target.test-classes.dir}"
-		       debug="true">
+		       debug="true"
+		       source="${jdk.source}"
+		       target="${jdk.target}">
 			<classpath>
 				<path refid="test.classpath" />
 				<pathelement location="${target.classes.dir}" />
@@ -102,6 +106,7 @@
 	<target name="clean">
 		<delete includeemptydirs="true">
 			<fileset dir="${target.dir}" includes="**/*" />
+			<fileset dir="${dist.dir}" includes="**/*" />
 		</delete>
 	</target>
 	
@@ -196,7 +201,8 @@
         <checksum fileext=".md5">
             <fileset dir="${dist.dir}">
                 <include name="*.zip"/>
-                <include name="*.tar.*"/>
+                <include name="*.tar.bz2"/>
+                <include name="*.tar.gz"/>
             </fileset>
         </checksum>
 	</target>
