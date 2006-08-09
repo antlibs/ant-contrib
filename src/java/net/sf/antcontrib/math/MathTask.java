@@ -107,16 +107,12 @@ public class MathTask
 
     public void setOperand1(String operand1)
     {
-        Numeric n = new Numeric();
-        n.setValue(operand1);
-        getLocalOperation().addConfiguredNumeric(n);
+        getLocalOperation().setArg1(operand1);
     }
 
     public void setOperand2(String operand2)
     {
-        Numeric n = new Numeric();
-        n.setValue(operand2);
-        getLocalOperation().addConfiguredNumeric(n);
+        getLocalOperation().setArg2(operand2);
     }
 
     public Operation createOperation()
