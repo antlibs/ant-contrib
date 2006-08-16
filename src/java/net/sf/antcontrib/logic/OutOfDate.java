@@ -314,10 +314,15 @@ public class OutOfDate extends Task implements Condition {
 
         if (targetpaths != null) {
             String[] paths = targetpaths.list();
-            for (int i = 0; i < paths.length; ++i) {
-                if (targetNeedsGen(paths[i], spaths)) {
-                    ret = true;
-                }
+            if (paths.length == 0) {
+            	ret = true;
+            }
+            else {
+            	for (int i = 0; i < paths.length; ++i) {
+            		if (targetNeedsGen(paths[i], spaths)) {
+            			ret = true;
+            		}
+            	}
             }
         }
 
