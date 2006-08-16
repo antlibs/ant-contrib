@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Ant-contrib Tasks: Importurl</title>
+  </head>
+
+  <body>
+    <h1>Importurl</h1>
+
+    <p>The Importurl task will download a file, and import it's contents into the
+       current project.  The file can be in the form of a standard ant .xml project
+       file, or a .jar/.zip file.  In the case of a .jar/.zip file, the file is downloaded
+       and then decompressed.  After decompression, the file 'build.xml' at the root
+       level of the jar is imported.</p>
+    <p>
+       By importing a .jar/.zip file, one can package additional resources along with
+       the build.xml file.  However, you must be careful how you refer to these resources.
+       The build.xml file must follow the same rules as any other file imported with the
+       &lt;import&gt; task, in that references relative to the build.xml file must be
+       made with the property:
+           ant.file.&lt;projectname&gt;
+       where &lt;projectname&gt; is the name of the project being imported, as specified
+       in the project tag.
+    </p>
+
+    <p>
+       This task should be compatible with older versions of ant, but has only been
+       tested with Ant 1.6.x
+    </p>
+    <h2>Parameters</h2>
+    <table border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">url</td>
+        <td valign="top">The URL of the file to import.  This can be any URL which
+           is recognized by the &lt;get&gt; task.</td>
+        <td align="center" valign="top">Yes</td>
+      </tr>
+    </table>
+
+
+    <h2>Example</h2>
+
+
+    <pre>
+    <code>
+    &lt;antcontrib:importurl url="file:/path/to/build.xml" /&gt;
+    </code>
+    </pre>
+    
+    <pre>
+    <code>
+    &lt;antcontrib:importurl url="http://host/path/to/build.xml" /&gt;
+    </code>
+    </pre>
+
+    <pre>
+    <code>
+    &lt;antcontrib:importurl url="http://host/path/to/common.jar" /&gt;
+    </code>
+    </pre>
+    
+    The following build.xml may be packaged into a .jar with it's corresponding
+    build.properties file:
+    
+    <pre>
+    <code>
+    &lt;project name="common"&gt;
+    &lt;property file="${ant.file.common}/build.properties" /&gt;
+    &lt;/project&gt;
+    </code>
+    </pre>
+
+
+    <hr>
+    <p align="center">Copyright &copy; 2002-2006 Ant-Contrib Project. All
+    rights Reserved.</p>
+
+  </body>
+</html>
