@@ -15,15 +15,25 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.methods.PostMethod;
-
-public class GetMethodTask
-	extends AbstractMethodTask {
-
-	protected HttpMethodBase createNewMethod() {
-		return new PostMethod();
+public class HostParams 
+	extends org.apache.commons.httpclient.params.HostParams {
+	private static final long serialVersionUID = -1;
+	
+	public void addConfiguredDouble(Params.DoubleParam param) {
+		setDoubleParameter(param.getName(), param.getValue());
 	}
 
+	public void addConfiguredInt(Params.IntParam param) {
+		setIntParameter(param.getName(), param.getValue());
+	}
+
+	public void addConfiguredLong(Params.LongParam param) {
+		setLongParameter(param.getName(), param.getValue());
+	}
 	
+	public void addConfiguredString(Params.StringParam param) {
+		setParameter(param.getName(), param.getValue());
+	}
+	
+
 }
