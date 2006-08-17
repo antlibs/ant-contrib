@@ -27,6 +27,19 @@ public class Params {
 		
 	}
 	
+	public static class BooleanParam extends Param{
+		private boolean value;
+
+		public boolean getValue() {
+			return value;
+		}
+
+		public void setValue(boolean value) {
+			this.value = value;
+		}
+		
+	}
+
 	public static class IntParam extends Param{
 		private int value;
 

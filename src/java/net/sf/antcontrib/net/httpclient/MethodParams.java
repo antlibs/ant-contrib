@@ -43,4 +43,8 @@ public class MethodParams
 		setParameter(param.getName(), param.getValue());
 	}
 	
+	public void addConfiguredBoolean(Params.BooleanParam param) {
+		setBooleanParameter(param.getName(), param.getValue());
+	}
+
 }
