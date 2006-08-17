@@ -6,4 +6,38 @@
         name="for"
         classname="net.sf.antcontrib.logic.ForTask"
         onerror="report"/>
+        
+    <typedef
+        name="http-state"
+        classname="net.sf.antcontrib.net.httpclient.HttpStateType"
+        onerror="report" />
+    <typedef
+        name="http-client"
+        classname="net.sf.antcontrib.net.httpclient.HttpClientType"
+        onerror="report" />
+        
+    <taskdef name="add-cookie"
+        classname="net.sf.antcontrib.net.httpclient.AddCookieTask"
+        onerror="report" />
+    <taskdef name="clear-cookies"
+        classname="net.sf.antcontrib.net.httpclient.ClearCookiesTask"
+        onerror="report" />
+    <taskdef name="add-credentials"
+        classname="net.sf.antcontrib.net.httpclient.AddCredentialsTask"
+        onerror="report" />
+    <taskdef name="clear-credentials"
+        classname="net.sf.antcontrib.net.httpclient.ClearCredentialsTask"
+        onerror="report" />
+    <taskdef name="purge-expired-cookies"
+        classname="net.sf.antcontrib.net.httpclient.PurgeExpiredCookiesTask"
+        onerror="report" />
+    <taskdef name="post-method"
+        classname="net.sf.antcontrib.net.httpclient.PostMethodTask"
+        onerror="report" />
+    <taskdef name="get-method"
+        classname="net.sf.antcontrib.net.httpclient.GetMethodTask"
+        onerror="report" />
+    <taskdef name="head-method"
+        classname="net.sf.antcontrib.net.httpclient.HeadMethodTask"
+        onerror="report" />
 </antlib>
