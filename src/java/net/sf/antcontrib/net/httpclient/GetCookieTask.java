@@ -20,7 +20,6 @@ import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.cookie.CookieSpec;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Property;
 
 public class GetCookieTask
@@ -82,47 +81,38 @@ public class GetCookieTask
 		CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
 		Cookie cookies[] = state.getCookies();
 		Cookie matches[] = spec.match(realm, port, path, secure, cookies);
+
+		if (name != null) {
+			Cookie c = findCookie(matches, name);
+			if (c != null) {
+				matches = new Cookie[] { c };
+			}
+			else {
+				matches = new Cookie[0];
+			}
+		}
+		
 		
 		if (property != null) {
 			if (matches != null && matches.length > 0) {
-				Cookie toSet = matches[0];
-				if (name != null) {
-					toSet = findCookie(matches, name);
-				}
-
-				if (toSet != null) {
-					Property p = (Property)getProject().createTask("property");
-					p.setName(property);
-					p.setValue(matches[0].getValue());
-					p.perform();					
-				}
+				Property p = (Property)getProject().createTask("property");
+				p.setName(property);
+				p.setValue(matches[0].getValue());
+				p.perform();					
 			}
 		}
 		else if (prefix != null) {
 			if (matches != null && matches.length > 0) {
-				Cookie toSet[] = matches;
-
-				if (name != null) {
-					Cookie c = findCookie(matches, name);
-					if (c == null) {
-						toSet = new Cookie[0];
-					}
-					else {
-						toSet = new Cookie[] { c };
-					}
-				}
-
-				for (int i=0;i<toSet.length;i++) {
+				for (int i=0;i<matches.length;i++) {
 					String propName =
 						prefix +
-						toSet[i].getName();
+						matches[i].getName();
 					Property p = (Property)getProject().createTask("property");
 					p.setName(propName);
-					p.setValue(toSet[i].getValue());
+					p.setValue(matches[i].getValue());
 					p.perform();
 				}
 			}
-			
 		}
 		else {
 			throw new BuildException("Nothing to set");
