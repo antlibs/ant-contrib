@@ -64,6 +64,15 @@ public class HttpClientType
 		return clientParams;
 	}
 	
+	public HttpStateType createHttpState() {
+		if (isReference()) {
+			tooManyAttributes();
+		}
+		HttpStateType state = new HttpStateType(getProject());
+		getClient().setState(state.getState());
+		return state;
+	}
+	
 	public HostConfig createHostConfig() {
 		if (isReference()) {
 			tooManyAttributes();
