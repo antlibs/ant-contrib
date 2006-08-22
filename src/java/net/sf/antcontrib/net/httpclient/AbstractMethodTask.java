@@ -37,10 +37,10 @@ public abstract class AbstractMethodTask
 	extends Task {
 
 	private HttpMethodBase method;
-	private String clientRefId;
 	private File responseDataFile;
 	private String responseDataProperty;
 	private String statusCodeProperty;
+	private HttpClient httpClient;
 	private List responseHeaders = new ArrayList();
 	
 	public static class ResponseHeader {
@@ -70,6 +70,10 @@ public abstract class AbstractMethodTask
 		this.responseHeaders.add(responseHeader);
 	}
 	
+	public void addConfiguredHttpClient(HttpClientType httpClientType) {
+		this.httpClient = httpClientType.getClient();
+	}
+	
 	protected HttpMethodBase createMethodIfNecessary() {
 		if (method == null) {
 			method = createNewMethod();
@@ -90,7 +94,14 @@ public abstract class AbstractMethodTask
 	}
 
 	public void setClientRefId(String clientRefId) {
-		this.clientRefId = clientRefId;
+		Object clientRef = getProject().getReference(clientRefId);
+		if (clientRef == null) {
+			throw new BuildException("Reference '" + clientRefId + "' does not exist.");
+		}
+		if (! (clientRef instanceof HttpClientType)) {
+			throw new BuildException("Reference '" + clientRefId + "' is of the wrong type.");
+		}
+		httpClient = ((HttpClientType) clientRef).getClient();
 	}
 
 	public void setDoAuthentication(boolean doAuthentication) {
@@ -127,26 +138,14 @@ public abstract class AbstractMethodTask
 	}
 	
 	public void execute() throws BuildException {
-		HttpClient client = null;
-		if (clientRefId != null) {
-			Object clientRef = getProject().getReference(clientRefId);
-			if (clientRef == null) {
-				throw new BuildException("Reference '" + clientRefId + "' does not exist.");
-			}
-			if (! (clientRef instanceof HttpClientType)) {
-				throw new BuildException("Reference '" + clientRefId + "' is of the wrong type.");
-			}
-			HttpClientType clientType = (HttpClientType) clientRef;
-			client = clientType.getClient();
-		}
-		else {
-			client = new HttpClient();
+		if (httpClient == null) {
+			httpClient = new HttpClient();
 		}
 		
 		HttpMethodBase method = createMethodIfNecessary();
 		configureMethod(method);
 		try {
-			int statusCode = client.executeMethod(method);
+			int statusCode = httpClient.executeMethod(method);
 			if (statusCodeProperty != null) {
 				Property p = (Property)getProject().createTask("property");
 				p.setName(statusCodeProperty);
