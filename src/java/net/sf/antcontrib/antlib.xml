@@ -15,6 +15,9 @@
         name="httpClient"
         classname="net.sf.antcontrib.net.httpclient.HttpClientType"
         onerror="report" />        
+    <taskdef name="getCookie"
+        classname="net.sf.antcontrib.net.httpclient.GetCookieTask"
+        onerror="report" />
     <taskdef name="addCookie"
         classname="net.sf.antcontrib.net.httpclient.AddCookieTask"
         onerror="report" />

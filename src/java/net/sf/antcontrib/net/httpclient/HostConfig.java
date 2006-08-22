@@ -23,9 +23,13 @@ import org.apache.tools.ant.BuildException;
 
 public class HostConfig
 	extends HostConfiguration {
+	
+	public void setHost(String host) {
+		setHost(host, getPort(), getProtocol());
+	}
 
 	public void setPort(int port) {
-		setHost(getHost(), port);
+		setHost(getHost(), port, getProtocol());
 	}
 	
 	public void setProtocol(String protocol) {
