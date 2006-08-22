@@ -28,17 +28,16 @@ public class GetCookieTask
 
 	private String property;
     private String prefix;
-    private String fieldSeparator = "/";
-    
 	private String cookiePolicy = CookiePolicy.DEFAULT;
 	
 	private String realm = null;
     private int port = 80;
     private String path = null;
     private boolean secure = false;
+    private String name = null;
     
-	public void setFieldSeparator(String fieldSeparator) {
-		this.fieldSeparator = fieldSeparator;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setCookiePolicy(String cookiePolicy) {
@@ -93,7 +92,7 @@ public class GetCookieTask
 				for (int i=0;i<matches.length;i++) {
 					String propName =
 						prefix +
-						fieldSeparator + matches[i].getName();
+						matches[i].getName();
 					Property p = (Property)getProject().createTask("property");
 					p.setName(propName);
 					p.setValue(matches[i].getValue());
@@ -101,6 +100,9 @@ public class GetCookieTask
 				}
 			}
 			
+		}
+		else {
+			throw new BuildException("Nothing to set");
 		}
 	}
 	
