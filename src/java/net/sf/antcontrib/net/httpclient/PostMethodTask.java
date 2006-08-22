@@ -113,6 +113,10 @@ public class PostMethodTask
 		public void setContentType(String contentType) {
 			this.contentType = contentType;
 		}		
+		
+		public void setText(String text) {
+			this.value = text;
+		}
 	}
 	
 	public void addConfiguredFile(FilePartType file) {
