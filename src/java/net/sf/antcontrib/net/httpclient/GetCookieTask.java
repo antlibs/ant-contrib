@@ -85,6 +85,7 @@ public class GetCookieTask
 				Property p = (Property)getProject().createTask("property");
 				p.setName(property);
 				p.setValue(matches[0].getValue());
+				p.perform();
 			}
 		}
 		else if (prefix != null) {
@@ -96,7 +97,7 @@ public class GetCookieTask
 					Property p = (Property)getProject().createTask("property");
 					p.setName(propName);
 					p.setValue(matches[i].getValue());
-					
+					p.perform();
 				}
 			}
 			
