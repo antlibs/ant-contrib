@@ -47,6 +47,9 @@
 		<ivy:cachepath id="compile.classpath" type="jar" conf="provided" />
 		<ivy:cachepath id="runtime.classpath" type="jar" conf="default" />
 		<ivy:cachepath id="test.classpath" type="jar" conf="test" />
+		<ivy:cachefileset setid="compile.fileset" type="jar" conf="provided" />
+		<ivy:cachefileset setid="runtime.fileset" type="jar" conf="default" />
+		<ivy:cachefileset setid="test.fileset" type="jar" conf="test" />
 	</target>
 		
 	<target name="compile" depends="classpath">
@@ -141,9 +144,12 @@
 		<mkdir dir="${target.stage.dir}" />
 		<mkdir dir="${target.stage.dir}/lib" />
 		
-		<copy todir="${target.stage.dir}/${project.name}">
+		<copy todir="${target.stage.dir}">
 			<fileset dir="${root.dir}" includes="README.txt" />
 			<fileset dir="${target.dir}" includes="docs/**/*" />
+		</copy>		
+		<copy todir="${target.stage.dir}/lib" flatten="true">
+		    <fileset refid="runtime.fileset" />
 		</copy>		
 	</target>
 		

@@ -27,7 +27,7 @@
         <dependency org="apache"
                     name="commons-httpclient"
                     rev="3.0.1"
-                    conf="provided->default" />
+                    conf="default->default" />
         <dependency org="junit"
                     name="junit"
                     rev="3.8.1"
