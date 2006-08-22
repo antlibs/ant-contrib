@@ -92,8 +92,6 @@ public class GetCookieTask
 				for (int i=0;i<matches.length;i++) {
 					String propName =
 						prefix +
-						fieldSeparator + matches[i].getDomain() +
-						fieldSeparator + matches[i].getPath() +
 						fieldSeparator + matches[i].getName();
 					Property p = (Property)getProject().createTask("property");
 					p.setName(propName);
