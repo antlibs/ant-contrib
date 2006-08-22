@@ -8,36 +8,35 @@
         onerror="report"/>
         
     <typedef
-        name="http-state"
+        name="httpState"
         classname="net.sf.antcontrib.net.httpclient.HttpStateType"
         onerror="report" />
     <typedef
-        name="http-client"
+        name="httpClient"
         classname="net.sf.antcontrib.net.httpclient.HttpClientType"
-        onerror="report" />
-        
-    <taskdef name="add-cookie"
+        onerror="report" />        
+    <taskdef name="addCookie"
         classname="net.sf.antcontrib.net.httpclient.AddCookieTask"
         onerror="report" />
-    <taskdef name="clear-cookies"
+    <taskdef name="clearCookies"
         classname="net.sf.antcontrib.net.httpclient.ClearCookiesTask"
         onerror="report" />
-    <taskdef name="add-credentials"
+    <taskdef name="addCredentials"
         classname="net.sf.antcontrib.net.httpclient.AddCredentialsTask"
         onerror="report" />
-    <taskdef name="clear-credentials"
+    <taskdef name="clearCredentials"
         classname="net.sf.antcontrib.net.httpclient.ClearCredentialsTask"
         onerror="report" />
-    <taskdef name="purge-expired-cookies"
+    <taskdef name="purgeExpiredCookies"
         classname="net.sf.antcontrib.net.httpclient.PurgeExpiredCookiesTask"
         onerror="report" />
-    <taskdef name="post-method"
+    <taskdef name="postMethod"
         classname="net.sf.antcontrib.net.httpclient.PostMethodTask"
         onerror="report" />
-    <taskdef name="get-method"
+    <taskdef name="getMethod"
         classname="net.sf.antcontrib.net.httpclient.GetMethodTask"
         onerror="report" />
-    <taskdef name="head-method"
+    <taskdef name="headMethod"
         classname="net.sf.antcontrib.net.httpclient.HeadMethodTask"
         onerror="report" />
 </antlib>
