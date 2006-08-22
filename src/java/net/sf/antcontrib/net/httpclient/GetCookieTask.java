@@ -31,10 +31,11 @@ public class GetCookieTask
     private String fieldSeparator = "/";
     
 	private String cookiePolicy = CookiePolicy.DEFAULT;
-	private String realm;
-    private int port;
-    private String path;
-    private boolean secure;
+	
+	private String realm = null;
+    private int port = 80;
+    private String path = null;
+    private boolean secure = false;
     
 	public void setFieldSeparator(String fieldSeparator) {
 		this.fieldSeparator = fieldSeparator;
@@ -65,6 +66,11 @@ public class GetCookieTask
 	}
 
 	protected void execute(HttpStateType stateType) throws BuildException {
+		
+		if (realm == null || path == null) {
+			throw new BuildException("'realm' and 'path' attributes are required");
+		}
+		
 		HttpState state = stateType.getState();
 		CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
 		Cookie cookies[] = state.getCookies();
