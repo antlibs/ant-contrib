@@ -64,6 +64,14 @@ public class GetCookieTask
 		this.property = property;
 	}
 
+	private Cookie findCookie(Cookie cookies[], String name) {
+		for (int i=0;i<cookies.length;i++) {
+			if (cookies[i].getName().equals(name)) {
+				return cookies[i];
+			}
+		}
+		return null;
+	}
 	protected void execute(HttpStateType stateType) throws BuildException {
 		
 		if (realm == null || path == null) {
@@ -77,25 +85,40 @@ public class GetCookieTask
 		
 		if (property != null) {
 			if (matches != null && matches.length > 0) {
-				if (matches.length > 1) {
-					log("Multiple cookies matched the query, returning only the first one.",
-							Project.MSG_WARN);
+				Cookie toSet = matches[0];
+				if (name != null) {
+					toSet = findCookie(matches, name);
 				}
-				Property p = (Property)getProject().createTask("property");
-				p.setName(property);
-				p.setValue(matches[0].getValue());
-				p.perform();
+
+				if (toSet != null) {
+					Property p = (Property)getProject().createTask("property");
+					p.setName(property);
+					p.setValue(matches[0].getValue());
+					p.perform();					
+				}
 			}
 		}
 		else if (prefix != null) {
 			if (matches != null && matches.length > 0) {
-				for (int i=0;i<matches.length;i++) {
+				Cookie toSet[] = matches;
+
+				if (name != null) {
+					Cookie c = findCookie(matches, name);
+					if (c == null) {
+						toSet = new Cookie[0];
+					}
+					else {
+						toSet = new Cookie[] { c };
+					}
+				}
+
+				for (int i=0;i<toSet.length;i++) {
 					String propName =
 						prefix +
-						matches[i].getName();
+						toSet[i].getName();
 					Property p = (Property)getProject().createTask("property");
 					p.setName(propName);
-					p.setValue(matches[i].getValue());
+					p.setValue(toSet[i].getValue());
 					p.perform();
 				}
 			}
