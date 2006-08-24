@@ -111,6 +111,9 @@
     </code>
     </pre>
     
+    would look for the file "antcontrib/common/jars/common-3.2.jar" in the IvyRep
+    repository.
+    
     <pre>
     <code>
     &lt;antcontrib:importurl org="antcontrib"
@@ -120,19 +123,26 @@
     </code>
     </pre>
 
+    would look for the file "antcontrib/common/jars/common-3.2.xml" in the IvyRep
+    repository.
+
     <pre>
     <code>
     &lt;antcontrib:importurl repositoryUrl="http://www.antcontrib.org/ivyrep"
                              org="antcontrib"
                              module="common"
-                             rev="3.2" 
-                             type="xml" /&gt;
+                             rev="3.2" /&gt;
     </code>
     </pre>
-    
+
+    would look for the located at
+     "http://www.antcontrib.org/ivyrep/antcontrib/common/jars/common-3.2.jar"
+
+<p>    
     The following build.xml may be packaged into a .jar with it's corresponding
     build.properties file:
-    
+</p>
+
     <pre>
     <code>
     &lt;project name="common"&gt;
