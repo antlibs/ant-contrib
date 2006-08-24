@@ -16,6 +16,9 @@
 package net.sf.antcontrib.net;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.apache.tools.ant.BuildException;
@@ -55,6 +58,8 @@ public class URLImportTask
 	private String type = "jar";
 	private String repositoryUrl;
 	private String repositoryDir;
+	private URL ivyConfUrl;
+	private File ivyConfFile;
 	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
 	
@@ -68,6 +73,14 @@ public class URLImportTask
 
 	public void setRev(String rev) {
 		this.rev = rev;
+	}
+
+	public void setIvyConfFile(File ivyConfFile) {
+		this.ivyConfFile = ivyConfFile;
+	}
+
+	public void setIvyConfUrl(URL ivyConfUrl) {
+		this.ivyConfUrl = ivyConfUrl;
 	}
 
 	public void execute()
@@ -95,6 +108,28 @@ public class URLImportTask
 			((FileSystemResolver)resolver).addIvyPattern(
 					repositoryDir + "/" + ivyPattern
 					);
+		}
+		else if (ivyConfUrl != null) {
+			try {
+				ivy.configure(ivyConfUrl);
+			}
+			catch (IOException e) {
+				throw new BuildException(e);
+			}
+			catch (ParseException e) {
+				throw new BuildException(e);
+			}
+		}
+		else if (ivyConfFile != null) {
+			try {
+				ivy.configure(ivyConfFile);
+			}
+			catch (IOException e) {
+				throw new BuildException(e);
+			}
+			catch (ParseException e) {
+				throw new BuildException(e);
+			}
 		}
 		else {
 			resolver = new IvyRepResolver();
