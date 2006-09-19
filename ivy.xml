@@ -28,6 +28,10 @@
                     name="commons-httpclient"
                     rev="3.0.1"
                     conf="default->default" />
+        <dependency org="jayasoft"
+                    name="ivy"
+                    rev="1.3.1"
+                    conf="default->default" />
         <dependency org="junit"
                     name="junit"
                     rev="3.8.1"
