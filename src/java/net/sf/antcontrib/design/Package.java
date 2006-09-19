@@ -16,7 +16,9 @@
 package net.sf.antcontrib.design;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /*
@@ -32,20 +34,22 @@ import java.util.List;
  */
 public class Package {
     
-	public final static String DEFAULT = "<default package>";
+    public final static String DEFAULT = "<default package>";
     private String name;
     private String pack;
     
     //holds the name attribute of the package element of each
     //package this package depends on.
     private List depends;
-	private boolean isIncludeSubpackages;
-	private boolean needDeclarations;
-	private boolean needDepends;
+    private Set unusedDepends = new HashSet();
+    private boolean isIncludeSubpackages;
+    private boolean needDeclarations;
+    private boolean needDepends;
+    private boolean isUsed = false;
 
     public void setName(String name) {
-    	if("".equals(name))
-    		name = DEFAULT;
+        if("".equals(name))
+            name = DEFAULT;
         this.name = name;
     }
     public String getName() {
@@ -53,7 +57,7 @@ public class Package {
     }
         
     public void setPackage(String pack) {
-   		this.pack = pack;
+        this.pack = pack;
     }
     
     public String getPackage() {
@@ -61,50 +65,75 @@ public class Package {
     }
 
     public void addDepends(Depends d) {
-    	if(depends == null)
-    		depends = new ArrayList();
-    	depends.add(d);
+        if(depends == null)
+            depends = new ArrayList();
+        depends.add(d);
+        unusedDepends.add(d);
     }
     
     public Depends[] getDepends() {
-    	Depends[] d = new Depends[0];
-    	if(depends == null)
-    		return d;
-    	return (Depends[])depends.toArray(d);
+        Depends[] d = new Depends[0];
+        if(depends == null)
+            return d;
+        return (Depends[])depends.toArray(d);
     }
     
-	/**
-	 * @param b
-	 */
-	public void setIncludeSubpackages(boolean b) {
-		isIncludeSubpackages = b;
-	}
-	/**
-	 * @return
-	 */
-	public boolean isIncludeSubpackages() {
-		return isIncludeSubpackages;
-	}
-	/**
-	 * @param b
-	 */
-	public void setNeedDeclarations(boolean b) {
-		needDeclarations = b;
-	}
-	/**
-	 * @return
-	 */
-	public boolean isNeedDeclarations() {
-		return needDeclarations;
-	}
-	/**
-	 * @param b
-	 */
-	public void setNeedDepends(boolean b) {
-		needDepends = b;
-	}
-	
-	public boolean getNeedDepends() {
-		return needDepends;
-	}
+    /**
+     * @param b
+     */
+    public void setIncludeSubpackages(boolean b) {
+        isIncludeSubpackages = b;
+    }
+    /**
+     * @return
+     */
+    public boolean isIncludeSubpackages() {
+        return isIncludeSubpackages;
+    }
+    /**
+     * @param b
+     */
+    public void setNeedDeclarations(boolean b) {
+        needDeclarations = b;
+    }
+    /**
+     * @return
+     */
+    public boolean isNeedDeclarations() {
+        return needDeclarations;
+    }
+    /**
+     * @param b
+     */
+    public void setNeedDepends(boolean b) {
+        needDepends = b;
+    }
+    
+    public boolean getNeedDepends() {
+        return needDepends;
+    }
+    /**
+     * @param b
+     */
+    public void setUsed(boolean b)
+    {
+        isUsed  = b;
+    }
+    public boolean isUsed()
+    {
+        return isUsed;
+    }
+    /**
+     * @param d
+     */
+    public void addUsedDependency(Depends d)
+    {
+        unusedDepends.remove(d);
+    }
+    
+    public Set getUnusedDepends() {
+        return unusedDepends;
+    }
+    
 }
+

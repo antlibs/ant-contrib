@@ -86,10 +86,10 @@ public class VerifyDesignDelegate implements Log {
     }
 
     public void addConfiguredPath(Path path) {
-//    	Path newPath = new Path(task.getProject());
-//    	path.
-    	
-    	
+//      Path newPath = new Path(task.getProject());
+//      path.
+        
+        
         paths.add(path);
     }
 
@@ -111,17 +111,17 @@ public class VerifyDesignDelegate implements Log {
         this.deleteFiles = deleteFiles;
     }
 
-	public void setFillInBuildException(boolean b) {
-		fillInBuildException = b;
-	}
-	
-	public void setNeedDeclarationsDefault(boolean b) {
-		needDeclarationsDefault = b;
-	}
-	
-	public void setNeedDependsDefault(boolean b) {
-		needDependsDefault = b;
-	}
+    public void setFillInBuildException(boolean b) {
+        fillInBuildException = b;
+    }
+    
+    public void setNeedDeclarationsDefault(boolean b) {
+        needDeclarationsDefault = b;
+    }
+    
+    public void setNeedDependsDefault(boolean b) {
+        needDependsDefault = b;
+    }
 
     public void execute() {
         if(!designFile.exists() || designFile.isDirectory())
@@ -152,41 +152,43 @@ public class VerifyDesignDelegate implements Log {
                 verifyPathAdheresToDesign(design, p);
             }
 
+            design.fillInUnusedPackages(designErrors);
+            
             if (! designErrors.isEmpty()) {
-            	log(designErrors.size()+"Errors.", Project.MSG_WARN);
-            	if(!fillInBuildException)
-            		throw new BuildException("Design check failed due to previous errors");
-            	throwAllErrors();
+                log(designErrors.size()+"Errors.", Project.MSG_WARN);
+                if(!fillInBuildException)
+                    throw new BuildException("Design check failed due to previous errors");
+                throwAllErrors();
             }
 
         } catch (SAXException e) {
-        	maybeDeleteFiles();
-			if (e.getException() != null
-					&& e.getException() instanceof RuntimeException)
-				throw (RuntimeException) e.getException();
-			else if (e instanceof SAXParseException) {
-				SAXParseException pe = (SAXParseException) e;
-				throw new BuildException("\nProblem parsing design file='"
-						+ designFile + "'.  \nline=" + pe.getLineNumber()
-						+ " column=" + pe.getColumnNumber() + " Reason:\n"
-						+ e.getMessage() + "\n", e);
-			}
-			throw new BuildException("\nProblem parsing design file='"
-					+ designFile + "'. Reason:\n" + e, e);
+            maybeDeleteFiles();
+            if (e.getException() != null
+                    && e.getException() instanceof RuntimeException)
+                throw (RuntimeException) e.getException();
+            else if (e instanceof SAXParseException) {
+                SAXParseException pe = (SAXParseException) e;
+                throw new BuildException("\nProblem parsing design file='"
+                        + designFile + "'.  \nline=" + pe.getLineNumber()
+                        + " column=" + pe.getColumnNumber() + " Reason:\n"
+                        + e.getMessage() + "\n", e);
+            }
+            throw new BuildException("\nProblem parsing design file='"
+                    + designFile + "'. Reason:\n" + e, e);
         } catch (IOException e) {
-        	maybeDeleteFiles();
-			throw new RuntimeException("See attached exception", e);
-			// throw new BuildException("IOException on design file='"
-			// + designFile + "'. attached:", e);
+            maybeDeleteFiles();
+            throw new RuntimeException("See attached exception", e);
+            // throw new BuildException("IOException on design file='"
+            // + designFile + "'. attached:", e);
         } catch(RuntimeException e) {
-        	maybeDeleteFiles();
+            maybeDeleteFiles();
             throw e;
         } finally {
 
         }
         
         if(!verifiedAtLeastOne) 
-        	throw new BuildException("Did not find any class or jar files to verify");
+            throw new BuildException("Did not find any class or jar files to verify");
     }
     //some auto builds like cruisecontrol can only report all the
     //standard ant task errors and the build exceptions so here
@@ -194,14 +196,14 @@ public class VerifyDesignDelegate implements Log {
     //correctly through those tools....though, you think ant has a hook
     //in that cruisecontrol is not using like LogListeners or something
     private void throwAllErrors() {
-    	String result = "Design check failed due to following errors";
-    	Enumeration exceptions = designErrors.elements();
-    	while(exceptions.hasMoreElements()) {
-    		BuildException be = (BuildException)exceptions.nextElement();
-    		String message = be.getMessage();
-    		result += "\n" + message;
-    	}
-    	throw new BuildException(result);
+        String result = "Design check failed due to following errors";
+        Enumeration exceptions = designErrors.elements();
+        while(exceptions.hasMoreElements()) {
+            BuildException be = (BuildException)exceptions.nextElement();
+            String message = be.getMessage();
+            result += "\n" + message;
+        }
+        throw new BuildException(result);
     }
 
     private void verifyJarFilesExist() {
@@ -214,23 +216,23 @@ public class VerifyDesignDelegate implements Log {
                 File file = new File(files[i]);
 
                 if (!file.exists())
-        			throw new BuildException(VisitorImpl.getNoFileMsg(file));
+                    throw new BuildException(VisitorImpl.getNoFileMsg(file));
             }            
         }
     }
     
     private void maybeDeleteFiles() {
         if (deleteFiles) {
-			log("Deleting all class and jar files so you do not get tempted to\n" +
-					"use a jar that doesn't abide by the design(This option can\n" +
-					"be turned off if you really want)", Project.MSG_INFO);
-			
+            log("Deleting all class and jar files so you do not get tempted to\n" +
+                    "use a jar that doesn't abide by the design(This option can\n" +
+                    "be turned off if you really want)", Project.MSG_INFO);
+            
             Enumeration pathsEnum = paths.elements();
             Path p = null;
             while (pathsEnum.hasMoreElements()) {
                 p = (Path)pathsEnum.nextElement();
                 deleteFilesInPath(p);
-            }			
+            }           
         }
     }
     
@@ -243,7 +245,7 @@ public class VerifyDesignDelegate implements Log {
             if (! deleted) {
                 file.deleteOnExit();
             }
-        }    	
+        }       
     }
     
     private void verifyPathAdheresToDesign(Design d, Path p) throws ClassFormatException, IOException {
@@ -251,23 +253,23 @@ public class VerifyDesignDelegate implements Log {
         for (int i=0;i<files.length;i++) {
             File file = new File(files[i]);
             if(file.isDirectory()) {
-            	FileSet set = new FileSet();
-				set.setDir(file);
-            	set.setProject(task.getProject());
-            	PatternSet.NameEntry entry1 = set.createInclude();
-            	PatternSet.NameEntry entry2 = set.createInclude();
-            	PatternSet.NameEntry entry3 = set.createInclude();
-				entry1.setName("**/*.class");
-				entry2.setName("**/*.jar");
-				entry3.setName("**/*.war");
-				DirectoryScanner scanner = set.getDirectoryScanner(task.getProject());
-				scanner.setBasedir(file);
-				String[] scannerFiles = scanner.getIncludedFiles();
-				for(int j = 0; j < scannerFiles.length; j++) {
-					verifyPartOfPath(scannerFiles[j], new File(file, scannerFiles[j]), d);
-				}
+                FileSet set = new FileSet();
+                set.setDir(file);
+                set.setProject(task.getProject());
+                PatternSet.NameEntry entry1 = set.createInclude();
+                PatternSet.NameEntry entry2 = set.createInclude();
+                PatternSet.NameEntry entry3 = set.createInclude();
+                entry1.setName("**/*.class");
+                entry2.setName("**/*.jar");
+                entry3.setName("**/*.war");
+                DirectoryScanner scanner = set.getDirectoryScanner(task.getProject());
+                scanner.setBasedir(file);
+                String[] scannerFiles = scanner.getIncludedFiles();
+                for(int j = 0; j < scannerFiles.length; j++) {
+                    verifyPartOfPath(scannerFiles[j], new File(file, scannerFiles[j]), d);
+                }
             } else
-            	verifyPartOfPath(files[i], file, d);
+                verifyPartOfPath(files[i], file, d);
         }
     }
     
@@ -278,7 +280,7 @@ public class VerifyDesignDelegate implements Log {
         } else if (fileName.endsWith(".class")) {
             verifyClassAdheresToDesign(d, file);
         } else
-        	throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file="+file.getAbsolutePath());
+            throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file="+file.getAbsolutePath());
     }
 
     private void verifyClassAdheresToDesign(Design d, File classFile)
@@ -300,7 +302,7 @@ public class VerifyDesignDelegate implements Log {
         }
 
     }
-	
+    
     private void verifyJarAdheresToDesign(Design d, JarFile jarFile, File original)
             throws ClassFormatException, IOException {
 
@@ -341,24 +343,24 @@ public class VerifyDesignDelegate implements Log {
     private String className = "";
 
     private void verifyClassAdheresToDesign(Design d, InputStream in, String name, File originalClassOrJarFile) throws ClassFormatException, IOException {
-    	try {
-    		verifiedAtLeastOne = true;
-	        ClassParser parser = new ClassParser(in, name);
-	        JavaClass javaClass = parser.parse();
-	        className = javaClass.getClassName();
-	        
-	        if(!d.needEvalCurrentClass(className))
-	        	return;
-	
-	        ConstantPool pool = javaClass.getConstantPool();
-	        processConstantPool(pool);
-	        VisitorImpl visitor = new VisitorImpl(pool, this, d, task.getLocation());
-	        DescendingVisitor desc = new DescendingVisitor(javaClass, visitor);
-	        desc.visit();
-    	} catch(BuildException e) {
+        try {
+            verifiedAtLeastOne = true;
+            ClassParser parser = new ClassParser(in, name);
+            JavaClass javaClass = parser.parse();
+            className = javaClass.getClassName();
+            
+            if(!d.needEvalCurrentClass(className))
+                return;
+    
+            ConstantPool pool = javaClass.getConstantPool();
+            processConstantPool(pool);
+            VisitorImpl visitor = new VisitorImpl(pool, this, d, task.getLocation());
+            DescendingVisitor desc = new DescendingVisitor(javaClass, visitor);
+            desc.visit();
+        } catch(BuildException e) {
             log(Design.getWrapperMsg(originalClassOrJarFile, e.getMessage()), Project.MSG_ERR);
-            designErrors.addElement(e);    		
-    	}
+            designErrors.addElement(e);         
+        }
     }
 
     private void processConstantPool(ConstantPool pool) {
@@ -387,10 +389,10 @@ public class VerifyDesignDelegate implements Log {
             c   = pool.getConstant(ind, Constants.CONSTANT_Utf8);
             String className = Utility.compactClassName(((ConstantUtf8)c).getBytes(), false);
             log("      classNamePre="+className, Project.MSG_DEBUG);
-			className = getRidOfArray(className);
+            className = getRidOfArray(className);
             String firstLetter = className.charAt(0)+"";
             if(primitives.contains(firstLetter))
-            	return;
+                return;
             log("      className="+className, Project.MSG_VERBOSE);
             design.checkClass(className);
             break;
@@ -398,12 +400,12 @@ public class VerifyDesignDelegate implements Log {
                 
         }
     }
-	
-	private static String getRidOfArray(String className) {
-		while(className.startsWith("["))
-			className = className.substring(1, className.length());
-		return className;
-	}
+    
+    private static String getRidOfArray(String className) {
+        while(className.startsWith("["))
+            className = className.substring(1, className.length());
+        return className;
+    }
     
     public static String getPackageName(String className) {
         String packageName = Package.DEFAULT;
@@ -416,9 +418,9 @@ public class VerifyDesignDelegate implements Log {
     }
     
     public void log(String msg, int level) {
-    	//if(level == Project.MSG_WARN || level == Project.MSG_INFO 
-    	//		|| level == Project.MSG_ERR || level == Project.MSG_VERBOSE)
-    	//VerifyDesignTest.log(msg);
+        //if(level == Project.MSG_WARN || level == Project.MSG_INFO 
+        //      || level == Project.MSG_ERR || level == Project.MSG_VERBOSE)
+        //VerifyDesignTest.log(msg);
         task.log(msg, level);
     }
 }
