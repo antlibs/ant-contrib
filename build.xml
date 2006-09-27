@@ -97,7 +97,7 @@
     	<tstamp>
     	    <format property="tstamp" pattern="dd/MM/yyyy HH:mm:ss" />
     	</tstamp>
-		<jar file="${target.dir}/${project.name}.jar">
+		<jar file="${target.dir}/${jar.name}">
 			<manifest>
                 <attribute name="Version" value="${project.version}"/>
                 <attribute name="Build-Timestamp" value="${tstamp}"/>
@@ -225,7 +225,7 @@
 	          <exclude name="**/antclipse/**" unless="eclipse.present"/>
 	        </fileset>
 	      </batchtest>
-	      <sysproperty key="antcontrib.jar" file="${target.dir}/${project.name}.jar"/>
+	      <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
 		  <classpath>
 			  <path refid="test.classpath" />
 			  <pathelement location="${target.classes.dir}" />
