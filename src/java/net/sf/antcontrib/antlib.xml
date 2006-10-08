@@ -5,41 +5,44 @@
     <taskdef
         name="for"
         classname="net.sf.antcontrib.logic.ForTask"
-        onerror="report"/>
+        onerror="ignore"/>
         
     <typedef
         name="httpState"
         classname="net.sf.antcontrib.net.httpclient.HttpStateType"
-        onerror="report" />
+        onerror="ignore" />
     <typedef
         name="httpClient"
         classname="net.sf.antcontrib.net.httpclient.HttpClientType"
-        onerror="report" />        
+        onerror="ignore" />        
     <taskdef name="getCookie"
         classname="net.sf.antcontrib.net.httpclient.GetCookieTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="addCookie"
         classname="net.sf.antcontrib.net.httpclient.AddCookieTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="clearCookies"
         classname="net.sf.antcontrib.net.httpclient.ClearCookiesTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="addCredentials"
         classname="net.sf.antcontrib.net.httpclient.AddCredentialsTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="clearCredentials"
         classname="net.sf.antcontrib.net.httpclient.ClearCredentialsTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="purgeExpiredCookies"
         classname="net.sf.antcontrib.net.httpclient.PurgeExpiredCookiesTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="postMethod"
         classname="net.sf.antcontrib.net.httpclient.PostMethodTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="getMethod"
         classname="net.sf.antcontrib.net.httpclient.GetMethodTask"
-        onerror="report" />
+        onerror="ignore" />
     <taskdef name="headMethod"
         classname="net.sf.antcontrib.net.httpclient.HeadMethodTask"
-        onerror="report" />
+        onerror="ignore" />
+    <taskdef name="importurl"
+             classname="net.sf.antcontrib.net.URLImportTask"
+             onerror="ignore"/>
 </antlib>
