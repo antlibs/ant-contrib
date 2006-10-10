@@ -41,8 +41,17 @@
         <td valign="top">The list of values to process, with the
         delimiter character, indicated by the &quot;delimiter&quot;
         attribute, separating each value.</td>
-        <td align="center" valign="top">Yes, unless a nested path
-        has been specified.</td>
+        <td align="center" valign="top" rowspan="2">Yes, one of these needs to
+          be set, unless a nested path
+          has been specified.</td>
+      </tr>
+      <tr>
+        <td valign="top">end</td>
+        <td valign="top">
+          Sets the ending index value. If this attribute is
+          set, the &lt;for&gt; task will loop from "start" (default 1)
+          to "end", using "step" (default 1) increments.
+        </td>
       </tr>
       <tr>
         <td valign="top">param</td>
@@ -97,6 +106,22 @@
         to the sequential.
         </td>
         <td align="center" valign="top">No. Defaults to false.</td>
+      </tr>
+      <tr>
+        <td valign="top">begin</td>
+        <td valign="top">
+          Sets the starting index value. This in only used
+          if the "end" attribute is set.
+        </td>
+        <td align="center" valign="top">No. Defaults to "1".</td>
+      </tr>
+      <tr>
+        <td valign="top">step</td>
+        <td valign="top">
+          Sets the index increment step.
+          This in only used if the "end" attribute is set.
+        </td>
+        <td align="center" valign="top">No. Defaults to "1".</td>
       </tr>
     </table>
 
@@ -190,8 +215,29 @@
       &lt;/ac:sequential&gt;
     &lt;/ac:for&gt;
       </pre>
+
+    <p>
+      The following example loops from one to ten.
+    </p>
+    <pre>
+    &lt;ac:for param="i" end="10"&gt;
+      &lt;sequential&gt;
+        &lt;echo&gt;i is @{i}&lt;/echo&gt;
+      &lt;/sequential&gt;
+    &lt;/ac:for&gt;
+    </pre>
+    <p>
+      The following example counts down from 10 to 0 in steps of -2.
+    </p>
+    <pre>
+    &lt;ac:for param="i" begin="10" step="-2" end="0"&gt;
+      &lt;sequential&gt;
+        &lt;echo&gt;i is @{i}&lt;/echo&gt;
+      &lt;/sequential&gt;
+    &lt;/ac:for&gt;
+    </pre>
     <hr>
-    <p align="center">Copyright &copy; 2003-2005 Ant-Contrib Project. All
+    <p align="center">Copyright &copy; 2003-2006 Ant-Contrib Project. All
     rights Reserved.</p>
 
   </body>

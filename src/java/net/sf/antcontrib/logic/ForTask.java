@@ -53,10 +53,15 @@ public class ForTask extends Task {
     private boolean    parallel = false;
     private Integer    threadCount;
     private Parallel   parallelTasks;
+    private int        begin   = 0;
+    private Integer    end     = null;
+    private int        step    = 1;
+
+    private int taskCount = 0;
+    private int errorCount = 0;
 
     /**
      * Creates a new <code>For</code> instance.
-     * This checks if the ant version is correct to run this task.
      */
     public ForTask() {
     }
@@ -173,6 +178,31 @@ public class ForTask extends Task {
     }
 
     /**
+     * Set begin attribute.
+     * @param begin the value to use.
+     */
+    public void setBegin(int begin) {
+        this.begin = begin;
+    }
+
+    /**
+     * Set end attribute.
+     * @param end the value to use.
+     */
+    public void setEnd(Integer end) {
+        this.end = end;
+    }
+
+    /**
+     * Set step attribute.
+     *
+     */
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    
+    /**
      * Run the for task.
      * This checks the attributes and nested elements, and
      * if there are ok, it calls doTheTasks()
@@ -186,9 +216,10 @@ public class ForTask extends Task {
                 parallelTasks.setThreadCount(threadCount.intValue());
             }
         }
-        if (list == null && currPath == null && hasIterators.size() == 0) {
+        if (list == null && currPath == null && hasIterators.size() == 0
+            && end == null) {
             throw new BuildException(
-                "You must have a list or path to iterate through");
+                "You must have a list or path or sequence to iterate through");
         }
         if (param == null) {
             throw new BuildException(
@@ -199,6 +230,16 @@ public class ForTask extends Task {
             throw new BuildException(
                 "You must supply an embedded sequential "
                 + "to perform");
+        }
+        if (end != null) {
+            int iEnd = end.intValue();
+            if (step == 0) {
+                throw new BuildException("step cannot be 0");
+            } else if (iEnd > begin && step < 0) {
+                throw new BuildException("end > begin, step needs to be > 0");
+            } else if (iEnd <= begin && step > 0) {
+                throw new BuildException("end <= begin, step needs to be < 0");
+            }
         }
         doTheTasks();
         if (parallel) {
@@ -221,9 +262,23 @@ public class ForTask extends Task {
         }
     }
 
+    private void doToken(String tok) {
+        try {
+            taskCount++;
+            doSequentialIteration(tok);
+        } catch (BuildException bx) {
+            if (keepgoing) {
+                log(tok + ": " + bx.getMessage(), Project.MSG_ERR);
+                errorCount++;
+            } else {
+                throw bx;
+            }
+        }
+    }
+    
     private void doTheTasks() {
-        int errorCount = 0;
-        int taskCount = 0;
+        errorCount = 0;
+        taskCount = 0;
 
         // Create a macro attribute
         if (macroDef.getAttributes().isEmpty()) {
@@ -241,25 +296,24 @@ public class ForTask extends Task {
                 if (trim) {
                     tok = tok.trim();
                 }
-                try {
-                    taskCount++;
-                    doSequentialIteration(tok);
-                } catch (BuildException bx) {
-                    if (keepgoing) {
-                        log(tok + ": " + bx.getMessage(), Project.MSG_ERR);
-                        errorCount++;
-                    } else {
-                        throw bx;
-                    }
+                doToken(tok);
+            }
+        }
+
+        // Take care of the begin/end/step attributes
+        if (end != null) {
+            int iEnd = end.intValue();
+            if (step > 0) {
+                for (int i = begin; i < (iEnd + 1); i = i + step) {
+                    doToken("" + i);
+                }
+            } else {
+                for (int i = begin; i > (iEnd - 1); i = i + step) {
+                    doToken("" + i);
                 }
             }
         }
-        if (keepgoing && (errorCount != 0)) {
-            throw new BuildException(
-                "Keepgoing execution: " + errorCount
-                + " of " + taskCount + " iterations failed.");
-        }
-
+        
         // Take Care of the path element
         String[] pathElements = new String[0];
         if (currPath != null) {
@@ -267,40 +321,14 @@ public class ForTask extends Task {
         }
         for (int i = 0; i < pathElements.length; i++) {
             File nextFile = new File(pathElements[i]);
-            try {
-                taskCount++;
-                doSequentialIteration(nextFile.getAbsolutePath());
-            } catch (BuildException bx) {
-                if (keepgoing) {
-                	log(nextFile + ": " + bx.getMessage(), Project.MSG_ERR);
-                    errorCount++;
-                } else {
-                    throw bx;
-                }
-            }
-        }
-        if (keepgoing && (errorCount != 0)) {
-            throw new BuildException(
-                "Keepgoing execution: " + errorCount
-                + " of " + taskCount + " iterations failed.");
+            doToken(nextFile.getAbsolutePath());
         }
 
         // Take care of iterators
         for (Iterator i = hasIterators.iterator(); i.hasNext();) {
             Iterator it = ((HasIterator) i.next()).iterator();
             while (it.hasNext()) {
-            	String s = it.next().toString();
-                try {
-                    taskCount++;
-                    doSequentialIteration(s);
-                } catch (BuildException bx) {
-                    if (keepgoing) {
-                    	log(s + ": " + bx.getMessage(), Project.MSG_ERR);
-                        errorCount++;
-                    } else {
-                        throw bx;
-                    }
-                }
+                doToken(it.next().toString());
             }
         }
         if (keepgoing && (errorCount != 0)) {
