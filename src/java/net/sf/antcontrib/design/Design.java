@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import net.sf.antcontrib.logic.ProjectDelegate;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
@@ -59,6 +61,7 @@ public class Design {
         Package p = new Package();
         p.setIncludeSubpackages(true);
         p.setName("java");
+        p.setUsed(true);
         p.setNeedDeclarations(false);
         p.setPackage("java");
         addConfiguredPackage(p);
@@ -89,10 +92,10 @@ public class Design {
         if(thePackage == null)
             throw new IllegalArgumentException("Cannot retrieve null packages");
         
-        Package result = null;
         String currentPackage = thePackage;
+        Package result = (Package)packageNameToPackage.get(currentPackage);
         while(!Package.DEFAULT.equals(currentPackage)) {
-            result = (Package)packageNameToPackage.get(currentPackage);
+            log.log("p="+currentPackage+"result="+result, Project.MSG_DEBUG);
             if(result != null) {
                 if(currentPackage.equals(thePackage))
                     return result;
@@ -101,12 +104,14 @@ public class Design {
                 return null;
             }
             currentPackage = VerifyDesignDelegate.getPackageName(currentPackage);
+            result = (Package)packageNameToPackage.get(currentPackage);
         }
         
         //result must now be default package
         if(result != null && result.isIncludeSubpackages())
             return result;
 
+        log.log("returning null", Project.MSG_DEBUG);
         return null;
     }
     
