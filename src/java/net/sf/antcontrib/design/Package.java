@@ -34,7 +34,7 @@ import java.util.Set;
  */
 public class Package {
     
-    public final static String DEFAULT = "<default package>";
+    public final static String DEFAULT = "default package";
     private String name;
     private String pack;
     
