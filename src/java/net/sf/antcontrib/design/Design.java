@@ -111,7 +111,6 @@ public class Design {
         if(result != null && result.isIncludeSubpackages())
             return result;
 
-        log.log("returning null", Project.MSG_DEBUG);
         return null;
     }
     
