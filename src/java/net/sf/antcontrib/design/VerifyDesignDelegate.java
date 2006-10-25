@@ -152,7 +152,10 @@ public class VerifyDesignDelegate implements Log {
                 verifyPathAdheresToDesign(design, p);
             }
 
-            design.fillInUnusedPackages(designErrors);
+            //only put unused errors if there are no other errors
+            //this is because you end up with false unused errors if you don't do this.
+            if(designErrors.isEmpty())
+                design.fillInUnusedPackages(designErrors);
             
             if (! designErrors.isEmpty()) {
                 log(designErrors.size()+"Errors.", Project.MSG_WARN);
