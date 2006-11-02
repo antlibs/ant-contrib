@@ -144,6 +144,9 @@
 		<mkdir dir="${target.stage.dir}" />
 		<mkdir dir="${target.stage.dir}/lib" />
 		
+                <copy file="${target.dir}/${jar.name}" 
+                      tofile="${target.stage.dir}/${jar.name.versioned}" />
+
 		<copy todir="${target.stage.dir}">
 			<fileset dir="${root.dir}" includes="README.txt" />
 			<fileset dir="${target.dir}" includes="docs/**/*" />
