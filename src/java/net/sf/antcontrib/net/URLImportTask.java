@@ -83,6 +83,22 @@ public class URLImportTask
 		this.ivyConfUrl = ivyConfUrl;
 	}
 
+	public void setArtifactPattern(String artifactPattern) {
+		this.artifactPattern = artifactPattern;
+	}
+
+	public void setIvyPattern(String ivyPattern) {
+		this.ivyPattern = ivyPattern;
+	}
+
+	public void setRepositoryDir(String repositoryDir) {
+		this.repositoryDir = repositoryDir;
+	}
+
+	public void setRepositoryUrl(String repositoryUrl) {
+		this.repositoryUrl = repositoryUrl;
+	}
+
 	public void execute()
 		throws BuildException {
 
