@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.CallTarget;
 
 /**
@@ -31,7 +32,7 @@ import org.apache.tools.ant.taskdefs.CallTarget;
  * @author     inger
  * @author     Dale Anson, danson@germane-software.com
  */
-public class AntFetch extends CallTarget {
+public class AntFetch extends Ant {
 	/** the name of the property to fetch from the new project */
 	private String returnName = null;
 	
