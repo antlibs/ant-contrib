@@ -154,8 +154,9 @@ public class Design {
         //is not declared
         log.log("         classPackage="+classPackage, Project.MSG_DEBUG);
         Package p = retreivePack(classPackage);
-        if(p == null)
-            throw new BuildException(getNoDefinitionError(className), location);        
+        if(p == null) {
+            throw new BuildException(getErrorMessage(currentClass, className), location);
+        }
         p.setUsed(true); //set package to used since we have classes in it
         if(p != null && !p.isNeedDeclarations())
             return;
