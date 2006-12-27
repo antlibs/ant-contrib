@@ -44,9 +44,9 @@
     </target>
     
 	<target name="classpath" depends="resolve">
-		<ivy:cachepath id="compile.classpath" type="jar" conf="provided" />
-		<ivy:cachepath id="runtime.classpath" type="jar" conf="default" />
-		<ivy:cachepath id="test.classpath" type="jar" conf="test" />
+		<ivy:cachepath pathid="compile.classpath" type="jar" conf="provided" />
+		<ivy:cachepath pathid="runtime.classpath" type="jar" conf="default" />
+		<ivy:cachepath pathid="test.classpath" type="jar" conf="test" />
 		<ivy:cachefileset setid="compile.fileset" type="jar" conf="provided" />
 		<ivy:cachefileset setid="runtime.fileset" type="jar" conf="default" />
 		<ivy:cachefileset setid="test.fileset" type="jar" conf="test" />

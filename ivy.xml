@@ -18,7 +18,7 @@
                     conf="default->default" />
         <dependency org="apache"
                     name="ant"
-                    rev="1.6.5"
+                    rev="1.7.0"
                     conf="provided->default" />
         <dependency org="apache"
                     name="xercesImpl"
@@ -39,6 +39,10 @@
         <dependency org="junit"
                     name="junit"
                     rev="3.8.1"
+                    conf="test->default" />
+        <dependency org="apache"
+                    name="ant-antunit"
+                    rev="1.0Beta2"
                     conf="test->default" />
     </dependencies>
 </ivy-module>
