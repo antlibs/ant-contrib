@@ -1,0 +1,44 @@
+<project name="propertycopy"
+         xmlns:au="antlib:org.apache.ant.antunit"
+         xmlns:antcontrib="antlib:net.sf.antcontrib">
+    <import file="../common.xml" />
+
+	<property name="module.Module1.id" value="1" />
+	<property name="module.Module1.name" value="Module 1" />
+	<property name="module.Module2.id" value="2" />
+	<property name="module.Module2.name" value="Module 2" />
+	<property name="module.Module2.foo.id" value="3" />
+	<property name="module.Module2.foo.name" value="Module 3" />
+
+	<target name="testGrouping0">
+        <antcontrib:propertyselector property="module.list"
+            match="module\.([^\.]*)\.id"
+            delimiter=","
+            casesensitive="false" />
+	
+	    <au:assertTrue>
+	        <and>
+	            <contains string="${module.list}" substring="module.Module1.id" />
+                <contains string="${module.list}" substring="module.Module2.id" />
+                <not><contains string="${module.list}" substring="module.Module3.foo.id" /></not>
+            </and>
+	    </au:assertTrue>
+    </target>
+
+	<target name="testGrouping1">
+        <antcontrib:propertyselector property="module.list"
+            match="module\.([^\.]*)\.id"
+            select="\1"
+            delimiter=","
+            casesensitive="false" />
+    <au:assertTrue>
+        <and>
+            <not><contains string="${module.list}" substring="module." /></not>
+            <not><contains string="${module.list}" substring=".id" /></not>
+            <contains string="${module.list}" substring="Module1" />
+            <contains string="${module.list}" substring="Module2" />
+            <not><contains string="${module.list}" substring="Module3" /></not>
+        </and>
+    </au:assertTrue>
+    </target>
+</project>
