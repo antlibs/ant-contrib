@@ -31,17 +31,20 @@
             <fileset dir="lib/oro/jars" includes="oro-2.0.8.jar"/>
         </path>
 	    
-		<path id="ant-unit.lib.path">
-			<fileset dir="lib/ant-antunit/jars" includes="ant-antunit-1.0.jar" />
-		</path>
-		
         <taskdef resource="fr/jayasoft/ivy/ant/antlib.xml"
                  uri="antlib:fr.jayasoft.ivy.ant"
        	         classpathref="ivy.lib.path"/>
 		
+	</target>
+	
+	<target name="test-init">
+		<path id="ant-unit.lib.path">
+			<fileset dir="lib/ant-antunit/jars" includes="ant-antunit-1.0.jar" />
+		</path>
+		
         <taskdef resource="org/apache/ant/antunit/antlib.xml"
                  uri="antlib:org.apache.ant.antunit"
-       	         classpathref="ant-unit.lib.path"/>
+       	         classpathref="ant-unit.lib.path"/>		
 	</target>
 	
 	<target name="configure" depends="init">
@@ -228,14 +231,14 @@
 	<target name="dist" depends="package">
 	</target>
 	
-	<target name="test-all" depends="classpath,compile">
+	<target name="test-all" depends="classpath,compile,test-init">
 	    <au:antunit>
 	      <fileset dir="${test.dir}/antunit" includes="**/*.xml" excludes="common.xml"/>
 	      <au:plainlistener/>
 	    </au:antunit>
 	</target>
 
-	<target name="gump-safe-test" depends="classpath,compile">
+	<target name="gump-safe-test" depends="classpath,compile,test-init">
 	      <!--   all AntServerTest tests started failing on Gump 
 	             with IOException at 2004-12-06T15:00:16 
 	            after successfully completing at 2004-12-06T03:00:19 -->
