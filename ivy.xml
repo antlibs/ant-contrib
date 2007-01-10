@@ -42,7 +42,7 @@
                     conf="test->default" />
         <dependency org="apache"
                     name="ant-antunit"
-                    rev="1.0Beta2"
+                    rev="1.0"
                     conf="test->default" />
     </dependencies>
 </ivy-module>

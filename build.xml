@@ -2,7 +2,8 @@
 	name="ant-contrib"
 	default="dist"
 	basedir="."
-	xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+	xmlns:ivy="antlib:fr.jayasoft.ivy.ant"
+	xmlns:au="antlib:org.apache.ant.antunit">
 
 	<property file="build.properties" />
 	
@@ -30,9 +31,17 @@
             <fileset dir="lib/oro/jars" includes="oro-2.0.8.jar"/>
         </path>
 	    
+		<path id="ant-unit.lib.path">
+			<fileset dir="lib/ant-antunit/jars" includes="ant-antunit-1.0.jar" />
+		</path>
+		
         <taskdef resource="fr/jayasoft/ivy/ant/antlib.xml"
                  uri="antlib:fr.jayasoft.ivy.ant"
        	         classpathref="ivy.lib.path"/>
+		
+        <taskdef resource="org/apache/ant/antunit/antlib.xml"
+                 uri="antlib:org.apache.ant.antunit"
+       	         classpathref="ant-unit.lib.path"/>
 	</target>
 	
 	<target name="configure" depends="init">
@@ -219,43 +228,25 @@
 	<target name="dist" depends="package">
 	</target>
 	
-	<target name="run-test" depends="compile-tests, jar">
-	    <junit haltonfailure="false" haltonerror="false"
-	           errorproperty="junit.error" failureproperty="junit.failure">
-	      <formatter type="brief" usefile="false"/>
-	      <batchtest>
-	        <fileset dir="${target.test-classes.dir}" excludes="${skip-tests}">
-	          <exclude name="**/antclipse/**" unless="eclipse.present"/>
-	        </fileset>
-	      </batchtest>
-	      <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
-		  <classpath>
-			  <path refid="test.classpath" />
-			  <pathelement location="${target.classes.dir}" />
-			  <pathelement location="${target.test-classes.dir}" />
-		  </classpath>
-	    </junit>
-
-	      <fail message="JUnit error (${junit.error}) encountered." if="junit.error" />
-	      <fail message="JUnit failure (${junit.failure}) encountered." if="junit.failure" />
-	</target>
-	
-	<target name="test-all" depends="compile-tests">
-	    <antcall target="run-test">
-	        <param name="skip-tests" value="**/BuildFileTestBase.class"/>
-	    </antcall>
+	<target name="test-all" depends="classpath,compile">
+	    <au:antunit>
+	      <fileset dir="${test.dir}/antunit" includes="**/*.xml" excludes="common.xml"/>
+	      <au:plainlistener/>
+	    </au:antunit>
 	</target>
 
-
-	<target name="gump-safe-test" depends="compile-tests">
+	<target name="gump-safe-test" depends="classpath,compile">
 	      <!--   all AntServerTest tests started failing on Gump 
 	             with IOException at 2004-12-06T15:00:16 
 	            after successfully completing at 2004-12-06T03:00:19 -->
-	    <antcall target="run-test">
-	      <param name="skip-tests" value="**/AntServerTest.class **/BuildFileTest*.class"/>
-	    </antcall>
+	    <au:antunit>
+	      <fileset dir="${test.dir}/antunit"
+	      	       includes="**/*.xml"
+	      	       excludes="common.xml,**/antserver.xml"/>
+	      <au:plainlistener/>
+	    </au:antunit>
 	</target>
 	  
-	  <target name="test" depends="gump-safe-test"/>
+	<target name="test" depends="gump-safe-test"/>
 	
 </project>
