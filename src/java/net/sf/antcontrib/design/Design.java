@@ -225,8 +225,12 @@ public class Design {
             currentAliasPackage.setUsed(true);
         }
         log.log("   class="+className, Project.MSG_VERBOSE);
-        
-        if(!className.startsWith(currentPackageName))
+
+        if(packageName.equals(Package.DEFAULT)) {
+            if(className.contains(".")) {
+                throw new RuntimeException("Internal Error");
+            }
+        } else if(!className.startsWith(currentPackageName))
             throw new RuntimeException("Internal Error");
         
         if(!currentAliasPackage.getNeedDepends())
