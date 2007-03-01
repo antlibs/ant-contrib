@@ -227,7 +227,7 @@ public class Design {
         log.log("   class="+className, Project.MSG_VERBOSE);
 
         if(packageName.equals(Package.DEFAULT)) {
-            if(className.contains(".")) {
+            if(className.indexOf('.') != -1) {
                 throw new RuntimeException("Internal Error");
             }
         } else if(!className.startsWith(currentPackageName))
