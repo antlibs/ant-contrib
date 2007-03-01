@@ -198,12 +198,11 @@ public class URLImportTask
 	    	throw new BuildException("Don't know what to do with type: " + type);
 	    }
 		
-	    File buildFile = null;
 	    ImportTask importTask = new ImportTask();
 	    importTask.setProject(getProject());
 	    importTask.setOwningTarget(getOwningTarget());
 	    importTask.setLocation(getLocation());
-	    importTask.setFile(buildFile.getAbsolutePath());
+	    importTask.setFile(importFile.getAbsolutePath());
 	    importTask.perform();
 	    log("Import complete.", Project.MSG_INFO);
 	}
