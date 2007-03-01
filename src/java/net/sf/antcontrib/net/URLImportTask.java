@@ -64,6 +64,11 @@ public class URLImportTask
 	private File ivyConfFile;
 	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
+	private boolean verbose = false;
+	
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
 	
 	public void setModule(String module) {
 		this.module = module;
@@ -104,28 +109,30 @@ public class URLImportTask
 	public void execute()
 		throws BuildException {
 
-		IvyContext.getContext().setMessageImpl(
-				new MessageImpl() {
+		if (! verbose) {
+			IvyContext.getContext().setMessageImpl(
+					new MessageImpl() {
 
-					public void endProgress(String arg0) {
-						// TODO Auto-generated method stub
-						
-					}
+						public void endProgress(String arg0) {
+							// TODO Auto-generated method stub
 
-					public void log(String arg0, int arg1) {
-						// TODO Auto-generated method stub
-						
-					}
+						}
 
-					public void progress() {
-						// TODO Auto-generated method stub
-						
+						public void log(String arg0, int arg1) {
+							// TODO Auto-generated method stub
+
+						}
+
+						public void progress() {
+							// TODO Auto-generated method stub
+
+						}
+
+						public void rawlog(String arg0, int arg1) {
+						}
 					}
-					
-					public void rawlog(String arg0, int arg1) {
-					}
-				}
-				);
+			);
+		}
 		Ivy ivy = new Ivy();
 		DependencyResolver resolver = null;
 		Repository rep = null;
