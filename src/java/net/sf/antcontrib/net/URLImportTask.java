@@ -17,9 +17,11 @@ package net.sf.antcontrib.net;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -28,7 +30,9 @@ import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
 
 import fr.jayasoft.ivy.Artifact;
+import fr.jayasoft.ivy.DefaultDependencyDescriptor;
 import fr.jayasoft.ivy.DefaultModuleDescriptor;
+import fr.jayasoft.ivy.DependencyDescriptor;
 import fr.jayasoft.ivy.DependencyResolver;
 import fr.jayasoft.ivy.Ivy;
 import fr.jayasoft.ivy.IvyContext;
@@ -36,13 +40,21 @@ import fr.jayasoft.ivy.MDArtifact;
 import fr.jayasoft.ivy.ModuleDescriptor;
 import fr.jayasoft.ivy.ModuleId;
 import fr.jayasoft.ivy.ModuleRevisionId;
+import fr.jayasoft.ivy.ResolveData;
+import fr.jayasoft.ivy.ResolvedModuleRevision;
+import fr.jayasoft.ivy.ant.IvyConfigure;
+import fr.jayasoft.ivy.filter.FilterHelper;
+import fr.jayasoft.ivy.latest.LatestRevisionStrategy;
 import fr.jayasoft.ivy.report.ArtifactDownloadReport;
+import fr.jayasoft.ivy.report.ConfigurationResolveReport;
 import fr.jayasoft.ivy.report.DownloadStatus;
+import fr.jayasoft.ivy.report.ResolveReport;
 import fr.jayasoft.ivy.repository.Repository;
 import fr.jayasoft.ivy.resolver.FileSystemResolver;
 import fr.jayasoft.ivy.resolver.IvyRepResolver;
 import fr.jayasoft.ivy.resolver.URLResolver;
 import fr.jayasoft.ivy.util.MessageImpl;
+import fr.jayasoft.ivy.version.LatestVersionMatcher;
 
 /***
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -108,7 +120,7 @@ public class URLImportTask
 
 	public void execute()
 		throws BuildException {
-
+		
 		if (! verbose) {
 			IvyContext.getContext().setMessageImpl(
 					new MessageImpl() {
@@ -136,6 +148,7 @@ public class URLImportTask
 		Ivy ivy = new Ivy();
 		DependencyResolver resolver = null;
 		Repository rep = null;
+		
 		
 		if (repositoryUrl != null) {
 			resolver = new URLResolver();
@@ -186,27 +199,38 @@ public class URLImportTask
 		ivy.addResolver(resolver);
 		ivy.setDefaultResolver(resolver.getName());
 		
+		
+		try {
 		ModuleId moduleId =
 			new ModuleId(org, module);		
 		ModuleRevisionId revId =
 			new ModuleRevisionId(moduleId, rev);
-		ModuleDescriptor md =
-			new DefaultModuleDescriptor(revId, "integration", new Date());		
-		Artifact artifact =
-			new MDArtifact(md, module, type, type);
 		
-		ArtifactDownloadReport report =
-			ivy.download(artifact, null);
+		ResolveReport resolveReport = ivy.resolve(
+                ModuleRevisionId.newInstance(org, module, rev),
+            new String[] { "*" },
+            false,
+            true,
+            ivy.getDefaultCache(),
+            new Date(),
+            ivy.doValidate(),
+            false,
+            false,
+            FilterHelper.getArtifactTypeFilter(type));
 		
-		DownloadStatus status = report.getDownloadStatus();
-		if (status == DownloadStatus.FAILED) {
-			throw new BuildException("Could not resolve resource.");
+		if (resolveReport.hasError()) {
+			throw new BuildException("Could not resolve resource for: " +
+					"org=" + org +
+					";module=" + module +
+					";rev=" + rev);
 		}
-		
-		String path = ivy.getArchivePathInCache(artifact);
-		
-		File file = new File(ivy.getDefaultCache(), path);
-		
+
+		ModuleDescriptor desc = resolveReport.getModuleDescriptor();
+		List artifacts = resolveReport.getArtifacts();
+		Artifact artifact = (Artifact) artifacts.get(0);
+		log("Fetched revision " + artifact.getModuleRevisionId().getRevision());
+		File file = ivy.getArchiveFileInCache(ivy.getDefaultCache(), artifact);
+				
 		File importFile = null;
 		
 	    if ("xml".equalsIgnoreCase(type)) {
@@ -237,5 +261,12 @@ public class URLImportTask
 	    importTask.setFile(importFile.getAbsolutePath());
 	    importTask.perform();
 	    log("Import complete.", Project.MSG_INFO);
+		}
+		catch (ParseException e) {
+			throw new BuildException(e);
+		}
+		catch (IOException e) {
+			throw new BuildException(e);
+		}
 	}
 }
