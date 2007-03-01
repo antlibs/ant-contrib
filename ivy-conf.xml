@@ -13,7 +13,6 @@
 
       <chain name="default-resolver">
           <resolver ref="local" />
-          <resolver ref="ivyrep" />
       </chain>
   </resolvers>
   
