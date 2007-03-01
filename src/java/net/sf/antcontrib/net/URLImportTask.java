@@ -31,6 +31,7 @@ import fr.jayasoft.ivy.Artifact;
 import fr.jayasoft.ivy.DefaultModuleDescriptor;
 import fr.jayasoft.ivy.DependencyResolver;
 import fr.jayasoft.ivy.Ivy;
+import fr.jayasoft.ivy.IvyContext;
 import fr.jayasoft.ivy.MDArtifact;
 import fr.jayasoft.ivy.ModuleDescriptor;
 import fr.jayasoft.ivy.ModuleId;
@@ -41,6 +42,7 @@ import fr.jayasoft.ivy.repository.Repository;
 import fr.jayasoft.ivy.resolver.FileSystemResolver;
 import fr.jayasoft.ivy.resolver.IvyRepResolver;
 import fr.jayasoft.ivy.resolver.URLResolver;
+import fr.jayasoft.ivy.util.MessageImpl;
 
 /***
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -102,6 +104,28 @@ public class URLImportTask
 	public void execute()
 		throws BuildException {
 
+		IvyContext.getContext().setMessageImpl(
+				new MessageImpl() {
+
+					public void endProgress(String arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void log(String arg0, int arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void progress() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					public void rawlog(String arg0, int arg1) {
+					}
+				}
+				);
 		Ivy ivy = new Ivy();
 		DependencyResolver resolver = null;
 		Repository rep = null;
