@@ -128,6 +128,7 @@ public class URLImportTask
 		else if (ivyConfUrl != null) {
 			try {
 				ivy.configure(ivyConfUrl);
+                                resolver = ivy.getDefaultResolver();
 			}
 			catch (IOException e) {
 				throw new BuildException(e);
