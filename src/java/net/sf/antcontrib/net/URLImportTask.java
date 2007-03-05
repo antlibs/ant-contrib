@@ -74,6 +74,7 @@ public class URLImportTask
 	private String repositoryDir;
 	private URL ivyConfUrl;
 	private File ivyConfFile;
+	private String resource = "build.xml";
 	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
 	private boolean verbose = false;
@@ -116,6 +117,10 @@ public class URLImportTask
 
 	public void setRepositoryUrl(String repositoryUrl) {
 		this.repositoryUrl = repositoryUrl;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 
 	public void execute()
@@ -244,9 +249,9 @@ public class URLImportTask
 	    	expand.setSrc(file);
 	    	expand.setDest(dir);
 	    	expand.perform();
-	    	importFile = new File(dir, "build.xml");
+	    	importFile = new File(dir, resource);
 	    	if (! importFile.exists()) {
-	    		throw new BuildException("Cannot find a 'build.xml' file in " +
+	    		throw new BuildException("Cannot find a '" + resource + "' file in " +
 	    				file.getName());
 	    	}
 	    }
