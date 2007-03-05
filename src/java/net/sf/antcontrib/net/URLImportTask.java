@@ -241,7 +241,8 @@ public class URLImportTask
 	    if ("xml".equalsIgnoreCase(type)) {
 	    	importFile = file;
 	    }
-	    else if ("jar".equalsIgnoreCase(type)) {
+	    else if ("jar".equalsIgnoreCase(type) ||
+	    		"zip".equalsIgnoreCase(type)) {
 	    	File dir = new File(file.getParentFile(),
 	    			file.getName() + ".extracted");
    		    dir.mkdir();
