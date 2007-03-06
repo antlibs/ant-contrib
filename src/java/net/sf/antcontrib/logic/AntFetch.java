@@ -20,7 +20,6 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.CallTarget;
 
 /**
  * Subclass of CallTarget which allows us to fetch
