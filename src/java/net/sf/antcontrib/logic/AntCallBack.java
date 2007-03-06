@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.taskdefs.CallTarget;
 import org.apache.tools.ant.taskdefs.Property;
 
 /**
@@ -32,7 +32,7 @@ import org.apache.tools.ant.taskdefs.Property;
  * @author     inger
  * @author     Dale Anson, danson@germane-software.com
  */
-public class AntCallBack extends Ant {
+public class AntCallBack extends CallTarget {
 	
 	/** the name of the property to fetch from the new project */
 	private String returnName = null;
@@ -42,7 +42,6 @@ public class AntCallBack extends Ant {
 	public void setProject(Project realProject) {
 		fakeProject = new ProjectDelegate(realProject);
 		super.setProject(fakeProject);
-		setAntfile(realProject.getProperty("ant.file"));
 	}
 
 	/**
@@ -83,10 +82,6 @@ public class AntCallBack extends Ant {
 	 */
 	public void setReturn( String r ) {
 		returnName = r;
-	}
-	
-	public Property createParam() {
-		return super.createProperty();
-	}
+	}	
 }
 
