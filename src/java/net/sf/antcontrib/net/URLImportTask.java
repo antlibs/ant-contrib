@@ -17,7 +17,6 @@ package net.sf.antcontrib.net;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -25,36 +24,23 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
 
 import fr.jayasoft.ivy.Artifact;
-import fr.jayasoft.ivy.DefaultDependencyDescriptor;
-import fr.jayasoft.ivy.DefaultModuleDescriptor;
-import fr.jayasoft.ivy.DependencyDescriptor;
 import fr.jayasoft.ivy.DependencyResolver;
 import fr.jayasoft.ivy.Ivy;
 import fr.jayasoft.ivy.IvyContext;
-import fr.jayasoft.ivy.MDArtifact;
 import fr.jayasoft.ivy.ModuleDescriptor;
 import fr.jayasoft.ivy.ModuleId;
 import fr.jayasoft.ivy.ModuleRevisionId;
-import fr.jayasoft.ivy.ResolveData;
-import fr.jayasoft.ivy.ResolvedModuleRevision;
-import fr.jayasoft.ivy.ant.IvyConfigure;
 import fr.jayasoft.ivy.filter.FilterHelper;
-import fr.jayasoft.ivy.latest.LatestRevisionStrategy;
-import fr.jayasoft.ivy.report.ArtifactDownloadReport;
-import fr.jayasoft.ivy.report.ConfigurationResolveReport;
-import fr.jayasoft.ivy.report.DownloadStatus;
 import fr.jayasoft.ivy.report.ResolveReport;
 import fr.jayasoft.ivy.repository.Repository;
 import fr.jayasoft.ivy.resolver.FileSystemResolver;
 import fr.jayasoft.ivy.resolver.IvyRepResolver;
 import fr.jayasoft.ivy.resolver.URLResolver;
 import fr.jayasoft.ivy.util.MessageImpl;
-import fr.jayasoft.ivy.version.LatestVersionMatcher;
 
 /***
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -64,7 +50,7 @@ import fr.jayasoft.ivy.version.LatestVersionMatcher;
  *
  */
 public class URLImportTask
-	extends Task {
+	extends ImportTask {
 
 	private String org;
 	private String module;
@@ -122,9 +108,19 @@ public class URLImportTask
 	public void setResource(String resource) {
 		this.resource = resource;
 	}
+	
+	public void setOptional(boolean optional) {
+		throw new BuildException("'optional' property not accessed for ImportURL.");
+	}
+
+	public void setFile(String file) {
+		throw new BuildException("'file' property not accessed for ImportURL.");
+	}
 
 	public void execute()
 		throws BuildException {
+		
+		MessageImpl oldMsgImpl = IvyContext.getContext().getMessageImpl();
 		
 		if (! verbose) {
 			IvyContext.getContext().setMessageImpl(
@@ -245,11 +241,14 @@ public class URLImportTask
 	    		"zip".equalsIgnoreCase(type)) {
 	    	File dir = new File(file.getParentFile(),
 	    			file.getName() + ".extracted");
-   		    dir.mkdir();
-	    	Expand expand = (Expand)getProject().createTask("unjar");
-	    	expand.setSrc(file);
-	    	expand.setDest(dir);
-	    	expand.perform();
+	    	if (! dir.exists() ||
+	    			dir.lastModified() < file.lastModified()) {
+	    		dir.mkdir();
+	    		Expand expand = (Expand)getProject().createTask("unjar");
+	    		expand.setSrc(file);
+	    		expand.setDest(dir);
+	    		expand.perform();
+	    	}
 	    	importFile = new File(dir, resource);
 	    	if (! importFile.exists()) {
 	    		throw new BuildException("Cannot find a '" + resource + "' file in " +
@@ -260,12 +259,8 @@ public class URLImportTask
 	    	throw new BuildException("Don't know what to do with type: " + type);
 	    }
 		
-	    ImportTask importTask = new ImportTask();
-	    importTask.setProject(getProject());
-	    importTask.setOwningTarget(getOwningTarget());
-	    importTask.setLocation(getLocation());
-	    importTask.setFile(importFile.getAbsolutePath());
-	    importTask.perform();
+	    super.setFile(importFile.getAbsolutePath());
+	    super.execute();
 	    log("Import complete.", Project.MSG_INFO);
 		}
 		catch (ParseException e) {
@@ -273,6 +268,9 @@ public class URLImportTask
 		}
 		catch (IOException e) {
 			throw new BuildException(e);
+		}
+		finally {
+			IvyContext.getContext().setMessageImpl(oldMsgImpl);
 		}
 	}
 }
