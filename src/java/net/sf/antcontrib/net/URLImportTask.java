@@ -229,7 +229,10 @@ public class URLImportTask
 		ModuleDescriptor desc = resolveReport.getModuleDescriptor();
 		List artifacts = resolveReport.getArtifacts();
 		Artifact artifact = (Artifact) artifacts.get(0);
-		log("Fetched revision " + artifact.getModuleRevisionId().getRevision());
+		log("Fetched " +
+				artifact.getModuleRevisionId().getOrganisation() + " | " +
+				artifact.getModuleRevisionId().getName() + " | " +
+				artifact.getModuleRevisionId().getRevision());
 		File file = ivy.getArchiveFileInCache(ivy.getDefaultCache(), artifact);
 				
 		File importFile = null;
