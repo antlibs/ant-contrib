@@ -22,63 +22,100 @@ import java.util.List;
 import net.sf.antcontrib.logic.condition.BooleanConditionBase;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.apache.tools.ant.taskdefs.Exit;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.condition.Condition;
+import org.apache.tools.ant.taskdefs.condition.Equals;
 
 
 /**
  *
  */
 public class Assert
-	extends BooleanConditionBase
-	implements TaskContainer {
+	extends BooleanConditionBase {
 
 	private List tasks = new ArrayList();
 	private String message;
-	private boolean failOnError;
-
+	private boolean failOnError = true;
+	private boolean execute = true;
+    private Sequential sequential;
+    private String name;
+    private String value;
 	
-	public void setFailOnError(boolean failOnError) {
-		this.failOnError = failOnError;
-	}
-
+    public Sequential createSequential() {
+    	this.sequential = (Sequential) getProject().createTask("sequential");
+    	return this.sequential;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
+    public void setValue(String value) {
+    	this.value = value;
+    }
+    
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	public void addTask(Task task) {
-		tasks.add(task);
-	}
-	
 	public BooleanConditionBase createBool() {
 		return this;
 	}
 	
+	public void setExecute(boolean execute) {
+		this.execute = execute;
+	}
+
+	public void setFailOnError(boolean failOnError) {
+		this.failOnError = failOnError;
+	}
+
 	public void execute() {
-		if (countConditions() == 0) {
-			throw new BuildException("There is no condition specified.");
-		}
-		else if (countConditions() > 1) {
-			throw new BuildException("There must be exactly one condition specified.");
-		}
+		String value = getProject().getProperty("ant.enable.asserts");
+		boolean assertsEnabled = Project.toBoolean(value);
 		
-		Sequential sequential = (Sequential) getProject().createTask("sequential");
-		Condition c = (Condition) getConditions().nextElement();
-		if (! c.eval()) {
-			if (failOnError) {
-				Exit fail = (Exit) getProject().createTask("fail");
-				fail.setMessage(message);
-				sequential.addTask(fail);
+		if (assertsEnabled) {
+			if (name != null) {
+				if (value == null) {
+					throw new BuildException("The 'value' attribute must accompany the 'name' attribute.");
+				}
+				String propVal = getProject().replaceProperties("${" + name + "}");
+				Equals e = new Equals();
+				e.setArg1(propVal);
+				e.setArg2(value);
+				addEquals(e);
+			}
+
+			if (countConditions() == 0) {
+				throw new BuildException("There is no condition specified.");
+			}
+			else if (countConditions() > 1) {
+				throw new BuildException("There must be exactly one condition specified.");
+			}
+
+			Condition c = (Condition) getConditions().nextElement();
+			if (! c.eval()) {
+				if (failOnError) {
+					Exit fail = (Exit) getProject().createTask("fail");
+					fail.setMessage(message);
+					fail.execute();
+				}
+			}
+			else {
+				if (execute) {
+					this.sequential.execute();
+				}
 			}
 		}
 		else {
-			Iterator it = tasks.iterator();
-			while (it.hasNext()) {
-				sequential.addTask((Task)it.next());
-			}
+			if (execute) {
+				this.sequential.execute();
+			}			
 		}
 	}
 	
