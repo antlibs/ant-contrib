@@ -49,12 +49,8 @@ public class AssertTest extends BuildFileTestBase {
       executeTarget( "test1" );
    }
 
-   public void test2() {
-      expectBuildExceptionStackTraceContaining( "test2", "testing assert failure", "Property 'testprop' doesn't exist in this project." );
-   }
-
    public void test3() {
-      expectBuildExceptionStackTraceContaining( "test3", "testing assert failure", "Expected 'false', but was 'true'." );
+	   expectBuildException("test3");
    }
    
    public void test4() {
@@ -70,7 +66,7 @@ public class AssertTest extends BuildFileTestBase {
    }
    
    public void test7(){
-      expectBuildExceptionStackTraceContaining( "test7", "testing conditions", "Assertion failed boolean test." );
+      expectBuildException("test7");
    }
    
    public void test8() {
@@ -78,7 +74,7 @@ public class AssertTest extends BuildFileTestBase {
    }
    
    public void test9() {
-      expectBuildExceptionStackTraceContaining( "test9", "testing conditions", "Assertion failed boolean test." );
+      expectBuildException("test9");
    }
 }
 

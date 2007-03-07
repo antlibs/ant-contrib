@@ -25,27 +25,25 @@ Assert Task</h2>
 </div>
 <p>
 
-The Assert task adds an assertion capability to Ant projects. This task works in a manner very similar to the Java <tt class="computeroutput">
-assert</tt>
- keyword, and provides a limited "design by contract" facility to Ant. This is very useful for testing build scripts prior to putting them into production.
+The Assert task adds an assertion capability to Ant projects. This task works in a manner
+very similar to the Java <tt class="computeroutput">assert</tt> keyword, and provides a
+limited "design by contract" facility to Ant. This is very useful for testing build
+scripts prior to putting them into production.
 </p>
 <p>
 
-The Assert task verifies that a given property has a
-given value and throws a BuildException if the property value is not as expected
-or the property does not exist.
+The Assert task verifies that a particular boolean condition is met, and throws a BuildException
+if it is not.
 </p>
 <p>
 
-Also like Java's <tt class="computeroutput">
-assert</tt>
- keyword, the Assert task must be 'turned on' using the property <tt class="computeroutput">
-ant.enable.asserts</tt>
-. If not set, or is set to <tt class="computeroutput">
-false</tt>
+Also like Java's <tt class="computeroutput">assert</tt> keyword, the Assert task must be
+'turned on' using the property <tt class="computeroutput">ant.enable.asserts</tt>
+. If not set, or is set to <tt class="computeroutput"> false</tt>
 , the Assert task works exactly like the Sequential task. If the <a href="variable_task.html" title="Variable Task">
 Variable task</a>
- is used to define this property, then it can be turned on and off as needed throughout a build.
+is used to define this property, then it can be turned on and off as needed throughout a
+build.
 </p>
 <p>
 
@@ -53,7 +51,10 @@ This task can hold other tasks including Assert.
 </p>
 <p>
 
-The Assert task may contain one 'bool' element. The 'bool' element is identical to the ConditionTask, but unlike the ConditionTask, is actually a Task. The 'bool' element can contain all the conditions permitted by the ConditionTask, plus the <a href="bk03ch05s02.html" title="More Conditions">
+Thie assert task may contain a single conditional element known by ANT, or one of
+the following additional conditions:
+
+<a href="more_conditions.html" title="More Conditions">
 IsPropertyTrue</a>
 , <a href="more_conditions.html" title="More Conditions">
 IsPropertyFalse</a>
@@ -106,31 +107,23 @@ Required</th>
 <td>
 name</td>
 <td>
-The name of the property to test for.</td>
+The name of the property to test for.  This is a shortcut for specifying an &lt;equals&gt; 
+condition.</td>
 <td>
 none</td>
 <td>
-Yes</td>
-</tr>
-<tr>
-<td>
-exists</td>
-<td>
-Test for existence or non-existence of the property.</td>
-<td>
-True</td>
-<td>
-No</td>
+No.  However, if specified, the 'value' attribute must also be present</td>
 </tr>
 <tr>
 <td>
 value</td>
 <td>
-The value to test for, implies 'exists=true'. If the value in the project is different than this value, a BuildException will be thrown and the build will stop.</td>
+The value to test for, implies . If the value in the project is different than this value,
+a BuildException will be thrown and the build will stop.</td>
 <td>
 none</td>
 <td>
-No</td>
+No, unless the 'name' attribute is specified.</td>
 </tr>
 <tr>
 <td>
@@ -158,13 +151,9 @@ No</td>
 
 
 </p>
-<p>
-
-As stated above, the Assert task may contain a nested "bool" task, otherwise,
-the Assert task does not support any nested
-elements apart from Ant tasks. Any valid Ant task may be embedded within the
-assert task.
-</p>
+<h2>
+Examples
+</h2>
 <p>
 
 In the following example, the first <tt class="computeroutput">
@@ -192,15 +181,20 @@ echo</tt>
 
 
      &lt;property name="wait" value="2"/&gt;
-     &lt;assert name="wait" execute="false"&gt;
+     &lt;assert execute="false"&gt;
+        &lt;isset property="wait" /&gt;
+        &lt;sequential&gt;
         &lt;echo&gt;
             Waiting ${wait} seconds...
             Click the red button to stop waiting.
-        &lt;/echo&gt;
-        &lt;sleep seconds="${wait}"/&gt;
+            &lt;/echo&gt;
+            &lt;sleep seconds="${wait}"/&gt;
+        &lt;/sequential&gt;
      &lt;/assert&gt;
      &lt;assert name="wait" value="2" execute="true"&gt;
-        &lt;echo&gt;done waiting!&lt;/echo&gt;
+        &lt;sequential&gt;
+            &lt;echo&gt;done waiting!&lt;/echo&gt;
+        &lt;/sequential&gt;
      &lt;/assert&gt;
 
 </pre>
@@ -228,9 +222,7 @@ The next example shows Assert being used in a unit test for the "limit" task:
     &lt;/limit&gt;
     &lt;stopwatch name="timer" action="total"/&gt;
     &lt;assert message="Too much time."&gt;
-        &lt;bool&gt;
-            &lt;islessthan arg1="${timer}" arg2="2"/&gt;
-        &lt;/bool&gt;
+        &lt;islessthan arg1="${timer}" arg2="2"/&gt;
     &lt;/assert&gt;
   &lt;/target&gt;
 
