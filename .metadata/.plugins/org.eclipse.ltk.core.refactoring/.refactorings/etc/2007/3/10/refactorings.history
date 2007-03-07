@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring id="org.eclipse.jdt.ui.rename.resource" stamp="1173295211900" flags="7" description="Rename resource 'Copy of ant1.6-tasks.xdt'" comment="Rename resource '/etc/Copy of ant1.6-tasks.xdt' to 'ant1.6-tasks.xdt'&#10;- Original element: 'Copy of ant1.6-tasks.xdt'" input="Copy of ant1.6-tasks.xdt" name="ant1.6-tasks.xdt" version="1.0"/>
+</session>

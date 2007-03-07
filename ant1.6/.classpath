@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/lib/ant/jars/ant-1.6.5.jar"/>
+	<classpathentry kind="lib" path="/lib/ivy/jars/ivy-1.4.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ant1.5"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

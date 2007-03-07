@@ -1,0 +1,13 @@
+<antlib>
+<XDtClass:forAllClasses><XDtClass:ifHasClassTag tagName="ant:task">
+<taskdef name="<XDtClass:classTagValue tagName="ant:task" paramName="name"/>"
+         classname="<XDtClass:fullClassName />"
+        <XDtClass:ifHasClassTag tagName="ant:task" paramName="onerror">onerror="<XDtClass:classTagValue tagName="ant:task" paramName="onerror"/>"</XDtClass:ifHasClassTag> />
+</XDtClass:ifHasClassTag>
+<XDtClass:ifHasClassTag tagName="ant:type">
+<typedef name="<XDtClass:classTagValue tagName="ant:type" paramName="name"/>"
+         classname="<XDtClass:fullClassName />"
+        <XDtClass:ifHasClassTag tagName="ant:type" paramName="onerror">onerror="<XDtClass:classTagValue tagName="ant:type" paramName="onerror"/>"</XDtClass:ifHasClassTag> />
+</XDtClass:ifHasClassTag>
+</XDtClass:forAllClasses>
+</antlib>

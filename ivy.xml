@@ -1,0 +1,68 @@
+<ivy-module version="1.1">
+    <info organisation="sourceforge" module="ant-contrib" />
+    
+    <configurations>
+        <conf name="base" />
+        <conf name="provided" extends="base" />
+        <conf name="ant1.5" extends="base" />
+        <conf name="ant1.6" extends="base" />
+        <conf name="ant1.7" extends="base" />        
+        <conf name="ant1.5-provided" extends="ant1.5,provided" />
+        <conf name="ant1.6-provided" extends="ant1.6,provided" />
+        <conf name="ant1.7-provided" extends="ant1.7,provided" />
+        <conf name="build" />
+    </configurations>
+    
+    <publications>
+        <artifact name="ant-contrib-ant1.5" type="jar" conf="ant1.5" />
+        <artifact name="ant-contrib-ant1.6" type="jar" conf="ant1.6" />
+        <artifact name="ant-contrib-ant1.7" type="jar" conf="ant1.7" />
+    </publications>
+    
+    
+    <dependencies>
+        <dependency org="apache"
+                    name="bcel"
+                    rev="5.1"
+                    conf="base->default" />
+        <dependency org="apache"
+                    name="commons-httpclient"
+                    rev="3.0.1"
+                    conf="base->default" />
+        <dependency org="apache"
+                    name="commons-logging"
+                    rev="1.0.4"
+                    conf="base->default" />
+        <dependency org="apache"
+                    name="xercesImpl"
+                    rev="2.6.2"
+                    conf="provided->default" />
+
+        <dependency org="jayasoft"
+                    name="ivy"
+                    rev="1.4.1"
+                    conf="ant1.6,ant1.7->default" />
+        <dependency org="apache"
+                    name="ant"
+                    rev="1.5.4"
+                    conf="ant1.5-provided->default" />
+        <dependency org="apache"
+                    name="ant"
+                    rev="1.6.5"
+                    conf="ant1.6-provided->default" />
+        <dependency org="apache"
+                    name="ant"
+                    rev="1.7.0"
+                    conf="ant1.7-provided->default" />
+
+        <dependency org="junit"
+                    name="junit"
+                    rev="3.8.1"
+                    conf="test->default" />
+
+        <dependency org="xdoclet"
+                    name="xdoclet"
+                    rev="1.2.3"
+                    conf="build->default" />
+    </dependencies>
+</ivy-module>

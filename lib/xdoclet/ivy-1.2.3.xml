@@ -1,0 +1,13 @@
+<ivy-module version="1.1" >
+    <info revision="1.2.3" organisation="xdoclet" module="xdoclet" status="release" />
+    <publications>
+        <artifact name="xdoclet" type="jar" />
+        <artifact name="xdoclet-xdoclet-module" type="jar" />
+    </publications>
+    <dependencies>
+        <dependency org="xjavadoc" name="xjavadoc" rev="1.1" />
+        <dependency org="apache" name="commons-collections" rev="2.0" />
+        <dependency org="apache" name="commons-logging" rev="1.0.4" />
+        <dependency org="apache" name="log4j" rev="1.2.8" />
+    </dependencies>
+</ivy-module>

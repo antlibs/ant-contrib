@@ -1,0 +1,295 @@
+<project name="ant-contrib" basedir="." default="dist"
+	xmlns:ivy="antlib:fr.jayasoft.ivy">
+
+	<property file="build.properties" />
+	<property name="jar.name" value="ant-contrib" />
+	<property name="target.dir" location="target" />
+    <property name="target.stage.dir" location="${target.dir}/stage" />
+    <property name="dist.dir" location="dist" />
+	<property name="root.dir" location="." />
+	<property name="src.exclude.pattern"
+		value="**/target,**/target/**/*,**/dist,**/dist/**/*,.metadata,.metadata/**/*,.settings,.settings/**/*,.project,.classpath" />
+
+	<path id="ivy.lib.path">
+         <fileset dir="lib/ivy/jars" includes="ivy-1.4.1.jar"/>
+         <fileset dir="lib/commons-cli/jars" includes="commons-cli-1.0.jar"/>
+         <fileset dir="lib/commons-codec/jars" includes="commons-codec-1.3.jar"/>
+         <fileset dir="lib/commons-httpclient/jars" includes="commons-httpclient-3.0.1.jar"/>
+         <fileset dir="lib/commons-logging/jars" includes="commons-logging-1.0.4.jar"/>
+         <fileset dir="lib/oro/jars" includes="oro-2.0.8.jar"/>
+     </path>
+
+	<taskdef resource="fr/jayasoft/ivy/ant/antlib.xml"
+		     uri="antlib:fr.jayasoft.ivy"
+		     classpathref="ivy.lib.path" />
+	
+	<macrodef name="compile">
+		<attribute name="config"/>
+		<sequential>
+			<ivy:cachepath pathid="@{config}.provided.path"
+			               conf="@{config}-provided"
+			               type="jar" />
+			
+			<mkdir dir="@{config}/target/classes" />
+
+			<javac srcdir="@{config}/src/java"
+			       destdir="@{config}/target/classes"
+			       source="1.4"
+			       target="1.4">
+				<classpath>
+					<path refid="@{config}.provided.path" />
+					<fileset dir="." includes="**/target/classes" />
+				</classpath>
+			</javac>
+		</sequential>
+	</macrodef>
+		
+	<macrodef name="make-jar">
+		<attribute name="config"/>
+		<element name="additional-classes" optional="true" />
+		<sequential>
+			<jar file="@{config}/target/${jar.name}-@{config}.jar"
+				basedir="@{config}/target/classes">				
+				<additional-classes />
+			</jar>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="tasks-properties">
+		<attribute name="config"/>
+		<element name="filesets" optional="true" />
+		<sequential>
+			<doclet destdir="@{config}/target/classes/net/sf/antcontrib" verbose="true" force="true" >
+				<fileset dir="@{config}/src/java">
+					<include name="**/*.java" />
+				</fileset>
+				<filesets />
+				<template templateFile="etc/ant1.5-tasks.xdt"
+				          destinationFile="antcontrib.properties" />
+			</doclet>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="tasks-xml">
+		<attribute name="config"/>
+		<element name="filesets" optional="true" />
+		<sequential>
+			<doclet destdir="@{config}/target/classes/net/sf/antcontrib" verbose="true" force="true" >
+				<fileset dir="@{config}/src/java">
+					<include name="**/*.java" />
+				</fileset>
+				<filesets />
+				<xmltemplate templateFile="etc/ant1.6-tasks.xdt"
+				          destinationFile="antlib.xml" />
+			</doclet>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="copy-jar">
+		<attribute name="config" />
+		<sequential>
+			<copy todir="${target.stage.dir}">
+			    <fileset dir="@{config}/target" includes="${jar.name}*.jar" />
+			    <mapper type="glob" from="*.jar" to="*-${project.version}.jar" />
+			</copy>
+		</sequential>
+	</macrodef>
+			
+	<macrodef name="copy-dist-libs">
+		<attribute name="config" />
+		<sequential>
+			<ivy:cachefileset setid="@{config}.dist.libs.path"
+			               conf="@{config}"
+			               type="jar" />
+			
+			<mkdir dir="${target.stage.dir}/lib/@{config}" />
+			
+			<copy todir="${target.stage.dir}/lib/@{config}">
+			    <fileset refid="@{config}.dist.libs.path" />
+				<mapper type="flatten" />
+			</copy>
+		</sequential>
+	</macrodef>
+	
+	<fileset id="inherited-1.5"
+	         dir="ant1.5/src/java"
+			 includes="**/*.java">
+		<exclude name="net/sf/antcontrib/logic/ForEach.java" />
+		<exclude name="net/sf/antcontrib/logic/Assert.java" />
+		<exclude name="net/sf/antcontrib/logic/AntFetch.java" />
+		<exclude name="net/sf/antcontrib/logic/AntCallback.java" />
+	</fileset>
+	
+    <fileset id="inherited-1.6"
+	         dir="ant1.6/src/java"
+    	     includes="**/*.java">
+        <exclude name="net/sf/antcontrib/logic/ant16/ForTask.java" />
+		<exclude name="net/sf/antcontrib/logic/ant16/AntFetch.java" />
+		<exclude name="net/sf/antcontrib/logic/ant16/AntCallback.java" />
+    </fileset>
+
+    <target name="configure">
+		<ivy:configure file="ivy-conf.xml" />
+	</target>
+	
+	<target name="resolve" depends="configure">
+		<ivy:resolve file="ivy.xml" />
+		<ivy:cachepath pathid="build.classpath" conf="build" />
+		<taskdef name="doclet"
+		        classname="xdoclet.DocletTask"
+		        classpathref="build.classpath" />
+	</target>
+	
+	<target name="compile" depends="resolve">
+		<compile config="ant1.5" />
+		<compile config="ant1.6" />
+		<compile config="ant1.7" />
+
+		<tasks-properties config="ant1.5" />
+		
+		<tasks-properties config="ant1.6">
+			<filesets>
+				<fileset refid="inherited-1.5" />
+			</filesets>
+		</tasks-properties>
+		
+		<tasks-properties config="ant1.7">
+			<filesets>
+			<fileset refid="inherited-1.5" />
+			<fileset refid="inherited-1.6" />
+			</filesets>
+		</tasks-properties>
+
+		<tasks-xml config="ant1.6">
+			<filesets>
+				<fileset refid="inherited-1.5" />
+			</filesets>
+		</tasks-xml>
+		
+		<tasks-xml config="ant1.7">
+			<filesets>
+			    <fileset refid="inherited-1.5" />
+			    <fileset refid="inherited-1.6" />
+			</filesets>
+		</tasks-xml>
+	</target>
+	
+	
+	<target name="jar" depends="compile">
+		<fileset id="inherit-1.5-classes"
+			     dir="ant1.5/target/classes">
+			<exclude name="net/sf/antcontrib/logic/For*.class" />
+			<exclude name="net/sf/antcontrib/logic/Assert*.class" />
+			<exclude name="net/sf/antcontrib/logic/AntFetch*.class" />
+			<exclude name="net/sf/antcontrib/logic/AntCallback*.class" />
+			<exclude name="net/sf/antcontrib/logic/ProjectDelegate*.class" />
+		</fileset>
+
+		<fileset id="inherit-1.6-classes"
+			     dir="ant1.6/target/classes">
+			<exclude name="net/sf/antcontrib/logic/ant16/For*.class" />
+			<exclude name="net/sf/antcontrib/logic/ant16/AntFetch*.class" />
+			<exclude name="net/sf/antcontrib/logic/ant16/AntCallback*.class" />
+			<exclude name="net/sf/antcontrib/logic/ant16/ProjectDelegate*.class" />
+		</fileset>
+
+		<make-jar config="ant1.5" />
+
+		<make-jar config="ant1.6">
+			<additional-classes>
+				<fileset refid="inherit-1.5-classes" />
+			</additional-classes>
+		</make-jar>
+		
+		<make-jar config="ant1.7">
+			<additional-classes>
+				<fileset refid="inherit-1.5-classes" />
+				<fileset refid="inherit-1.6-classes" />
+			</additional-classes>
+		</make-jar>
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="." includes="**/target.*,**/target/**/*,**/dist,**/dist/**/*" />
+		</delete>
+	</target>
+	
+	
+	<target name="dist-stage" depends="jar">
+        <mkdir dir="${target.stage.dir}" />
+        <mkdir dir="${target.stage.dir}/lib" />
+
+		<copy-jar config="ant1.5" />
+		<copy-jar config="ant1.6" />
+		<copy-jar config="ant1.7" />
+
+		<copy-dist-libs config="ant1.5" />
+		<copy-dist-libs config="ant1.6" />
+		<copy-dist-libs config="ant1.7" />
+	</target>
+		
+	<target name="zip" depends="dist-stage">
+		 <mkdir dir="${dist.dir}" />
+         <zip file="${dist.dir}/${project.name}-${project.version}-bin.zip">
+         <zipfileset prefix="ant-contrib"
+         	 dir="${target.stage.dir}" 
+             includes="**/*" />
+		 </zip>
+
+		 <zip file="${dist.dir}/${project.name}-${project.version}-src.zip">
+		 <zipfileset prefix="ant-contrib-${project.version}"
+		             dir="${root.dir}" 
+		             includes="**/*"
+		             excludes="${src.exclude.pattern}" />
+		 </zip>
+	</target>
+	
+	<target name="tar-zip" depends="dist-stage">
+		<mkdir dir="${dist.dir}" />
+
+        <tar destfile="${dist.dir}/${project.name}-${project.version}-bin.tar.gz"
+             compression="gzip">
+        <tarfileset prefix="ant-contrib-${project.version}"
+		     dir="${target.stage.dir}" 
+		     includes="**/*" />
+		</tar>
+
+        <tar destfile="${dist.dir}/${project.name}-${project.version}-bin.tar.bz2"
+             compression="bzip2">
+             <tarfileset prefix="ant-contrib-${project.version}"
+                         dir="${target.stage.dir}" 
+	                     includes="**/*" />
+	         </tar>
+        <tar destfile="${dist.dir}/${project.name}-${project.version}-src.tar.gz"
+                  compression="gzip">
+              <tarfileset prefix="ant-contrib-${project.version}"
+                     dir="${root.dir}" 
+                     includes="**/*"
+                     excludes="${src.exclude.pattern}" />
+         </tar>
+
+         <tar destfile="${dist.dir}/${project.name}-${project.version}-src.tar.bz2"
+                  compression="bzip2">
+                 <tarfileset prefix="ant-contrib-${project.version}"
+                         dir="${root.dir}" 
+                     includes="**/*"
+                     excludes="${src.exclude.pattern}" />
+         </tar>
+	</target>
+	
+	<target name="package" depends="dist-stage,zip,tar-zip">
+	       <checksum fileext=".md5">
+	            <fileset dir="${dist.dir}">
+	                <include name="*.zip"/>
+	                <include name="*.tar.bz2"/>
+	                <include name="*.tar.gz"/>
+	            </fileset>
+	        </checksum>
+	</target>
+		
+	<target name="dist" depends="package">
+		
+	</target>
+
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libraryInfos>
+<libraryInfo version="1.4.2_12" home="/usr/java/j2sdk1.4.2_12/jre">
+<bootpath>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/rt.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/i18n.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/sunrsasign.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/jsse.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/jce.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/charsets.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo version="1.4.2_12" home="/usr/java/j2sdk1.4.2_12">
+<bootpath>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/rt.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/i18n.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/sunrsasign.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/jsse.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/jce.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/charsets.jar"/>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/usr/java/j2sdk1.4.2_12/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

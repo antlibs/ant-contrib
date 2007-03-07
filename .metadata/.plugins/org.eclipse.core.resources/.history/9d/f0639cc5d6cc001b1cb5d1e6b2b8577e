@@ -1,0 +1,6 @@
+<XDtClass:forAllClasses>
+  <XDtClass:ifHasClassTag tagName="ant.task" paramName="name">
+    <XDtClass:classTagValue tagName="ant.task" paramName="name"/>=<XDtClass:classOf><XDtJavaBean:beanClass/></XDtClass:classOf>
+  </XDtClass:ifHasClassTag>
+</XDtClass:forAllClasses>
+
