@@ -27,10 +27,10 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.TaskContainer;
 import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.MacroInstance;
 import org.apache.tools.ant.taskdefs.Parallel;
-import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -176,10 +176,9 @@ public class ForTask extends Task {
      * Defines the macro which will be executed for each loop iteration.
      * The macro parameter indicated by the <code>param</code> attribute
      * will be set with the current loop value.
-     * @ant.attribute group="required"
      * @return a MacroDef#NestedSequential object to be configured
      */
-    public MacroDef.NestedSequential createSequential() {
+    public TaskContainer createSequential() {
         macroDef = new MacroDef();
         macroDef.setProject(getProject());
         return macroDef.createSequential();
