@@ -26,7 +26,7 @@ import org.apache.tools.ant.Task;
  * @author		<additional author>
  *
  * @since
- * @ant.task   name="antserver"
+ * @ant.task   name="antserver" category="server"
  *               
  ****************************************************************************/
 

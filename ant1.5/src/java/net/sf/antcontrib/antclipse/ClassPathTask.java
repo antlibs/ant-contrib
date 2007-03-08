@@ -35,7 +35,7 @@ import org.xml.sax.SAXParseException;
  * @author Adrian Spinei aspinei@myrealbox.com
  * @version $Revision: 1.2 $
   * @since Ant 1.5
- * @ant.task   name="antclipse"
+ * @ant.task   name="antclipse" category="eclipse"
  */
 public class ClassPathTask extends Task
 {

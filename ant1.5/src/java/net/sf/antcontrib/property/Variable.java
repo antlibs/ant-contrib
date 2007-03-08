@@ -45,7 +45,7 @@ import org.apache.tools.ant.Task;
  * @author   Dale Anson, danson@germane-software.com
  * @since    Ant 1.5
  * @version  $Revision: 1.6 $
- * @ant.task name="var"
+ * @ant.task name="var" category="property"
  */
 public class Variable extends Task {
 

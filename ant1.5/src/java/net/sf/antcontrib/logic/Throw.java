@@ -26,7 +26,7 @@ import org.apache.tools.ant.types.Reference;
  * <p>This may be useful inside the <code>&lt;catch&gt;</code> block
  * of a <code>&lt;trycatch&gt;</code> task if you want to rethrow the
  * exception just caught.</p>
- * @ant.task   name="throw"
+ * @ant.task   name="throw" category="logic"
  */
 public class Throw extends Exit {
 

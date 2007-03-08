@@ -64,5 +64,9 @@
                     name="xdoclet"
                     rev="1.2.3"
                     conf="build->default" />
+        <dependency org="apache"
+                    name="ant-xdoclet"
+                    rev="1.7.0"
+                    conf="build->default" />
     </dependencies>
 </ivy-module>

@@ -979,3 +979,9 @@ Command-line arguments:  -data /home/minger/tmp/ant-1.7.0-upgrade -os linux -ws 
 
 !ENTRY org.eclipse.core.resources 2 10035 2007-03-07 16:30:19.487
 !MESSAGE A workspace crash was detected. The previous session did not exit normally.
+
+!ENTRY org.jayasoft.ivyde.eclipse 1 0 2007-03-08 09:51:50.732
+!MESSAGE starting IvyDE plugin
+
+!ENTRY org.jayasoft.ivyde.eclipse 1 0 2007-03-08 09:51:50.763
+!MESSAGE IvyDE plugin started

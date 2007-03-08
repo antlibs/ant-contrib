@@ -31,7 +31,7 @@ import org.apache.tools.ant.util.FileUtils;
  *
  * @author stephan beal
  *@author peter reilly
- * @ant.task name="shellscript"
+ * @ant.task name="shellscript" category="platform"
  */
 
 public class ShellScriptTask extends ExecTask {

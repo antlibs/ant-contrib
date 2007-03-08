@@ -30,7 +30,7 @@ import org.apache.tools.ant.taskdefs.Ant;
  *
  * @author     inger
  * @author     Dale Anson, danson@germane-software.com
- * @ant.task   name="antfetch"
+ * @ant.task   name="antfetch" category="logic"
  */
 public class AntFetch extends Ant {
 	/** the name of the property to fetch from the new project */

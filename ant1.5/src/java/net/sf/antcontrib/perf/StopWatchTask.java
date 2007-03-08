@@ -25,7 +25,7 @@ import org.apache.tools.ant.Task;
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
  * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.5 $
- * @ant.task name="stopwatch"
+ * @ant.task name="stopwatch" category="perf"
  */
 public class StopWatchTask extends Task {
 

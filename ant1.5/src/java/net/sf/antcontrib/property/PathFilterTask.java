@@ -28,7 +28,7 @@ import org.apache.tools.ant.types.selectors.OrSelector;
 /***
  * 
  * @author minger
- * @ant.task name="pathfilter"
+ * @ant.task name="pathfilter" category="property"
  *
  */
 public class PathFilterTask
@@ -39,15 +39,27 @@ public class PathFilterTask
 	private String  pathid;
 	
 	
+	/***
+	 * Set the pathid which we will set with the results
+	 * @param pathid
+	 */
 	public void setPathId(String pathid) {
 		this.pathid = pathid;
 	}
 	
+	/***
+	 * Create a selector.  The specified selectors will be ORed together.
+	 * @return
+	 */
 	public OrSelector createSelect() {
 		select = new OrSelector();
 		return select;
 	}
 	
+	/***
+	 * Adds a fileset
+	 * @param fileset
+	 */
 	public void addConfiguredFileSet(FileSet fileset) {
 		if (this.path == null) {
 			this.path = (Path)getProject().createDataType("path");
@@ -55,6 +67,10 @@ public class PathFilterTask
 		this.path.addFileset(fileset);
 	}
 	
+	/***
+	 * Adds a DirSet
+	 * @param dirset
+	 */
 	public void addConfiguredDirSet(DirSet dirset) {
 		if (this.path == null) {
 			this.path = (Path)getProject().createDataType("path");
@@ -62,6 +78,10 @@ public class PathFilterTask
 		this.path.addDirset(dirset);
 	}
 
+	/***
+	 * Adds a FileList
+	 * @param filelist
+	 */
 	public void addConfiguredFileList(FileList filelist) {
 		if (this.path == null) {
 			this.path = (Path)getProject().createDataType("path");
@@ -69,6 +89,10 @@ public class PathFilterTask
 		this.path.addFilelist(filelist);
 	}
 
+	/***
+	 * Adds a Path
+	 * @param path
+	 */
 	public void addConfiguredPath(Path path) {
 		if (this.path == null) {
 			this.path = (Path)getProject().createDataType("path");

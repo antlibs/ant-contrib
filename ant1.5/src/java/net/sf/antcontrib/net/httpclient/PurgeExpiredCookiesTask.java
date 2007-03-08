@@ -22,7 +22,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="purgeexpiredcookies" onerror="ignore"
+ * @ant.task   name="purgeexpiredcookies" onerror="ignore" category="net"
  *
  */
 public class PurgeExpiredCookiesTask

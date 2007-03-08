@@ -53,7 +53,7 @@ import org.apache.tools.ant.TaskContainer;
  *
  * @author    Dale Anson, danson@germane-software.com
  * @version   $Revision: 1.11 $
- * @ant.task   name="post"
+ * @ant.task   name="post" category="net"
  */
 public class PostTask extends Task {
 

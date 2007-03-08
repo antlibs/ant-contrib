@@ -27,7 +27,7 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
 
 /**
  *
- * @ant.task   name="assert"
+ * @ant.task   name="assert" category="logic"
  */
 public class Assert
 	extends BooleanConditionBase {

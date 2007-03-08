@@ -26,7 +26,7 @@ import org.apache.tools.ant.util.FileUtils;
 /***
  * 
  * @author minger
- * @ant.task name="pathtofileset"
+ * @ant.task name="pathtofileset" category="property"
  *
  */
 public class PathToFileSet

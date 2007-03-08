@@ -62,7 +62,7 @@ import org.apache.tools.ant.types.Reference;
  *
  * </pre>
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
- * @ant.task   name="timestampselector"
+ * @ant.task   name="timestampselector" category="logic"
  */
 public class TimestampSelector extends Task
 {

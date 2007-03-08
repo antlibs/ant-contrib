@@ -30,7 +30,7 @@ import org.apache.tools.ant.types.Reference;
  * @author		<additional author>
  *
  * @since
- * @ant.task name="urlencode"
+ * @ant.task name="urlencode" category="property"
  *               
  ****************************************************************************/
 

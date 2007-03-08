@@ -31,7 +31,7 @@ import org.apache.tools.ant.util.regexp.Regexp;
  * @author		<additional author>
  *
  * @since
- * @ant.task name="propertyselector"
+ * @ant.task name="propertyselector" category="property"
  *
  ****************************************************************************/
 

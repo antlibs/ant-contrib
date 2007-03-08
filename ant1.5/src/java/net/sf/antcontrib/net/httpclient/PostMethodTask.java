@@ -42,7 +42,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="postmethod" onerror="ignore"
+ * @ant.task   name="postmethod" onerror="ignore" category="net"
  *
  */
 public class PostMethodTask

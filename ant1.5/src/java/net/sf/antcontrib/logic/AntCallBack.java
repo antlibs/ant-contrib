@@ -29,7 +29,7 @@ import org.apache.tools.ant.taskdefs.CallTarget;
  *
  * @author     inger
  * @author     Dale Anson, danson@germane-software.com
- * @ant.task   name="antcallback"
+ * @ant.task   name="antcallback" category="logic"
  */
 public class AntCallBack extends CallTarget {
 	

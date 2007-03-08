@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.Property;
 /***
  * 
  * @author minger
- * @ant.task   name="getcookie" onerror="ignore"
+ * @ant.task   name="getcookie" onerror="ignore" category="net"
  *
  */
 public class GetCookieTask

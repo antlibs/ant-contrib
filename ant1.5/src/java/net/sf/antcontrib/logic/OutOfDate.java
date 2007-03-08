@@ -43,7 +43,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 *  org.apache.org.apache.tools.ant.taskdefs.UpToDate
 *
 * @author peter reilly
- * @ant.task   name="outofdate"
+ * @ant.task   name="outofdate" category="logic"
 */
 
 public class OutOfDate extends Task implements Condition {

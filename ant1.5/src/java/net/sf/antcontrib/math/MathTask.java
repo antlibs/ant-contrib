@@ -23,7 +23,7 @@ import org.apache.tools.ant.DynamicConfigurator;
  * Task for mathematical operations.
  *
  * @author		inger
- * @ant.task   name="math"
+ * @ant.task   name="math" category="math"
  */
 
 

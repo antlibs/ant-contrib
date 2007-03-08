@@ -25,7 +25,7 @@ import org.apache.tools.ant.types.DataType;
 /***
  * 
  * @author minger
- * @ant.type name="httpstate" onerror="ignore"
+ * @ant.type name="httpstate" onerror="ignore" category="net"
  *
  */
 public class HttpStateType

@@ -29,7 +29,7 @@ import org.apache.tools.ant.util.regexp.Regexp;
  * @author		<additional author>
  *
  * @since
- * @ant.task name="propertyregex"
+ * @ant.task name="propertyregex" category="property"
  *               
  ****************************************************************************/
 

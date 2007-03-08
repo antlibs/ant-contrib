@@ -22,7 +22,7 @@ import org.apache.tools.ant.types.DataType;
 /***
  * 
  * @author minger
- * @ant.type name="httpclient" onerror="ignore"
+ * @ant.type name="httpclient" onerror="ignore" category="net"
  */
 public class HttpClientType
 	extends DataType {

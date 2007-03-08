@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * @author		<additional author>
  *
  * @since
- * @ant.task name="forget"
+ * @ant.task name="forget" category="process"
  *               
  ****************************************************************************/
 

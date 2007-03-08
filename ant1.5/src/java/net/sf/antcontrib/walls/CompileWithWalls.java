@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
  * FILL IN JAVADOC HERE
  *
  * @author Dean Hiller(dean@xsoftware.biz)
- * @ant.task name="compilewithwalls"
+ * @ant.task name="compilewithwalls" category="design"
  */
 public class CompileWithWalls extends Task {
     private boolean setWallsTwice = false;

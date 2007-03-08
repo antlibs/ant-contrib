@@ -21,7 +21,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 /***
  * 
  * @author minger
- * @ant.task   name="headmethod" onerror="ignore"
+ * @ant.task   name="headmethod" onerror="ignore" category="net"
  *
  */
 public class HeadMethodTask

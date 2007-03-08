@@ -69,7 +69,7 @@ import net.sf.antcontrib.util.ThreadPoolThread;
  *
  * </pre>
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
- * @ant.task   name="foreach"
+ * @ant.task   name="foreach" category="logic"
  */
 public class ForEach extends Task
 {

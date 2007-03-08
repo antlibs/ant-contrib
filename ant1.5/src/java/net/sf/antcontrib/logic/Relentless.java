@@ -29,7 +29,7 @@ import java.util.Vector;
  *
  * @author  Christopher Heiny
  * @version $Id: Relentless.java 12 2006-08-09 17:48:45Z mattinger $
- * @ant.task   name="relentless"
+ * @ant.task   name="relentless" category="logic"
  */
 public class Relentless extends Task implements TaskContainer {
     /** We keep the list of tasks we will execute here.

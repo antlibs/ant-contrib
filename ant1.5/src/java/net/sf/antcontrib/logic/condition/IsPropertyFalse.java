@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.condition.IsFalse;
  *
  * @author     Dale Anson, danson@germane-software.com
  * @version $Revision: 1.3 $
- * @ant.type name="ispropertyfalse"
+ * @ant.type name="ispropertyfalse" category="logic"
  */
 public class IsPropertyFalse extends IsFalse {
     

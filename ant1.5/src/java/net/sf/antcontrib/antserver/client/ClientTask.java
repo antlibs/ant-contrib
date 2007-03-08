@@ -45,7 +45,7 @@ import net.sf.antcontrib.antserver.commands.ShutdownCommand;
  * @author		<additional author>
  *
  * @since
- * @ant.task   name="remoteant"
+ * @ant.task   name="remoteant" category="server"
  *
  ****************************************************************************/
 

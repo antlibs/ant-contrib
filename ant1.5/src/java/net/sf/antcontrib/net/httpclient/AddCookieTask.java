@@ -25,7 +25,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="addcookie" onerror="ignore"
+ * @ant.task   name="addcookie" onerror="ignore" category="net"
  *
  */
 public class AddCookieTask

@@ -34,7 +34,7 @@ import org.apache.tools.ant.types.Reference;
  * @author		<additional author>
  *
  * @since
- * @ant.task name="sortlist"
+ * @ant.task name="sortlist" category="property"
  *
  ****************************************************************************/
 

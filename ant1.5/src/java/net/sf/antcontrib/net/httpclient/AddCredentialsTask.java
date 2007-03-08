@@ -24,7 +24,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="addcredentials" onerror="ignore"
+ * @ant.task   name="addcredentials" onerror="ignore" category="net"
  *
  */
 public class AddCredentialsTask

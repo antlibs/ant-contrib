@@ -20,7 +20,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="clearcredentials" onerror="ignore"
+ * @ant.task   name="clearcredentials" onerror="ignore" category="net"
  *
  */
 public class ClearCredentialsTask

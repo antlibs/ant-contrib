@@ -51,7 +51,7 @@ import org.apache.tools.ant.BuildException;
  * </pre>
  *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
- * @ant.task name="propertycopy"
+ * @ant.task name="propertycopy" category="property"
  */
 public class PropertyCopy
         extends AbstractPropertySetterTask

@@ -84,7 +84,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
- * @ant.task   name="switch"
+ * @ant.task   name="switch" category="logic"
  */
 public class Switch extends Task
 {

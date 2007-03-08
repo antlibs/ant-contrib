@@ -23,7 +23,7 @@ import org.apache.tools.ant.types.Path;
 
 /**
  * @author dhiller
- * @ant.task   name="verifydesign"
+ * @ant.task   name="verifydesign" category="design"
  */
 public class VerifyDesign
         extends Task

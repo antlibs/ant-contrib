@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.condition.IsTrue;
  *
  * @author     Dale Anson, danson@germane-software.com
  * @version $Revision: 1.3 $
- * @ant.type name="ispropertytrue"
+ * @ant.type name="ispropertytrue" category="logic"
  */
 public class IsPropertyTrue extends IsTrue {
 

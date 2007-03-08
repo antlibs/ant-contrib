@@ -105,7 +105,7 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * </code></pre>
  *
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
- * @ant.task   name="if"
+ * @ant.task   name="if" category="logic"
  */
 public class IfTask extends ConditionBase {
 

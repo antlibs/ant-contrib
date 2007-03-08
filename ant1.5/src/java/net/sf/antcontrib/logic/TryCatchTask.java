@@ -116,7 +116,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
  * @author <a href="mailto:RITCHED2@Nationwide.com">Dan Ritchey</a>
- * @ant.task   name="trycatch"
+ * @ant.task   name="trycatch" category="logic"
  */
 public class TryCatchTask extends Task {
 

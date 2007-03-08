@@ -20,7 +20,7 @@ import org.apache.tools.ant.BuildException;
 /***
  * 
  * @author minger
- * @ant.task   name="clearcookies" onerror="ignore"
+ * @ant.task   name="clearcookies" onerror="ignore" category="net"
  *
  */
 public class ClearCookiesTask

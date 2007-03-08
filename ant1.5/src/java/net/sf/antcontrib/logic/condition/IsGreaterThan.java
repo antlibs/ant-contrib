@@ -26,7 +26,7 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
  *
  * @author     Dale Anson, danson@germane-software.com
  * @version $Revision: 1.4 $
- * @ant.type name="isgreaterthan"
+ * @ant.type name="isgreaterthan" category="logic"
  */
 public class IsGreaterThan extends Equals {
 

@@ -172,10 +172,7 @@
 			    <fileset refid="inherited-1.6" />
 			</filesets>
 		</tasks-xml>
-	</target>
-	
-	
-	<target name="jar" depends="compile">
+
 		<fileset id="inherit-1.5-classes"
 			     dir="ant1.5/target/classes">
 			<exclude name="net/sf/antcontrib/logic/For*.class" />
@@ -192,6 +189,10 @@
 			<exclude name="net/sf/antcontrib/logic/ant16/AntCallback*.class" />
 			<exclude name="net/sf/antcontrib/logic/ant16/ProjectDelegate*.class" />
 		</fileset>
+	</target>
+	
+	
+	<target name="jar" depends="compile">
 
 		<make-jar config="ant1.5" />
 
@@ -286,6 +287,57 @@
 	                <include name="*.tar.gz"/>
 	            </fileset>
 	        </checksum>
+	</target>
+	
+	<macrodef name="xdocs">
+	    <attribute name="config" />
+		<element name="additional-source-files" optional="true" />
+		<element name="additional-classpath" optional="true" />
+    	<sequential>
+    		<taskdef name="antdoclet"
+    		        classname="org.apache.ant.xdoclet.AntDocletTask">
+    			<classpath>
+    			    <path refid="build.classpath" />
+    				<pathelement location="@{config}/target/classes" />
+    				<additional-classpath />
+    				<path refid="@{config}.provided.path" />
+    			</classpath>
+    		</taskdef>
+
+           	<mkdir dir="@{config}/target/xdocs" />
+    		<antdoclet destdir="@{config}/target/xdocs"
+    		           excludedtags="@version,@author"
+    		           force="true"
+    		           mergedir="@{config}/src/xdocs">
+    			<fileset dir="@{config}/src/java" />
+    			<additional-source-files />
+    			<taskdescriptor />
+    		</antdoclet>
+   		</sequential>
+	</macrodef>
+		
+	<target name="xdocs" depends="compile">
+		<xdocs config="ant1.5" />
+
+		<xdocs config="ant1.6">
+			<additional-source-files>
+				<fileset refid="inherited-1.5" />
+			</additional-source-files>
+		    <additional-classpath>
+		    	<pathelement location="ant1.5/target/classes" />
+		    </additional-classpath>
+		</xdocs>
+				
+		<xdocs config="ant1.7">
+			<additional-source-files>
+				<fileset refid="inherited-1.5" />
+				<fileset refid="inherited-1.6" />
+			</additional-source-files>
+		    <additional-classpath>
+		    	<pathelement location="ant1.5/target/classes" />
+		    	<pathelement location="ant1.6/target/classes" />
+		    </additional-classpath>
+		</xdocs>		
 	</target>
 		
 	<target name="dist" depends="package">

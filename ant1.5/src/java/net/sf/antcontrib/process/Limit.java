@@ -40,7 +40,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * @author    Robert D. Rice
  * @version   $Revision: 1.6 $
  * @since Ant 1.5
- * @ant.task name="limit"
+ * @ant.task name="limit" category="process"
  */
 public class Limit extends Task implements TaskContainer {
 

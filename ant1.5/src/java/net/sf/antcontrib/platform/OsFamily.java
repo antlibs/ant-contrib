@@ -43,7 +43,7 @@ import org.apache.tools.ant.Task;
  *
  * </pre>
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
- * @ant.task name="osfamily"
+ * @ant.task name="osfamily" category="platform"
  */
 public class OsFamily extends Task
 {
