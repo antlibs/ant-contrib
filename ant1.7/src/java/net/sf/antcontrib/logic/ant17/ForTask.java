@@ -38,7 +38,8 @@ import org.apache.tools.ant.types.ResourceCollection;
  * instead of a target and only works for ant >= 1.7.0
  * @author Peter Reilly
  * @author Matt Inger
- * @ant.task name="for"
+ * @ant.task name="for" category="logic"
+ * @since Ant 1.6
  */
 public class ForTask extends Task {
 
@@ -66,6 +67,11 @@ public class ForTask extends Task {
     public ForTask() {
     }
 
+    /***
+     * Add a resource collection
+     * @param resourceCollection The resource collection to add
+     * @since Ant 1.7
+     */
     public void add(ResourceCollection resourceCollection) {
     	this.resourceCollections.add(resourceCollection);
     }
@@ -142,9 +148,13 @@ public class ForTask extends Task {
     }
 
     /**
+     * Defines the macro which will be executed for each loop iteration.
+     * The macro parameter indicated by the <code>param</code> attribute
+     * will be set with the current loop value.
+     * @ant.attribute group="required"
      * @return a MacroDef#NestedSequential object to be configured
      */
-    public Object createSequential() {
+    public MacroDef.NestedSequential createSequential() {
         macroDef = new MacroDef();
         macroDef.setProject(getProject());
         return macroDef.createSequential();

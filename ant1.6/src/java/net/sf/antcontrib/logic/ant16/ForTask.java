@@ -30,6 +30,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.MacroInstance;
 import org.apache.tools.ant.taskdefs.Parallel;
+import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -40,7 +41,8 @@ import org.apache.tools.ant.types.Path;
  * instead of a target and only works for ant >= 1.6Beta3
  * @author Peter Reilly
  * @author Matt Inger
- * @ant.task name="for"
+ * @ant.task name="for" category="logic"
+ * @since Ant 1.6
  */
 public class ForTask extends Task {
 
@@ -171,9 +173,13 @@ public class ForTask extends Task {
     }
 
     /**
+     * Defines the macro which will be executed for each loop iteration.
+     * The macro parameter indicated by the <code>param</code> attribute
+     * will be set with the current loop value.
+     * @ant.attribute group="required"
      * @return a MacroDef#NestedSequential object to be configured
      */
-    public Object createSequential() {
+    public MacroDef.NestedSequential createSequential() {
         macroDef = new MacroDef();
         macroDef.setProject(getProject());
         return macroDef.createSequential();
@@ -197,6 +203,7 @@ public class ForTask extends Task {
 
     /**
      * Set step attribute.
+     * @param stemp The increment step when using begin and end attributes.
      *
      */
     public void setStep(int step) {
