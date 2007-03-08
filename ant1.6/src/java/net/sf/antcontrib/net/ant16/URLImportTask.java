@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.ancontrib.net.ant16;
+package net.sf.antcontrib.net.ant16;
 
 import java.io.File;
 import java.io.IOException;
