@@ -76,8 +76,8 @@ public class Assert
 	}
 
 	public void execute() {
-		String value = getProject().getProperty("ant.enable.asserts");
-		boolean assertsEnabled = Project.toBoolean(value);
+		String use_asserts = getProject().getProperty("ant.enable.asserts");
+		boolean assertsEnabled = Project.toBoolean(use_asserts);
 		
 		if (assertsEnabled) {
 			if (name != null) {
@@ -107,13 +107,13 @@ public class Assert
 				}
 			}
 			else {
-				if (execute) {
+				if (execute && sequential != null) {
 					this.sequential.execute();
 				}
 			}
 		}
 		else {
-			if (execute) {
+			if (execute && sequential != null) {
 				this.sequential.execute();
 			}			
 		}

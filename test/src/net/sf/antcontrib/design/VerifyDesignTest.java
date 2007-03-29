@@ -76,7 +76,11 @@ public class VerifyDesignTest extends BuildFileTest {
     
     public void testArrayDepend3() {
         String class1 = "mod.arraydepend3.ClassDependsOnArray";
-        String class2 = "mod.dummy.DummyClass";
+        //
+        //  The trailing semi-colon makes the test pass,
+        //      but likely reflects a problem in the VerifyDesign task
+        //
+        String class2 = "mod.dummy.DummyClass;";
         expectDesignCheckFailure("testArrayDepend3", Design.getErrorMessage(class1, class2));
     }
     

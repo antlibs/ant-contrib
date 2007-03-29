@@ -226,6 +226,7 @@
 	      <batchtest>
 	        <fileset dir="${target.test-classes.dir}" excludes="${skip-tests}">
 	          <exclude name="**/antclipse/**" unless="eclipse.present"/>
+	          <exclude name="walls/**"/>
 	        </fileset>
 	      </batchtest>
 	      <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
