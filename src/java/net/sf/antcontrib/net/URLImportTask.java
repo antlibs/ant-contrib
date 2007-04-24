@@ -37,6 +37,7 @@ import fr.jayasoft.ivy.ModuleRevisionId;
 import fr.jayasoft.ivy.filter.FilterHelper;
 import fr.jayasoft.ivy.report.ResolveReport;
 import fr.jayasoft.ivy.repository.Repository;
+import fr.jayasoft.ivy.resolver.CacheResolver;
 import fr.jayasoft.ivy.resolver.FileSystemResolver;
 import fr.jayasoft.ivy.resolver.IvyRepResolver;
 import fr.jayasoft.ivy.resolver.URLResolver;
@@ -199,6 +200,7 @@ public class URLImportTask
 		resolver.setName("default");
 		ivy.addResolver(resolver);
 		ivy.setDefaultResolver(resolver.getName());
+		ivy.addResolver(new CacheResolver());
 		
 		
 		try {
