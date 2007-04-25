@@ -19,12 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.NoRouteToHostException;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -33,24 +28,9 @@ import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
 import org.apache.tools.ant.types.FileSet;
 
-import fr.jayasoft.ivy.Artifact;
-import fr.jayasoft.ivy.DependencyResolver;
-import fr.jayasoft.ivy.Ivy;
-import fr.jayasoft.ivy.IvyContext;
-import fr.jayasoft.ivy.ModuleDescriptor;
-import fr.jayasoft.ivy.ModuleId;
-import fr.jayasoft.ivy.ModuleRevisionId;
 import fr.jayasoft.ivy.ant.IvyCacheFileset;
 import fr.jayasoft.ivy.ant.IvyConfigure;
 import fr.jayasoft.ivy.ant.IvyResolve;
-import fr.jayasoft.ivy.filter.FilterHelper;
-import fr.jayasoft.ivy.report.ResolveReport;
-import fr.jayasoft.ivy.repository.Repository;
-import fr.jayasoft.ivy.resolver.CacheResolver;
-import fr.jayasoft.ivy.resolver.FileSystemResolver;
-import fr.jayasoft.ivy.resolver.IvyRepResolver;
-import fr.jayasoft.ivy.resolver.URLResolver;
-import fr.jayasoft.ivy.util.MessageImpl;
 
 /***
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -248,7 +228,6 @@ public class URLImportTask
 		resolve.setFile(ivyFile);
 		resolve.execute();
 		
-		System.out.println("executing cachefileset");
 		IvyCacheFileset cacheFileSet = new IvyCacheFileset();
 		cacheFileSet.setProject(getProject());
 		cacheFileSet.setLocation(getLocation());
@@ -257,7 +236,6 @@ public class URLImportTask
 		cacheFileSet.init();
 		cacheFileSet.setSetid(org + module + rev + ".fileset");
 		cacheFileSet.execute();
-		System.out.println("executed cachefileset");
 		
 		FileSet fileset =
 			(FileSet) getProject().getReference(org + module + rev + ".fileset");
@@ -277,19 +255,15 @@ public class URLImportTask
 					new MessageImpl() {
 
 						public void endProgress(String arg0) {
-							// TODO Auto-generated method stub
 
 						}
 
 						public void log(String arg0, int arg1) {
 							getProject().log(arg0, arg1);
-							// TODO Auto-generated method stub
 
 						}
 
 						public void progress() {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void rawlog(String arg0, int arg1) {
