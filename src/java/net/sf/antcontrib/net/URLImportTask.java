@@ -54,10 +54,6 @@ public class URLImportTask
 	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
 	
-	public void setVerbose(boolean verbose) {
-		this.verbose = verbose;
-	}
-	
 	public void setModule(String module) {
 		this.module = module;
 	}
