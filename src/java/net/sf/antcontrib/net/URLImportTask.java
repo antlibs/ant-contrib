@@ -189,50 +189,17 @@ public class URLImportTask
 		}
 		
 		configure.execute();
-		
-		File ivyFile = null;
-		FileWriter fw = null;
-		
-		try {
-			ivyFile = File.createTempFile("ivy", ".xml");
-			ivyFile.deleteOnExit();
-			fw = new FileWriter(ivyFile);
-			fw.write("<ivy-module version=\"1.3\">");
-			fw.write("<info organisation=\"org\" module=\"module\" />");
-			fw.write("<dependencies>");
-			fw.write("<dependency org=\"" + org + "\" name=\"" + module + "\" rev=\"" + rev + "\" conf=\"default->" + conf + "\"/>");
-			fw.write("</dependencies>");
-			fw.write("</ivy-module>");
-		}
-		catch (IOException e) {
-			throw new BuildException(e);
-		}
-		finally {
-			try {
-				if (fw != null) {
-					fw.close();
-					fw = null;
-				}
-			}
-			catch (IOException e) {
-				;
-			}
-		}
-		
-		IvyResolve resolve = new IvyResolve();
-		resolve.setProject(getProject());
-		resolve.setLocation(getLocation());
-		resolve.setOwningTarget(getOwningTarget());
-		resolve.setTaskName(getTaskName());
-		resolve.init();
-		resolve.setFile(ivyFile);
-		resolve.execute();
-		
+
 		IvyCacheFileset cacheFileSet = new IvyCacheFileset();
 		cacheFileSet.setProject(getProject());
 		cacheFileSet.setLocation(getLocation());
 		cacheFileSet.setOwningTarget(getOwningTarget());
 		cacheFileSet.setTaskName(getTaskName());
+		cacheFileSet.setInline(true);
+		cacheFileSet.setOrganisation(org);
+		cacheFileSet.setModule(module);
+		cacheFileSet.setRevision(rev);
+		cacheFileSet.setConf(conf);
 		cacheFileSet.init();
 		cacheFileSet.setSetid(org + module + rev + ".fileset");
 		cacheFileSet.execute();
@@ -247,140 +214,6 @@ public class URLImportTask
 		
 		File file = new File(scanner.getBasedir(), files[0]);
 
-		/*
-		MessageImpl oldMsgImpl = IvyContext.getContext().getMessageImpl();
-		
-		if (! verbose) {
-			IvyContext.getContext().setMessageImpl(
-					new MessageImpl() {
-
-						public void endProgress(String arg0) {
-
-						}
-
-						public void log(String arg0, int arg1) {
-							getProject().log(arg0, arg1);
-
-						}
-
-						public void progress() {
-						}
-
-						public void rawlog(String arg0, int arg1) {
-						}
-					}
-			);
-		}
-		Ivy ivy = new Ivy();
-		DependencyResolver resolver = null;
-		Repository rep = null;
-		
-		if (repositoryUrl != null) {
-			resolver = new URLResolver();
-			((URLResolver)resolver).addArtifactPattern(
-					repositoryUrl + "/" + artifactPattern
-					);
-			((URLResolver)resolver).addIvyPattern(
-					repositoryUrl + "/" + ivyPattern
-					);
-			resolver.setName("default");
-		}
-		else if (repositoryDir != null) {
-			resolver = new FileSystemResolver();
-			((FileSystemResolver)resolver).addArtifactPattern(
-					repositoryDir + "/" + artifactPattern
-					);
-			((FileSystemResolver)resolver).addIvyPattern(
-					repositoryDir + "/" + ivyPattern
-					);
-		}
-		else if (ivyConfUrl != null) {
-			try {
-				System.out.println("setting url to " + ivyConfUrl.toExternalForm());
-				System.out.println("protocol=" + ivyConfUrl.getProtocol());
-				System.out.println("path=" + ivyConfUrl.getPath());
-				if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
-					System.out.println("configuring via path");
-					ivy.configure(new File(ivyConfUrl.getPath()));
-				}
-				else {
-					ivy.configure(ivyConfUrl);
-				}
-				System.out.println("configured");
-                resolver = ivy.getDefaultResolver();
-			}
-			catch (IOException e) {
-				throw new BuildException(e);
-			}
-			catch (ParseException e) {
-				throw new BuildException(e);
-			}
-		}
-		else if (ivyConfFile != null) {
-			try {
-				ivy.configure(ivyConfFile);
-			}
-			catch (IOException e) {
-				throw new BuildException(e);
-			}
-			catch (ParseException e) {
-				throw new BuildException(e);
-			}
-		}
-		else {
-			resolver = new IvyRepResolver();
-		}
-		
-		CacheResolver cache = new CacheResolver();
-		cache.setName("cache");
-		
-		if (resolver != null) {
-			resolver.setName("default");
-			ivy.addResolver(resolver);
-			ivy.addResolver(cache);
-			ivy.setDefaultResolver(resolver.getName());
-		}
-		else {
-			ivy.addResolver(cache);
-			ivy.setDefaultResolver("cache");
-		}
-		
-		
-		try {
-		ModuleId moduleId =
-			new ModuleId(org, module);		
-		ModuleRevisionId revId =
-			new ModuleRevisionId(moduleId, rev);
-		
-		ResolveReport resolveReport = ivy.resolve(
-                ModuleRevisionId.newInstance(org, module, rev),
-            new String[] { "*" },
-            false,
-            true,
-            ivy.getDefaultCache(),
-            new Date(),
-            ivy.doValidate(),
-            false,
-            false,
-            FilterHelper.getArtifactTypeFilter(type));
-		
-		if (resolveReport.hasError()) {
-			throw new BuildException("Could not resolve resource for: " +
-					"org=" + org +
-					";module=" + module +
-					";rev=" + rev);
-		}
-
-		ModuleDescriptor desc = resolveReport.getModuleDescriptor();
-		List artifacts = resolveReport.getArtifacts();
-		Artifact artifact = (Artifact) artifacts.get(0);
-		log("Fetched " +
-				artifact.getModuleRevisionId().getOrganisation() + " | " +
-				artifact.getModuleRevisionId().getName() + " | " +
-				artifact.getModuleRevisionId().getRevision());
-		File file = ivy.getArchiveFileInCache(ivy.getDefaultCache(), artifact);
-		*/
-				
 		File importFile = null;
 		
 	    if ("xml".equalsIgnoreCase(type)) {
@@ -408,20 +241,11 @@ public class URLImportTask
 	    	throw new BuildException("Don't know what to do with type: " + type);
 	    }
 		
+	    log("Importing " + importFile.getName(), Project.MSG_INFO);
+	    
 	    super.setFile(importFile.getAbsolutePath());
 	    super.execute();
+
 	    log("Import complete.", Project.MSG_INFO);
-	    /*
-		}
-		catch (ParseException e) {
-			throw new BuildException(e);
-		}
-		catch (IOException e) {
-			throw new BuildException(e);
-		}
-		finally {
-			IvyContext.getContext().setMessageImpl(oldMsgImpl);
-		}
-		*/
 	}
 }
