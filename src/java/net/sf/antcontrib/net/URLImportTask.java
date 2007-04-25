@@ -30,7 +30,6 @@ import org.apache.tools.ant.types.FileSet;
 
 import fr.jayasoft.ivy.ant.IvyCacheFileset;
 import fr.jayasoft.ivy.ant.IvyConfigure;
-import fr.jayasoft.ivy.ant.IvyResolve;
 
 /***
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -48,13 +47,12 @@ public class URLImportTask
 	private String conf = "default";
 	private String type = "jar";
 	private String repositoryUrl;
-	private String repositoryDir;
+	private File repositoryDir;
 	private URL ivyConfUrl;
 	private File ivyConfFile;
 	private String resource = "build.xml";
 	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
-	private boolean verbose = false;
 	
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
@@ -92,7 +90,7 @@ public class URLImportTask
 		this.ivyPattern = ivyPattern;
 	}
 
-	public void setRepositoryDir(String repositoryDir) {
+	public void setRepositoryDir(File repositoryDir) {
 		this.repositoryDir = repositoryDir;
 	}
 
