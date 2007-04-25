@@ -123,7 +123,12 @@ public class URLImportTask
 		configure.init();
 		if (ivyConfUrl != null) {
 			if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
-				configure.setFile(new File(ivyConfUrl.getPath()));
+				String path = ivyConfUrl.getPath();
+				File f = new File(path);
+				if (! f.isAbsolute()) {
+					f = new File(getProject().getBaseDir(), path);
+				}
+				configure.setFile(f);
 			}
 			else {
 				try {
