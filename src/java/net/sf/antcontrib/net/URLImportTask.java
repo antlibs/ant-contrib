@@ -16,16 +16,22 @@
 package net.sf.antcontrib.net;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.NoRouteToHostException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
+import org.apache.tools.ant.types.FileSet;
 
 import fr.jayasoft.ivy.Artifact;
 import fr.jayasoft.ivy.DependencyResolver;
@@ -34,6 +40,9 @@ import fr.jayasoft.ivy.IvyContext;
 import fr.jayasoft.ivy.ModuleDescriptor;
 import fr.jayasoft.ivy.ModuleId;
 import fr.jayasoft.ivy.ModuleRevisionId;
+import fr.jayasoft.ivy.ant.IvyCacheFileset;
+import fr.jayasoft.ivy.ant.IvyConfigure;
+import fr.jayasoft.ivy.ant.IvyResolve;
 import fr.jayasoft.ivy.filter.FilterHelper;
 import fr.jayasoft.ivy.report.ResolveReport;
 import fr.jayasoft.ivy.repository.Repository;
@@ -56,6 +65,7 @@ public class URLImportTask
 	private String org;
 	private String module;
 	private String rev = "latest.integration";
+	private String conf = "default";
 	private String type = "jar";
 	private String repositoryUrl;
 	private String repositoryDir;
@@ -82,6 +92,10 @@ public class URLImportTask
 		this.rev = rev;
 	}
 
+	public void setConf(String conf) {
+		this.conf = conf;
+	}
+	
 	public void setIvyConfFile(File ivyConfFile) {
 		this.ivyConfFile = ivyConfFile;
 	}
@@ -121,6 +135,141 @@ public class URLImportTask
 	public void execute()
 		throws BuildException {
 		
+		IvyConfigure configure = new IvyConfigure();
+		configure.setProject(getProject());
+		configure.setLocation(getLocation());
+		configure.setOwningTarget(getOwningTarget());
+		configure.setTaskName(getTaskName());
+		configure.init();
+		if (ivyConfUrl != null) {
+			if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
+				configure.setFile(new File(ivyConfUrl.getPath()));
+			}
+			else {
+				try {
+					configure.setUrl(ivyConfUrl.toExternalForm());
+				}
+				catch (MalformedURLException e) {
+					throw new BuildException(e);
+				}
+			}
+		}
+		else if (ivyConfFile != null) {
+			configure.setFile(ivyConfFile);
+		}
+		else if (repositoryDir != null ||
+				 repositoryUrl != null) {
+			File temp = null;
+			FileWriter fw = null;
+			
+			try {
+				temp = File.createTempFile("ivyconf", ".xml");
+				temp.deleteOnExit();
+				fw = new FileWriter(temp);
+				fw.write("<ivyconf>");
+				fw.write("<conf defaultResolver=\"default\" />");
+				fw.write("<resolvers>");
+				if (repositoryDir != null) {
+					fw.write("<filesystem name=\"default\">");
+					fw.write("<ivy pattern=\"" + repositoryDir + "/" + ivyPattern + "\"  />");
+					fw.write("<artifact pattern=\"" + repositoryDir + "/" + artifactPattern + "\"  />");
+					fw.write("</filesystem>");
+				}
+				else {
+					fw.write("<url name=\"default\">");
+					fw.write("<ivy pattern=\"" + repositoryUrl + "/" + ivyPattern + "\"  />");
+					fw.write("<artifact pattern=\"" + repositoryUrl + "/" + artifactPattern + "\"  />");
+					fw.write("</url>");
+				}
+				fw.write("</resolvers>");
+	
+				fw.write("<latest-strategies>");
+				fw.write("<latest-revision name=\"latest\"/>");
+				fw.write("</latest-strategies>");
+				fw.write("</ivyconf>");
+				fw.close();
+				fw = null;
+				
+				configure.setFile(temp);
+			}
+			catch (IOException e) {
+				throw new BuildException(e);
+			}
+			finally {
+				try {
+					if (fw != null) {
+						fw.close();
+						fw = null;
+					}
+				}
+				catch (IOException e) {
+					;
+				}
+			}
+		}
+		
+		configure.execute();
+		
+		File ivyFile = null;
+		FileWriter fw = null;
+		
+		try {
+			ivyFile = File.createTempFile("ivy", ".xml");
+			ivyFile.deleteOnExit();
+			fw = new FileWriter(ivyFile);
+			fw.write("<ivy-module version=\"1.3\">");
+			fw.write("<info organisation=\"org\" module=\"module\" />");
+			fw.write("<dependencies>");
+			fw.write("<dependency org=\"" + org + "\" name=\"" + module + "\" rev=\"" + rev + "\" conf=\"default->" + conf + "\"/>");
+			fw.write("</dependencies>");
+			fw.write("</ivy-module>");
+		}
+		catch (IOException e) {
+			throw new BuildException(e);
+		}
+		finally {
+			try {
+				if (fw != null) {
+					fw.close();
+					fw = null;
+				}
+			}
+			catch (IOException e) {
+				;
+			}
+		}
+		
+		IvyResolve resolve = new IvyResolve();
+		resolve.setProject(getProject());
+		resolve.setLocation(getLocation());
+		resolve.setOwningTarget(getOwningTarget());
+		resolve.setTaskName(getTaskName());
+		resolve.init();
+		resolve.setFile(ivyFile);
+		resolve.execute();
+		
+		System.out.println("executing cachefileset");
+		IvyCacheFileset cacheFileSet = new IvyCacheFileset();
+		cacheFileSet.setProject(getProject());
+		cacheFileSet.setLocation(getLocation());
+		cacheFileSet.setOwningTarget(getOwningTarget());
+		cacheFileSet.setTaskName(getTaskName());
+		cacheFileSet.init();
+		cacheFileSet.setSetid(org + module + rev + ".fileset");
+		cacheFileSet.execute();
+		System.out.println("executed cachefileset");
+		
+		FileSet fileset =
+			(FileSet) getProject().getReference(org + module + rev + ".fileset");
+		
+		DirectoryScanner scanner =
+			fileset.getDirectoryScanner(getProject());
+		
+		String files[] = scanner.getIncludedFiles();
+		
+		File file = new File(scanner.getBasedir(), files[0]);
+
+		/*
 		MessageImpl oldMsgImpl = IvyContext.getContext().getMessageImpl();
 		
 		if (! verbose) {
@@ -133,6 +282,7 @@ public class URLImportTask
 						}
 
 						public void log(String arg0, int arg1) {
+							getProject().log(arg0, arg1);
 							// TODO Auto-generated method stub
 
 						}
@@ -150,7 +300,6 @@ public class URLImportTask
 		Ivy ivy = new Ivy();
 		DependencyResolver resolver = null;
 		Repository rep = null;
-		
 		
 		if (repositoryUrl != null) {
 			resolver = new URLResolver();
@@ -173,8 +322,18 @@ public class URLImportTask
 		}
 		else if (ivyConfUrl != null) {
 			try {
-				ivy.configure(ivyConfUrl);
-                                resolver = ivy.getDefaultResolver();
+				System.out.println("setting url to " + ivyConfUrl.toExternalForm());
+				System.out.println("protocol=" + ivyConfUrl.getProtocol());
+				System.out.println("path=" + ivyConfUrl.getPath());
+				if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
+					System.out.println("configuring via path");
+					ivy.configure(new File(ivyConfUrl.getPath()));
+				}
+				else {
+					ivy.configure(ivyConfUrl);
+				}
+				System.out.println("configured");
+                resolver = ivy.getDefaultResolver();
 			}
 			catch (IOException e) {
 				throw new BuildException(e);
@@ -197,10 +356,20 @@ public class URLImportTask
 		else {
 			resolver = new IvyRepResolver();
 		}
-		resolver.setName("default");
-		ivy.addResolver(resolver);
-		ivy.setDefaultResolver(resolver.getName());
-		ivy.addResolver(new CacheResolver());
+		
+		CacheResolver cache = new CacheResolver();
+		cache.setName("cache");
+		
+		if (resolver != null) {
+			resolver.setName("default");
+			ivy.addResolver(resolver);
+			ivy.addResolver(cache);
+			ivy.setDefaultResolver(resolver.getName());
+		}
+		else {
+			ivy.addResolver(cache);
+			ivy.setDefaultResolver("cache");
+		}
 		
 		
 		try {
@@ -236,6 +405,7 @@ public class URLImportTask
 				artifact.getModuleRevisionId().getName() + " | " +
 				artifact.getModuleRevisionId().getRevision());
 		File file = ivy.getArchiveFileInCache(ivy.getDefaultCache(), artifact);
+		*/
 				
 		File importFile = null;
 		
@@ -267,6 +437,7 @@ public class URLImportTask
 	    super.setFile(importFile.getAbsolutePath());
 	    super.execute();
 	    log("Import complete.", Project.MSG_INFO);
+	    /*
 		}
 		catch (ParseException e) {
 			throw new BuildException(e);
@@ -277,5 +448,6 @@ public class URLImportTask
 		finally {
 			IvyContext.getContext().setMessageImpl(oldMsgImpl);
 		}
+		*/
 	}
 }
