@@ -20,7 +20,7 @@
 	<property name="dist.dir" location="dist" />
 	<property name="target.stage.dir" location="${target.dir}/stage" />
 	
-	<target name="init">
+	<target name="init" unless="no-ivy">
         <path id="ivy.lib.path">
             <fileset dir="lib/ivy/jars" includes="ivy-1.3.1.jar"/>
             <fileset dir="lib/commons-cli/jars" includes="commons-cli-1.0.jar"/>
@@ -35,15 +35,15 @@
        	         classpathref="ivy.lib.path"/>
 	</target>
 	
-	<target name="configure" depends="init">
+	<target name="configure" depends="init" unless="no-ivy">
 		<ivy:configure file="ivy-conf.xml" />
     </target>
 		
-	<target name="resolve" depends="configure">
+	<target name="resolve" depends="configure" unless="no-ivy">
 		<ivy:resolve />
     </target>
     
-	<target name="classpath" depends="resolve">
+	<target name="classpath" depends="resolve" unless="no-ivy">
 		<ivy:cachepath id="compile.classpath" type="jar" conf="provided" />
 		<ivy:cachepath id="runtime.classpath" type="jar" conf="default" />
 		<ivy:cachepath id="test.classpath" type="jar" conf="test" />
