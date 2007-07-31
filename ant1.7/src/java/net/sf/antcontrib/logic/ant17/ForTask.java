@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2005 Ant-Contrib project.  All rights reserved.
+ * Copyright (c) 2001-2007 Ant-Contrib project.  All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import org.apache.tools.ant.types.ResourceCollection;
  * Task definition for the for task.  This is based on
  * the foreach task but takes a sequential element
  * instead of a target and only works for ant >= 1.7.0
+ * since it adds support for ResourceCollections.
  * @author Peter Reilly
  * @author Matt Inger
  * @ant.task name="for" category="logic"

@@ -985,3 +985,187 @@ Command-line arguments:  -data /home/minger/tmp/ant-1.7.0-upgrade -os linux -ws 
 
 !ENTRY org.jayasoft.ivyde.eclipse 1 0 2007-03-08 09:51:50.763
 !MESSAGE IvyDE plugin started
+!SESSION 2007-03-08 14:47:41.662 -----------------------------------------------
+eclipse.buildId=M20060921-0945
+java.version=1.4.2_12
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.jayasoft.ivyde.eclipse 1 0 2007-03-08 14:49:17.813
+!MESSAGE starting IvyDE plugin
+
+!ENTRY org.jayasoft.ivyde.eclipse 1 0 2007-03-08 14:49:17.837
+!MESSAGE IvyDE plugin started
+!SESSION 2007-04-13 13:41:44.662 -----------------------------------------------
+eclipse.buildId=M20060921-0945
+java.version=1.4.2_12
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/minger/tmp/ant-1.7.0-upgrade -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2007-04-13 13:41:47.931
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 13:41:47.931
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.command.RunGroovyConsole', categoryId='org.codehaus.groovy.eclipse.editor.category.rundebug'
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 13:41:47.932
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.debug.ui.testShortcut.debug', categoryId='org.eclipse.debug.ui.category.debug'
+
+!ENTRY org.eclipse.jdt.core 4 4 2007-04-13 14:05:55.625
+!MESSAGE JavaBuilder handling CoreException
+!STACK 1
+org.eclipse.core.runtime.CoreException: File not found: /home/minger/tmp/ant-1.7.0-upgrade/ant1.6/target/classes/net/sf/antcontrib/net/ant16/URLImportTask$1.class.
+	at org.eclipse.core.internal.filesystem.Policy.error(Policy.java:60)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.openInputStream(LocalFile.java:327)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:609)
+	at org.eclipse.core.internal.resources.File.getContents(File.java:290)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsByteArray(Util.java:1005)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileCheck(IncrementalImageBuilder.java:796)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileBytes(IncrementalImageBuilder.java:769)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.writeClassFile(AbstractImageBuilder.java:651)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.acceptResult(AbstractImageBuilder.java:181)
+	at org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:417)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:300)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.compile(IncrementalImageBuilder.java:292)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:237)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.build(IncrementalImageBuilder.java:120)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildDeltas(JavaBuilder.java:260)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:185)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:603)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:167)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:230)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:233)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:252)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:285)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:145)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:208)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:58)
+org.eclipse.core.runtime.CoreException[271]: java.io.FileNotFoundException: /home/minger/tmp/ant-1.7.0-upgrade/ant1.6/target/classes/net/sf/antcontrib/net/ant16/URLImportTask$1.class (No such file or directory)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.openInputStream(LocalFile.java:318)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:609)
+	at org.eclipse.core.internal.resources.File.getContents(File.java:290)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsByteArray(Util.java:1005)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileCheck(IncrementalImageBuilder.java:796)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileBytes(IncrementalImageBuilder.java:769)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.writeClassFile(AbstractImageBuilder.java:651)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.acceptResult(AbstractImageBuilder.java:181)
+	at org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:417)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:300)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.compile(IncrementalImageBuilder.java:292)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:237)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.build(IncrementalImageBuilder.java:120)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildDeltas(JavaBuilder.java:260)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:185)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:603)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:167)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:230)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:233)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:252)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:285)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:145)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:208)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:58)
+!SUBENTRY 1 org.eclipse.core.filesystem 4 271 2007-04-13 14:05:55.628
+!MESSAGE File not found: /home/minger/tmp/ant-1.7.0-upgrade/ant1.6/target/classes/net/sf/antcontrib/net/ant16/URLImportTask$1.class.
+!STACK 0
+java.io.FileNotFoundException: /home/minger/tmp/ant-1.7.0-upgrade/ant1.6/target/classes/net/sf/antcontrib/net/ant16/URLImportTask$1.class (No such file or directory)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.openInputStream(LocalFile.java:318)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:609)
+	at org.eclipse.core.internal.resources.File.getContents(File.java:290)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsByteArray(Util.java:1005)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileCheck(IncrementalImageBuilder.java:796)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.writeClassFileBytes(IncrementalImageBuilder.java:769)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.writeClassFile(AbstractImageBuilder.java:651)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.acceptResult(AbstractImageBuilder.java:181)
+	at org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:417)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:300)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.compile(IncrementalImageBuilder.java:292)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:237)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.build(IncrementalImageBuilder.java:120)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildDeltas(JavaBuilder.java:260)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:185)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:603)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:167)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:230)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:233)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:252)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:285)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:145)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:208)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:58)
+!SESSION 2007-04-13 14:05:59.802 -----------------------------------------------
+eclipse.buildId=M20060921-0945
+java.version=1.4.2_12
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2007-04-13 14:06:07.332
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 14:06:07.332
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.command.RunGroovyConsole', categoryId='org.codehaus.groovy.eclipse.editor.category.rundebug'
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 14:06:07.332
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.debug.ui.testShortcut.debug', categoryId='org.eclipse.debug.ui.category.debug'
+
+!ENTRY org.eclipse.jdt.core 4 4 2007-04-13 14:07:48.067
+!MESSAGE JavaBuilder handling ImageBuilderInternalException while building: ant1.5
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while copying resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.copy(FileSystemResourceManager.java:185)
+	at org.eclipse.core.internal.resources.Resource.copy(Resource.java:489)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder$4.visit(BatchImageBuilder.java:257)
+	at org.eclipse.core.internal.resources.Resource$1.visitElement(Resource.java:57)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:81)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:85)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:85)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:85)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:85)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.iterate(ElementTreeIterator.java:126)
+	at org.eclipse.core.internal.resources.Resource.accept(Resource.java:67)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.copyExtraResourcesBack(BatchImageBuilder.java:226)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:158)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:45)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:249)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:169)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:603)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:167)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:230)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:233)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:252)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:285)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:145)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:208)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:58)
+!SUBENTRY 1 org.eclipse.core.resources 4 1 2007-04-13 14:07:48.069
+!MESSAGE Problems encountered while copying resources.
+!SUBENTRY 2 org.eclipse.core.resources 4 368 2007-04-13 14:07:48.069
+!MESSAGE Resource /ant1.5/src/java/net/sf/antcontrib/antlib.xml does not exist.
+!SESSION 2007-04-13 15:03:06.609 -----------------------------------------------
+eclipse.buildId=M20060921-0945
+java.version=1.4.2_12
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2007-04-13 15:03:14.149
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 15:03:14.149
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.command.RunGroovyConsole', categoryId='org.codehaus.groovy.eclipse.editor.category.rundebug'
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-04-13 15:03:14.150
+!MESSAGE Commands should really have a category: plug-in='org.codehaus.groovy.eclipse', id='org.codehaus.groovy.eclipse.debug.ui.testShortcut.debug', categoryId='org.eclipse.debug.ui.category.debug'

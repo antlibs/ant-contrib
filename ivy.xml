@@ -42,6 +42,10 @@
                     name="ivy"
                     rev="1.4.1"
                     conf="ant1.6,ant1.7->default" />
+        <dependency org="sourceforge"
+                    name="cglib-nodep"
+                    rev="2.1_3"
+                    conf="ant1.6,ant1.7->default" />
         <dependency org="apache"
                     name="ant"
                     rev="1.5.4"

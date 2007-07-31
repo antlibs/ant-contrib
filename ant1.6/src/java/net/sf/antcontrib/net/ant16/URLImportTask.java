@@ -47,7 +47,6 @@ import fr.jayasoft.ivy.util.MessageImpl;
  * or a .zip/.jar, in which case we download and extract the entire archive, and
  * import the file "build.xml"
  * @author inger
- * @ant.task name="importurl" onerror="ignore"
  *
  */
 public class URLImportTask
