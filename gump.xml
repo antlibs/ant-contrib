@@ -1,0 +1,60 @@
+<!--
+ Licensed to the Ant-Contrib Project under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The Ant-Contrib Project licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+-->
+<!DOCTYPE project [
+<!ENTITY prologue SYSTEM "ant-prologue.xml">
+<!ENTITY body SYSTEM "ant-body.xml">
+]>
+<project
+	name="ant-contrib"
+	default="dist"
+	basedir=".">
+
+     &prologue;
+	 
+	<property name="m2_repo" location="${user.home}/.m2/repository"/>
+	<property name="bcel.version" value="5.1"/>
+	<property name="bcel.jar" value="${m2_repo}/bcel/bcel/${bcel.version}/bcel-${bcel.version}.jar"/>
+	<property name="httpclient.version" value="3.0.1"/>
+	<property name="httpclient.jar" value="${m2_repo}/commons-httpclient/commons-httpclient/${httpclient.version}/commons-httpclient-${httpclient.version}.jar"/>
+	<property name="ivy.version" value="1.4.1"/>
+	<property name="ivy.jar" value="lib/ivy/jars/ivy-${ivy.version}.jar"/>
+	<property name="junit.version" value="3.8.1"/>
+	<property name="junit.jar" value="${m2_repo}/junit/junit/${junit.version}/junit-${junit.version}.jar"/>
+	<property name="ant.version" value="1.6.5"/>
+	<property name="ant.jar" value="${m2_repo}/ant/ant/${ant.version}/ant-${ant.version}.jar"/>
+
+	
+	<path id="compile.classpath">
+	    <pathelement location="${bcel.jar}"/>
+	    <pathelement location="${httpclient.jar}"/>
+	    <pathelement location="${ivy.jar}"/>
+	    <pathelement location="${ant.jar}"/>
+	</path>
+	
+	<path id="test.classpath">
+	    <path refid="compile.classpath"/>
+		<pathelement location="${junit.jar}"/>
+	</path>
+
+	<fileset id="runtime.fileset" dir="lib"/>
+
+	<target name="classpath">
+	</target>
+	
+	&body;
+</project>
