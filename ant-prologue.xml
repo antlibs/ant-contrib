@@ -18,8 +18,9 @@
 	<property file="build.properties" />
 	
 	<property name="root.dir" location="." />
-	<property name="src.dir" location="src" />
+	<property name="src.dir" location="src/main" />
 	<property name="src.java.dir" location="${src.dir}/java" />
+	<property name="src.resources.dir" location="${src.dir}/resources" />
 	<property name="test.dir" location="test" />
 	<property name="test.src.dir" location="${test.dir}/src" />
 	<property name="test.resources.dir" location="${test.dir}/resources" />

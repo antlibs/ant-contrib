@@ -27,7 +27,7 @@
 		  />
 		
 		<copy todir="${target.classes.dir}">
-		    <fileset dir="${src.java.dir}"
+		    <fileset dir="${src.resources.dir}"
 		             includes="**/*.properties,**/*.xml" />
 		</copy>
     </target>
