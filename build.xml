@@ -269,7 +269,14 @@
 	</target>
 	
 	<target name="run-test" depends="compile-tests, jar">
-	    <junit haltonfailure="false" haltonerror="false"
+		<property name="lib.dir" location="lib" />
+		<pathconvert pathsep="${path.separator}"
+		             dirsep="/"
+			         property="tpath">
+			<path refid="test.classpath" />
+		</pathconvert>
+
+		<junit haltonfailure="false" haltonerror="false"
 	           errorproperty="junit.error" failureproperty="junit.failure">
 	      <formatter type="brief" usefile="false"/>
 	      <batchtest>
@@ -279,6 +286,7 @@
 	        </fileset>
 	      </batchtest>
 	      <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
+		  <sysproperty key="test.classpath" value="${tpath}"/>
 		  <classpath>
 			  <path refid="test.classpath" />
 			  <pathelement location="${target.classes.dir}" />
