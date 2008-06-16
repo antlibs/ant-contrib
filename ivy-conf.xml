@@ -1,5 +1,5 @@
 <ivy-conf>
-  <properties file="build.properties" />
+  <properties file="${ivy.conf.dir}/build.properties" />
   
   <conf defaultResolver="default-resolver" checkUpToDate="true" />
   

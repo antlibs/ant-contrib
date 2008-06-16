@@ -18,7 +18,7 @@
                     conf="default->default" />
         <dependency org="apache"
                     name="ant"
-                    rev="1.6.5"
+                    rev="1.7.0"
                     conf="provided->default" />
         <dependency org="apache"
                     name="xercesImpl"
@@ -31,6 +31,10 @@
         <dependency org="apache"
                     name="commons-logging"
                     rev="1.0.4"
+                    conf="default->default" />
+        <dependency org="apache"
+                    name="ivy"
+                    rev="2.0.0-rc1"
                     conf="default->default" />
         <dependency org="jayasoft"
                     name="ivy"
