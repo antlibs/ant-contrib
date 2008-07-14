@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.ivy.ant.IvyAntSettings;
+import org.apache.ivy.ant.IvyConfigure;
 import org.apache.ivy.ant.IvyCacheFileset;
 import org.apache.tools.ant.BuildException;
 
@@ -14,7 +14,7 @@ public class Ivy20Adapter
 	implements IvyAdapter {
 
 	public void configure(URLImportTask task) {
-		IvyAntSettings configure = new IvyAntSettings();
+		IvyConfigure configure = new IvyConfigure();
 		configure.setProject(task.getProject());
 		configure.setLocation(task.getLocation());
 		configure.setOwningTarget(task.getOwningTarget());
