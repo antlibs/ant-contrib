@@ -20,7 +20,7 @@ public class Ivy20Adapter
 		configure.setOwningTarget(task.getOwningTarget());
 		configure.setTaskName(task.getTaskName());
         configure.setOverride("true");
-        configure.setId("urlimporttask");
+        configure.setSettingsId("urlimporttask");
 		configure.init();
 		
 		URL ivyConfUrl = task.getIvyConfUrl();
