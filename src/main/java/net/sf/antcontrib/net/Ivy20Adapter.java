@@ -104,6 +104,7 @@ public class Ivy20Adapter
 			}
 		}
 		
+		//task.getProject().addReference("urlimporttask", configure);
 		configure.execute();
 	}
 

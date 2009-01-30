@@ -43,7 +43,7 @@
 	<property name="bcel.jar" value="${m2_repo}/bcel/bcel/${bcel.version}/bcel-${bcel.version}.jar"/>
 	<property name="httpclient.version" value="3.0.1"/>
 	<property name="httpclient.jar" value="${m2_repo}/commons-httpclient/commons-httpclient/${httpclient.version}/commons-httpclient-${httpclient.version}.jar"/>
-	<property name="ivy.version" value="1.4.1"/>
+	<property name="ivy.version" value="2.0.0"/>
 	<property name="ivy.jar" value="lib/ivy/jars/ivy-${ivy.version}.jar"/>
 	<property name="junit.version" value="3.8.1"/>
 	<property name="junit.jar" value="${m2_repo}/junit/junit/${junit.version}/junit-${junit.version}.jar"/>

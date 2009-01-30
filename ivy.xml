@@ -34,7 +34,7 @@
                     conf="default->default" />
         <dependency org="apache"
                     name="ivy"
-                    rev="2.0.0-rc1"
+                    rev="2.0.0"
                     conf="default->default" />
         <dependency org="jayasoft"
                     name="ivy"
