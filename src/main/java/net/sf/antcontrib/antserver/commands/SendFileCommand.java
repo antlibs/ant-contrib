@@ -127,9 +127,9 @@ public class SendFileCommand
         if (tofile != null)
         {
             dest = new File(project.getBaseDir(), tofile);
-            if (! new File(tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+            if (! dest.getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
                 System.out.println("throwing an exception");
-                throw new SecurityException("The requested filename must be a relative path.");
+                throw new SecurityException("toFile must be a relative path");
             }
         }
         else
@@ -137,8 +137,8 @@ public class SendFileCommand
             dest = new File(project.getBaseDir(), todir);
             dest = new File(dest, fileBaseName);
 
-            if (! new File(todir, tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                throw new SecurityException("The requested filename must be a relative path.");
+            if (! dest.getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+                throw new SecurityException("toDir must be a relative path");
             }
 
         }
