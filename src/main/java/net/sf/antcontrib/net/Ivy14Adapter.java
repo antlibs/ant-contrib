@@ -8,8 +8,8 @@ import java.net.URL;
 
 import org.apache.tools.ant.BuildException;
 
-import fr.jayasoft.ivy.ant.IvyCacheFileset;
-import fr.jayasoft.ivy.ant.IvyConfigure;
+import org.apache.ivy.ant.IvyCacheFileset;
+import org.apache.ivy.ant.IvyConfigure;
 
 public class Ivy14Adapter
 	implements IvyAdapter {
