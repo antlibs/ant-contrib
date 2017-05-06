@@ -23,7 +23,7 @@ import org.apache.tools.ant.BuildException;
 public class ClientParams
 	extends HttpClientParams {
 	private static final long serialVersionUID = -1;
-	
+
 	public void setVersion(String version) {
 		try {
 			setVersion(HttpVersion.parse(version));
@@ -32,7 +32,7 @@ public class ClientParams
 			throw new BuildException(e);
 		}
 	}
-	
+
 	public void addConfiguredDouble(Params.DoubleParam param) {
 		setDoubleParameter(param.getName(), param.getValue());
 	}
@@ -44,11 +44,11 @@ public class ClientParams
 	public void addConfiguredLong(Params.LongParam param) {
 		setLongParameter(param.getName(), param.getValue());
 	}
-	
+
 	public void addConfiguredString(Params.StringParam param) {
 		setParameter(param.getName(), param.getValue());
 	}
-	
+
 	public void setStrict(boolean strict) {
 		if (strict) {
 			makeStrict();
@@ -57,5 +57,5 @@ public class ClientParams
 			makeLenient();
 		}
 	}
-	
+
 }

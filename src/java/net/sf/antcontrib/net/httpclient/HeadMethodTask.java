@@ -25,5 +25,4 @@ public class HeadMethodTask
 		return new PostMethod();
 	}
 
-	
 }

@@ -23,7 +23,7 @@ public class PurgeExpiredCookiesTask
 	extends AbstractHttpStateTypeTask {
 
 	private Date expiredDate;
-	
+
 	public void setExpiredDate(Date expiredDate) {
 		this.expiredDate = expiredDate;
 	}
@@ -37,5 +37,4 @@ public class PurgeExpiredCookiesTask
 		}
 	}
 
-	
 }

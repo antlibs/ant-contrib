@@ -41,11 +41,10 @@ import org.apache.tools.ant.util.FileUtils;
 public class PostMethodTask
 	extends AbstractMethodTask {
 
-	private List parts = new ArrayList();
+	private final List parts = new ArrayList();
 	private boolean multipart;
 	private transient FileInputStream stream;
-	
-	
+
 	public static class FilePartType {
 		private File path;
 		private String contentType = FilePart.DEFAULT_CONTENT_TYPE;
@@ -73,9 +72,9 @@ public class PostMethodTask
 
 		public void setCharSet(String charSet) {
 			this.charSet = charSet;
-		}		
+		}
 	}
-	
+
 	public static class TextPartType {
 		private String name = "";
 		private String value = "";
@@ -112,17 +111,17 @@ public class PostMethodTask
 
 		public void setContentType(String contentType) {
 			this.contentType = contentType;
-		}		
-		
+		}
+
 		public void setText(String text) {
 			this.value = text;
 		}
 	}
-	
+
 	public void addConfiguredFile(FilePartType file) {
 		this.parts.add(file);
 	}
-	
+
 	public void setMultipart(boolean multipart) {
 		this.multipart = multipart;
 	}
@@ -130,7 +129,7 @@ public class PostMethodTask
 	public void addConfiguredText(TextPartType text) {
 		this.parts.add(text);
 	}
-	
+
 	public void setParameters(File parameters) {
 		PostMethod post = getPostMethod();
 		Properties p = new Properties();
@@ -145,7 +144,7 @@ public class PostMethodTask
 	protected HttpMethodBase createNewMethod() {
 		return new PostMethod();
 	}
-	
+
 	private PostMethod getPostMethod() {
 		return ((PostMethod)createMethodIfNecessary());
 	}
@@ -153,11 +152,11 @@ public class PostMethodTask
 	public void addConfiguredParameter(NameValuePair pair) {
 		getPostMethod().setParameter(pair.getName(), pair.getValue());
 	}
-	
+
 	public void setContentChunked(boolean contentChunked) {
 		getPostMethod().setContentChunked(contentChunked);
 	}
-	
+
 	protected void configureMethod(HttpMethodBase method) {
 		PostMethod post = (PostMethod) method;
 
@@ -225,6 +224,5 @@ public class PostMethodTask
 	protected void cleanupResources(HttpMethodBase method) {
 		FileUtils.close(stream);
 	}
-	
-	
+
 }

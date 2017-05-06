@@ -41,8 +41,8 @@ public abstract class AbstractMethodTask
 	private String responseDataProperty;
 	private String statusCodeProperty;
 	private HttpClient httpClient;
-	private List responseHeaders = new ArrayList();
-	
+	private final List responseHeaders = new ArrayList();
+
 	public static class ResponseHeader {
 		private String name;
 		private String property;
@@ -57,30 +57,30 @@ public abstract class AbstractMethodTask
 		}
 		public void setProperty(String property) {
 			this.property = property;
-		}		
+		}
 	}
-	
+
 	protected abstract HttpMethodBase createNewMethod();
-	protected void configureMethod(HttpMethodBase method) {	
+	protected void configureMethod(HttpMethodBase method) {
 	}
-	protected void cleanupResources(HttpMethodBase method) {		
+	protected void cleanupResources(HttpMethodBase method) {
 	}
-	
+
 	public void addConfiguredResponseHeader(ResponseHeader responseHeader) {
 		this.responseHeaders.add(responseHeader);
 	}
-	
+
 	public void addConfiguredHttpClient(HttpClientType httpClientType) {
 		this.httpClient = httpClientType.getClient();
 	}
-	
+
 	protected HttpMethodBase createMethodIfNecessary() {
 		if (method == null) {
 			method = createNewMethod();
 		}
 		return method;
 	}
-	
+
 	public void setResponseDataFile(File responseDataFile) {
 		this.responseDataFile = responseDataFile;
 	}
@@ -115,11 +115,11 @@ public abstract class AbstractMethodTask
 	public void addConfiguredParams(MethodParams params) {
 		createMethodIfNecessary().setParams(params);
 	}
-	
+
 	public void setPath(String path) {
 		createMethodIfNecessary().setPath(path);
 	}
-	
+
 	public void setURL(String url) {
 		try {
 			createMethodIfNecessary().setURI(new URI(url, false));
@@ -128,20 +128,20 @@ public abstract class AbstractMethodTask
 			throw new BuildException(e);
 		}
 	}
-	
+
 	public void setQueryString(String queryString) {
 		createMethodIfNecessary().setQueryString(queryString);
 	}
-	
+
 	public void addConfiguredHeader(Header header) {
 		createMethodIfNecessary().setRequestHeader(header);
 	}
-	
+
 	public void execute() throws BuildException {
 		if (httpClient == null) {
 			httpClient = new HttpClient();
 		}
-		
+
 		HttpMethodBase method = createMethodIfNecessary();
 		configureMethod(method);
 		try {
@@ -152,7 +152,7 @@ public abstract class AbstractMethodTask
 				p.setValue(String.valueOf(statusCode));
 				p.perform();
 			}
-			
+
 			Iterator it = responseHeaders.iterator();
 			while (it.hasNext()) {
 				ResponseHeader header = (ResponseHeader)it.next();
@@ -163,13 +163,13 @@ public abstract class AbstractMethodTask
 					p.setValue(h.getValue());
 					p.perform();
 				}
-				
+
 			}
 			if (responseDataProperty != null) {
 				Property p = (Property)getProject().createTask("property");
 				p.setName(responseDataProperty);
 				p.setValue(method.getResponseBodyAsString());
-				p.perform();				
+				p.perform();
 			}
 			else if (responseDataFile != null) {
 				FileOutputStream fos = null;

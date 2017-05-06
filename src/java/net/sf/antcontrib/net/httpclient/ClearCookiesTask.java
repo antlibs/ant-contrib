@@ -24,5 +24,4 @@ public class ClearCookiesTask
 		stateType.getState().clearCookies();
 	}
 
-	
 }

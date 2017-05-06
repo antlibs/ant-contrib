@@ -23,7 +23,7 @@ import org.apache.tools.ant.BuildException;
 
 public class HostConfig
 	extends HostConfiguration {
-	
+
 	public void setHost(String host) {
 		setHost(host, getPort(), getProtocol());
 	}
@@ -31,11 +31,11 @@ public class HostConfig
 	public void setPort(int port) {
 		setHost(getHost(), port, getProtocol());
 	}
-	
+
 	public void setProtocol(String protocol) {
 		setHost(getHost(), getPort(), protocol);
 	}
-	
+
 	public void setAddress(String address) {
 		try {
 			setLocalAddress(InetAddress.getByName(address));
@@ -44,15 +44,15 @@ public class HostConfig
 			throw new BuildException(e);
 		}
 	}
-	
+
 	public void setProxyHost(String host) {
 		setProxy(host, getProxyPort());
 	}
-	
+
 	public void setProxyPort(int port) {
 		setProxy(getProxyHost(), port);
 	}
-	
+
 	public HostParams createParams() {
 		HostParams params = new HostParams();
 		setParams(params);

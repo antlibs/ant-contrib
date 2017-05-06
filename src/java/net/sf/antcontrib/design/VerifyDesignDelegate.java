@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.sf.antcontrib.design;
 
 import java.io.File;
@@ -50,27 +49,24 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 /**
- * 
- * 
- * 
- * @author dhiller
- * 
+ *
+ * @author Dean Hiller(dean@xsoftware.biz)
+ *
  */
-
 public class VerifyDesignDelegate implements Log {
 
     private File designFile;
-    private Vector paths = new Vector();
+    private final Vector paths = new Vector();
     private boolean isCircularDesign = false;
     private boolean deleteFiles = false;
     private boolean fillInBuildException = false;
     private boolean needDeclarationsDefault = true;
     private boolean needDependsDefault = true;
-    
-    private Task task;
+
+    private final Task task;
     private Design design;
-    private HashSet primitives = new HashSet();
-    private Vector designErrors = new Vector();
+    private final HashSet primitives = new HashSet();
+    private final Vector designErrors = new Vector();
     private boolean verifiedAtLeastOne = false;
 
     public VerifyDesignDelegate(Task task) {
@@ -88,8 +84,7 @@ public class VerifyDesignDelegate implements Log {
     public void addConfiguredPath(Path path) {
 //      Path newPath = new Path(task.getProject());
 //      path.
-        
-        
+
         paths.add(path);
     }
 
@@ -100,7 +95,7 @@ public class VerifyDesignDelegate implements Log {
     }
 
     public void setDesign(File f) {
-        this.designFile = f;          
+        this.designFile = f;
     }
 
     public void setCircularDesign(boolean isCircularDesign) {
@@ -114,11 +109,11 @@ public class VerifyDesignDelegate implements Log {
     public void setFillInBuildException(boolean b) {
         fillInBuildException = b;
     }
-    
+
     public void setNeedDeclarationsDefault(boolean b) {
         needDeclarationsDefault = b;
     }
-    
+
     public void setNeedDependsDefault(boolean b) {
         needDependsDefault = b;
     }
@@ -126,7 +121,7 @@ public class VerifyDesignDelegate implements Log {
     public void execute() {
         if(!designFile.exists() || designFile.isDirectory())
             throw new BuildException("design attribute in verifydesign element specified an invalid file="+designFile);
-        
+
         verifyJarFilesExist();
 
         try {
@@ -156,7 +151,7 @@ public class VerifyDesignDelegate implements Log {
             //this is because you end up with false unused errors if you don't do this.
             if(designErrors.isEmpty())
                 design.fillInUnusedPackages(designErrors);
-            
+
             if (! designErrors.isEmpty()) {
                 log(designErrors.size()+"Errors.", Project.MSG_WARN);
                 if(!fillInBuildException)
@@ -189,8 +184,8 @@ public class VerifyDesignDelegate implements Log {
         } finally {
 
         }
-        
-        if(!verifiedAtLeastOne) 
+
+        if(!verifiedAtLeastOne)
             throw new BuildException("Did not find any class or jar files to verify");
     }
     //some auto builds like cruisecontrol can only report all the
@@ -220,25 +215,25 @@ public class VerifyDesignDelegate implements Log {
 
                 if (!file.exists())
                     throw new BuildException(VisitorImpl.getNoFileMsg(file));
-            }            
+            }
         }
     }
-    
+
     private void maybeDeleteFiles() {
         if (deleteFiles) {
             log("Deleting all class and jar files so you do not get tempted to\n" +
                     "use a jar that doesn't abide by the design(This option can\n" +
                     "be turned off if you really want)", Project.MSG_INFO);
-            
+
             Enumeration pathsEnum = paths.elements();
             Path p = null;
             while (pathsEnum.hasMoreElements()) {
                 p = (Path)pathsEnum.nextElement();
                 deleteFilesInPath(p);
-            }           
+            }
         }
     }
-    
+
     private void deleteFilesInPath(Path p) {
         String files[] = p.list();
         for (int i=0;i<files.length;i++) {
@@ -248,9 +243,9 @@ public class VerifyDesignDelegate implements Log {
             if (! deleted) {
                 file.deleteOnExit();
             }
-        }       
+        }
     }
-    
+
     private void verifyPathAdheresToDesign(Design d, Path p) throws ClassFormatException, IOException {
         String files[] = p.list();
         for (int i=0;i<files.length;i++) {
@@ -275,7 +270,7 @@ public class VerifyDesignDelegate implements Log {
                 verifyPartOfPath(files[i], file, d);
         }
     }
-    
+
     private void verifyPartOfPath(String fileName, File file, Design d) throws IOException {
         if (fileName.endsWith(".jar") || fileName.endsWith(".war")) {
             JarFile jarFile = new JarFile(file);
@@ -300,12 +295,12 @@ public class VerifyDesignDelegate implements Log {
                 }
             }
             catch (IOException e) {
-                ; //doh!!
+                //doh!!
             }
         }
 
     }
-    
+
     private void verifyJarAdheresToDesign(Design d, JarFile jarFile, File original)
             throws ClassFormatException, IOException {
 
@@ -327,7 +322,7 @@ public class VerifyDesignDelegate implements Log {
                         }
                     }
                     catch (IOException e) {
-                        ; // doh!!!
+                        // doh!!!
                     }
                 }
             }
@@ -338,7 +333,7 @@ public class VerifyDesignDelegate implements Log {
                 jarFile.close();
             }
             catch (IOException e) {
-                ; //doh!!!
+                //doh!!!
             }
         }
     }
@@ -351,10 +346,10 @@ public class VerifyDesignDelegate implements Log {
             ClassParser parser = new ClassParser(in, name);
             JavaClass javaClass = parser.parse();
             className = javaClass.getClassName();
-            
+
             if(!d.needEvalCurrentClass(className))
                 return;
-    
+
             ConstantPool pool = javaClass.getConstantPool();
             processConstantPool(pool);
             VisitorImpl visitor = new VisitorImpl(pool, this, d, task.getLocation());
@@ -362,7 +357,7 @@ public class VerifyDesignDelegate implements Log {
             desc.visit();
         } catch(BuildException e) {
             log(Design.getWrapperMsg(originalClassOrJarFile, e.getMessage()), Project.MSG_ERR);
-            designErrors.addElement(e);         
+            designErrors.addElement(e);
         }
     }
 
@@ -372,18 +367,18 @@ public class VerifyDesignDelegate implements Log {
             log("      constants=null", Project.MSG_VERBOSE);
             return;
         }
-        
-        log("      constants len="+constants.length, Project.MSG_VERBOSE);      
+
+        log("      constants len="+constants.length, Project.MSG_VERBOSE);
         for(int i = 0; i < constants.length; i++) {
             processConstant(pool, constants[i], i);
         }
     }
-    
+
     private void processConstant(ConstantPool pool, Constant c, int i) {
         if(c == null) //don't know why, but constant[0] seems to be always null.
             return;
 
-        log("      const["+i+"]="+pool.constantToString(c)+" inst="+c.getClass().getName(), Project.MSG_DEBUG); 
+        log("      const["+i+"]="+pool.constantToString(c)+" inst="+c.getClass().getName(), Project.MSG_DEBUG);
         byte tag = c.getTag();
         switch(tag) {
             //reverse engineered from ConstantPool.constantToString..
@@ -400,28 +395,28 @@ public class VerifyDesignDelegate implements Log {
             design.checkClass(className);
             break;
         default:
-                
+
         }
     }
-    
+
     private static String getRidOfArray(String className) {
         while(className.startsWith("["))
             className = className.substring(1, className.length());
         return className;
     }
-    
+
     public static String getPackageName(String className) {
         String packageName = Package.DEFAULT;
         int index = className.lastIndexOf(".");
         if(index > 0)
             packageName = className.substring(0, index);
-        //DEANDO: test the else scenario here(it is a corner case)...
+        // TODO: test the else scenario here (it is a corner case)...
 
         return packageName;
     }
-    
+
     public void log(String msg, int level) {
-        //if(level == Project.MSG_WARN || level == Project.MSG_INFO 
+        //if(level == Project.MSG_WARN || level == Project.MSG_INFO
         //      || level == Project.MSG_ERR || level == Project.MSG_VERBOSE)
         //VerifyDesignTest.log(msg);
         task.log(msg, level);

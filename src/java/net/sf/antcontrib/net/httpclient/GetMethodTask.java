@@ -25,5 +25,4 @@ public class GetMethodTask
 		return new PostMethod();
 	}
 
-	
 }

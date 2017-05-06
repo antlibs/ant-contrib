@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-
-/****************************************************************************
+/**
  * Class representing a windows style .ini file.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
+ */
 public class IniFile
 {
-    private List sections;
-    private Map sectionMap;
+    private final List sections;
+    private final Map sectionMap;
 
-    /***
+    /**
      * Create a new IniFile object
      */
     public IniFile()
@@ -44,7 +46,7 @@ public class IniFile
         this.sectionMap = new HashMap();
     }
 
-    /***
+    /**
      * Gets the List of IniSection objects contained in this IniFile
      * @return a List of IniSection objects
      */
@@ -54,16 +56,17 @@ public class IniFile
     }
 
 
-    /***
+    /**
      * Gets the IniSection with the given name
      * @param name the name of the section
+     * @return IniSection
      */
     public IniSection getSection(String name)
     {
         return (IniSection)sectionMap.get(name);
     }
 
-    /***
+    /**
      * Sets an IniSection object.  If a section with the given
      * name already exists, it is replaced with the passed in section.
      * @param section The section to set.
@@ -84,7 +87,7 @@ public class IniFile
         sectionMap.put(section.getName(), section);
     }
 
-    /***
+    /**
      * Removes an entire section from the IniFile
      * @param name The name of the section to remove
      */
@@ -99,7 +102,7 @@ public class IniFile
         }
     }
 
-    /***
+    /**
      * Gets a named property from a specific section
      * @param section The name of the section
      * @param property The name of the property
@@ -121,7 +124,7 @@ public class IniFile
         return value;
     }
 
-    /***
+    /**
      * Sets the value of a property in a given section.  If the section does
      * not exist, it is automatically created.
      * @param section The name of the section
@@ -140,7 +143,7 @@ public class IniFile
         sec.setProperty(new IniProperty(property, value));
     }
 
-    /***
+    /**
      * Removes a property from a section.
      * @param section The name of the section
      * @param property The name of the property
@@ -154,11 +157,11 @@ public class IniFile
         }
     }
 
-    /***
+    /**
      * Writes the current iniFile instance to a Writer object for
      * serialization.
      * @param writer The writer to write to
-     * @throws IOException
+     * @throws IOException on write error
      */
     public void write(Writer writer)
         throws IOException
@@ -173,12 +176,12 @@ public class IniFile
         }
     }
 
-    /***
+    /**
      * Reads from a Reader into the current IniFile instance.  Reading
      * appends to the current instance, so if the current instance has
      * properties, those properties will still exist.
      * @param reader The reader to read from.
-     * @throws IOException
+     * @throws IOException on read error
      */
     public void read(Reader reader)
         throws IOException
@@ -217,8 +220,6 @@ public class IniFile
                     currentSection.setProperty(new IniProperty(name,value));
                 }
             }
-
-
         }
     }
 }

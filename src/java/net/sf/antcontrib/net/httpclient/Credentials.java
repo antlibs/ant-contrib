@@ -59,5 +59,5 @@ public class Credentials {
 	public void setScheme(String scheme) {
 		this.scheme = scheme;
 	}
-	
+
 }

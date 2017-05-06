@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,18 +27,11 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class IniFileTask
         extends Task
 {
@@ -57,18 +50,15 @@ public class IniFileTask
             return section;
         }
 
-
         public void setSection(String section)
         {
             this.section = section;
         }
 
-
         public String getProperty()
         {
             return property;
         }
-
 
         public void setProperty(String property)
         {
@@ -106,8 +96,10 @@ public class IniFileTask
         /**
          * Returns true if the define's if and unless conditions
          * (if any) are satisfied.
+         * @param p Project
+         * @return boolean
          */
-        public boolean isActive(org.apache.tools.ant.Project p)
+        public boolean isActive(Project p)
         {
             if (ifCond != null && p.getProperty(ifCond) == null)
             {
@@ -128,47 +120,47 @@ public class IniFileTask
         }
     }
 
-	public static abstract class IniOperationPropertySetter extends IniOperation
-	{
-		private boolean override;
-		private String resultproperty;
+    public static abstract class IniOperationPropertySetter extends IniOperation
+    {
+        private boolean override;
+        private String resultproperty;
 
-		public IniOperationPropertySetter()
-		{
-			super();
-		}
+        public IniOperationPropertySetter()
+        {
+            super();
+        }
 
-		public void setOverride(boolean override)
-		{
-			this.override = override;
-		}
+        public void setOverride(boolean override)
+        {
+            this.override = override;
+        }
 
-		public void setResultProperty(String resultproperty)
-		{
-			this.resultproperty = resultproperty;
-		}
+        public void setResultProperty(String resultproperty)
+        {
+            this.resultproperty = resultproperty;
+        }
 
-		protected final void setResultPropertyValue(Project project, String value)
-		{
-			if (value != null)
-			{
-				if (override)
-				{
-					if (project.getUserProperty(resultproperty) == null)
-						project.setProperty(resultproperty, value);
-					else
-						project.setUserProperty(resultproperty, value);
-				}
-				else
-				{
-					Property p = (Property)project.createTask("property");
-					p.setName(resultproperty);
-					p.setValue(value);
-					p.execute();
-				}
-			}
-		}
-	}
+        protected final void setResultPropertyValue(Project project, String value)
+        {
+            if (value != null)
+            {
+                if (override)
+                {
+                    if (project.getUserProperty(resultproperty) == null)
+                        project.setProperty(resultproperty, value);
+                    else
+                        project.setUserProperty(resultproperty, value);
+                }
+                else
+                {
+                    Property p = (Property)project.createTask("property");
+                    p.setName(resultproperty);
+                    p.setValue(value);
+                    p.execute();
+                }
+            }
+        }
+    }
 
     public static final class Remove
             extends IniOperationConditional
@@ -196,7 +188,6 @@ public class IniFileTask
         }
     }
 
-
     public final class Set
             extends IniOperationConditional
     {
@@ -208,18 +199,15 @@ public class IniFileTask
             super();
         }
 
-
         public void setValue(String value)
         {
             this.value = value;
         }
 
-
         public void setOperation(String operation)
         {
             this.operation = operation;
         }
-
 
         protected void operate(IniFile file)
         {
@@ -257,58 +245,58 @@ public class IniFileTask
         }
     }
 
-	public final class Exists
-		extends IniOperationPropertySetter
-	{
-		public Exists()
-		{
-			super();
-		}
+    public final class Exists
+        extends IniOperationPropertySetter
+    {
+        public Exists()
+        {
+            super();
+        }
 
-		protected void operate(IniFile file)
-		{
-			boolean exists = false;
-			String secName = getSection();
-			String propName = getProperty();
+        protected void operate(IniFile file)
+        {
+            boolean exists = false;
+            String secName = getSection();
+            String propName = getProperty();
 
-			if (secName == null)
-				throw new BuildException("You must supply a section to search for.");
+            if (secName == null)
+                throw new BuildException("You must supply a section to search for.");
 
-			if (propName == null)
-				exists = (file.getSection(secName) != null);
-			else
-				exists = (file.getProperty(secName, propName) != null);
+            if (propName == null)
+                exists = (file.getSection(secName) != null);
+            else
+                exists = (file.getProperty(secName, propName) != null);
 
-			setResultPropertyValue(getProject(), Boolean.valueOf(exists).toString());
-		}
-	}
+            setResultPropertyValue(getProject(), Boolean.valueOf(exists).toString());
+        }
+    }
 
-	public final class Get
-		extends IniOperationPropertySetter
-	{
-		public Get()
-		{
-			super();
-		}
+    public final class Get
+        extends IniOperationPropertySetter
+    {
+        public Get()
+        {
+            super();
+        }
 
-		protected void operate(IniFile file)
-		{
-			String secName = getSection();
-			String propName = getProperty();
+        protected void operate(IniFile file)
+        {
+            String secName = getSection();
+            String propName = getProperty();
 
-			if (secName == null)
-				throw new BuildException("You must supply a section to search for.");
+            if (secName == null)
+                throw new BuildException("You must supply a section to search for.");
 
-			if (propName == null)
-				throw new BuildException("You must supply a property name to search for.");
+            if (propName == null)
+                throw new BuildException("You must supply a property name to search for.");
 
-			setResultPropertyValue(getProject(), file.getProperty(secName, propName));
-		}
+            setResultPropertyValue(getProject(), file.getProperty(secName, propName));
+        }
     }
 
     private File source;
     private File dest;
-    private Vector operations;
+    private final Vector operations;
 
     public IniFileTask()
     {
@@ -349,12 +337,10 @@ public class IniFileTask
         this.source = source;
     }
 
-
     public void setDest(File dest)
     {
         this.dest = dest;
     }
-
 
     public void execute()
         throws BuildException
@@ -399,7 +385,7 @@ public class IniFileTask
                 }
                 catch (IOException e)
                 {
-                    ; // gulp
+                    // gulp
                 }
             }
         }
@@ -409,7 +395,6 @@ public class IniFileTask
         }
 
     }
-
 
     private IniFile readIniFile(File source)
         throws IOException
@@ -434,7 +419,7 @@ public class IniFileTask
             }
             catch (IOException e)
             {
-                ; // gulp
+                // gulp
             }
         }
 

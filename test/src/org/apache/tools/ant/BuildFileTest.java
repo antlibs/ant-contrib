@@ -474,5 +474,4 @@ public abstract class BuildFileTest extends TestCase {
         }
     }
 
-
 }

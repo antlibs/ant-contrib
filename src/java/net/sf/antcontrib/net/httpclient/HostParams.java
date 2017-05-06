@@ -15,10 +15,10 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
-public class HostParams 
+public class HostParams
 	extends org.apache.commons.httpclient.params.HostParams {
 	private static final long serialVersionUID = -1;
-	
+
 	public void addConfiguredDouble(Params.DoubleParam param) {
 		setDoubleParameter(param.getName(), param.getValue());
 	}
@@ -30,10 +30,9 @@ public class HostParams
 	public void addConfiguredLong(Params.LongParam param) {
 		setLongParameter(param.getName(), param.getValue());
 	}
-	
+
 	public void addConfiguredString(Params.StringParam param) {
 		setParameter(param.getName(), param.getValue());
 	}
-	
 
 }

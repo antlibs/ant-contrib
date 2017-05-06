@@ -15,7 +15,6 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
-
 public class Params {
 	public static class Param {
 		private String name;
@@ -26,9 +25,9 @@ public class Params {
 
 		public void setName(String name) {
 			this.name = name;
-		}		
+		}
 	}
-	
+
 	public static class DoubleParam extends Param{
 		private double value;
 
@@ -39,9 +38,9 @@ public class Params {
 		public void setValue(double value) {
 			this.value = value;
 		}
-		
+
 	}
-	
+
 	public static class BooleanParam extends Param{
 		private boolean value;
 
@@ -52,7 +51,7 @@ public class Params {
 		public void setValue(boolean value) {
 			this.value = value;
 		}
-		
+
 	}
 
 	public static class IntParam extends Param{
@@ -65,7 +64,7 @@ public class Params {
 		public void setValue(int value) {
 			this.value = value;
 		}
-		
+
 	}
 
 	public static class LongParam extends Param{
@@ -78,7 +77,7 @@ public class Params {
 		public void setValue(long value) {
 			this.value = value;
 		}
-		
+
 	}
 
 	public static class StringParam extends Param{
@@ -91,6 +90,6 @@ public class Params {
 		public void setValue(String value) {
 			this.value = value;
 		}
-		
+
 	}
 }
