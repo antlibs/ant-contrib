@@ -37,7 +37,7 @@ public class ConnectionBuildListener
 {
     private Document results;
     private Stack elementStack;
-    private ThreadGroup group;
+    private final ThreadGroup group;
 
     public ConnectionBuildListener()
         throws ParserConfigurationException

@@ -49,7 +49,7 @@ public class ForTask extends Task {
     private boolean    trim;
     private boolean    keepgoing = false;
     private MacroDef   macroDef;
-    private List       hasIterators = new ArrayList();
+    private final List hasIterators = new ArrayList();
     private boolean    parallel = false;
     private Integer    threadCount;
     private Parallel   parallelTasks;
@@ -417,7 +417,7 @@ public class ForTask extends Task {
     }
 
     private static class IteratorIterator implements HasIterator {
-        private Iterator iterator;
+        private final Iterator iterator;
         public IteratorIterator(Iterator iterator) {
             this.iterator = iterator;
         }
@@ -437,7 +437,7 @@ public class ForTask extends Task {
     }
 
     private static class ReflectIterator implements HasIterator {
-        private Object  obj;
+        private final Object  obj;
         private Method  method;
         public ReflectIterator(Object obj) {
             this.obj = obj;

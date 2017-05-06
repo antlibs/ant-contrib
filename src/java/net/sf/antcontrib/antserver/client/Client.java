@@ -38,9 +38,9 @@ import net.sf.antcontrib.antserver.commands.DisconnectCommand;
  */
 public class Client
 {
-    private String machine;
-    private int port;
-    private Project project;
+    private final String machine;
+    private final int port;
+    private final Project project;
 
     public Client(Project project, String machine, int port)
     {

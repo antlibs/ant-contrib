@@ -34,7 +34,7 @@ public class Package {
     //holds the name attribute of the package element of each
     //package this package depends on.
     private List depends;
-    private Set unusedDepends = new HashSet();
+    private final Set unusedDepends = new HashSet();
     private boolean isIncludeSubpackages;
     private boolean needDeclarations;
     private boolean needDepends;

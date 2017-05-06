@@ -22,7 +22,7 @@ package net.sf.antcontrib.util;
  */
 public class ThreadPool
 {
-    private int maxActive;
+    private final int maxActive;
     private int active;
 
     public ThreadPool(int maxActive)

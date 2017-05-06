@@ -31,7 +31,7 @@ import java.util.Vector;
 public class Relentless extends Task implements TaskContainer {
     /** We keep the list of tasks we will execute here.
      */
-    private Vector taskList = new Vector();
+    private final Vector taskList = new Vector();
 
     /** Flag indicating how much output to generate.
      */

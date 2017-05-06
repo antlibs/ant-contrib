@@ -31,7 +31,7 @@ public class PathToFileSet
     private String pathRefId;
     private boolean ignoreNonRelative = false;
 
-    private static FileUtils fileUtils = FileUtils.newFileUtils();
+    private static final FileUtils fileUtils = FileUtils.newFileUtils();
 
     public void setDir(File dir) {
         this.dir = dir;

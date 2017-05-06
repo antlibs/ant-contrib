@@ -27,9 +27,9 @@ import java.util.Map;
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Walls {
-    private List packages = new LinkedList();
-    private Map nameToPackage = new HashMap();
 
+    private final List packages = new LinkedList();
+    private final Map nameToPackage = new HashMap();
 
     public Package getPackage(String name) {
         return (Package)nameToPackage.get(name);

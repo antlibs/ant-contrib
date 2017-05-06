@@ -29,9 +29,9 @@ import org.apache.tools.ant.Project;
 
 public class InstructionVisitor extends EmptyVisitor {
 
-	private ConstantPoolGen poolGen;
-	private Log log;
-	private Design design;
+	private final ConstantPoolGen poolGen;
+	private final Log log;
+	private final Design design;
 
 	/**
 	 * @param poolGen ConstantPoolGen

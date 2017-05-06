@@ -88,7 +88,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
 public class Switch extends Task
 {
     private String value;
-    private Vector cases;
+    private final Vector cases;
     private Sequential defaultCase;
     private boolean caseInsensitive;
 

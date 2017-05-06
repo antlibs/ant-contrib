@@ -48,7 +48,7 @@ public class ClientTask
 {
     private String machine = "localhost";
     private int port = 17000;
-    private Vector commands;
+    private final Vector commands;
     private boolean persistent = false;
     private boolean failOnError = true;
 

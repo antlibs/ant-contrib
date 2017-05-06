@@ -20,7 +20,7 @@ import org.apache.tools.ant.types.Path;
 public class ProjectDelegate
 extends Project {
 
-	private Project delegate;
+	private final Project delegate;
 	private Project subproject;
 
 	public ProjectDelegate(Project delegate) {

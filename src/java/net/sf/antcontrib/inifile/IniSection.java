@@ -33,8 +33,8 @@ public class IniSection
         implements IniPart
 {
     private String name;
-    private List properties;
-    private Map propertyMap;
+    private final List properties;
+    private final Map propertyMap;
 
     /**
      * Default constructor, constructs an IniSection with no name

@@ -31,12 +31,12 @@ import java.util.Vector;
 public class Operation
         implements Evaluateable, DynamicConfigurator {
     private String operation = "add";
-    private Vector operands = new Vector();
+    private final Vector operands = new Vector();
     private String datatype = "double";
     private boolean strict = false;
 
     private boolean hasLocalOperands = false;
-    private Numeric localOperands[] = new Numeric[5];
+    private final Numeric[] localOperands = new Numeric[5];
 
     public void setDynamicAttribute(String s, String s1)
             throws BuildException {

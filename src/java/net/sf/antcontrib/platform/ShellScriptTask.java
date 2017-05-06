@@ -33,7 +33,7 @@ import org.apache.tools.ant.util.FileUtils;
  */
 public class ShellScriptTask extends ExecTask {
 
-    private StringBuffer script = new StringBuffer();
+    private final StringBuffer script = new StringBuffer();
     private String shell = null;
     private File   tmpFile;
     private String tmpSuffix = null;

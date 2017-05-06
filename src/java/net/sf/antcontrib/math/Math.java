@@ -369,10 +369,10 @@ public class Math
                        ops);
     }
 
-    private static final Number doOneDoubleArg(String operation,
-                                               String datatype,
-                                               boolean strict,
-                                               Evaluateable operands[])
+    private static Number doOneDoubleArg(String operation,
+                                         String datatype,
+                                         boolean strict,
+                                         Evaluateable operands[])
     {
         Object ops[] = new Object[]{convert(operands[0].evaluate(),
                                             "double")};

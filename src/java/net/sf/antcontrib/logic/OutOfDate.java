@@ -71,7 +71,7 @@ public class OutOfDate extends Task implements Condition {
     private String value                = "true";
     private boolean force               = false;
     private int    verbosity            = Project.MSG_VERBOSE;
-    private Vector mappers              = new Vector();
+    private final Vector mappers        = new Vector();
     private Path targetpaths            = null;
     private Path sourcepaths            = null;
     private String outputSources        = null;
@@ -85,10 +85,10 @@ public class OutOfDate extends Task implements Condition {
     private int    collection     = CollectionEnum.SOURCES;
 
     // variables
-    private Hashtable targetSet = new Hashtable();
-    private Hashtable sourceSet = new Hashtable();
-    private Hashtable allTargetSet = new Hashtable();
-    private Hashtable allSourceSet = new Hashtable();
+    private final Hashtable targetSet = new Hashtable();
+    private final Hashtable sourceSet = new Hashtable();
+    private final Hashtable allTargetSet = new Hashtable();
+    private final Hashtable allSourceSet = new Hashtable();
 
     /**
      * Set the collection attribute, controls what is

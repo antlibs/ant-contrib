@@ -60,7 +60,7 @@ import org.apache.tools.ant.Task;
 public class PostTask extends Task {
 
     /** Storage for name/value pairs to send. */
-    private Hashtable props = new Hashtable();
+    private final Hashtable props = new Hashtable();
     /** URL to send the name/value pairs to. */
     private URL to = null;
     /** File to read name/value pairs from. */
@@ -86,7 +86,7 @@ public class PostTask extends Task {
     private boolean failOnError = false;
 
     // storage for cookies
-    private static Hashtable cookieStorage = new Hashtable();
+    private static final Hashtable cookieStorage = new Hashtable();
 
     /** connection to the server */
     private URLConnection connection = null;

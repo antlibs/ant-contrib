@@ -42,12 +42,12 @@ import org.apache.tools.ant.Project;
  */
 class VisitorImpl extends EmptyVisitor {
 
-	private ConstantPool pool;
-	private Log log;
-	private Design design;
-	private ConstantPoolGen poolGen;
-	private InstructionVisitor visitor;
-	private Location location;
+	private final ConstantPool pool;
+	private final Log log;
+	private final Design design;
+	private final ConstantPoolGen poolGen;
+	private final InstructionVisitor visitor;
+	private final Location location;
 
 	public VisitorImpl(ConstantPool pool, Log log, Design d, Location loc) {
 		this.pool = pool;

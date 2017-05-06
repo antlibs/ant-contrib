@@ -31,7 +31,7 @@ import org.apache.tools.ant.Project;
 public class Server
         implements Runnable
 {
-    private ServerTask task;
+    private final ServerTask task;
     private int port = 17000;
     private boolean running = false;
     private Thread thread = null;

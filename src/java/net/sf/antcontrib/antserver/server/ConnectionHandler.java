@@ -42,8 +42,8 @@ public class ConnectionHandler
         implements Runnable
 {
     private static long nextGroupId = 0;
-    private ServerTask task;
-    private Socket socket;
+    private final ServerTask task;
+    private final Socket socket;
     private Thread thread;
     private Throwable thrown;
 

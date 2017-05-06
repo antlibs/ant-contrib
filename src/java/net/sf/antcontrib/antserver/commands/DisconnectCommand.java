@@ -30,7 +30,7 @@ public class DisconnectCommand
         extends AbstractCommand
         implements Command
 {
-    public static Command DISCONNECT_COMMAND =
+    public static final Command DISCONNECT_COMMAND =
             new DisconnectCommand();
 
     private DisconnectCommand()

@@ -78,8 +78,8 @@ public class ForEach extends Task
     private String target;
     private boolean inheritAll;
     private boolean inheritRefs;
-    private Vector params;
-    private Vector references;
+    private final Vector params;
+    private final Vector references;
     private Path currPath;
     private boolean parallel;
     private boolean trim;

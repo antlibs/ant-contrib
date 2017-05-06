@@ -24,7 +24,7 @@ public class ThreadPoolThread
         extends Thread
 {
 
-    private ThreadPool pool;
+    private final ThreadPool pool;
     private Runnable runnable;
 
     public ThreadPoolThread(ThreadPool pool)

@@ -28,7 +28,7 @@ public class VerifyDesign
         extends Task
         implements Log {
 
-    private VerifyDesignDelegate delegate;
+    private final VerifyDesignDelegate delegate;
 
     public VerifyDesign() {
         delegate = new VerifyDesignDelegate(this);

@@ -38,15 +38,15 @@ class DesignFileHandler implements ContentHandler {
 
     private Log log = null;
     private File file = null;
-    private boolean isCircularDesign;
+    private final boolean isCircularDesign;
     private boolean needDeclarationsDefault = true;
     private boolean needDependsDefault = true;
 
     private Design design = null;
     private Package currentPackage = null;
-    private Stack stack = new Stack();
+    private final Stack stack = new Stack();
     private Locator locator = null;
-    private Location loc;
+    private final Location loc;
 
     /**
      * @param log Log

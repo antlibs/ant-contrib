@@ -145,9 +145,9 @@ public class IfTask extends ConditionBase {
         }
     }
 
-    private Sequential thenTasks = null;
-    private Vector     elseIfTasks = new Vector();
-    private Sequential elseTasks = null;
+    private Sequential   thenTasks = null;
+    private final Vector elseIfTasks = new Vector();
+    private Sequential   elseTasks = null;
 
     /**
      * A nested Else if task
