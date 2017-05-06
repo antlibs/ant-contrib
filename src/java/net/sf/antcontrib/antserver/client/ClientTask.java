@@ -49,7 +49,7 @@ public class ClientTask
     private String machine = "localhost";
     private int port = 17000;
     private Vector commands;
-    private boolean persistant = false;
+    private boolean persistent = false;
     private boolean failOnError = true;
 
     public ClientTask()
@@ -68,9 +68,9 @@ public class ClientTask
         this.port = port;
     }
 
-    public void setPersistant(boolean persistant)
+    public void setPersistent(boolean persistent)
     {
-        this.persistant = persistant;
+        this.persistent = persistent;
     }
 
     public void setFailOnError(boolean failOnError)
@@ -139,7 +139,7 @@ public class ClientTask
                                 Project.MSG_ERR);
                         log(r.getErrorStackTrace(),
                                 Project.MSG_DEBUG);
-                        if (! persistant)
+                        if (!persistent)
                             keepGoing = false;
                     }
 

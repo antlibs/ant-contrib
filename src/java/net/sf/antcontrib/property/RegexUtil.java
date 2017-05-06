@@ -30,13 +30,13 @@ public class RegexUtil
     /**
      * An arbitrary node in a select expression
      */
-    private static interface SelectNode
+    private interface SelectNode
     {
         /**
          * Select the value based on the groups
          * @param groups The groups found in the match
          */
-        public String select(Vector groups);
+        String select(Vector groups);
     }
 
     /**
@@ -45,7 +45,7 @@ public class RegexUtil
     private static class GroupSelectNode
         implements SelectNode
     {
-        private int groupNumber;
+        private final int groupNumber;
 
         public GroupSelectNode(int groupNumber)
         {
@@ -72,7 +72,7 @@ public class RegexUtil
     private static class StringSelectNode
         implements SelectNode
     {
-        private String text;
+        private final String text;
 
         public StringSelectNode(String text)
         {

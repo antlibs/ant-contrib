@@ -31,6 +31,6 @@ public interface IniPart
      * @param writer The writer to write to
      * @throws IOException when something goes wrong
      */
-    public void write(Writer writer)
+    void write(Writer writer)
         throws IOException;
 }

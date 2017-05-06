@@ -151,7 +151,7 @@ public class ConnectionHandler
 
                 if (inputCommand.getResponseContentLength() != 0)
                 {
-                    Util.transferBytes(inputCommand.getReponseContentStream(),
+                    Util.transferBytes(inputCommand.getResponseContentStream(),
                             inputCommand.getResponseContentLength(),
                             os,
                             true);

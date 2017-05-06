@@ -46,16 +46,14 @@ public abstract class AbstractCommand
         return 0;
     }
 
-    public InputStream getReponseContentStream() throws IOException
+    public InputStream getResponseContentStream()
     {
         return null;
     }
 
     public boolean respond(Project project,
                            long contentLength,
-                           InputStream contentStream)
-            throws IOException
-    {
+                           InputStream contentStream) {
         return false;
     }
 }

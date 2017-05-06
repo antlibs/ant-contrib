@@ -34,14 +34,14 @@ public interface Command
      * are invalid.
      * @param project Project
      */
-    public void validate(Project project);
+    void validate(Project project);
 
     /**
      * Is there additional content being sent from the local
      * machine to the remote server
      * @return long
      */
-    public long getContentLength();
+    long getContentLength();
 
     /**
      * Gets the content's input stream.  Should be called only on the
@@ -49,12 +49,12 @@ public interface Command
      * @return the content's input stream.
      * @throws IOException when something goes wrong
      */
-    public InputStream getContentStream() throws IOException;
+    InputStream getContentStream() throws IOException;
 
+    long getResponseContentLength();
 
-    public long getResponseContentLength();
+    InputStream getResponseContentStream();
 
-    public InputStream getReponseContentStream() throws IOException;
     /**
      * Execute the command.
      * @param project The project which is being executed
@@ -63,9 +63,9 @@ public interface Command
      * @return If true, the connection will be closed
      * @throws Throwable when something goes wrong
      */
-    public boolean execute(Project project,
-                           long contentLength,
-                           InputStream contentStream)
+    boolean execute(Project project,
+                    long contentLength,
+                    InputStream contentStream)
         throws Throwable;
 
     /**
@@ -75,9 +75,8 @@ public interface Command
      * @param contentStream InputStream
      * @return boolean
      */
-    public boolean respond(Project project,
-                           long contentLength,
-                           InputStream contentStream)
-        throws IOException;
+    boolean respond(Project project,
+                    long contentLength,
+                    InputStream contentStream);
 
 }

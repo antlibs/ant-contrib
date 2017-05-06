@@ -21,5 +21,5 @@ package net.sf.antcontrib.design;
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public interface Log {
-	public void log(String s, int level);
+	void log(String s, int level);
 }
