@@ -3,14 +3,13 @@
   <head>
     <title>Ant-contrib Tasks: IniFile</title>
   </head>
-
   <body>
     <h1>IniFile</h1>
-
-    <p>Build and Edit Windows .ini files.  Only the simple edits,
-       <code>remove</code> and <code>set</code> are allowed.  Set
-       has limited computation capability which is described later.</p>
-
+    <p>
+      Build and Edit Windows .ini files.  Only the simple edits,
+      <code>remove</code> and <code>set</code> are allowed.  Set has
+      limited computation capability which is described later.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -29,10 +28,7 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-
-
     <h2>Parameters specified as nested elements</h2>
-
     <code>remove</code>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -48,11 +44,11 @@
       <tr>
         <td valign="top">property</td>
         <td valign="top">The name property.</td>
-        <td align="center" valign="top">No. If not supplied, the entire
-           section will be removed</td>
+        <td align="center" valign="top">
+	  No. If not supplied, the entire section will be removed
+	</td>
       </tr>
     </table>
-
     <code>set</code>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -73,25 +69,25 @@
       <tr>
         <td valign="top">value</td>
         <td valign="top">The value to set the property to.</td>
-        <td align="center" valign="top">No, if
-           <code>operation</code> is specified.</td>
+        <td align="center" valign="top">
+	  No, if <code>operation</code> is specified.
+	</td>
       </tr>
       <tr>
         <td valign="top">operation</td>
-        <td valign="top">The operation to perform on the existing value.
-           Possible values are "+" and "-", which add and subtract 1,
-           respectively from the existing value.  If the value doesn't
-           already exist, the set is not performed.</td>
-        <td align="center" valign="top">No, if <code>value</code>
-           is specified.</td>
+        <td valign="top">
+	  The operation to perform on the existing value.  Possible
+          values are "+" and "-", which add and subtract 1,
+          respectively from the existing value.  If the value doesn't
+          already exist, the set is not performed.
+	</td>
+        <td align="center" valign="top">
+	  No, if <code>value</code> is specified.
+	</td>
       </tr>
     </table>
-
     <h2>Example</h2>
-
-
-
-<pre><code>
+    <pre><code>
 
 &lt;inifile source="myprog.ini" dest="myprog.new.ini"&gt;
    &lt;set section="Section1" property="release-date" value="${todays.date}" />
@@ -100,11 +96,10 @@
    &lt;remove section="OutdatedSection" />
 &lt;/inifile&gt;
 </code></pre>
-
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

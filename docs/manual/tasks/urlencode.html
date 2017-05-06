@@ -3,15 +3,15 @@
   <head>
     <title>Ant-contrib Tasks: URLEncode</title>
   </head>
-
   <body>
     <h1>Foreach</h1>
-
-    <p>The URLEncode task will encode a given property for use within a
-    a URL string.   This value which is actually set will be encoded
-    via the <code>java.net.URLEncoder.encode()</code> method.
-    Typically, you must do this for all parameter values within a URL.</p>
-
+    <p>
+      The URLEncode task will encode a given property for use within a
+      a URL string.  This value which is actually set will be encoded
+      via the <code>java.net.URLEncoder.encode()</code> method.
+      Typically, you must do this for all parameter values within a
+      URL.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -26,15 +26,18 @@
       </tr>
       <tr>
         <td valign="top">override</td>
-        <td valign="top">If the property is already set, should we change it's value.
-            Can be <code>true</code> or <code>false</code></td>
+        <td valign="top">
+	  If the property is already set, should we change it's value.
+          Can be <code>true</code> or <code>false</code>
+	</td>
         <td align="center" valign="top">No. Defaults to <code>false</code></td>
       </tr>
       <tr>
         <td valign="top">name <i>Deprecated</i></td>
         <td valign="top">The name of the property to set.</td>
-        <td align="center" valign="top">No.  Use the <code>property</code> attribute
-            instead</td>
+        <td align="center" valign="top">
+	  No.  Use the <code>property</code> attribute instead
+	</td>
       </tr>
       <tr>
         <td valign="top">value</td>
@@ -43,36 +46,37 @@
       </tr>
       <tr>
         <td valign="top">location</td>
-        <td valign="top">The location of a file whose absolute path will be the value
-        of the property.</td>
+        <td valign="top">
+	  The location of a file whose absolute path will be the value
+          of the property.
+	</td>
         <td align="center" valign="top">No, if value or refid is specified.</td>
       </tr>
       <tr>
         <td valign="top">refid</td>
-        <td valign="top">The id of a saved reference whose value will be the value
-        of the property.</td>
+        <td valign="top">
+	  The id of a saved reference whose value will be the value of
+          the property.
+	</td>
         <td align="center" valign="top">No, defaults to &quot;,&quot;.</td>
       </tr>
     </table>
-
-
     <h2>Example</h2>
-
-
-    The following code
-
-    <pre>
-    <code>
+    <p>
+      The following code
+    </p>
+    <pre><code>
     &lt;urlencode name="file.location" location="C:\\wwwhome\\my reports\\report.xml" /&gt;
-    </code>
-    </pre>
-
-    would set the "file.location" property to the value: <code> C%3A%5Cwwwhome%5Cmy+reports%5Creport.xml</code>
-    which could then be used in a URL.
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+</code></pre>
+    <p>
+      would set the "file.location" property to the value: <code>
+      C%3A%5Cwwwhome%5Cmy+reports%5Creport.xml</code> which could then
+      be used in a URL.
+    </p>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

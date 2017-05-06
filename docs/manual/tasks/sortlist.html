@@ -3,14 +3,14 @@
   <head>
     <title>Ant-contrib Tasks: SortList</title>
   </head>
-
   <body>
     <h1>SortList</h1>
-
-    <p>Sort a delimited list of items in their natural string order.  Note that
-    the <code>value</code> and <code>refid</code> attributes are mutually exclusive,
-    and the <code>value</code> attribute takes precedence if both are specified.</p>
-
+    <p>
+      Sort a delimited list of items in their natural string order.
+      Note that the <code>value</code> and <code>refid</code>
+      attributes are mutually exclusive, and the <code>value</code>
+      attribute takes precedence if both are specified.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -25,87 +25,96 @@
       </tr>
       <tr>
         <td valign="top">override</td>
-        <td valign="top">If the property is already set, should we change it's value.
-            Can be <code>true</code> or <code>false</code></td>
+        <td valign="top">
+	  If the property is already set, should we change it's value.
+          Can be <code>true</code> or <code>false</code>
+	</td>
         <td align="center" valign="top">No. Defaults to <code>false</code></td>
       </tr>
       <tr>
         <td valign="top">value</td>
-        <td valign="top">The list of values to process, with the
-        delimiter character, indicated by the &quot;delimiter&quot;
-        attribute, separating each value.</td>
-        <td align="center" valign="top">Yes, unless &quot;refid&quot; is
-            specified.</td>
+        <td valign="top">
+	  The list of values to process, with the delimiter character,
+          indicated by the &quot;delimiter&quot; attribute, separating
+          each value.
+	</td>
+        <td align="center" valign="top">
+	  Yes, unless &quot;refid&quot; is specified.
+	</td>
       </tr>
       <tr>
         <td valign="top">refid</td>
-        <td valign="top">The id of where the list of values to sort is
-           stored.</td>
-        <td align="center" valign="top">Yes, unless &quot;value&quot; is
-            specified.</td>
+        <td valign="top">
+	  The id of where the list of values to sort is stored.
+	</td>
+        <td align="center" valign="top">
+	  Yes, unless &quot;value&quot; is specified.
+	</td>
       </tr>
       <tr>
         <td valign="top">delimiter</td>
-        <td valign="top">The delimiter string that separates the
-        values in the &quot;list&quot; attribute.</td>
+        <td valign="top">
+	  The delimiter string that separates the values in the
+          &quot;list&quot; attribute.
+	</td>
         <td align="center" valign="top">No, defaults to &quot;,&quot;.</td>
       </tr>
       <tr>
         <td valign="top">casesensitive</td>
-        <td valign="top">If <code>true</code>, does a case sensitive sorting
-           of the strings.  If <code>false</code> does case insensitive sorting.
+        <td valign="top">
+	  If <code>true</code>, does a case sensitive sorting of the
+          strings.  If <code>false</code> does case insensitive
+          sorting.
         </td>
         <td align="center" valign="top">No. Defaults to true.</td>
       </tr>
       <tr>
         <td valign="top">numeric</td>
-        <td valign="top">If <code>true</code>, does a numeric sorting, treating
-           all list entries as if they were numbers.
+        <td valign="top">
+	  If <code>true</code>, does a numeric sorting, treating all
+          list entries as if they were numbers.
         </td>
         <td align="center" valign="top">No. Defaults to false.</td>
       </tr>
-
       <tr>
         <td valign="top">orderPropertyFile</td>
-        <td valign="top">If specified, the list will sorted as if they were property
-            names, and will be sorted in the order those properties appear
-            in the given property file.  Any properties in the
-            <code>value</code> attribute which do not appear in the properties file
-            will be inserted at the end of the list.  This property is most useful
-            when used in conjunction with the <code>&lt;propertyselector&gt;</code>
-            task (see Example 2).
+        <td valign="top">
+	  If specified, the list will sorted as if they were property
+          names, and will be sorted in the order those properties
+          appear in the given property file.  Any properties in
+          the <code>value</code> attribute which do not appear in the
+          properties file will be inserted at the end of the list.
+          This property is most useful when used in conjunction with
+          the <code>&lt;propertyselector&gt;</code> task (see Example
+          2).
         </td>
         <td align="center" valign="top">No.</td>
       </tr>
-
       <tr>
         <td valign="top">orderPropertyFilePrefix</td>
-        <td valign="top">If <code>orderPropertyFile</code> is specified, this
-            value (with a trailing '.') will be prefixed to each property in the
-            specified <code>orderPropertyFile</code> to determine sorting order
+        <td valign="top">
+	  If <code>orderPropertyFile</code> is specified, this value
+          (with a trailing '.') will be prefixed to each property in
+          the specified <code>orderPropertyFile</code> to determine
+          sorting order
         </td>
         <td align="center" valign="top">No.</td>
       </tr>
-
     </table>
-
-    <hr />
-
+    <hr/>
     <h2>Example 1</h2>
-    <pre>
-    <code>
+    <pre><code>
     &lt;property name="my.list" value="z,y,x,w,v,u,t" /&gt;
     &lt;sortlist property="my.sorted.list" value="${my.list}"
                  delimiter="," /&gt;
     &lt;echo message="${my.sorted.list}" /&gt;
-    </code>
-
-    prints
-
+</code></pre>
+    <p>
+      prints
+    </p>
     <code>
      [echo] t,u,v,w,x,y,z
     </code>
-
     <h2>Example 2</h2>
     <pre>
     test.properties
@@ -127,19 +136,23 @@
                  orderPropertyFilePrefix="test" /&gt;
 
     &lt;echo message="${my.sorted.list}" /&gt;
-
-    prints
-
+</code></pre>
+    <p>
+      prints
+    </p>
     <code>
      [echo] test.a.name,test.c.name,test.b.name
     </code>
-
-    Notice that the <code>test.properties</code> file did not have "test."
-    prefixing all the properties.  The <code>orderPropertyFilePrefix</code> was
-    used to do that.
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+    <p>
+      Notice that the <code>test.properties</code> file did not have
+      "test."  prefixing all the
+      properties. The <code>orderPropertyFilePrefix</code> was used to
+      do that.
+    </p>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

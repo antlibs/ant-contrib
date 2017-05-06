@@ -3,14 +3,12 @@
   <head>
     <title>Ant-contrib Tasks: Pathtofileset</title>
   </head>
-
   <body>
     <h1>Pathtofileset</h1>
-
-    <p>Coverts a path to a fileset. This is usefull if you have
-      a path but need to use a fileset as input in a ant task.
-      </p>
-
+    <p>
+      Coverts a path to a fileset. This is usefull if you have a path
+      but need to use a fileset as input in a ant task.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -30,24 +28,27 @@
       </tr>
       <tr>
         <td valign="top">ignorenonrelative</td>
-        <td valign="top">This boolean controls what will happen if any of the
-          files in the path are not in the directory for the fileset. If this
-          is "true" the files are ignored, if this is "false" a build exception
-          is thrown. (Note: if files are not present no check is made).
+        <td valign="top">
+	  This boolean controls what will happen if any of the files
+          in the path are not in the directory for the fileset. If
+          this is "true" the files are ignored, if this is "false" a
+          build exception is thrown. (Note: if files are not present
+          no check is made).
         </td>
         <td align="center" valign="top">No, default is "false"</td>
       </tr>
       <tr>
         <td valign="top">name</td>
-        <td valign="top">This is the identifier of the fileset to create. This
-          fileset will contain the files that are relative to the directory root.
-          Any files that are not present will not be placed in the set.
+        <td valign="top">
+	  This is the identifier of the fileset to create. This
+          fileset will contain the files that are relative to the
+          directory root.  Any files that are not present will not be
+          placed in the set.
         </td>
         <td align="center" valign="top">Yes</td>
       </tr>
     </table>
-  </body>
-  <h2>Example</h2>
+    <h2>Example</h2>
     <pre>
     &lt;outofdate outputsourcespath="modified.sources.path"&gt;
       &lt;sourcefiles&gt;
@@ -64,10 +65,10 @@
         &lt;/copy&gt;
       &lt;/sequential&gt;
     &lt;/outofdate&gt;
-    </pre>
-
-    <hr>
-    <p align="center">Copyright &copy; 2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+</pre>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+  </body>
 </html>

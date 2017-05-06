@@ -3,12 +3,10 @@
   <head>
     <title>Ant-contrib Tasks: Http Tasks</title>
   </head>
-
   <body>
     <h1>GetCookie</h1>
     The &lt;getCookie&gt; task allows the caller to retrieve one or
     more cookies from an &lt;httpState&gt; reference.
-    
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -39,8 +37,9 @@
       <tr>
         <td valign="top">name</td>
         <td valign="top">The name of the cookie to retrieve.</td>
-        <td align="center" valign="top">No.  If not specified,
-            multiple cookies may be found.</td>
+        <td align="center" valign="top">
+	  No.  If not specified, multiple cookies may be found.
+	</td>
       </tr>
       <tr>
         <td valign="top">cookiePolicy</td>
@@ -49,29 +48,30 @@
       </tr>
       <tr>
         <td valign="top">property</td>
-        <td valign="top">The property to retrieve the cookie into.
-           This will only retrieve
-           the first cookie found which matches the query.  If no 'name'
-           attribute is specified, there is no guarantee you will get
-           the cookie you are expecting.</td>
+        <td valign="top">
+	  The property to retrieve the cookie into.  This will only
+          retrieve the first cookie found which matches the query.  If
+          no 'name' attribute is specified, there is no guarantee you
+          will get the cookie you are expecting.
+	</td>
         <td align="center" valign="top">No, unless 'prefix' is not specified.</td>
       </tr>
       <tr>
         <td valign="top">prefix</td>
-        <td valign="top">The prefix to use when settings properties for
-           the cookies.  One property will be set for each cookie, where
-           the property name will be of the pattern: ${prefix}${cookie.name}
-           where ${cookie.name} is the name of the cookie.</td>
+        <td valign="top">
+	  The prefix to use when settings properties for the cookies.
+          One property will be set for each cookie, where the property
+          name will be of the pattern: ${prefix}${cookie.name} where
+          ${cookie.name} is the name of the cookie.
+	</td>
         <td align="center" valign="top">No, unless 'property' is not specified.</td>
       </tr>
     </table>
-
     <h2>Examples</h2>
-
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

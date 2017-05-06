@@ -3,13 +3,13 @@
   <head>
     <title>Ant-contrib Tasks: Http Tasks</title>
   </head>
-
   <body>
     <h1>HttpState</h1>
-    The &lt;httpState&gt; type allows the caller to create an HttpState
-    instance, and add it as a reference, or be nested as a subelement of
-    an &lt;httpClient&gt; element.
-    
+    <p>
+      The &lt;httpState&gt; type allows the caller to create an
+      HttpState instance, and add it as a reference, or be nested as a
+      subelement of an &lt;httpClient&gt; element.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -28,14 +28,12 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    
     <h2>Parameters specified as Nested Elements</h2>
-    
-    <br />
-    <br />
-    <b>&lt;cookie&gt;</b><br />
     <p>
-    Create a cookie.
+      <b>&lt;cookie&gt;</b>
+    </p>
+    <p>
+      Create a cookie.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -94,12 +92,11 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    
-    <br />
-    <br />
-    <b>&lt;credentials&gt;</b><br />
     <p>
-    Create authentication credentials.
+      <b>&lt;credentials&gt;</b>
+    </p>
+    <p>
+      Create authentication credentials.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -138,33 +135,23 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-
-
-    <br />
-    <br />
-    <b>&lt;proxyCredentials&gt;</b><br />
     <p>
-    Create proxy authentication credentials.
+      <b>&lt;proxyCredentials&gt;</b>
+    </p>
+    <p>
+      Create proxy authentication credentials.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>Identitical to &lt;credentials&gt; element.</th>
       </tr>
     </table>
-
     <h2>Examples</h2>
-
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
-    <pre>
-    <code>
+    <pre><code>
     &lt;httpState id="myState"&gt;
        &lt;cookie name="loginId" value="username" realm="sourceforge.net" /&gt;
     &lt;/httpState&gt;
-    
+
     &lt;httpClient id="myClient" stateRefId="myState" /&gt;
 
     &lt;httpClient id="myClient&gt;
@@ -172,7 +159,11 @@
         &lt;cookie name="loginId" value="username" realm="sourceforge.net" /&gt;
       &lt;/httpState&gt;
     &lt;/httpClient&gt;
-    </code>
-    </pre>
+</code></pre>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

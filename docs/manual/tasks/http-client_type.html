@@ -3,13 +3,13 @@
   <head>
     <title>Ant-contrib Tasks: Http Tasks</title>
   </head>
-
   <body>
     <h1>HttpClient</h1>
-    The &lt;httpClient&gt; type allows the caller to create an HttpClient
-    instance, and add it as a reference, or be nested as a subelement of
-    an HTTP method call.
-    
+    <p>
+      The &lt;httpClient&gt; type allows the caller to create an
+      HttpClient instance, and add it as a reference, or be nested as
+      a subelement of an HTTP method call.
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -33,14 +33,12 @@
         <td align="center" valign="top">No. Uses a default HttpState.</td>
       </tr>
     </table>
-    
     <h2>Parameters specified as Nested Elements</h2>
-    
-    <br />
-    <br />
-    <b>&lt;clientParams&gt;</b><br />
     <p>
-    Create http client params.
+      <b>&lt;clientParams&gt;</b>
+    </p>
+    <p>
+      Create http client params.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -94,12 +92,14 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    
-    Additional <b>&lt;clientParams&gt;</b> subelements:<br />
-    &lt;double&gt;,&lt;int&gt;,&lt;long&gt;,&lt;boolean&gt;
-    ,&lt;string&gt; <br />
     <p>
-    Create a client parameter.
+      Additional <b>&lt;clientParams&gt;</b> subelements:
+    </p>
+    <p>
+      &lt;double&gt;,&lt;int&gt;,&lt;long&gt;,&lt;boolean&gt;,&lt;string&gt;
+    </p>
+    <p>
+      Create a client parameter.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -118,14 +118,12 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-    
-    <br />
-    <br />
-    <b>&lt;hostConfig&gt;</b><br />
     <p>
-    Create a host configuration.
+      <b>&lt;hostConfig&gt;</b>
     </p>
-
+    <p>
+      Create a host configuration.
+    </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>Attribute</th>
@@ -163,48 +161,48 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    <br />
-    <br />
-    Additional <b>&lt;hostConfig&gt;</b> subelements:<br />
-    &lt;hostParams&gt;<br />
     <p>
-    Specify HostParams.
+      Additional <b>&lt;hostConfig&gt;</b> subelements:
+    </p>
+    <p>
+      &lt;hostParams&gt;
+    </p>
+    <p>
+      Specify HostParams.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
-        <th>&lt;hostParams&gt; subelements are identical to those of
-           &lt;clientParams&gt;</th>
+        <th>
+	  &lt;hostParams&gt; subelements are identical to those of
+          &lt;clientParams&gt;
+	</th>
       </tr>
     </table>
-
-    <br />
-    <br />
-    <b>&lt;httpState&gt;</b> <br />
     <p>
-    Create (or reference an existing) HttpState
-    for use with this HTTP client.  This is necessary if you wish
-    to enable authentication, or retain state across multiple method calls.
+      <b>&lt;httpState&gt;</b>
+    </p>
+    <p>
+      Create (or reference an existing) HttpState for use with this
+      HTTP client.  This is necessary if you wish to enable
+      authentication, or retain state across multiple method calls.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
-        <th>Please see the <a href="http-state_type.html">httpState</a>
-            documentation for more details on this element</th>
+        <th>
+	  Please see the <a href="http-state_type.html">httpState</a>
+          documentation for more details on this element</th>
       </tr>
     </table>
-
     <h2>Examples</h2>
-
-    <pre>
-    <code>
+    <pre><code>
     &lt;httpClient id="client1"&gt;
         &lt;clientParams cookiePolicy="RFC_2109" /&gt;
     &lt;/httpClient&gt;
-    </code>
-    </pre>
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+</code></pre>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
   </body>
 </html>

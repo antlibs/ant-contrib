@@ -3,15 +3,14 @@
   <head>
     <title>Ant-contrib Tasks: Http Tasks</title>
   </head>
-
   <body>
     <h1>*Method</h1>
-    The &lt;method&gt; tasks allows the caller to use the various
-    HTTP methods (current GET, HEAD and POST are supported).  These
-    methods have some common attributes, and sub-elements which are
-    are as shown below:
-
-
+    <p>
+      The &lt;method&gt; tasks allows the caller to use the various
+      HTTP methods (current GET, HEAD and POST are supported).  These
+      methods have some common attributes, and sub-elements which are
+      are as shown below:
+    </p>
     <h2>Parameters</h2>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -22,31 +21,41 @@
       <tr>
         <td valign="top"><i>url</i></td>
         <td valign="top">The url that is being called.</td>
-        <td align="center" valign="top">No, if the client host configuration is
-          defined, and the path attribute is specified.</td>
+        <td align="center" valign="top">
+	  No, if the client host configuration is defined, and the
+          path attribute is specified.
+	</td>
       </tr>
       <tr>
         <td valign="top"><i>path</i></td>
-        <td valign="top">The path which we are going to connect to.  If this is used,
-          you must declare an httpClient subelement, or set the clientRefId attribute
-          for an HttpClient instance with configured host parameters.</td>
+        <td valign="top">
+	  The path which we are going to connect to.  If this is used,
+          you must declare an httpClient subelement, or set the
+          clientRefId attribute for an HttpClient instance with
+          configured host parameters.
+	</td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top"><i>queryString</i></td>
-        <td valign="top">The queryString which we are posting to.  If this is used,
-          you must declare an httpClient subelement, or set the clientRefId attribute
-          for an HttpClient instance with configured host parameters.</td>
+        <td valign="top">
+	  The queryString which we are posting to.  If this is used,
+          you must declare an httpClient subelement, or set the
+          clientRefId attribute for an HttpClient instance with
+          configured host parameters.
+	</td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top"><i>clientRefId</i></td>
-        <td valign="top">The reference id of a previously declared
-            &lt;httpClient&gt; data type instance.  This is necessary
-            if you want to retain state (cookies) across multiple requests,
-            or you want specific client configuration and host configuration
-            parameters.  If not specified, we create a new &lt;httpClient&gt;
-            with the default settings.</td>
+        <td valign="top">
+	  The reference id of a previously declared &lt;httpClient&gt;
+          data type instance.  This is necessary if you want to retain
+          state (cookies) across multiple requests, or you want
+          specific client configuration and host configuration
+          parameters.  If not specified, we create a new
+          &lt;httpClient&gt; with the default settings.
+	</td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
@@ -67,10 +76,11 @@
       <tr>
         <td valign="top"><i>doAuthentication</i></td>
         <td valign="top">Should we perform authentication.</td>
-        <td align="center" valign="top">No.  If set, you must
-        either declare an &lt;httpClient&gt; instance, or set the
-        clientRefId attribute for an HttpClient which has credentials
-        installed into it.</td>
+        <td align="center" valign="top">
+	  No.  If set, you must either declare an &lt;httpClient&gt;
+          instance, or set the clientRefId attribute for an HttpClient
+          which has credentials installed into it.
+	</td>
       </tr>
       <tr>
         <td valign="top"><i>followRedirects</i></td>
@@ -78,31 +88,30 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    
     <h2>Parameters specified as Nested Elements</h2>
-    
-    <br />
-    <br />
-
-    <b>&lt;httpClient&gt;</b> <br />
     <p>
-    Create (or reference an existing) HttpClient
-    for use with this HTTP method call.  This is necessary if you wish
-    to configure the client beyond the default settings, enable
-    authentication, or retain state across multiple method calls.
+      <b>&lt;httpClient&gt;</b>
+    </p>
+    <p>
+      Create (or reference an existing) HttpClient for use with this
+      HTTP method call.  This is necessary if you wish to configure
+      the client beyond the default settings, enable authentication,
+      or retain state across multiple method calls.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
-        <th>Please see the <a href="http-client_type.html">httpClient</a>
-            documentation for more details on this element</th>
+        <th>
+	  Please see
+          the <a href="http-client_type.html">httpClient</a>
+          documentation for more details on this element
+	</th>
       </tr>
     </table>
-
-    <br />
-    <br />
-    <b>&lt;header&gt;</b><br />
     <p>
-    Create a request header to be sent.
+      <b>&lt;header&gt;</b>
+    </p>
+    <p>
+      Create a request header to be sent.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -121,12 +130,11 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-
-    <br />
-    <br />
-    <b>&lt;responseHeader&gt;</b><br />
     <p>
-    Specify a response header to be retrieved into a property.
+      <b>&lt;responseHeader&gt;</b>
+    </p>
+    <p>
+      Specify a response header to be retrieved into a property.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -145,12 +153,11 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-
-    <br />
-    <br />
-    <b>&lt;params&gt;</b><br />
     <p>
-    Create http method paramaters.
+      <b>&lt;params&gt;</b>
+    </p>
+    <p>
+      Create http method paramaters.
     </p>
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -189,17 +196,13 @@
         <td align="center" valign="top">No.</td>
       </tr>
     </table>
-    
-    <br />
-    <br />
-    
-    Additional <b>&lt;params&gt;</b> subelements:<br />
-    &lt;double&gt;,&lt;int&gt;,&lt;long&gt;,&lt;boolean&gt;
-    ,&lt;string&gt; <br />
+    <p>
+      Additional <b>&lt;params&gt;</b> subelements:
+      &lt;double&gt;,&lt;int&gt;,&lt;long&gt;,&lt;boolean&gt;,&lt;string&gt;
+    </p>
     <p>
     Create a method parameter.
     </p>
-    
     <table border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>Attribute</th>
@@ -217,14 +220,11 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-    
-
     <h2>Examples</h2>
-
-
-    <hr>
-    <p align="center">Copyright &copy; 2002-2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All
+      rights Reserved.
+    </p>
   </body>
 </html>

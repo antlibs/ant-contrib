@@ -1,65 +1,55 @@
 <html>
-<head>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>
-Performance Monitoring</title>
-<meta content="DocBook XSL Stylesheets V1.60.1" name="generator">
-<link rel="home" href="index.html" title="Antelope Users Guide">
-<link rel="up" href="bk03.html" title="Additional Ant Tasks">
-<link rel="previous" href="bk03ch16.html" title="Chapter&nbsp;16.&nbsp;Call Task">
-<link rel="next" href="bk03ch18.html" title="Chapter&nbsp;18.&nbsp;Feedback">
-</head>
-<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<div class="chapter" lang="en">
-<div class="titlepage">
-<div>
-<div>
-<h2 class="title">
-<a name="performance">
-</a>
-Performance Monitoring</h2>
-</div>
-</div>
-<div>
-</div>
-</div>
-<p>
-
-The "Performance Monitor" is 
-a special Ant listener than can keep track of the amount of time that each target 
-and task takes to execute. At the end of the build, these times will be sorted 
-from fastest to slowest and displayed following the build output. This can be 
-useful to pinpoint slow and/or inefficient spots in the build process and 
-identify those areas that could benefit from optimization.
-</p>
-<p>
-
-The performance listener can be used by passing a parameter 
-to the command line for Ant:
-</p>
-<p>
-
-<table border="0" bgcolor="#E0E0E0">
-<tr>
-<td>
-<pre class="programlisting">
+  <head>
+    <title>Performance Monitoring</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta content="DocBook XSL Stylesheets V1.60.1" name="generator"/>
+    <link rel="home" href="index.html" title="Antelope Users Guide"/>
+    <link rel="up" href="bk03.html" title="Additional Ant Tasks"/>
+    <link rel="previous" href="bk03ch16.html" title="Chapter&nbsp;16.&nbsp;Call Task"/>
+    <link rel="next" href="bk03ch18.html" title="Chapter&nbsp;18.&nbsp;Feedback"/>
+  </head>
+  <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="chapter" lang="en">
+      <div class="titlepage">
+	<h2 class="title" id="performance">Performance Monitoring</h2>
+      </div>
+      <p>
+	The "Performance Monitor" is a special Ant listener than can
+	keep track of the amount of time that each target and task
+	takes to execute. At the end of the build, these times will be
+	sorted from fastest to slowest and displayed following the
+	build output. This can be useful to pinpoint slow and/or
+	inefficient spots in the build process and identify those
+	areas that could benefit from optimization.
+      </p>
+      <p>
+	The performance listener can be used by passing a parameter to
+	the command line for Ant:
+      </p>
+      <p>
+	<table border="0" bgcolor="#E0E0E0">
+	  <tr>
+	    <td>
+	      <pre class="programlisting">
 
 
     ant -listener net.sf.antcontrib.perf.AntPerformanceListener target
 
 </pre>
-</td>
-</tr>
-</table>
-
-</p>
-<p>
-
-Following is an example of the results from using the listener. The result format is projectname.targetname for targets and projectname.targetname.taskname for tasks. All times are shown to the nearest millisecond. 
-<table border="0" bgcolor="#E0E0E0">
-<tr>
-<td>
-<pre class="programlisting">
+	    </td>
+	  </tr>
+	</table>
+      </p>
+      <p>
+	Following is an example of the results from using the
+	listener. The result format is projectname.targetname for
+	targets and projectname.targetname.taskname for tasks. All
+	times are shown to the nearest millisecond.
+      </p>
+      <table border="0" bgcolor="#E0E0E0">
+	<tr>
+	  <td>
+	    <pre class="programlisting">
 
 
 [danson@blackdog antelope]$ ant -listener net.sf.antcontrib.perf.AntPerformanceListener dist
@@ -146,14 +136,13 @@ Stop time: Thu, 5 Dec 2002 17:18:39
 Total time: 8.476 sec
 
 </pre>
-</td>
-</tr>
-</table>
-
-</p>
-</div>
-    <hr>
-    <p align="center">Copyright &copy; 2003 Ant-Contrib Project. All
-    rights Reserved.</p>
-</body>
+	  </td>
+	</tr>
+      </table>
+    </div>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+  </body>
 </html>
