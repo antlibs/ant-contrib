@@ -137,7 +137,7 @@ public class Package {
 
         if(depends != null) {
             for(int i = 0; i < depends.length; i++) {
-                String buildSpace = (String)depends[i];
+                String buildSpace = depends[i];
 
                 File dependsDir = new File(baseDir, buildSpace);
                 path.setLocation(dependsDir);

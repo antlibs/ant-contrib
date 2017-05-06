@@ -64,9 +64,9 @@ public class ClassPathParser
 		{
 			Location location = new Location(fName.toString(), exc.getLineNumber(), exc.getColumnNumber());
 			Throwable throwable = exc.getException();
-			if ((Object) throwable instanceof BuildException)
+			if (throwable instanceof BuildException)
 			{
-				BuildException be = (BuildException) (Object) throwable;
+				BuildException be = (BuildException) throwable;
 				if (be.getLocation() == Location.UNKNOWN_LOCATION)
 					be.setLocation(location);
 				throw be;
@@ -76,8 +76,8 @@ public class ClassPathParser
 		catch (SAXException exc)
 		{
 			Throwable throwable = exc.getException();
-			if ((Object) throwable instanceof BuildException)
-				throw (BuildException) (Object) throwable;
+			if (throwable instanceof BuildException)
+				throw (BuildException) throwable;
 			throw new BuildException(exc.getMessage(), throwable);
 		}
 		catch (FileNotFoundException exc)
