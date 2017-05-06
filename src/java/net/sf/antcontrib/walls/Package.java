@@ -35,6 +35,7 @@ public class Package {
     private String pack;
 
     //signifies the package did not end with .* or .**
+    @SuppressWarnings("unused")
     private boolean badPackage = false;
     private String failureReason = null;
 
@@ -152,6 +153,7 @@ public class Package {
         pack = pack.replace('.', File.separatorChar);
 
         String match;
+        @SuppressWarnings("unused")
         String classMatch;
         if(pack.endsWith("**")) {
             match  = pack + File.separatorChar+"*"+postFix;

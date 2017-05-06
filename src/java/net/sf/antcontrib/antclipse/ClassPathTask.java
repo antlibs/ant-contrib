@@ -39,6 +39,7 @@ import org.xml.sax.SAXParseException;
  */
 public class ClassPathTask extends Task
 {
+	@SuppressWarnings("unused")
 	private String project;
 	private String idContainer = "antclipse";
 	private boolean includeSource = false; //default, do not include source
@@ -190,6 +191,7 @@ public class ClassPathTask extends Task
 		/**
 		 * nazi style, forbid default constructor
 		 */
+		@SuppressWarnings("unused")
 		private FileSetCustomHandler()
 		{
 		}
@@ -347,6 +349,7 @@ public class ClassPathTask extends Task
 		/**
 		 * nazi style, forbid default constructor
 		 */
+		@SuppressWarnings("unused")
 		private PathCustomHandler()
 		{
 		}

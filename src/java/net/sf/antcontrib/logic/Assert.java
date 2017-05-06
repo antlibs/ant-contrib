@@ -15,9 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.antcontrib.logic.condition.BooleanConditionBase;
 
 import org.apache.tools.ant.BuildException;
@@ -33,7 +30,6 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
 public class Assert
 	extends BooleanConditionBase {
 
-	private List tasks = new ArrayList();
 	private String message;
 	private boolean failOnError = true;
 	private boolean execute = true;

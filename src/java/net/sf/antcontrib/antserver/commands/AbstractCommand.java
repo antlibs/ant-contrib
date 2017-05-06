@@ -27,6 +27,7 @@ import net.sf.antcontrib.antserver.Command;
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
  */
+@SuppressWarnings("serial")
 public abstract class AbstractCommand
         implements Command
 {

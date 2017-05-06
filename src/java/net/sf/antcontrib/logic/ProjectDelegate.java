@@ -40,10 +40,6 @@ extends Project {
 		delegate.addDataTypeDefinition(arg0, arg1);
 	}
 
-	public void addFilter(String arg0, String arg1) {
-		delegate.addFilter(arg0, arg1);
-	}
-
 	public void addOrReplaceTarget(String arg0, Target arg1) {
 		delegate.addOrReplaceTarget(arg0, arg1);
 	}
@@ -70,38 +66,6 @@ extends Project {
 
 	public void checkTaskClass(Class arg0) throws BuildException {
 		delegate.checkTaskClass(arg0);
-	}
-
-	public void copyFile(File arg0, File arg1, boolean arg2, boolean arg3, boolean arg4) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2, arg3, arg4);
-	}
-
-	public void copyFile(File arg0, File arg1, boolean arg2, boolean arg3) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2, arg3);
-	}
-
-	public void copyFile(File arg0, File arg1, boolean arg2) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2);
-	}
-
-	public void copyFile(File arg0, File arg1) throws IOException {
-		delegate.copyFile(arg0, arg1);
-	}
-
-	public void copyFile(String arg0, String arg1, boolean arg2, boolean arg3, boolean arg4) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2, arg3, arg4);
-	}
-
-	public void copyFile(String arg0, String arg1, boolean arg2, boolean arg3) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2, arg3);
-	}
-
-	public void copyFile(String arg0, String arg1, boolean arg2) throws IOException {
-		delegate.copyFile(arg0, arg1, arg2);
-	}
-
-	public void copyFile(String arg0, String arg1) throws IOException {
-		delegate.copyFile(arg0, arg1);
 	}
 
 	public void copyInheritedProperties(Project arg0) {
@@ -208,10 +172,6 @@ extends Project {
 		return delegate.getExecutor();
 	}
 
-	public Hashtable getFilters() {
-		return delegate.getFilters();
-	}
-
 	public FilterSet getGlobalFilterSet() {
 		return delegate.getGlobalFilterSet();
 	}
@@ -305,10 +265,6 @@ extends Project {
 		return delegate.replaceProperties(arg0);
 	}
 
-	public File resolveFile(String arg0, File arg1) {
-		return delegate.resolveFile(arg0, arg1);
-	}
-
 	public File resolveFile(String arg0) {
 		return delegate.resolveFile(arg0);
 	}
@@ -333,20 +289,12 @@ extends Project {
 		delegate.setDefaultInputStream(arg0);
 	}
 
-	public void setDefaultTarget(String arg0) {
-		delegate.setDefaultTarget(arg0);
-	}
-
 	public void setDescription(String arg0) {
 		delegate.setDescription(arg0);
 	}
 
 	public void setExecutor(Executor arg0) {
 		delegate.setExecutor(arg0);
-	}
-
-	public void setFileLastModified(File arg0, long arg1) throws BuildException {
-		delegate.setFileLastModified(arg0, arg1);
 	}
 
 	public void setInheritedProperty(String arg0, String arg1) {

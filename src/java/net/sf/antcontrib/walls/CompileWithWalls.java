@@ -274,7 +274,7 @@ public class CompileWithWalls extends Task {
     /**
      * @param tempBuildDir File
      * @param destDir File
-     * @return
+     * @return boolean
      */
     private boolean file1IsChildOfFile2(File tempBuildDir, File destDir) {
         File parent = tempBuildDir;
@@ -333,6 +333,7 @@ public class CompileWithWalls extends Task {
     }
 
     //until 1.3 is deprecated, this is a cheat to chain exceptions.
+    @SuppressWarnings("serial")
     private class ParsingWallsException extends RuntimeException {
 
         private String message;

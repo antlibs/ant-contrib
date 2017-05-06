@@ -167,6 +167,7 @@ class VisitorImpl extends EmptyVisitor {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public void visitCodeException(CodeException c) {
 		String s = c.toString(pool, false);
 

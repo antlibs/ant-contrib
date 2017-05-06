@@ -230,6 +230,7 @@ public class Design {
         return currentClass;
     }
 
+    @SuppressWarnings("unused")
     void checkClass(String dependsOn) {
         log.log("         dependsOn1="+dependsOn, Project.MSG_DEBUG);
         if(dependsOn.endsWith("[]")) {

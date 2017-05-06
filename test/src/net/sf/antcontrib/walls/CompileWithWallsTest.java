@@ -293,6 +293,7 @@ public class CompileWithWallsTest extends BuildFileTest {
 //        ensureClassFileExists("testC"+c+"mod"+c+"Module.class", true);
 //    }
 
+    @SuppressWarnings("unused")
     private void ensureJavaFileExists(String file, boolean shouldExist) {
         
         //must test that it is testing the correct directory.
@@ -307,6 +308,7 @@ public class CompileWithWallsTest extends BuildFileTest {
                     !f1.exists());
     }
     
+    @SuppressWarnings("unused")
     private void ensureClassFileExists(String file, boolean shouldExist) {
         
         String classFile = baseDir

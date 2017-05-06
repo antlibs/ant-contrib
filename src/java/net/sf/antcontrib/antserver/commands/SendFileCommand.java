@@ -32,6 +32,7 @@ import net.sf.antcontrib.antserver.Util;
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
  */
+@SuppressWarnings("serial")
 public class SendFileCommand
         extends AbstractCommand
         implements Command

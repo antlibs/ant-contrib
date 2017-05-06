@@ -26,6 +26,7 @@ import net.sf.antcontrib.antserver.Command;
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
  */
+@SuppressWarnings("serial")
 public class DisconnectCommand
         extends AbstractCommand
         implements Command

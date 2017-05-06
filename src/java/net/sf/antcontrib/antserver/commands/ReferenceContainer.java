@@ -22,6 +22,7 @@ import java.io.Serializable;
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
  */
+@SuppressWarnings("serial")
 public class ReferenceContainer
         implements Serializable
 {
