@@ -37,9 +37,7 @@ public class IsPropertyFalse extends IsFalse {
         if (name == null)
             throw new BuildException("Property name must be set.");
         String value = getProject().getProperty(name);
-        if (value == null)
-            return true;
-        return !getProject().toBoolean(value);
+        return value == null || !getProject().toBoolean(value);
     }
 
 }

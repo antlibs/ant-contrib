@@ -34,12 +34,10 @@ public class IsPropertyTrue extends IsTrue {
     }
 
     public boolean eval() throws BuildException {
-        if ( value == null )
-            return false;
-        return getProject().toBoolean( value );
         if (name == null)
             throw new BuildException("Property name must be set.");
         String value = getProject().getProperty(name);
+        return value != null && getProject().toBoolean(value);
     }
 
 }
