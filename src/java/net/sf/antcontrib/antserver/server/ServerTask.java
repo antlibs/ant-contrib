@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *               
- ****************************************************************************/
-
-
+ */
 public class ServerTask
         extends Task
 {
@@ -41,12 +34,10 @@ public class ServerTask
         super();
     }
 
-
     public void setPort(int port)
     {
         this.port = port;
     }
-
 
     public void shutdown()
     {

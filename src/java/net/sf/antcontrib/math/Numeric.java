@@ -17,14 +17,11 @@ package net.sf.antcontrib.math;
 
 import org.apache.tools.ant.BuildException;
 
-
 /**
  * A numeric value that implements Evaluateable.
  *
- * @author		inger
+ * @author Matthew Inger
  */
-
-
 public class Numeric
         implements Evaluateable
 {
@@ -70,6 +67,7 @@ public class Numeric
     /**
      * Sets the datatype of this number. Allowed values are
      * "int", "long", "float", or "double".
+     * @param p String
      */
     public void setDatatype(String p)
     {

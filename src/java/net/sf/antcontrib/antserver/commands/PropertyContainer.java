@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.commands;
+package net.sf.antcontrib.antserver.commands;
 
 import java.io.Serializable;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *               
- ****************************************************************************/
-
-
+ */
 public class PropertyContainer
         implements Serializable
 {
@@ -39,24 +33,20 @@ public class PropertyContainer
         super();
     }
 
-
     public String getName()
     {
         return name;
     }
-
 
     public void setName(String name)
     {
         this.name = name;
     }
 
-
     public String getValue()
     {
         return value;
     }
-
 
     public void setValue(String value)
     {

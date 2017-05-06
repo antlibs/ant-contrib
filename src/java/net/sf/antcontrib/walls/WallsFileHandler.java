@@ -18,8 +18,11 @@ package net.sf.antcontrib.walls;
 import java.io.File;
 
 import org.apache.tools.ant.Project;
-import org.xml.sax.*;
-
+import org.xml.sax.AttributeList;
+import org.xml.sax.HandlerBase;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXParseException;
 
 /**
  * Handler for the root element. Its only child must be the "project" element.
@@ -32,17 +35,18 @@ class WallsFileHandler extends HandlerBase {
     private Locator locator = null;
 
     /**
-     * @param CompileWithWalls
+     * @param walls CompileWithWalls
+     * @param file File
      */
     WallsFileHandler(CompileWithWalls walls, File file) {
         this.compilewithwalls = walls;
         this.file = file;
     }
-        
+
     /**
      * Resolves file: URIs relative to the build file.
      *
-     * @param publicId The public identifer, or <code>null</code>
+     * @param publicId The public identifier, or <code>null</code>
      *                 if none is available. Ignored in this
      *                 implementation.
      * @param systemId The system identifier provided in the XML
@@ -51,7 +55,7 @@ class WallsFileHandler extends HandlerBase {
     public InputSource resolveEntity(String publicId,
                                      String systemId) {
          compilewithwalls.log("publicId="+publicId+" systemId="+systemId,
-             Project.MSG_VERBOSE);            
+             Project.MSG_VERBOSE);
         return null;
     }
 
@@ -59,7 +63,7 @@ class WallsFileHandler extends HandlerBase {
      * Handles the start of a project element. A project handler is created
      * and initialised with the element name and attributes.
      *
-     * @param tag The name of the element being started.
+     * @param name The name of the element being started.
      *            Will not be <code>null</code>.
      * @param attrs Attributes of the element being started.
      *              Will not be <code>null</code>.
@@ -85,7 +89,7 @@ class WallsFileHandler extends HandlerBase {
         if(walls == null)
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
                                 +", package element must be nested in a walls element", locator);
-        
+
         String name = attrs.getValue("name");
         String thePackage = attrs.getValue("package");
         String depends = attrs.getValue("depends");
@@ -101,7 +105,7 @@ class WallsFileHandler extends HandlerBase {
         p.setPackage(thePackage);
         if(depends != null)
             p.setDepends(depends);
-        
+
         walls.addConfiguredPackage(p);
     }
     /**

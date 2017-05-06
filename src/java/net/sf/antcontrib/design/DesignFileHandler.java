@@ -27,7 +27,6 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-
 /**
  * Handler for the root element. Its only child must be the "project" element.
  */
@@ -36,7 +35,7 @@ class DesignFileHandler implements ContentHandler {
     private final static String DESIGN = "design";
     private final static String PACKAGE = "package";
     private final static String DEPENDS = "depends";
-        
+
     private Log log = null;
     private File file = null;
     private boolean isCircularDesign;
@@ -50,7 +49,10 @@ class DesignFileHandler implements ContentHandler {
     private Location loc;
 
     /**
-     * @param CompileWithWalls
+     * @param log Log
+     * @param file File
+     * @param isCircularDesign boolean
+     * @param loc Location
      */
     DesignFileHandler(Log log, File file, boolean isCircularDesign, Location loc) {
         this.log = log;
@@ -58,16 +60,16 @@ class DesignFileHandler implements ContentHandler {
         this.isCircularDesign = isCircularDesign;
         this.loc = loc;
     }
-    
+
 	/**
-	 * @param needDeclarationsDefault
+	 * @param b boolean
 	 */
 	public void setNeedDeclarationsDefault(boolean b) {
 		needDeclarationsDefault = b;
 	}
 
 	/**
-	 * @param needDependsDefault
+	 * @param b boolean
 	 */
 	public void setNeedDependsDefault(boolean b) {
 		needDependsDefault = b;
@@ -80,7 +82,7 @@ class DesignFileHandler implements ContentHandler {
     /**
      * Resolves file: URIs relative to the build file.
      *
-     * @param publicId The public identifer, or <code>null</code>
+     * @param publicId The public identifier, or <code>null</code>
      *                 if none is available. Ignored in this
      *                 implementation.
      * @param systemId The system identifier provided in the XML
@@ -89,10 +91,10 @@ class DesignFileHandler implements ContentHandler {
     public InputSource resolveEntity(String publicId,
                                      String systemId) {
         log.log("publicId="+publicId+" systemId="+systemId,
-                Project.MSG_VERBOSE);            
+                Project.MSG_VERBOSE);
         return null;
-    }    
-    
+    }
+
     /**
      * Sets the locator in the project helper for future reference.
      *
@@ -140,11 +142,11 @@ class DesignFileHandler implements ContentHandler {
             }
             stack.push(o);
         } catch(RuntimeException e) {
-            log.log("exception111111111111111111", Project.MSG_INFO);
-            throw new SAXParseException("PRoblem parsing", locator, e);
+            log.log("exception in startElement()", Project.MSG_INFO);
+            throw new SAXParseException("Problem parsing", locator, e);
         }
     }
-        
+
     private Design handleDesign(Attributes attrs) throws SAXParseException {
         if(attrs.getLength() > 0)
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
@@ -158,12 +160,12 @@ class DesignFileHandler implements ContentHandler {
         design = new Design(isCircularDesign, log, loc);
         return design;
     }
-        
+
     private Package handlePackage(Attributes attrs) throws SAXParseException {
         if(stack.size() <= 0 || !(stack.peek() instanceof Design))
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
                                         +", "+PACKAGE+" element must be nested in a "+DESIGN+" element", locator);
-        
+
         int len = attrs.getLength();
         String name = null;
         String thePackage = null;
@@ -173,7 +175,7 @@ class DesignFileHandler implements ContentHandler {
         String needDepends = null;
         for(int i = 0; i < len; i++) {
             String attrName = attrs.getLocalName(i);
-					 			
+
             if ("".equals(attrName)) {
                 // XMLReader is not-namespace aware
                 attrName = attrs.getQName(i);
@@ -204,7 +206,7 @@ class DesignFileHandler implements ContentHandler {
             needDeclarations = Boolean.toString(needDeclarationsDefault);
         if(needDepends == null)
         	needDepends = Boolean.toString(needDependsDefault);
-        
+
         //make sure every attribute had a valid value...
         if(name == null)
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
@@ -224,7 +226,7 @@ class DesignFileHandler implements ContentHandler {
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
                                         +"\nThe needdepends attribute in the package element can only have a"
                                         +"\nvalue of \"true\" or \"false\".  value='"+needDepends+"'", locator);
-                
+
         Package p = new Package();
         p.setName(name);
         p.setPackage(thePackage);
@@ -240,12 +242,12 @@ class DesignFileHandler implements ContentHandler {
         	p.setNeedDepends(true);
         else
         	p.setNeedDepends(false);
-        
+
         if(depends != null)
             p.addDepends(new Depends(depends));
         return p;
     }
-    
+
     private Depends handleDepends(Attributes attrs) throws SAXParseException {
         if(stack.size() <= 0 || !(stack.peek() instanceof Package))
             throw new SAXParseException("Error in file="+file.getAbsolutePath()
@@ -256,7 +258,7 @@ class DesignFileHandler implements ContentHandler {
 
         return new Depends();
     }
-        
+
     /**
      * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
@@ -265,14 +267,13 @@ class DesignFileHandler implements ContentHandler {
             Object o = stack.pop();
             if(o instanceof Package) {
                 Package p = (Package)o;
-				
+
 				Package tmp = design.getPackage(p.getName());
 				if(tmp != null)
 		            throw new SAXParseException("Error in file="+file.getAbsolutePath()
                             +"\nname attribute on "+PACKAGE+" element has the same\n"
                             +"name as another package.  name=\""+p.getName()+"\" is used twice or more", locator);
 
-					
                 design.addConfiguredPackage(p);
                 currentPackage = null;
             } else if(o instanceof Depends) {
@@ -293,7 +294,7 @@ class DesignFileHandler implements ContentHandler {
     /**
      * @see org.xml.sax.ContentHandler#startDocument()
      */
-    public void startDocument() throws SAXException {           
+    public void startDocument() throws SAXException {
     }
 
     /**
@@ -317,7 +318,7 @@ class DesignFileHandler implements ContentHandler {
                     d.setName(s.trim());
             }
         } catch(RuntimeException e) {
-            log.log("exception3333333333333333333", Project.MSG_INFO);
+            log.log("exception in characters()", Project.MSG_INFO);
             throw new SAXParseException("exception", locator, e);
         }
     }

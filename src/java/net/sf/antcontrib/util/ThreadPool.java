@@ -15,19 +15,15 @@
  */
 package net.sf.antcontrib.util;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class ThreadPool
 {
     private int maxActive;
     private int active;
-
 
     public ThreadPool(int maxActive)
     {
@@ -44,7 +40,6 @@ public class ThreadPool
             notify();
         }
     }
-
 
     public ThreadPoolThread borrowThread()
         throws InterruptedException

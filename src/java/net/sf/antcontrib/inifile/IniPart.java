@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.IOException;
 import java.io.Writer;
 
-
-/****************************************************************************
+/**
  * A part of an IniFile that might be written to disk.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- ****************************************************************************/
-
-
+ */
 public interface IniPart
 {
-    /***
+    /**
      * Write this part of the IniFile to a writer
      * @param writer The writer to write to
+     * @throws IOException when something goes wrong
      */
     public void write(Writer writer)
         throws IOException;

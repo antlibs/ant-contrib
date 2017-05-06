@@ -15,17 +15,11 @@
  */
 package net.sf.antcontrib.util;
 
-
-
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class ThreadPoolThread
         extends Thread
 {
@@ -44,7 +38,6 @@ public class ThreadPoolThread
         this.runnable = runnable;
     }
 
-
     public void run()
     {
         try
@@ -60,7 +53,7 @@ public class ThreadPoolThread
             }
             catch (Exception e)
             {
-                ; // gulp;
+                // gulp;
             }
         }
     }

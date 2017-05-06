@@ -22,9 +22,9 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
  * Extends Equals condition to test if the first argument is less than the
  * second argument. Will deal with base 10 integer and decimal numbers, otherwise,
  * treats arguments as Strings.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author     Dale Anson, danson@germane-software.com
+ * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.4 $
  */
 public class IsLessThan extends Equals {
@@ -69,7 +69,7 @@ public class IsLessThan extends Equals {
             arg1 = arg1.trim();
             arg2 = arg2.trim();
         }
-        
+
         // check if args are numbers
         try {
             double num1 = Double.parseDouble(arg1);
@@ -77,9 +77,9 @@ public class IsLessThan extends Equals {
             return num1 < num2;
         }
         catch(NumberFormatException nfe) {
-            // ignored, fall thru to string comparision       
+            // ignored, fall thru to string comparision
         }
-        
+
         return caseSensitive ? arg1.compareTo(arg2) < 0 : arg1.compareToIgnoreCase(arg2) < 0;
     }
 

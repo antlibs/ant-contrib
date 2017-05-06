@@ -34,10 +34,10 @@ import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-/***
+/**
  * Task definition for the for task.  This is based on
  * the foreach task but takes a sequential element
- * instead of a target and only works for ant >= 1.6Beta3
+ * instead of a target and only works for Ant 1.6+
  * @author Peter Reilly
  */
 public class ForTask extends Task {
@@ -74,7 +74,7 @@ public class ForTask extends Task {
         this.parallel = parallel;
     }
 
-    /***
+    /**
      * Set the maximum amount of threads we're going to allow
      * to execute in parallel
      * @param threadCount the number of threads to use
@@ -145,9 +145,9 @@ public class ForTask extends Task {
     }
 
     /**
-     * This is a path that can be used instread of the list
-     * attribute to interate over. If this is set, each
-     * path element in the path is used for an interator of the
+     * This is a path that can be used instead of the list
+     * attribute to iterate over. If this is set, each
+     * path element in the path is used for an iterator of the
      * sequential element.
      *
      * @param path the path to be set by the ant script.
@@ -157,9 +157,9 @@ public class ForTask extends Task {
     }
 
     /**
-     * This is a path that can be used instread of the list
-     * attribute to interate over. If this is set, each
-     * path element in the path is used for an interator of the
+     * This is a path that can be used instead of the list
+     * attribute to iterate over. If this is set, each
+     * path element in the path is used for an iterator of the
      * sequential element.
      *
      * @param path the path to be set by the ant script.
@@ -195,19 +195,18 @@ public class ForTask extends Task {
 
     /**
      * Set step attribute.
-     *
+     * @param step int
      */
     public void setStep(int step) {
         this.step = step;
     }
 
-    
     /**
      * Run the for task.
      * This checks the attributes and nested elements, and
      * if there are ok, it calls doTheTasks()
-     * which constructes a macrodef task and a
-     * for each interation a macrodef instance.
+     * which constructs a macrodef task and a
+     * for each iteration a macrodef instance.
      */
     public void execute() {
         if (parallel) {
@@ -247,7 +246,6 @@ public class ForTask extends Task {
         }
     }
 
-
     private void doSequentialIteration(String val) {
         MacroInstance instance = new MacroInstance();
         instance.setProject(getProject());
@@ -275,7 +273,7 @@ public class ForTask extends Task {
             }
         }
     }
-    
+
     private void doTheTasks() {
         errorCount = 0;
         taskCount = 0;
@@ -286,7 +284,7 @@ public class ForTask extends Task {
         	attribute.setName(param);
         	macroDef.addConfiguredAttribute(attribute);
         }
-        
+
         // Take Care of the list attribute
         if (list != null) {
             StringTokenizer st = new StringTokenizer(list, delimiter);
@@ -313,7 +311,7 @@ public class ForTask extends Task {
                 }
             }
         }
-        
+
         // Take Care of the path element
         String[] pathElements = new String[0];
         if (currPath != null) {
@@ -429,7 +427,7 @@ public class ForTask extends Task {
     }
 
     private static class MapIterator implements HasIterator {
-        private Map map;
+        private final Map map;
         public MapIterator(Map map) {
             this.map = map;
         }

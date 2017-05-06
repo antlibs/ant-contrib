@@ -18,30 +18,28 @@ package net.sf.antcontrib.property;
 import java.util.Enumeration;
 import java.util.Vector;
 
-/****************************************************************************
+/**
  * Regular Expression utilities
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class RegexUtil
 {
 
-    /***
-     * An abritrary node in a select expression
+    /**
+     * An arbitrary node in a select expression
      */
     private static interface SelectNode
     {
-        /***
+        /**
          * Select the value based on the groups
          * @param groups The groups found in the match
          */
         public String select(Vector groups);
     }
 
-    /***
+    /**
      * A group node in a select expression
      */
     private static class GroupSelectNode
@@ -68,8 +66,8 @@ public class RegexUtil
         }
     }
 
-    /***
-     * An abritrary node in a select expression
+    /**
+     * An arbitrary node in a select expression
      */
     private static class StringSelectNode
         implements SelectNode
@@ -92,7 +90,7 @@ public class RegexUtil
         }
     }
 
-    /***
+    /**
      * Parses a select string into a List of SelectNode objects.
      * These objects can then be merged with a group list to produce
      * an output string (using the "select" method)
@@ -130,7 +128,6 @@ public class RegexUtil
             }
         }
 
-
         if (buf.length() > 0)
         {
             nodes.addElement(new StringSelectNode(buf.toString()));
@@ -140,9 +137,9 @@ public class RegexUtil
         return nodes;
     }
 
-    /***
+    /**
      * Parse a select string, and merge it with a match groups
-     * vector to produce an output string.  Each group placehold
+     * vector to produce an output string.  Each group placeholder
      * in the select string is replaced with the group at the
      * corresponding index in the match groups vector
      * @param select The select string

@@ -19,18 +19,11 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public abstract class AbstractPropertySetterTask
         extends Task
 {

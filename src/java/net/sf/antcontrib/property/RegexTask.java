@@ -22,17 +22,11 @@ import org.apache.tools.ant.types.RegularExpression;
 import org.apache.tools.ant.types.Substitution;
 import org.apache.tools.ant.util.regexp.Regexp;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *               
- ****************************************************************************/
-
-
+ */
 public class RegexTask
         extends AbstractPropertySetterTask
 {
@@ -69,7 +63,6 @@ public class RegexTask
         this.regexp = new RegularExpression();
         this.regexp.setPattern(regex);
     }
-
 
     public RegularExpression createRegexp()
     {
@@ -168,10 +161,9 @@ public class RegexTask
 
         if (output == null)
             output = defaultValue;
-        
+
         return output;
     }
-
 
     protected void validate()
     {

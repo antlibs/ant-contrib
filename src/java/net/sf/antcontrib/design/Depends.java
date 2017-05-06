@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Created on Dec 24, 2004
- */
 package net.sf.antcontrib.design;
 
-/** 
+/**
+ * Created on Dec 24, 2004
  *
- * @author dhiller
+ * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Depends {
 
 	private String name;
-	
+
 	public Depends() {}
+
 	/**
-	 * @param name
+	 * @param name String
 	 */
 	public Depends(String name) {
 		super();
 		this.name = name;
 	}
+
 	/**
-	 * @param string
+	 * @param s String
 	 */
 	public void setName(String s) {
 		this.name = s;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

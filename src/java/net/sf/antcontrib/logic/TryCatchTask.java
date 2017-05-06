@@ -52,9 +52,8 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * nested into it will be run, no matter whether the first tasks have
  * thrown an exception or not.</p>
  *
- * <p><strong>Attributes:</strong></p>
- *
  * <table>
+ *   <caption>Attributes:</caption>
  *   <tr>
  *     <td>Name</td>
  *     <td>Description</td>
@@ -78,10 +77,10 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * task before you use it the first time:</p>
  *
  * <pre><code>
- *   &lt;taskdef name="trycatch" 
+ *   &lt;taskdef name="trycatch"
  *            classname="net.sf.antcontrib.logic.TryCatchTask" /&gt;
  * </code></pre>
- * 
+ *
  * <h3>Crude Example</h3>
  *
  * <pre><code>
@@ -145,9 +144,8 @@ public class TryCatchTask extends Task {
         }
     }
 
-
     private Sequential tryTasks = null;
-    private Vector catchBlocks = new Vector();
+    private final Vector catchBlocks = new Vector();
     private Sequential finallyTasks = null;
     private String property = null;
     private String reference = null;
@@ -155,12 +153,13 @@ public class TryCatchTask extends Task {
     /**
      * Adds a nested &lt;try&gt; block - one is required, more is
      * forbidden.
+     * @param seq Sequential
      */
     public void addTry(Sequential seq) throws BuildException {
         if (tryTasks != null) {
             throw new BuildException("You must not specify more than one <try>");
         }
-        
+
         tryTasks = seq;
     }
 
@@ -170,17 +169,20 @@ public class TryCatchTask extends Task {
 
     /**
      * Adds a nested &lt;finally&gt; block - at most one is allowed.
+     * @param seq Sequential
+     * @throws BuildException if seq is null
      */
     public void addFinally(Sequential seq) throws BuildException {
         if (finallyTasks != null) {
             throw new BuildException("You must not specify more than one <finally>");
         }
-        
+
         finallyTasks = seq;
     }
 
     /**
      * Sets the property attribute.
+     * @param p String
      */
     public void setProperty(String p) {
         property = p;
@@ -188,6 +190,7 @@ public class TryCatchTask extends Task {
 
     /**
      * Sets the reference attribute.
+     * @param r String
      */
     public void setReference(String r) {
         reference = r;
@@ -195,10 +198,11 @@ public class TryCatchTask extends Task {
 
     /**
      * The heart of the task.
+     * @throws BuildException when no tasks or any catch blocks did not execute
      */
     public void execute() throws BuildException {
     	Throwable thrown = null;
-    	
+
         if (tryTasks == null) {
             throw new BuildException("A nested <try> element is required");
         }
@@ -213,7 +217,7 @@ public class TryCatchTask extends Task {
                  */
                 getProject().setProperty(property, e.getMessage());
             }
-            
+
             if (reference != null) {
                 getProject().addReference(reference, e);
             }
@@ -224,7 +228,7 @@ public class TryCatchTask extends Task {
                 CatchBlock cb = (CatchBlock)blocks.nextElement();
                 executed = cb.execute(e);
             }
-            
+
             if (! executed) {
             	thrown = e;
             }
@@ -233,7 +237,7 @@ public class TryCatchTask extends Task {
                 finallyTasks.perform();
             }
         }
-        
+
         if (thrown != null) {
         	throw new BuildException(thrown);
         }

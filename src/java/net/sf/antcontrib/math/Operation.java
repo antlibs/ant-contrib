@@ -26,10 +26,8 @@ import java.util.Vector;
 /**
  * Class to represent a mathematical operation.
  *
- * @author		inger
+ * @author Matthew Inger
  */
-
-
 public class Operation
         implements Evaluateable, DynamicConfigurator {
     private String operation = "add";

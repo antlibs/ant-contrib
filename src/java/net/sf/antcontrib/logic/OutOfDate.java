@@ -42,9 +42,8 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 * Based on
 *  org.apache.org.apache.tools.ant.taskdefs.UpToDate
 *
-* @author peter reilly
+* @author Peter Reilly
 */
-
 public class OutOfDate extends Task implements Condition {
 
     /**
@@ -95,11 +94,11 @@ public class OutOfDate extends Task implements Condition {
      * Set the collection attribute, controls what is
      * returned by the iterator method.
      * <dl>
-     * <li>"sources" the sources that are newer than the corresponding targets.</li>
-     * <li>"targets" the targets that are older or not present than the corresponding
-     *               sources.</li>
-     * <li>"allsources" all the sources</li>
-     * <li>"alltargets" all the targets</li>
+     * <dt>"sources"</dt><dd>the sources that are newer than the corresponding targets.</dd>
+     * <dt>"targets"</dt><dd>the targets that are older or not present than the corresponding
+     *               sources.</dd>
+     * <dt>"allsources"</dt><dd>all the sources</dd>
+     * <dt>"alltargets"</dt><dd>all the targets</dd>
      * </dl>
      * @param collection "sources" the changes
      */
@@ -109,7 +108,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * Defines the FileNameMapper to use (nested mapper element).
-     * @return Mappper to be configured
+     * @return Mapper to be configured
      */
     public Mapper createMapper() {
         MyMapper mapper = new MyMapper(getProject());
@@ -147,7 +146,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * whether to allways be outofdate
+     * whether to always be outofdate
      * @param force true means that outofdate is always set, default
      *              false
      */
@@ -220,7 +219,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * A refernce to contain the path of all the targets
+     * A reference to contain the path of all the targets
      *
      * @param allTargetsPath the name of the reference
      */
@@ -421,7 +420,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * Call evalute and return an iterator over the result
+     * Call evaluate and return an iterator over the result
      * @return an iterator over the result
      */
     public Iterator iterator() {
@@ -459,7 +458,6 @@ public class OutOfDate extends Task implements Condition {
 
     }
 
-
     private boolean outOfDate(File sourceFile, File targetFile) {
         boolean ret  = false;
         if (sourceFile != null) {
@@ -494,7 +492,7 @@ public class OutOfDate extends Task implements Condition {
                 b.append(separator);
             }
             String s = v.getAbsolutePath();
-            // DOTO: The following needs more work!
+            // TODO: The following needs more work!
             // Handle paths contains sep
             if (s.indexOf(separator) != -1) {
                 if (s.indexOf("\"") != -1) {
@@ -676,5 +674,3 @@ public class OutOfDate extends Task implements Condition {
         }
     }
 }
-
-

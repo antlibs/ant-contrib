@@ -23,18 +23,11 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.RegularExpression;
 import org.apache.tools.ant.util.regexp.Regexp;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class PropertySelector
         extends AbstractPropertySetterTask
 {
@@ -44,12 +37,10 @@ public class PropertySelector
     private boolean caseSensitive = true;
     private boolean distinct = false;
 
-
     public PropertySelector()
     {
         super();
     }
-
 
     public void setMatch(String match)
     {
@@ -57,30 +48,25 @@ public class PropertySelector
         this.match.setPattern(match);
     }
 
-
     public void setSelect(String select)
     {
         this.select = select;
     }
-
 
     public void setCaseSensitive(boolean caseSensitive)
     {
         this.caseSensitive = caseSensitive;
     }
 
-
     public void setDelimiter(char delim)
     {
         this.delim = delim;
     }
 
-
     public void setDistinct(boolean distinct)
     {
         this.distinct = distinct;
     }
-
 
     protected void validate()
     {
@@ -88,7 +74,6 @@ public class PropertySelector
         if (match == null)
             throw new BuildException("No match expression specified.");
     }
-
 
     public void execute()
             throws BuildException

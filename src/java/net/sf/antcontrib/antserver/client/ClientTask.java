@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.client;
+package net.sf.antcontrib.antserver.client;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,17 +38,11 @@ import net.sf.antcontrib.antserver.commands.RunTargetCommand;
 import net.sf.antcontrib.antserver.commands.SendFileCommand;
 import net.sf.antcontrib.antserver.commands.ShutdownCommand;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class ClientTask
         extends Task
 {
@@ -64,30 +58,25 @@ public class ClientTask
         this.commands = new Vector();
     }
 
-
     public void setMachine(String machine)
     {
         this.machine = machine;
     }
-
 
     public void setPort(int port)
     {
         this.port = port;
     }
 
-
     public void setPersistant(boolean persistant)
     {
         this.persistant = persistant;
     }
 
-
     public void setFailOnError(boolean failOnError)
     {
         this.failOnError = failOnError;
     }
-
 
     public void addConfiguredShutdown(ShutdownCommand cmd)
     {
@@ -108,7 +97,6 @@ public class ClientTask
     {
         commands.add(cmd);
     }
-
 
     public void execute()
     {

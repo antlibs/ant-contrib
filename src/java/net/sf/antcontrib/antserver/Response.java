@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver;
+package net.sf.antcontrib.antserver;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class Response
         implements Serializable
 {
@@ -43,12 +40,10 @@ public class Response
         this.succeeded = true;
     }
 
-
     public boolean isSucceeded()
     {
         return succeeded;
     }
-
 
     public void setSucceeded(boolean succeeded)
     {
@@ -70,30 +65,25 @@ public class Response
         return errorStackTrace;
     }
 
-
     public void setErrorStackTrace(String errorStackTrace)
     {
         this.errorStackTrace = errorStackTrace;
     }
-
 
     public String getErrorMessage()
     {
         return errorMessage;
     }
 
-
     public void setErrorMessage(String errorMessage)
     {
         this.errorMessage = errorMessage;
     }
 
-
     public String getResultsXml()
     {
         return resultsXml;
     }
-
 
     public void setResultsXml(String resultsXml)
     {

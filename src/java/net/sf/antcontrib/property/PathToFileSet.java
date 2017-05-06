@@ -66,7 +66,6 @@ public class PathToFileSet
             throw new BuildException("Unknown reference " + pathRefId);
         if (! (path instanceof Path))
             throw new BuildException(pathRefId + " is not a path");
-        
 
         String[] sources = ((Path) path).list();
 
@@ -78,7 +77,6 @@ public class PathToFileSet
         if (! dirNormal.endsWith(File.separator)) {
             dirNormal += File.separator;
         }
-
 
         boolean atLeastOne = false;
         for (int i = 0; i < sources.length; ++i) {
@@ -111,4 +109,3 @@ public class PathToFileSet
         return fileNormal.substring(dirNormal.length());
     }
 }
-

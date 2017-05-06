@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.sf.antcontrib.util;
 
 import java.lang.reflect.Constructor;
@@ -31,9 +30,9 @@ import org.apache.tools.ant.BuildException;
  * If things go wrong, BuildExceptions are thrown.
  * @author Peter Reilly
  */
-
 public class Reflector {
     private Object obj;
+
     /**
      * Constructor for the wrapper using a classname
      * @param name the classname of the object to construct.
@@ -54,7 +53,6 @@ public class Reflector {
      * Constructor using a passed in object.
      * @param obj the object to wrap.
      */
-
     public Reflector(Object obj) {
         this.obj = obj;
     }

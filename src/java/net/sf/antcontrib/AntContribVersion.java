@@ -24,18 +24,18 @@ package net.sf.antcontrib;
 public class AntContribVersion {
 
 	private Package thePackage;
-	
+
 	/**
-	 * The main program for MockVersion that prints the version info from 
+	 * The main program for MockVersion that prints the version info from
 	 * the manifest file.
-	 * 
+	 *
 	 * @param args Ignores all arguments.
 	 */
 	public static void main(String[] args) {
 		AntContribVersion version = new AntContribVersion(AntContribVersion.class);
 		System.out.println(""+version);
 	}
-	
+
 	/**
 	 * Constructor that takes a class to get the version information
 	 * from out of the manifest.  Uses the class's package to retrieve
@@ -45,18 +45,17 @@ public class AntContribVersion {
 	public AntContribVersion(Class c) {
 		String name = c.getName();
 		int index = name.lastIndexOf(".");
-		
+
 		if(index < 0)
 			throw new RuntimeException("This class is the default package and can't be to use this feature");
-		
+
 		String packageName = name.substring(0, index);
 		thePackage = Package.getPackage(packageName);
 	}
-	
-	
+
 	/**
 	 * Prints the version info the MockVersion represents.
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

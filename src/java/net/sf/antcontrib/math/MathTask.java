@@ -22,10 +22,8 @@ import org.apache.tools.ant.DynamicConfigurator;
 /**
  * Task for mathematical operations.
  *
- * @author		inger
+ * @author Matthew Inger
  */
-
-
 public class MathTask
         extends Task
         implements DynamicConfigurator

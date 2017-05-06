@@ -18,23 +18,17 @@ package net.sf.antcontrib.walls;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Move;
 
-/*
+/**
  * Created on Aug 25, 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-/**
- * FILL IN JAVADOC HERE
- *
- * @author Dean Hiller(dean@xsoftware.biz)
+ * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class SilentMove extends Move {
 
     public void log(String msg) {
         log(msg, Project.MSG_INFO);
     }
-    
+
     public void log(String msg, int level) {
         if(level == Project.MSG_INFO)
             super.log(msg, Project.MSG_VERBOSE);

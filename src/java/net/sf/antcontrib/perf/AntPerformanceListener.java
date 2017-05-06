@@ -18,9 +18,17 @@ package net.sf.antcontrib.perf;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
 
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
 
 /**
  * This BuildListener keeps track of the total time it takes for each target and
@@ -32,10 +40,10 @@ import org.apache.tools.ant.*;
  *
  * Output can be saved to a file by setting a property in Ant. Set
  * "performance.log" to the name of a file. This can be set either on the
- * command line with the -D option (-Dperformance.log=/tmp/performance.log)
- * or in the build file itself (<property name="performance.log"
- * location="/tmp/performance.log"/>).
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * command line with the -D option (<code>-Dperformance.log=/tmp/performance.log</code>)
+ * or in the build file itself (<code>&lt;property name="performance.log"
+ * location="/tmp/performance.log"/&gt;</code>).
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
  * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.5 $
@@ -50,7 +58,7 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * Starts a 'running total' stopwatch.
      */
-    public void buildStarted( BuildEvent be ) {
+    public void buildStarted(BuildEvent be) {
         master = new StopWatch();
         start_time = master.start();
     }
@@ -58,95 +66,95 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * Sorts and prints the results.
      */
-    public void buildFinished( BuildEvent be ) {
+    public void buildFinished(BuildEvent be) {
         long stop_time = master.stop();
 
         // sort targets, key is StopWatch, value is Target
-        TreeMap sortedTargets = new TreeMap( new StopWatchComparator() );
+        TreeMap sortedTargets = new TreeMap(new StopWatchComparator());
         Iterator it = targetStats.keySet().iterator();
-        while ( it.hasNext() ) {
+        while (it.hasNext()) {
             Object key = it.next();
-            Object value = targetStats.get( key );
-            sortedTargets.put( value, key );
+            Object value = targetStats.get(key);
+            sortedTargets.put(value, key);
         }
 
         // sort tasks, key is StopWatch, value is Task
-        TreeMap sortedTasks = new TreeMap( new StopWatchComparator() );
+        TreeMap sortedTasks = new TreeMap(new StopWatchComparator());
         it = taskStats.keySet().iterator();
-        while ( it.hasNext() ) {
+        while (it.hasNext()) {
             Object key = it.next();
-            Object value = taskStats.get( key );
-            sortedTasks.put( value, key );
+            Object value = taskStats.get(key);
+            sortedTasks.put(value, key);
         }
 
         // print the sorted results
         StringBuffer msg = new StringBuffer();
-        String lSep = System.getProperty( "line.separator" );
-        msg.append( lSep ).append("Statistics:").append( lSep );
-        msg.append( "-------------- Target Results ---------------------" ).append( lSep );
+        String lSep = System.getProperty("line.separator");
+        msg.append(lSep).append("Statistics:").append(lSep);
+        msg.append("-------------- Target Results ---------------------").append(lSep);
         it = sortedTargets.keySet().iterator();
-        while ( it.hasNext() ) {
-            StopWatch key = ( StopWatch ) it.next();
+        while (it.hasNext()) {
+            StopWatch key = (StopWatch) it.next();
             StringBuffer sb = new StringBuffer();
-            Target target = ( Target ) sortedTargets.get( key );
+            Target target = (Target) sortedTargets.get(key);
             if (target != null) {
                 Project p = target.getProject();
-                if (p != null && p.getName() != null) 
-                    sb.append( p.getName() ).append( "." );
-                String total = format( key.total() );
+                if (p != null && p.getName() != null)
+                    sb.append(p.getName()).append(".");
+                String total = format(key.total());
                 String target_name = target.getName();
                 if (target_name == null || target_name.length() == 0)
                     target_name = "<implicit>";
-                sb.append( target_name ).append( ": " ).append( total );
+                sb.append(target_name).append(": ").append(total);
             }
-            msg.append( sb.toString() ).append( lSep );
+            msg.append(sb.toString()).append(lSep);
         }
-        msg.append( lSep );
-        msg.append( "-------------- Task Results -----------------------" ).append( lSep );
+        msg.append(lSep);
+        msg.append("-------------- Task Results -----------------------").append(lSep);
         it = sortedTasks.keySet().iterator();
-        while ( it.hasNext() ) {
-            StopWatch key = ( StopWatch ) it.next();
-            Task task = ( Task ) sortedTasks.get( key );
+        while (it.hasNext()) {
+            StopWatch key = (StopWatch) it.next();
+            Task task = (Task) sortedTasks.get(key);
             StringBuffer sb = new StringBuffer();
             Target target = task.getOwningTarget();
             if (target != null) {
                 Project p = target.getProject();
                 if (p != null && p.getName() != null)
-                   sb.append( p.getName() ).append( "." );
+                   sb.append(p.getName()).append(".");
                 String target_name = target.getName();
                 if (target_name == null || target_name.length() == 0)
                     target_name = "<implicit>";
-                sb.append( target_name ).append( "." );
+                sb.append(target_name).append(".");
             }
-            sb.append( task.getTaskName() ).append( ": " ).append( format( key.total() ) );
-            msg.append( sb.toString() ).append( lSep );
+            sb.append(task.getTaskName()).append(": ").append(format(key.total()));
+            msg.append(sb.toString()).append(lSep);
         }
 
-        msg.append( lSep );
-        msg.append( "-------------- Totals -----------------------------" ).append( lSep );
-        SimpleDateFormat format = new SimpleDateFormat( "EEE, d MMM yyyy HH:mm:ss.SSS" );
-        msg.append( "Start time: " + format.format( new Date( start_time ) ) ).append( lSep );
-        msg.append( "Stop time: " + format.format( new Date( stop_time ) ) ).append( lSep );
-        msg.append( "Total time: " + format( master.total() ) ).append( lSep );
-        System.out.println( msg.toString() );
-        
+        msg.append(lSep);
+        msg.append("-------------- Totals -----------------------------").append(lSep);
+        SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss.SSS");
+        msg.append("Start time: " + format.format(new Date(start_time))).append(lSep);
+        msg.append("Stop time: " + format.format(new Date(stop_time))).append(lSep);
+        msg.append("Total time: " + format(master.total())).append(lSep);
+        System.out.println(msg.toString());
+
         // write stats to file?
         Project p = be.getProject();
         File outfile = null;
-        if ( p != null ) {
-            String f = p.getProperty( "performance.log" );
-            if ( f != null )
-                outfile = new File( f );
+        if (p != null) {
+            String f = p.getProperty("performance.log");
+            if (f != null)
+                outfile = new File(f);
         }
-        if ( outfile != null ) {
+        if (outfile != null) {
             try {
-                FileWriter fw = new FileWriter( outfile );
-                fw.write( msg.toString() );
+                FileWriter fw = new FileWriter(outfile);
+                fw.write(msg.toString());
                 fw.flush();
                 fw.close();
-                System.out.println( "Wrote stats to: " + outfile.getAbsolutePath() + lSep);
+                System.out.println("Wrote stats to: " + outfile.getAbsolutePath() + lSep);
             }
-            catch ( Exception e ) {
+            catch (Exception e) {
                 // ignored
             }
         }
@@ -158,75 +166,75 @@ public class AntPerformanceListener implements BuildListener {
     }
 
     /**
-     * Formats the milliseconds from a StopWatch into decimal seconds.    
+     * Formats the milliseconds from a StopWatch into decimal seconds.
      */
-    private String format( long ms ) {
-        String total = String.valueOf( ms );
+    private String format(long ms) {
+        String total = String.valueOf(ms);
         String frontpad = "000";
         int pad_length = 3 - total.length();
-        if ( pad_length >= 0 )
-            total = "0." + frontpad.substring( 0, pad_length ) + total;
+        if (pad_length >= 0)
+            total = "0." + frontpad.substring(0, pad_length) + total;
         else {
-            total = total.substring( 0, total.length() - 3 ) + "." + total.substring( total.length() - 3 );
+            total = total.substring(0, total.length() - 3) + "." + total.substring(total.length() - 3);
         }
         return total + " sec";
     }
 
     /**
-     * Start timing the given target.    
+     * Start timing the given target.
      */
-    public void targetStarted( BuildEvent be ) {
+    public void targetStarted(BuildEvent be) {
         StopWatch sw = new StopWatch();
         sw.start();
-        targetStats.put( be.getTarget(), sw );
+        targetStats.put(be.getTarget(), sw);
     }
 
     /**
-     * Stop timing the given target.    
+     * Stop timing the given target.
      */
-    public void targetFinished( BuildEvent be ) {
-        StopWatch sw = ( StopWatch ) targetStats.get( be.getTarget() );
+    public void targetFinished(BuildEvent be) {
+        StopWatch sw = (StopWatch) targetStats.get(be.getTarget());
         sw.stop();
     }
 
     /**
-     * Start timing the given task.    
+     * Start timing the given task.
      */
-    public void taskStarted( BuildEvent be ) {
+    public void taskStarted(BuildEvent be) {
         StopWatch sw = new StopWatch();
         sw.start();
-        taskStats.put( be.getTask(), sw );
+        taskStats.put(be.getTask(), sw);
     }
 
     /**
-     * Stop timing the given task.    
+     * Stop timing the given task.
      */
-    public void taskFinished( BuildEvent be ) {
-        StopWatch sw = ( StopWatch ) taskStats.get( be.getTask() );
+    public void taskFinished(BuildEvent be) {
+        StopWatch sw = (StopWatch) taskStats.get(be.getTask());
 	if (sw != null)
             sw.stop();
     }
 
     /**
-     * no-op    
+     * no-op
      */
-    public void messageLogged( BuildEvent be ) {
+    public void messageLogged(BuildEvent be) {
         // does nothing
     }
 
     /**
-     * Compares the total times for two StopWatches.    
+     * Compares the total times for two StopWatches.
      */
     public class StopWatchComparator implements Comparator {
         /**
-         * Compares the total times for two StopWatches.    
+         * Compares the total times for two StopWatches.
          */
-        public int compare( Object o1, Object o2 ) {
-            StopWatch a = ( StopWatch ) o1;
-            StopWatch b = ( StopWatch ) o2;
-            if ( a.total() < b.total() )
+        public int compare(Object o1, Object o2) {
+            StopWatch a = (StopWatch) o1;
+            StopWatch b = (StopWatch) o2;
+            if (a.total() < b.total())
                 return -1;
-            else if ( a.total() == b.total() )
+            else if (a.total() == b.total())
                 return 0;
             else
                 return 1;
@@ -304,17 +312,17 @@ public class AntPerformanceListener implements BuildListener {
     }
 
     // quick test for the formatter
-    public static void main ( String[] args ) {
+    public static void main (String[] args) {
         AntPerformanceListener apl = new AntPerformanceListener();
 
-        System.out.println( apl.format( 1 ) );
-        System.out.println( apl.format( 10 ) );
-        System.out.println( apl.format( 100 ) );
-        System.out.println( apl.format( 1000 ) );
-        System.out.println( apl.format( 100000 ) );
-        System.out.println( apl.format( 1000000 ) );
-        System.out.println( apl.format( 10000000 ) );
-        System.out.println( apl.format( 100000000 ) );
-        System.out.println( apl.format( 1000000000 ) );
+        System.out.println(apl.format(1));
+        System.out.println(apl.format(10));
+        System.out.println(apl.format(100));
+        System.out.println(apl.format(1000));
+        System.out.println(apl.format(100000));
+        System.out.println(apl.format(1000000));
+        System.out.println(apl.format(10000000));
+        System.out.println(apl.format(100000000));
+        System.out.println(apl.format(1000000000));
     }
 }

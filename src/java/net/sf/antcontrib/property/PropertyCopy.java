@@ -17,7 +17,7 @@ package net.sf.antcontrib.property;
 
 import org.apache.tools.ant.BuildException;
 
-/***
+/**
  * Task definition for the propertycopy task, which copies the value of a
  * named property to another property.  This is useful when you need to
  * plug in the value of another property in order to get a property name
@@ -45,7 +45,7 @@ import org.apache.tools.ant.BuildException;
  *
  *   Example:
  *     &lt;property name="org" value="MyOrg" /&gt;
- *     &lt;property name="org.MyOrg.DisplayName" value="My Organiziation" /&gt;
+ *     &lt;property name="org.MyOrg.DisplayName" value="My Organization" /&gt;
  *     &lt;propertycopy name="displayName" from="org.${org}.DisplayName" /&gt;
  *     &lt;echo message="${displayName}" /&gt;
  * </pre>
@@ -58,7 +58,7 @@ public class PropertyCopy
     private String from;
     private boolean silent;
 
-    /***
+    /**
      * Default Constructor
      */
     public PropertyCopy()
@@ -105,5 +105,3 @@ public class PropertyCopy
     }
 
 }
-
-

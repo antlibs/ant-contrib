@@ -20,19 +20,19 @@ import org.apache.tools.ant.taskdefs.condition.IsFalse;
 
 /**
  * Extends IsFalse condition to check the value of a specified property.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author     Dale Anson, danson@germane-software.com
+ * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.3 $
  */
 public class IsPropertyFalse extends IsFalse {
-    
+
     private String name = null;
-    
+
     public void setProperty(String name) {
-        this.name = name;   
+        this.name = name;
     }
-    
+
     public boolean eval() throws BuildException {
         if (name == null)
             throw new BuildException("Property name must be set.");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.commands;
+package net.sf.antcontrib.antserver.commands;
 
 import java.io.InputStream;
 
@@ -21,17 +21,11 @@ import org.apache.tools.ant.Project;
 
 import net.sf.antcontrib.antserver.Command;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class HelloWorldCommand
         extends AbstractCommand
         implements Command

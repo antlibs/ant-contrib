@@ -22,18 +22,11 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *               
- ****************************************************************************/
-
-
+ */
 public class URLEncodeTask
         extends AbstractPropertySetterTask
 {
@@ -44,7 +37,6 @@ public class URLEncodeTask
     {
         setProperty(name);
     }
-
 
     public void setValue(String value)
     {

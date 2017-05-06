@@ -22,15 +22,11 @@ import org.apache.tools.ant.Project;
 
 import net.sf.antcontrib.antserver.Command;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public abstract class AbstractCommand
         implements Command
 {
@@ -39,25 +35,21 @@ public abstract class AbstractCommand
         return 0;
     }
 
-
     public InputStream getContentStream()
         throws IOException
     {
         return null;
     }
 
-
     public long getResponseContentLength()
     {
         return 0;
     }
 
-
     public InputStream getReponseContentStream() throws IOException
     {
         return null;
     }
-
 
     public boolean respond(Project project,
                            long contentLength,

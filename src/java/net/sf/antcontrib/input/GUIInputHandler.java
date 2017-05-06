@@ -15,8 +15,9 @@
  */
 package net.sf.antcontrib.input;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.input.InputHandler;
@@ -40,7 +41,7 @@ public class GUIInputHandler implements InputHandler {
     /**
      * @param parent the parent component to display the input dialog.
      */
-    public GUIInputHandler( Component parent ) {
+    public GUIInputHandler(Component parent) {
         this.parent = parent;
     }
 
@@ -48,30 +49,30 @@ public class GUIInputHandler implements InputHandler {
      * Prompts and requests input.  May loop until a valid input has
      * been entered.
      */
-    public void handleInput( InputRequest request ) throws BuildException {
+    public void handleInput(InputRequest request) throws BuildException {
 
-        if ( request instanceof MultipleChoiceInputRequest ) {
+        if (request instanceof MultipleChoiceInputRequest) {
             String prompt = request.getPrompt();
             String title = "Select Input";
             int optionType = JOptionPane.YES_NO_OPTION;
             int messageType = JOptionPane.QUESTION_MESSAGE;
             Icon icon = null;
-            Object[] choices = ( ( MultipleChoiceInputRequest ) request ).getChoices().toArray();
+            Object[] choices = ((MultipleChoiceInputRequest) request).getChoices().toArray();
             Object initialChoice = null;
             do {
-                Object input = JOptionPane.showInputDialog(parent, prompt, 
+                Object input = JOptionPane.showInputDialog(parent, prompt,
                     title, optionType, icon, choices, initialChoice);
                 if (input == null)
                    throw new BuildException("User cancelled.");
                 request.setInput(input.toString());
             } while (!request.isInputValid());
-            
+
         }
         else {
             do {
-                String input = JOptionPane.showInputDialog( parent, request.getPrompt() );
-                request.setInput( input );
-            } while ( !request.isInputValid() );
+                String input = JOptionPane.showInputDialog(parent, request.getPrompt());
+                request.setInput(input);
+            } while (!request.isInputValid());
         }
     }
 

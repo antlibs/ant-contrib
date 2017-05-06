@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-
-/****************************************************************************
+/**
  * A section within an IniFile.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class IniSection
         implements IniPart
 {
@@ -35,8 +36,8 @@ public class IniSection
     private List properties;
     private Map propertyMap;
 
-    /***
-     * Default contructor, constructs an IniSectino with no name
+    /**
+     * Default constructor, constructs an IniSection with no name
      */
     public IniSection()
     {
@@ -45,8 +46,7 @@ public class IniSection
         this.properties = new ArrayList();
     }
 
-
-    /***
+    /**
      * Constructs an IniSection with the given name
      * @param name The name of the section
      */
@@ -56,8 +56,7 @@ public class IniSection
         this.name = name;
     }
 
-
-    /***
+    /**
      * Gets a list of all properties in this section
      * @return A List of IniProperty objects
      */
@@ -66,17 +65,16 @@ public class IniSection
         return properties;
     }
 
-
-    /***
+    /**
      * Gets the name of the section
+     * @return String
      */
     public String getName()
     {
         return name;
     }
 
-
-    /***
+    /**
      * Sets the name of the section
      * @param name The name of the section
      */
@@ -85,16 +83,17 @@ public class IniSection
         this.name = name;
     }
 
-    /***
+    /**
      * Gets the property with the given name
      * @param name The name of the property
+     * @return IniProperty
      */
     public IniProperty getProperty(String name)
     {
         return (IniProperty)propertyMap.get(name);
     }
 
-    /***
+    /**
      * Sets a property, replacing the old value, if necessary.
      * @param property The property to set
      */
@@ -114,8 +113,8 @@ public class IniSection
         propertyMap.put(property.getName(), property);
     }
 
-    /***
-     * Removes a property from this ection
+    /**
+     * Removes a property from this section
      * @param name The name of the property to remove
      */
     public void removeProperty(String name)
@@ -128,7 +127,6 @@ public class IniSection
             propertyMap.remove(name);
         }
     }
-
 
     public void write(Writer writer)
         throws IOException

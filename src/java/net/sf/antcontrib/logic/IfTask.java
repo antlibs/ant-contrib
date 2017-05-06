@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.sf.antcontrib.logic;
 
 import java.util.Vector;
@@ -150,8 +149,9 @@ public class IfTask extends ConditionBase {
     private Vector     elseIfTasks = new Vector();
     private Sequential elseTasks = null;
 
-    /***
+    /**
      * A nested Else if task
+     * @param ei ElseIf
      */
     public void addElseIf(ElseIf ei)
     {
@@ -163,6 +163,7 @@ public class IfTask extends ConditionBase {
      * be run if the condition holds true.
      *
      * <p>Not required.</p>
+     * @param t Sequential
      */
     public void addThen(Sequential t) {
         if (thenTasks != null) {
@@ -176,6 +177,7 @@ public class IfTask extends ConditionBase {
      * be run if the condition doesn't hold true.
      *
      * <p>Not required.</p>
+     * @param e Sequential
      */
     public void addElse(Sequential e) {
         if (elseTasks != null) {

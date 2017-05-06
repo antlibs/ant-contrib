@@ -23,8 +23,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
 
-
-/***
+/**
  * Task definition for the foreach task.  The foreach task iterates
  * over a list, a list of filesets, or both.
  *
@@ -52,15 +51,15 @@ import org.apache.tools.ant.types.Reference;
  *   </code>
  *
  *   Attributes:
- *         outputsetref --> The reference of the output Path set which will contain the
+ *         outputsetref --&gt; The reference of the output Path set which will contain the
  *                          files with the latest timestamps.
- *         property  --> The name of the property to set with file having the latest
- *                       timestamp.  If you specify the "count" attribute, you will get
- *                       the lastest N files.  These will be the absolute pathnames
- *         count     --> How many of the latest files do you wish to find
- *         pathSep   --> What to use as the path separator when using the "property"
- *                       attribute, in conjunction with the "count" attribute
- *         pathref   --> The reference of the path which is the input set of files.
+ *         property     --&gt; The name of the property to set with file having the latest
+ *                          timestamp.  If you specify the "count" attribute, you will get
+ *                          the lastest N files.  These will be the absolute pathnames
+ *         count        --&gt; How many of the latest files do you wish to find
+ *         pathSep      --&gt; What to use as the path separator when using the "property"
+ *                          attribute, in conjunction with the "count" attribute
+ *         pathref      --&gt; The reference of the path which is the input set of files.
  *
  * </pre>
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
@@ -77,8 +76,7 @@ public class TimestampSelector extends Task
     private char pathSep = ',';
     private String age = AGE_YOUNGEST;
 
-
-    /***
+    /**
      * Default Constructor
      */
     public TimestampSelector()
@@ -86,14 +84,13 @@ public class TimestampSelector extends Task
         super();
     }
 
-
     public void doFileSetExecute(String paths[])
         throws BuildException
     {
 
     }
 
-        // Sorts entire array
+    // Sorts entire array
     public void sort(Vector array)
     {
         sort(array, 0, array.size() - 1);
@@ -183,9 +180,6 @@ public class TimestampSelector extends Task
         for (int i=0;i<sz && i<count;i++)
             v2.add(v.elementAt(i));
 
-
-
-
         // Build the resulting Path object
         Path path = new Path(getProject());
         sz = v2.size();
@@ -195,7 +189,6 @@ public class TimestampSelector extends Task
             Path p = new Path(getProject(), f.getAbsolutePath());
             path.addExisting(p);
         }
-
 
         if (outputSetId != null)
         {
@@ -219,7 +212,6 @@ public class TimestampSelector extends Task
                 getProject().setProperty(property, sb.toString());
         }
     }
-
 
     public void setProperty(String property)
     {
@@ -269,7 +261,6 @@ public class TimestampSelector extends Task
         }
     }
 
-
     public Path createPath()
             throws BuildException
     {
@@ -281,5 +272,3 @@ public class TimestampSelector extends Task
     }
 
 }
-
-

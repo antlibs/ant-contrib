@@ -27,40 +27,38 @@ import org.apache.bcel.generic.PUTSTATIC;
 import org.apache.bcel.generic.Type;
 import org.apache.tools.ant.Project;
 
-
-
 public class InstructionVisitor extends EmptyVisitor {
 
-	
 	private ConstantPoolGen poolGen;
 	private Log log;
 	private Design design;
-	
+
 	/**
-	 * @param poolGen
-	 * @param v
+	 * @param poolGen ConstantPoolGen
+	 * @param log Log
+	 * @param d Design
 	 */
 	public InstructionVisitor(ConstantPoolGen poolGen, Log log, Design d) {
 		this.poolGen = poolGen;
 		this.log = log;
 		this.design = d;
 	}
-	
+
 	public void visitCHECKCAST(CHECKCAST c) {
 		Type t = c.getType(poolGen);
 		log.log("         instr(checkcast)="+t, Project.MSG_DEBUG);
 		String type = t.toString();
 
-		design.checkClass(type);		
+		design.checkClass(type);
 	}
-	
+
 	public void visitLoadInstruction(LoadInstruction l) {
 		//log.log(" visit load", Project.MSG_DEBUG);
 		Type t = l.getType(poolGen);
 		log.log("         instr(loadinstr)="+t, Project.MSG_DEBUG);
 		String type = t.toString();
 
-		design.checkClass(type);	
+		design.checkClass(type);
 	}
 
 	public void visitNEW(NEW n) {
@@ -70,7 +68,7 @@ public class InstructionVisitor extends EmptyVisitor {
 
 		design.checkClass(type);
 	}
-	
+
 	public void visitANEWARRAY(ANEWARRAY n) {
 		Type t = n.getType(poolGen);
 		log.log("         instr(anewarray)="+t, Project.MSG_DEBUG);
@@ -78,7 +76,7 @@ public class InstructionVisitor extends EmptyVisitor {
 
 		design.checkClass(type);
 	}
-	
+
 	public void visitINSTANCEOF(INSTANCEOF i) {
 		Type t = i.getType(poolGen);
 		log.log("         instr(instanceof)="+t, Project.MSG_DEBUG);
@@ -92,7 +90,7 @@ public class InstructionVisitor extends EmptyVisitor {
 
 		design.checkClass(t);
 	}
-	
+
 	public void visitPUTSTATIC(PUTSTATIC s) {
 		String one = s.getClassName(poolGen);
 		String two = s.getFieldName(poolGen);
@@ -106,18 +104,18 @@ public class InstructionVisitor extends EmptyVisitor {
 		log.log("         instr(putstatic)d="+four, Project.MSG_DEBUG);
 		log.log("         instr(putstatic)e="+five, Project.MSG_DEBUG);
 		log.log("         instr(putstatic)f="+six, Project.MSG_DEBUG);
-		
+
 		String className = s.getFieldName(poolGen);
 		if("staticField".equals(className))
 			return;
-		
+
 		if(className.startsWith("class$") || className.startsWith("array$"))
 			;
 		else return;
-		
+
 		log.log("         instr(putstatic)1="+className, Project.MSG_DEBUG);
 		className = className.substring(6, className.length());
-		log.log("         instr(putstatic)2="+className, Project.MSG_DEBUG);		
+		log.log("         instr(putstatic)2="+className, Project.MSG_DEBUG);
 		className = className.replace('$', '.');
 		log.log("         instr(putstatic)3="+className, Project.MSG_DEBUG);
 

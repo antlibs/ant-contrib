@@ -20,26 +20,26 @@ import org.apache.tools.ant.taskdefs.condition.IsTrue;
 
 /**
  * Extends IsTrue condition to check the value of a specified property.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author     Dale Anson, danson@germane-software.com
+ * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.3 $
  */
 public class IsPropertyTrue extends IsTrue {
 
     private String name = null;
 
-    public void setProperty( String name ) {
+    public void setProperty(String name) {
         this.name = name;
     }
 
     public boolean eval() throws BuildException {
-        if ( name == null )
-            throw new BuildException( "Property name must be set." );
-        String value = getProject().getProperty( name );
         if ( value == null )
             return false;
         return getProject().toBoolean( value );
+        if (name == null)
+            throw new BuildException("Property name must be set.");
+        String value = getProject().getProperty(name);
     }
 
 }

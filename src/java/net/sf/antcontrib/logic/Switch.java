@@ -21,7 +21,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Sequential;
 
-/***
+/**
  * Task definition for the ANT task to switch on a particular value.
  *
  * <pre>
@@ -46,7 +46,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *         &lt;property name="propname" value="propvalue" /&gt; |
  *         &lt;antcall target="targetname" /&gt; |
  *         any other tasks
- *       &lt;/default&gt; 
+ *       &lt;/default&gt;
  *      ]
  *     &lt;/switch&gt;
  *    </code>
@@ -63,7 +63,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *                    the case, then the nested tasks will be executed.
  *       default  --&gt; The default case for when no match is found.
  *
- * 
+ *
  * Crude Example:
  *
  *     <code>
@@ -91,8 +91,8 @@ public class Switch extends Task
     private Vector cases;
     private Sequential defaultCase;
     private boolean caseInsensitive;
-    
-    /***
+
+    /**
      * Default Constructor
      */
     public Switch()
@@ -138,8 +138,9 @@ public class Switch extends Task
         selectedCase.perform();
     }
 
-    /***
+    /**
      * Sets the value being switched on
+     * @param value String
      */
     public void setValue(String value)
     {
@@ -159,7 +160,7 @@ public class Switch extends Task
         {
             super();
         }
-        
+
         public void setValue(String value)
         {
             this.value = value;
@@ -177,12 +178,13 @@ public class Switch extends Task
             Case c = (Case)o;
             if (c.value.equals(value))
                 res = true;
-            return res;                
+            return res;
         }
     }
 
-    /***
+    /**
      * Creates the &lt;case&gt; tag
+     * @return Switch.Case
      */
     public Switch.Case createCase()
         throws BuildException
@@ -192,8 +194,9 @@ public class Switch extends Task
         return res;
     }
 
-    /***
+    /**
      * Creates the &lt;default&gt; tag
+     * @param res Sequential
      */
     public void addDefault(Sequential res)
         throws BuildException

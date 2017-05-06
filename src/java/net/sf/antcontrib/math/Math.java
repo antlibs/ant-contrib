@@ -20,14 +20,11 @@ import org.apache.tools.ant.BuildException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
 /**
  * Utility class for executing calculations.
  *
- * @author		inger
+ * @author Matthew Inger
  */
-
-
 public class Math
 {
     public static final Number evaluate(String operation,
@@ -48,14 +45,13 @@ public class Math
                                                         Boolean.TYPE,
                                                         operands.getClass()
                                                     });
-            Number n = (Number) m.invoke(null,
+
+            return (Number) m.invoke(null,
                                          new Object[]{
                                              datatype,
                                              strict ? Boolean.TRUE : Boolean.FALSE,
                                              operands
                                          });
-
-            return n;
         }
         catch (NoSuchMethodException e)
         {

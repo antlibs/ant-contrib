@@ -20,24 +20,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-/*
+/**
  * Created on Aug 24, 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-/**
- * FILL IN JAVADOC HERE
- *
- * @author Dean Hiller(dean@xsoftware.biz)
+ * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Package {
-    
+
     public final static String DEFAULT = "default package";
     private String name;
     private String pack;
-    
+
     //holds the name attribute of the package element of each
     //package this package depends on.
     private List depends;
@@ -55,11 +48,11 @@ public class Package {
     public String getName() {
         return name;
     }
-        
+
     public void setPackage(String pack) {
         this.pack = pack;
     }
-    
+
     public String getPackage() {
         return pack;
     }
@@ -70,70 +63,76 @@ public class Package {
         depends.add(d);
         unusedDepends.add(d);
     }
-    
+
     public Depends[] getDepends() {
         Depends[] d = new Depends[0];
         if(depends == null)
             return d;
         return (Depends[])depends.toArray(d);
     }
-    
+
     /**
-     * @param b
+     * @param b boolean
      */
     public void setIncludeSubpackages(boolean b) {
         isIncludeSubpackages = b;
     }
+
     /**
-     * @return
+     * @return boolean
      */
     public boolean isIncludeSubpackages() {
         return isIncludeSubpackages;
     }
+
     /**
-     * @param b
+     * @param b boolean
      */
     public void setNeedDeclarations(boolean b) {
         needDeclarations = b;
     }
+
     /**
-     * @return
+     * @return boolean
      */
     public boolean isNeedDeclarations() {
         return needDeclarations;
     }
+
     /**
-     * @param b
+     * @param b boolean
      */
     public void setNeedDepends(boolean b) {
         needDepends = b;
     }
-    
+
     public boolean getNeedDepends() {
         return needDepends;
     }
+
     /**
-     * @param b
+     * @param b boolean
      */
     public void setUsed(boolean b)
     {
         isUsed  = b;
     }
+
     public boolean isUsed()
     {
         return isUsed;
     }
+
     /**
-     * @param d
+     * @param d Depends
      */
     public void addUsedDependency(Depends d)
     {
         unusedDepends.remove(d);
     }
-    
+
     public Set getUnusedDepends() {
         return unusedDepends;
     }
-    
-}
 
+}

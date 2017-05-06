@@ -15,7 +15,6 @@
  */
 package net.sf.antcontrib.platform;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -27,21 +26,21 @@ import org.apache.tools.ant.util.FileUtils;
 /**
  *  A generic front-end for passing "shell lines" to any application which can
  * accept a filename containing script input (bash, perl, csh, tcsh, etc.).
- * see antcontrib doc for useage
+ * see antcontrib doc for usage
  *
- * @author stephan beal
- *@author peter reilly
+ * @author Stephan Beal
+ * @author Peter Reilly
  */
-
 public class ShellScriptTask extends ExecTask {
 
     private StringBuffer script = new StringBuffer();
     private String shell = null;
-    private File     tmpFile;
+    private File   tmpFile;
     private String tmpSuffix = null;
 
     /**
      *  Adds s to the lines of script code.
+     *  @param s String
      */
     public void addText(String s) {
         script.append(getProject().replaceProperties(s));
@@ -49,6 +48,7 @@ public class ShellScriptTask extends ExecTask {
 
     /**
      *  Sets script code to s.
+     *  @param s String
      */
     public void setInputString(String s) {
         script.append(s);
@@ -79,8 +79,7 @@ public class ShellScriptTask extends ExecTask {
     public void setCommand(Commandline notUsed) {
         throw new BuildException("Attribute command is not supported");
     }
-     
-    
+
     /**
      * Sets the suffix for the tmp file used to
      * contain the script.
@@ -92,7 +91,7 @@ public class ShellScriptTask extends ExecTask {
     public void setTmpSuffix(String tmpSuffix) {
         this.tmpSuffix = tmpSuffix;
     }
-    
+
     /**
      * execute the task
      */
@@ -112,7 +111,7 @@ public class ShellScriptTask extends ExecTask {
              // Get the default script suffix
              if (tmpSuffix == null)
                  tmpSuffix = Platform.getDefaultScriptSuffix();
-                 
+
          }
          */
         if (shell == null)
@@ -159,9 +158,12 @@ public class ShellScriptTask extends ExecTask {
             throw new BuildException(e);
         }
         finally {
-            try {os.close();} catch (Throwable t) {}
+            try {
+		os.close();
+	    }
+	    catch (Throwable t) {
+	    }
         }
     }
 
 }
-

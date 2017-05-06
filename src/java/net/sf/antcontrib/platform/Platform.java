@@ -22,9 +22,7 @@ import java.util.Vector;
 
 import org.apache.tools.ant.taskdefs.Execute;
 
-/***
- *
- * </pre>
+/**
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Platform
@@ -188,7 +186,6 @@ public class Platform
 
         return suffix;
     }
-        
 
     public static final String[] getDefaultShellArguments()
     {
@@ -213,5 +210,4 @@ public class Platform
 
         return args;
     }
-
 }

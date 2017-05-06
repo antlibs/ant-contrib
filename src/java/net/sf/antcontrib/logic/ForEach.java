@@ -35,7 +35,7 @@ import org.apache.tools.ant.util.FileNameMapper;
 import net.sf.antcontrib.util.ThreadPool;
 import net.sf.antcontrib.util.ThreadPoolThread;
 
-/***
+/**
  * Task definition for the foreach task.  The foreach task iterates
  * over a list, a list of filesets, or both.
  *
@@ -50,22 +50,22 @@ import net.sf.antcontrib.util.ThreadPoolThread;
  *
  *   Call Syntax:
  *   <code>
- *     &lt;foreach list="values" target="targ" param="name"
+ *     &lt;foreach list="values" target="target" param="name"
  *                 [parallel="true|false"]
  *                 [delimiter="delim"] /&gt;
  *   </code>
  *
  *   Attributes:
- *         list      --> The list of values to process, with the delimiter character,
+ *         list      --&gt; The list of values to process, with the delimiter character,
  *                       indicated by the "delim" attribute, separating each value
- *         target    --> The target to call for each token, passing the token as the
+ *         target    --&gt; The target to call for each token, passing the token as the
  *                       parameter with the name indicated by the "param" attribute
- *         param     --> The name of the parameter to pass the tokens in as to the
+ *         param     --&gt; The name of the parameter to pass the tokens in as to the
  *                       target
- *         delimiter --> The delimiter string that separates the values in the "list"
+ *         delimiter --&gt; The delimiter string that separates the values in the "list"
  *                       parameter.  The default is ","
- *         parallel  --> Should all targets execute in parallel.  The default is false.
- *         trim      --> Should we trim the list item before calling the target?
+ *         parallel  --&gt; Should all targets execute in parallel.  The default is false.
+ *         trim      --&gt; Should we trim the list item before calling the target?
  *
  * </pre>
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
@@ -86,7 +86,7 @@ public class ForEach extends Task
     private int maxThreads;
     private Mapper mapper;
 
-    /***
+    /**
      * Default Constructor
      */
     public ForEach()
@@ -288,6 +288,7 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritall</code>
      * attribute.
+     * @param b boolean
      */
     public void setInheritall(boolean b) {
         this.inheritAll = b;
@@ -296,26 +297,26 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritrefs</code>
      * attribute.
+     * @param b boolean
      */
     public void setInheritrefs(boolean b) {
         this.inheritRefs = b;
     }
 
-
-    /***
+    /**
      * Set the maximum amount of threads we're going to allow
      * at once to execute
-     * @param maxThreads
+     * @param maxThreads int
      */
     public void setMaxThreads(int maxThreads)
     {
         this.maxThreads = maxThreads;
     }
 
-
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;param&gt;</code> element.
+     * @param p Property
      */
     public void addParam(Property p) {
         params.addElement(p);
@@ -324,6 +325,7 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;reference&gt;</code> element.
+     * @param r Ant.Reference
      */
     public void addReference(Ant.Reference r) {
         references.addElement(r);
@@ -331,10 +333,11 @@ public class ForEach extends Task
 
     /**
      * @deprecated Use createPath instead.
+     * @param set FileSet
      */
     public void addFileset(FileSet set)
     {
-        log("The nested fileset element is deprectated, use a nested path "
+        log("The nested fileset element is deprecated, use a nested path "
             + "instead",
             Project.MSG_WARN);
         createPath().addFileset(set);
@@ -419,5 +422,3 @@ public class ForEach extends Task
     }
 
 }
-
-

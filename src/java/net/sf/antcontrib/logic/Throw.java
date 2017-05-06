@@ -33,13 +33,14 @@ public class Throw extends Exit {
 
     /**
      * The reference that points to a BuildException.
+     * @param ref Reference
      */
     public void setRefid(Reference ref) {
         this.ref = ref;
     }
 
     public void execute() throws BuildException {
-        Object reffed = ref != null 
+        Object reffed = ref != null
             ? ref.getReferencedObject(getProject())
             : null;
         if (reffed != null && reffed instanceof BuildException) {

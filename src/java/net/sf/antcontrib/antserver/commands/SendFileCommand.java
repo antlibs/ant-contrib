@@ -15,7 +15,11 @@
  */
 package net.sf.antcontrib.antserver.commands;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -23,17 +27,11 @@ import org.apache.tools.ant.Project;
 import net.sf.antcontrib.antserver.Command;
 import net.sf.antcontrib.antserver.Util;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class SendFileCommand
         extends AbstractCommand
         implements Command
@@ -67,24 +65,20 @@ public class SendFileCommand
         this.contentLength = file.length();
     }
 
-
     public String getTofile()
     {
         return tofile;
     }
-
 
     public void setTofile(String tofile)
     {
         this.tofile = tofile;
     }
 
-
     public String getTodir()
     {
         return todir;
     }
-
 
     public void setTodir(String todir)
     {
@@ -113,7 +107,6 @@ public class SendFileCommand
             throw new BuildException(e);
         }
         */
-
 
     }
 
@@ -163,7 +156,7 @@ public class SendFileCommand
             }
             catch (IOException e)
             {
-                ; // gulp;
+                // gulp;
             }
         }
         return false;

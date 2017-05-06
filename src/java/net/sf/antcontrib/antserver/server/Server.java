@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -23,17 +23,11 @@ import java.net.Socket;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class Server
         implements Runnable
 {
@@ -80,7 +74,6 @@ public class Server
                 throw new BuildException(e);
             }
 
-
             while (running)
             {
                 try
@@ -94,7 +87,7 @@ public class Server
                 }
                 catch (InterruptedIOException e)
                 {
-                    ; // gulp, no socket connection
+                    // gulp, no socket connection
                 }
                 catch (IOException e)
                 {
@@ -114,12 +107,11 @@ public class Server
                 }
                 catch (IOException e)
                 {
-                    ; // gulp
+                    // gulp
                 }
             }
         }
         running = false;
-
 
     }
 

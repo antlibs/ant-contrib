@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.commands;
+package net.sf.antcontrib.antserver.commands;
 
 import java.io.File;
 import java.io.InputStream;
@@ -26,17 +26,11 @@ import org.apache.tools.ant.taskdefs.Property;
 
 import net.sf.antcontrib.antserver.Command;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class RunAntCommand
         extends AbstractCommand
         implements Command
@@ -57,24 +51,20 @@ public class RunAntCommand
         this.references = new Vector();
     }
 
-
     public String getTarget()
     {
         return target;
     }
-
 
     public void setTarget(String target)
     {
         this.target = target;
     }
 
-
     public Vector getProperties()
     {
         return properties;
     }
-
 
     public void setProperties(Vector properties)
     {
@@ -86,7 +76,6 @@ public class RunAntCommand
         return references;
     }
 
-
     public void setReferences(Vector references)
     {
         this.references = references;
@@ -97,48 +86,40 @@ public class RunAntCommand
         return inheritall;
     }
 
-
     public void setInheritall(boolean inheritall)
     {
         this.inheritall = inheritall;
     }
-
 
     public boolean isInteritrefs()
     {
         return interitrefs;
     }
 
-
     public void setInteritrefs(boolean interitrefs)
     {
         this.interitrefs = interitrefs;
     }
-
 
     public String getAntFile()
     {
         return antFile;
     }
 
-
     public void setAntFile(String antFile)
     {
         this.antFile = antFile;
     }
-
 
     public String getDir()
     {
         return dir;
     }
 
-
     public void setDir(String dir)
     {
         this.dir = dir;
     }
-
 
     public void addConfiguredProperty(PropertyContainer property)
     {

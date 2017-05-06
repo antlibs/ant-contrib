@@ -19,18 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class Util
 {
     public static final int CHUNK = 10*1024;
@@ -61,7 +54,7 @@ public class Util
         }
         catch (IOException e)
         {
-            // ; gulp
+            // gulp
         }
     }
 }

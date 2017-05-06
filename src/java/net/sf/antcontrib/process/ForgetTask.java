@@ -17,18 +17,11 @@ package net.sf.antcontrib.process;
 
 import org.apache.tools.ant.taskdefs.Sequential;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *               
- ****************************************************************************/
-
-
+ */
 public class ForgetTask
         extends Sequential
         implements Runnable
@@ -40,12 +33,10 @@ public class ForgetTask
         super();
     }
 
-
     public void setDaemon(boolean daemon)
     {
         this.daemon = daemon;
     }
-
 
     public void execute()
     {
@@ -58,5 +49,4 @@ public class ForgetTask
     {
         super.execute();
     }
-
 }

@@ -22,7 +22,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 
 /**
- * @author dhiller
+ * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class VerifyDesign
         extends Task
@@ -45,19 +45,19 @@ public class VerifyDesign
     public void setCircularDesign(boolean isCircularDesign) {
         delegate.setCircularDesign(isCircularDesign);
     }
-    
+
     public void setDeleteFiles(boolean deleteFiles) {
         delegate.setDeleteFiles(deleteFiles);
     }
-    
+
     public void setFillInBuildException(boolean b) {
     	delegate.setFillInBuildException(b);
     }
-    
+
     public void setNeedDeclarationsDefault(boolean b) {
     	delegate.setNeedDeclarationsDefault(b);
     }
-    
+
     public void setNeedDependsDefault(boolean b) {
     	delegate.setNeedDependsDefault(b);
     }

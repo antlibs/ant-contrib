@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package net.sf.antcontrib.antclipse;
+
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
@@ -34,7 +35,7 @@ import org.xml.sax.SAXParseException;
  * obtain (a classpath or a fileset)
  * @author Adrian Spinei aspinei@myrealbox.com
  * @version $Revision: 1.2 $
-  * @since Ant 1.5
+ * @since Ant 1.5
  */
 public class ClassPathTask extends Task
 {
@@ -61,7 +62,7 @@ public class ClassPathTask extends Task
 
 	/**
 	 * Setter for task parameter
-	 * @param produce This parameter tells the task wether to produce a "classpath" or a "fileset" (multiple filesets, as a matter of fact).
+	 * @param produce This parameter tells the task whether to produce a "classpath" or a "fileset" (multiple filesets, as a matter of fact).
 	 */
 	public void setproduce(String produce)
 	{
@@ -111,7 +112,7 @@ public class ClassPathTask extends Task
 
 	/**
 	 * Setter for task parameter
-	 * @param idContainer The refid which will serve to identify the deliverables. When multiple filesets are produces, their refid is a concatenation between this value and something else (usually obtained from a path). Default "antclipse" 
+	 * @param idContainer The refid which will serve to identify the deliverables. When multiple filesets are produces, their refid is a concatenation between this value and something else (usually obtained from a path). Default "antclipse"
 	 */
 	public void setIdContainer(String idContainer)
 	{
@@ -194,7 +195,7 @@ public class ClassPathTask extends Task
 		}
 
 		/**
-		 * @param fileSet
+		 * @param fileSet FileSet
 		 */
 		public FileSetCustomHandler(FileSet fileSet)
 		{
@@ -310,7 +311,7 @@ public class ClassPathTask extends Task
 							}
 							else
 							{
-								//not otuptut, just add file after file to the fileset
+								//not output, just add file after file to the fileset
 								File file = new File(fileSet.getDir(getProject()) + "/" + path);
 								if (file.isDirectory())
 									path += "/**/*";

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -27,17 +27,11 @@ import org.apache.tools.ant.BuildListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class ConnectionBuildListener
         implements BuildListener
 {
@@ -68,11 +62,9 @@ public class ConnectionBuildListener
     {
     }
 
-
     public void buildFinished(BuildEvent event)
     {
     }
-
 
     public void targetStarted(BuildEvent event)
     {
@@ -87,7 +79,6 @@ public class ConnectionBuildListener
 
         elementStack.push(myElement);
     }
-
 
     public void targetFinished(BuildEvent event)
     {
@@ -128,7 +119,6 @@ public class ConnectionBuildListener
         elementStack.pop();
     }
 
-
     public void taskStarted(BuildEvent event)
     {
 
@@ -143,7 +133,6 @@ public class ConnectionBuildListener
 
         elementStack.push(myElement);
     }
-
 
     public void taskFinished(BuildEvent event)
     {
@@ -179,7 +168,6 @@ public class ConnectionBuildListener
 
         elementStack.pop();
     }
-
 
     public void messageLogged(BuildEvent event)
     {

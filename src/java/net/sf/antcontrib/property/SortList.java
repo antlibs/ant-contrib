@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.property;
+package net.sf.antcontrib.property;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,17 +27,11 @@ import java.util.Locale;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class SortList
         extends AbstractPropertySetterTask
 {
@@ -64,12 +58,10 @@ public class SortList
         this.value = value;
     }
 
-
     public void setRefid(Reference ref)
     {
         this.ref = ref;
     }
-
 
     public void setCasesensitive(boolean casesenstive)
     {
@@ -81,18 +73,15 @@ public class SortList
         this.delimiter = delimiter;
     }
 
-
     public void setOrderPropertyFile(File orderPropertyFile)
     {
         this.orderPropertyFile = orderPropertyFile;
     }
 
-
     public void setOrderPropertyFilePrefix(String orderPropertyFilePrefix)
     {
         this.orderPropertyFilePrefix = orderPropertyFilePrefix;
     }
-
 
     private static void mergeSort(String src[],
                                   String dest[],
@@ -172,7 +161,6 @@ public class SortList
         x[b] = t;
     }
 
-
     private Vector sortByOrderPropertyFile(Vector props)
         throws IOException
     {
@@ -231,7 +219,7 @@ public class SortList
             }
             catch (IOException e)
             {
-                ; // gulp
+                // gulp
             }
         }
     }
@@ -256,7 +244,6 @@ public class SortList
         Vector vec = new Vector(st.countTokens());
         while (st.hasMoreTokens())
             vec.addElement(st.nextToken());
-
 
         String propList[] = null;
 

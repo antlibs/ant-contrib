@@ -17,7 +17,7 @@ package net.sf.antcontrib.net;
 
 /**
  * Simple bean to represent a name/value pair.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
  * @author    Dale Anson, danson@germane-software.com
  * @version   $Revision: 1.3 $
@@ -25,17 +25,20 @@ package net.sf.antcontrib.net;
 public class Prop {
     private String name = null;
     private String value = null;
-    public void setName( String name ) {
+
+    public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
-    public void setValue( String value ) {
+
+    public void setValue(String value) {
         this.value = value;
     }
+
     public String getValue() {
         return value;
     }
 }
-

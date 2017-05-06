@@ -18,10 +18,8 @@ package net.sf.antcontrib.math;
 /**
  * An object which can evaluate to a numeric value.
  *
- * @author		inger
+ * @author Matthew Inger
  */
-
-
 public interface Evaluateable
 {
     Number evaluate();

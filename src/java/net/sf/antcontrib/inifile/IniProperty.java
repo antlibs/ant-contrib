@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.IOException;
 import java.io.Writer;
 
-
-/****************************************************************************
+/**
  * A single property in an IniSection.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
- ****************************************************************************/
-
-
+ */
 public class IniProperty
         implements IniPart
 {
     private String name;
     private String value;
 
-    /***
+    /**
      * Default constructor
      */
     public IniProperty()
@@ -41,7 +38,7 @@ public class IniProperty
         super();
     }
 
-    /***
+    /**
      * Construct an IniProperty with a certain name and value
      * @param name The name of the property
      * @param value The property value
@@ -53,15 +50,16 @@ public class IniProperty
         this.value = value;
     }
 
-    /***
+    /**
      * Gets the name of the property
+     * @return String
      */
     public String getName()
     {
         return name;
     }
 
-    /***
+    /**
      * Sets the name of the property
      * @param name The name of the property
      */
@@ -70,17 +68,16 @@ public class IniProperty
         this.name = name;
     }
 
-
-    /***
+    /**
      * Gets the value of the property
+     * @return String
      */
     public String getValue()
     {
         return value;
     }
 
-
-    /***
+    /**
      * Sets the value of the property
      * @param value the value of the property
      */
@@ -89,11 +86,10 @@ public class IniProperty
         this.value = value;
     }
 
-
-    /***
+    /**
      * Write this property to a writer object.
-     * @param writer
-     * @throws IOException
+     * @param writer Writer
+     * @throws IOException on write error
      */
     public void write(Writer writer)
             throws IOException

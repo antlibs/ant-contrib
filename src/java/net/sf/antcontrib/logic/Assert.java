@@ -16,24 +16,19 @@
 package net.sf.antcontrib.logic;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.antcontrib.logic.condition.BooleanConditionBase;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.TaskContainer;
 import org.apache.tools.ant.taskdefs.Exit;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 import org.apache.tools.ant.taskdefs.condition.Equals;
 
-
 /**
- *
+ * @author Matthew Inger
  */
 public class Assert
 	extends BooleanConditionBase {
@@ -42,23 +37,23 @@ public class Assert
 	private String message;
 	private boolean failOnError = true;
 	private boolean execute = true;
-    private Sequential sequential;
-    private String name;
-    private String value;
-	
-    public Sequential createSequential() {
-    	this.sequential = (Sequential) getProject().createTask("sequential");
-    	return this.sequential;
-    }
-    
-    public void setName(String name) {
-    	this.name = name;
-    }
-    
-    public void setValue(String value) {
-    	this.value = value;
-    }
-    
+	private Sequential sequential;
+	private String name;
+	private String value;
+
+	public Sequential createSequential() {
+		this.sequential = (Sequential) getProject().createTask("sequential");
+		return this.sequential;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -66,7 +61,7 @@ public class Assert
 	public BooleanConditionBase createBool() {
 		return this;
 	}
-	
+
 	public void setExecute(boolean execute) {
 		this.execute = execute;
 	}
@@ -78,7 +73,7 @@ public class Assert
 	public void execute() {
 		String use_asserts = getProject().getProperty("ant.enable.asserts");
 		boolean assertsEnabled = Project.toBoolean(use_asserts);
-		
+
 		if (assertsEnabled) {
 			if (name != null) {
 				if (value == null) {
@@ -115,9 +110,8 @@ public class Assert
 		else {
 			if (execute && sequential != null) {
 				this.sequential.execute();
-			}			
+			}
 		}
-	}
-	
+	 }
 
 }

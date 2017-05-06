@@ -24,27 +24,20 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-
-/*
+/**
  * Created on Aug 24, 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-/**
- * FILL IN JAVADOC HERE
- *
- * @author Dean Hiller(dean@xsoftware.biz)
+ * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Package {
-    
+
     private String name;
     private String pack;
 
     //signifies the package did not end with .* or .**
     private boolean badPackage = false;
     private String failureReason = null;
-    
+
     //holds the name attribute of the package element of each
     //package this package depends on.
     private String[] depends;
@@ -55,39 +48,41 @@ public class Package {
     public String getName() {
         return name;
     }
-        
+
     public void setPackage(String pack) {
         this.pack = pack;
     }
     public String getPackage() {
         return pack;
     }
-        
+
     public void setDepends(String d) {
         if(d == null) {
             throw new RuntimeException("depends cannot be set to null");
         }
-                
+
         //parse this first.
         StringTokenizer tok = new StringTokenizer(d, ", \t");
         depends = new String[tok.countTokens()];
         int i = 0;
         while(tok.hasMoreTokens()) {
-            depends[i] = tok.nextToken();	
+            depends[i] = tok.nextToken();
             i++;
         }
     }
-    
+
     public String[] getDepends() {
         return depends;
     }
-        
+
     /**
-     * FILL IN JAVADOC HERE
-     * 
+     * @param p Project
+     * @param l Location
+     * @return FileSet
+     * @throws BuildException if something goes wrong
      */
     public FileSet getJavaCopyFileSet(Project p, Location l) throws BuildException {
-        
+
         if(failureReason != null)
             throw new BuildException(failureReason, l);
         else if(pack.indexOf("/") != -1 || pack.indexOf("\\") != -1)
@@ -96,7 +91,7 @@ public class Package {
         FileSet set = new FileSet();
 
         String match = getMatch(p, pack, ".java");
-        //log("match="+match+" pack="+pack);               
+        //log("match="+match+" pack="+pack);
         //first exclude the compilation module, then exclude all it's
         //dependencies too.
         set.setIncludes(match);
@@ -105,30 +100,36 @@ public class Package {
     }
 
     /**
-     * FILL IN JAVADOC HERE
-     * 
+     * @param p Project
+     * @param l Location
+     * @return FileSet
+     * @throws BuildException if something goes wrong
      */
-    public FileSet getClassCopyFileSet(Project p, Location l) throws BuildException {        
+    public FileSet getClassCopyFileSet(Project p, Location l) throws BuildException {
         FileSet set = new FileSet();
         set.setIncludes("**/*.class");
         return set;
     }
-    
+
     public File getBuildSpace(File baseDir) {
         return new File(baseDir, name);
     }
 
     /**
+     * @param baseDir File
+     * @param p Project
      * @return the source path
      */
     public Path getSrcPath(File baseDir, Project p) {
         Path path = new Path(p);
-        
+
         path.setLocation(getBuildSpace(baseDir));
         return path;
     }
-    
+
     /**
+     * @param baseDir File
+     * @param p Project
      * @return the classpath
      */
     public Path getClasspath(File baseDir, Project p) {
@@ -137,18 +138,17 @@ public class Package {
         if(depends != null) {
             for(int i = 0; i < depends.length; i++) {
                 String buildSpace = (String)depends[i];
-                
+
                 File dependsDir = new File(baseDir, buildSpace);
                 path.setLocation(dependsDir);
             }
         }
         return path;
     }
-        
+
     private String getMatch(Project p, String pack, String postFix) {
         pack = p.replaceProperties(pack);
-        
-        
+
         pack = pack.replace('.', File.separatorChar);
 
         String match;
@@ -161,12 +161,11 @@ public class Package {
         }
         else
             throw new RuntimeException("Please report this bug");
-            
+
         return match;
     }
 
     /**
-     * FILL IN JAVADOC HERE
      * @param r a fault reason string
      */
     public void setFaultReason(String r) {

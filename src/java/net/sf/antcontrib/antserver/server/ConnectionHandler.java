@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 import org.apache.tools.ant.Project;
@@ -28,17 +33,11 @@ import net.sf.antcontrib.antserver.Util;
 import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 import net.sf.antcontrib.antserver.commands.ShutdownCommand;
 
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class ConnectionHandler
         implements Runnable
 {
@@ -77,7 +76,6 @@ public class ConnectionHandler
     {
         InputStream is = null;
         OutputStream os = null;
-
 
         try
         {
@@ -225,7 +223,6 @@ public class ConnectionHandler
 
                 }
             }
-
         }
     }
 }

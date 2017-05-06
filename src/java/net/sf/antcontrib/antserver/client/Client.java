@@ -15,7 +15,12 @@
  */
 package net.sf.antcontrib.antserver.client;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -26,24 +31,16 @@ import net.sf.antcontrib.antserver.Response;
 import net.sf.antcontrib.antserver.Util;
 import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 
-
-/****************************************************************************
- * Place class description here.
+/**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class Client
 {
     private String machine;
     private int port;
     private Project project;
-
 
     public Client(Project project, String machine, int port)
     {
@@ -53,14 +50,12 @@ public class Client
         this.project = project;
     }
 
-
     private Socket socket;
     private OutputStream os;
     private InputStream is;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
     private boolean connected;
-
 
     public void connect()
             throws IOException
@@ -90,7 +85,7 @@ public class Client
             }
             catch (ClassNotFoundException e)
             {
-                ; // gulp
+                // gulp
             }
         }
         finally
@@ -136,7 +131,6 @@ public class Client
             }
         }
 
-
     }
 
     public void shutdown()
@@ -148,7 +142,7 @@ public class Client
         }
         catch (IOException e)
         {
-            ; // gulp
+            // gulp
 
         }
         os = null;
@@ -161,7 +155,7 @@ public class Client
         }
         catch (IOException e)
         {
-            ; // gulp
+            // gulp
 
         }
         is = null;
@@ -173,13 +167,12 @@ public class Client
         }
         catch (IOException e)
         {
-            ; // gulp
+            // gulp
         }
         socket = null;
 
         connected = false;
     }
-
 
     public void disconnect()
             throws IOException
@@ -196,19 +189,18 @@ public class Client
             }
             catch (ClassNotFoundException e)
             {
-                ; // gulp
+                // gulp
             }
 
             shutdown();
         }
         catch (SocketException e) {
-            ; // connection was closed
+            // connection was closed
         }
         catch (EOFException e) {
-            ; // connection was closed
+            // connection was closed
         }
     }
-
 
     public Response sendCommand(Command command)
         throws IOException
@@ -242,7 +234,7 @@ public class Client
         }
         catch (ClassNotFoundException e)
         {
-            ; // gulp
+            // gulp
         }
 
         return response;

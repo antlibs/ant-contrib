@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Created on Jan 9, 2005
- */
 package net.sf.antcontrib.design;
 
 import java.io.File;
@@ -40,6 +37,9 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 
+/**
+ * Created on Jan 9, 2005
+ */
 class VisitorImpl extends EmptyVisitor {
 
 	private ConstantPool pool;
@@ -183,7 +183,7 @@ class VisitorImpl extends EmptyVisitor {
 		design.checkClass(str);
 	}
 
-	//		
+	//
 	public void visitCode(Code c) {
 		LineNumberTable table = c.getLineNumberTable();
 		// LocalVariableTable table = c.getLocalVariableTable();
@@ -192,20 +192,17 @@ class VisitorImpl extends EmptyVisitor {
 	}
 
 	public static String getNoDebugMsg(String className) {
-		String s = "Class="+className+" was not compiled with the debug option(-g) and\n" +
+		return "Class="+className+" was not compiled with the debug option(-g) and\n" +
 				"therefore verifydesign cannot be used on this jar.  Please compile your code\n"+
 				"with -g option in javac or debug=\"true\" in the ant build.xml file";
-		return s;
 	}
 
 	/**
-	 * @param jarName
-	 * @return
+	 * @param jarName File
+	 * @return String
 	 */
 	public static String getNoFileMsg(File jarName) {
-		String s = "File you specified in your path(or jar attribute)='"+jarName.getAbsolutePath()+"' does not exist";
-		return s;
+		return "File you specified in your path(or jar attribute)='"+jarName.getAbsolutePath()+"' does not exist";
 	}
-	
-	
+
 }
