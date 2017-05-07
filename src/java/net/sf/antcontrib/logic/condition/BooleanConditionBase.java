@@ -33,7 +33,7 @@ public class BooleanConditionBase extends ConditionBase {
      * @param i  The feature to be added to the IsPropertyTrue attribute
      */
     public void addIsPropertyTrue(IsPropertyTrue i) {
-	super.add(i);
+        super.add(i);
     }
 
     /**
@@ -43,14 +43,14 @@ public class BooleanConditionBase extends ConditionBase {
      * @param i  The feature to be added to the IsPropertyFalse attribute
      */
     public void addIsPropertyFalse(IsPropertyFalse i) {
-	super.add(i);
+        super.add(i);
     }
 
     public void addIsGreaterThan(IsGreaterThan i) {
-	super.add(i);
+        super.add(i);
     }
 
     public void addIsLessThan(IsLessThan i) {
-	super.add(i);
+        super.add(i);
     }
 }

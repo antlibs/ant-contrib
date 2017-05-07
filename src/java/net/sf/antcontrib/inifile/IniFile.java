@@ -55,7 +55,6 @@ public class IniFile
         return sections;
     }
 
-
     /**
      * Gets the IniSection with the given name
      * @param name the name of the section

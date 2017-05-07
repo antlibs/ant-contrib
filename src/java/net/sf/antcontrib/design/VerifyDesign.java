@@ -51,15 +51,15 @@ public class VerifyDesign
     }
 
     public void setFillInBuildException(boolean b) {
-    	delegate.setFillInBuildException(b);
+        delegate.setFillInBuildException(b);
     }
 
     public void setNeedDeclarationsDefault(boolean b) {
-    	delegate.setNeedDeclarationsDefault(b);
+        delegate.setNeedDeclarationsDefault(b);
     }
 
     public void setNeedDependsDefault(boolean b) {
-    	delegate.setNeedDependsDefault(b);
+        delegate.setNeedDependsDefault(b);
     }
 
     public void addConfiguredPath(Path path) {

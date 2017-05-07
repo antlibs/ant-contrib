@@ -61,7 +61,7 @@ public class Variable extends Task {
      * @param name  the name of the property.
      */
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -70,7 +70,7 @@ public class Variable extends Task {
      * @param value  the value of the property.
      */
     public void setValue(String value) {
-	this.value = value;
+        this.value = value;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Variable extends Task {
      * @param file  the file to read properties from.
      */
     public void setFile(File file) {
-	this.file = file;
+        this.file = file;
     }
 
     /**
@@ -90,7 +90,7 @@ public class Variable extends Task {
      * @param b set to true to remove the property from the project.
      */
     public void setUnset(boolean b) {
-	remove = b;
+        remove = b;
     }
 
     /**
@@ -99,37 +99,37 @@ public class Variable extends Task {
      * @exception BuildException  Description of the Exception
      */
     public void execute() throws BuildException {
-	if (remove) {
-	    if (name == null || name.equals("")) {
-		throw new BuildException("The 'name' attribute is required with 'unset'.");
-	    }
-	    removeProperty(name);
-	    return;
-	}
-	if (file == null) {
-	    // check for the required name attribute
-	    if (name == null || name.equals("")) {
-		throw new BuildException("The 'name' attribute is required.");
-	    }
+        if (remove) {
+            if (name == null || name.equals("")) {
+                throw new BuildException("The 'name' attribute is required with 'unset'.");
+            }
+            removeProperty(name);
+            return;
+        }
+        if (file == null) {
+            // check for the required name attribute
+            if (name == null || name.equals("")) {
+                throw new BuildException("The 'name' attribute is required.");
+            }
 
-	    // check for the required value attribute
-	    if (value == null) {
-		value = "";
-	    }
+            // check for the required value attribute
+            if (value == null) {
+                value = "";
+            }
 
-	    // adjust the property value if necessary -- is this necessary?
-	    // Doesn't Ant do this automatically?
-	    value = getProject().replaceProperties(value);
+            // adjust the property value if necessary -- is this necessary?
+            // Doesn't Ant do this automatically?
+            value = getProject().replaceProperties(value);
 
-	    // set the property
-	    forceProperty(name, value);
-	}
-	else {
-	    if (!file.exists()) {
-		throw new BuildException(file.getAbsolutePath() + " does not exists.");
-	    }
-	    loadFile(file);
-	}
+            // set the property
+            forceProperty(name, value);
+        }
+        else {
+            if (!file.exists()) {
+                throw new BuildException(file.getAbsolutePath() + " does not exists.");
+            }
+            loadFile(file);
+        }
     }
 
     /**
@@ -236,10 +236,10 @@ public class Variable extends Task {
      * @exception NoSuchFieldException    Darn, nothing to fondle
      */
     private Object getValue(Object instance, String fieldName)
-	throws IllegalAccessException, NoSuchFieldException {
-	Field field = getField(instance.getClass(), fieldName);
-	field.setAccessible(true);
-	return field.get(instance);
+        throws IllegalAccessException, NoSuchFieldException {
+        Field field = getField(instance.getClass(), fieldName);
+        field.setAccessible(true);
+        return field.get(instance);
     }
 
     /**

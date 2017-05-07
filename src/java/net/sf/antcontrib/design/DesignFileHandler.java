@@ -61,19 +61,19 @@ class DesignFileHandler implements ContentHandler {
         this.loc = loc;
     }
 
-	/**
-	 * @param b boolean
-	 */
-	public void setNeedDeclarationsDefault(boolean b) {
-		needDeclarationsDefault = b;
-	}
+    /**
+     * @param b boolean
+     */
+    public void setNeedDeclarationsDefault(boolean b) {
+        needDeclarationsDefault = b;
+    }
 
-	/**
-	 * @param b boolean
-	 */
-	public void setNeedDependsDefault(boolean b) {
-		needDependsDefault = b;
-	}
+    /**
+     * @param b boolean
+     */
+    public void setNeedDependsDefault(boolean b) {
+        needDependsDefault = b;
+    }
 
     public Design getDesign() {
         return design;
@@ -121,7 +121,7 @@ class DesignFileHandler implements ContentHandler {
      * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String uri, String name, String qName, Attributes attrs) throws SAXException {
-		log.log("Parsing startElement="+name, Project.MSG_DEBUG);
+        log.log("Parsing startElement="+name, Project.MSG_DEBUG);
         if (name == null || "".equals(name)) {
             // XMLReader is not-namespace aware
             name = qName;
@@ -181,7 +181,7 @@ class DesignFileHandler implements ContentHandler {
                 attrName = attrs.getQName(i);
             }
             String value = attrs.getValue(i);
-			log.log("attr="+attrName+" value="+value, Project.MSG_DEBUG);
+            log.log("attr="+attrName+" value="+value, Project.MSG_DEBUG);
             if("name".equals(attrName))
                 name = value;
             else if("package".equals(attrName))
@@ -193,7 +193,7 @@ class DesignFileHandler implements ContentHandler {
             else if("needdeclarations".equals(attrName))
                 needDeclarations = value;
             else if("needdepends".equals(attrName))
-            	needDepends = value;
+                needDepends = value;
             else
                 throw new SAXParseException("Error in file="+file.getAbsolutePath()
                                             +"\n'"+attrName+"' attribute is an invalid attribute for the package element", locator);
@@ -205,7 +205,7 @@ class DesignFileHandler implements ContentHandler {
         if(needDeclarations == null)
             needDeclarations = Boolean.toString(needDeclarationsDefault);
         if(needDepends == null)
-        	needDepends = Boolean.toString(needDependsDefault);
+            needDepends = Boolean.toString(needDependsDefault);
 
         //make sure every attribute had a valid value...
         if(name == null)
@@ -239,9 +239,9 @@ class DesignFileHandler implements ContentHandler {
         else
             p.setNeedDeclarations(false);
         if("true".equals(needDepends))
-        	p.setNeedDepends(true);
+            p.setNeedDepends(true);
         else
-        	p.setNeedDepends(false);
+            p.setNeedDepends(false);
 
         if(depends != null)
             p.addDepends(new Depends(depends));
@@ -268,11 +268,11 @@ class DesignFileHandler implements ContentHandler {
             if(o instanceof Package) {
                 Package p = (Package)o;
 
-				Package tmp = design.getPackage(p.getName());
-				if(tmp != null)
-		            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                            +"\nname attribute on "+PACKAGE+" element has the same\n"
-                            +"name as another package.  name=\""+p.getName()+"\" is used twice or more", locator);
+                Package tmp = design.getPackage(p.getName());
+                if(tmp != null)
+                    throw new SAXParseException("Error in file="+file.getAbsolutePath()
+                                                +"\nname attribute on "+PACKAGE+" element has the same\n"
+                                                +"name as another package.  name=\""+p.getName()+"\" is used twice or more", locator);
 
                 design.addConfiguredPackage(p);
                 currentPackage = null;

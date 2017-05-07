@@ -159,10 +159,10 @@ public class ShellScriptTask extends ExecTask {
         }
         finally {
             try {
-		os.close();
-	    }
-	    catch (Throwable t) {
-	    }
+                os.close();
+            }
+            catch (Throwable t) {
+            }
         }
     }
 

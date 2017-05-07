@@ -26,8 +26,8 @@ public class AntclipseTest extends BuildFileTest
 {
 
 	/**
-	 * Simple overriden constructor
-	 * @param arg0
+	 * Simple overridden constructor
+	 * @param arg0 String
 	 */
 	public AntclipseTest(String arg0)
 	{

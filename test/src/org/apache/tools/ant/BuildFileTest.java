@@ -362,7 +362,6 @@ public abstract class BuildFileTest extends TestCase {
      * assuming a vm working directory. The resource path must be
      * relative to the package name or absolute from the root path.
      * @param resource the resource to retrieve its url.
-     * @throws AssertionFailureException if resource is not found.
      */
     protected URL getResource(String resource){
         URL url = getClass().getResource(resource);
@@ -407,7 +406,7 @@ public abstract class BuildFileTest extends TestCase {
 
         /**
          *  Fired after the last target has finished. This event
-         *  will still be thrown if an error occured during the build.
+         *  will still be thrown if an error occurred during the build.
          *
          *  @see BuildEvent#getException()
          */
@@ -425,7 +424,7 @@ public abstract class BuildFileTest extends TestCase {
 
         /**
          *  Fired when a target has finished. This event will
-         *  still be thrown if an error occured during the build.
+         *  still be thrown if an error occurred during the build.
          *
          *  @see BuildEvent#getException()
          */
@@ -444,7 +443,7 @@ public abstract class BuildFileTest extends TestCase {
 
         /**
          *  Fired when a task has finished. This event will still
-         *  be throw if an error occured during the build.
+         *  be throw if an error occurred during the build.
          *
          *  @see BuildEvent#getException()
          */

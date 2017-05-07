@@ -64,7 +64,7 @@ public class Platform
         familyNames.put(new Integer(FAMILY_TANDEM), FAMILY_NAME_TANDEM);
         familyNames.put(new Integer(FAMILY_UNIX), FAMILY_NAME_UNIX);
         familyNames.put(new Integer(FAMILY_OPENVMS), FAMILY_NAME_OPENVMS);
-	}
+    }
 
     public static final int getOsFamily()
     {
@@ -114,7 +114,7 @@ public class Platform
         }
 
         return family;
-	}
+    }
 
     public static final String getOsFamilyName()
     {

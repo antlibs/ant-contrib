@@ -282,7 +282,7 @@ public class ForEach extends Task
 
     public void setParallel(boolean parallel)
     {
-	    this.parallel = parallel;
+            this.parallel = parallel;
     }
 
     /**

@@ -55,6 +55,6 @@ public class PropertyCopyTest extends BuildFileTest {
 
     public void testNormal() {
         executeTarget("normal");
-        assertPropertyEquals("displayName", "My Organiziation");
+        assertPropertyEquals("displayName", "My Organization");
     }
 }

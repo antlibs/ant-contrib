@@ -280,9 +280,9 @@ public class ForTask extends Task {
 
         // Create a macro attribute
         if (macroDef.getAttributes().isEmpty()) {
-        	MacroDef.Attribute attribute = new MacroDef.Attribute();
-        	attribute.setName(param);
-        	macroDef.addConfiguredAttribute(attribute);
+                MacroDef.Attribute attribute = new MacroDef.Attribute();
+                attribute.setName(param);
+                macroDef.addConfiguredAttribute(attribute);
         }
 
         // Take Care of the list attribute

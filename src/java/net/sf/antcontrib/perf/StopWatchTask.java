@@ -44,56 +44,56 @@ public class StopWatchTask extends Task {
     private static final String TOTAL = "total";
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public void setAction(String action) {
-	action = action.toLowerCase();
-	if (action.equals(STOP) ||
-	    action.equals(START) ||
-	    action.equals(ELAPSED) ||
-	    action.equals(TOTAL)) {
-	    this.action = action;
-	}
-	else {
-	    throw new BuildException("invalid action: " + action);
-	}
+        action = action.toLowerCase();
+        if (action.equals(STOP) ||
+            action.equals(START) ||
+            action.equals(ELAPSED) ||
+            action.equals(TOTAL)) {
+            this.action = action;
+        }
+        else {
+            throw new BuildException("invalid action: " + action);
+        }
     }
 
     public void execute() {
-	if (name == null)
-	    throw new BuildException("name is null");
-	if (action == null)
-	    action = START;
-	if (watches == null)
-	    watches = new Hashtable();
-	StopWatch sw = (StopWatch) watches.get(name);
-	if (sw == null && action.equals(START)) {
-	    sw = new StopWatch(name);
-	    watches.put(name, sw);
-	    return;
-	}
-	if (sw == null)
-	    return;
-	if (action.equals(START)) {
-	    sw.start();
-	    return;
-	}
-	if (action.equals(STOP)) {
-	    sw.stop();
-	    return;
-	}
-	if (action.equals(TOTAL)) {
-	    String time = sw.format(sw.total());
-	    log("[" + name + ": " + time + "]");
-	    getProject().setProperty(name, time);
-	    return;
-	}
-	if (action.equals(ELAPSED)) {
-	    String time = sw.format(sw.elapsed());
-	    log("[" + name + ": " + time + "]");
-	    getProject().setProperty(name, time);
-	    return;
-	}
+        if (name == null)
+            throw new BuildException("name is null");
+        if (action == null)
+            action = START;
+        if (watches == null)
+            watches = new Hashtable<String, StopWatch>();
+        StopWatch sw = watches.get(name);
+        if (sw == null && action.equals(START)) {
+            sw = new StopWatch(name);
+            watches.put(name, sw);
+            return;
+        }
+        if (sw == null)
+            return;
+        if (action.equals(START)) {
+            sw.start();
+            return;
+        }
+        if (action.equals(STOP)) {
+            sw.stop();
+            return;
+        }
+        if (action.equals(TOTAL)) {
+            String time = sw.format(sw.total());
+            log("[" + name + ": " + time + "]");
+            getProject().setProperty(name, time);
+            return;
+        }
+        if (action.equals(ELAPSED)) {
+            String time = sw.format(sw.elapsed());
+            log("[" + name + ": " + time + "]");
+            getProject().setProperty(name, time);
+            return;
+        }
     }
 }

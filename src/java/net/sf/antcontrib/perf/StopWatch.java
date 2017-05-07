@@ -100,9 +100,9 @@ public class StopWatch {
      * @return   the total time
      */
     public long total() {
-	stop();
-	long rtn = totalTime;
-	totalTime = 0;
+        stop();
+        long rtn = totalTime;
+        totalTime = 0;
         return rtn;
     }
 

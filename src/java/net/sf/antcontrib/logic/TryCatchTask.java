@@ -201,7 +201,7 @@ public class TryCatchTask extends Task {
      * @throws BuildException when no tasks or any catch blocks did not execute
      */
     public void execute() throws BuildException {
-    	Throwable thrown = null;
+        Throwable thrown = null;
 
         if (tryTasks == null) {
             throw new BuildException("A nested <try> element is required");
@@ -230,7 +230,7 @@ public class TryCatchTask extends Task {
             }
 
             if (! executed) {
-            	thrown = e;
+                thrown = e;
             }
         } finally {
             if (finallyTasks != null) {
@@ -239,7 +239,7 @@ public class TryCatchTask extends Task {
         }
 
         if (thrown != null) {
-        	throw new BuildException(thrown);
+            throw new BuildException(thrown);
         }
     }
 
