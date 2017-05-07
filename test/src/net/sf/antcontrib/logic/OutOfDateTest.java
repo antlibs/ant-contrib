@@ -36,30 +36,30 @@ public class OutOfDateTest extends BuildFileTest {
     public void tearDown() {
         executeTarget("cleanup");
     }
-    
+
     public void testSimple() {
         executeTarget("simple");
     }
-    
+
     public void testVerbose() {
         executeTarget("verbose");
         assertTrue(getLog().indexOf("outofdate with regard to") > -1);
     }
-    
+
     public void testDelete() {
         executeTarget("delete");
     }
-    
+
     public void testDeleteAll() {
         executeTarget("delete-all");
     }
-    
+
     public void testDeleteQuiet() {
         executeTarget("init");
         executeTarget("delete-quiet");
         assertTrue("No deleting message", getLog().indexOf("Deleting") == -1);
     }
-    
+
     public void testFileset() {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
@@ -106,5 +106,5 @@ public class OutOfDateTest extends BuildFileTest {
     public void testEmptySources() {
         executeTarget("empty-sources");
     }
-    
+
 }

@@ -30,14 +30,14 @@ public class PropertyCopyTest extends BuildFileTest {
         configureProject("test/resources/property/propertycopy.xml");
     }
 
-	/**
-	 * Runs a propertyCopy without a specified name attribute.
-	 */
+    /**
+     * Runs a propertyCopy without a specified name attribute.
+     */
     public void testMissingName() {
         expectSpecificBuildException("missingName", "missing name",
                                      "You must specify a property to set.");
     }
-        
+
     public void testMissingFrom() {
         expectSpecificBuildException("missingFrom", "missing from",
                                      "Missing the 'from' attribute.");

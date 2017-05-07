@@ -39,7 +39,7 @@ public class TryCatchTaskTest extends BuildFileTest {
         assertTrue(e instanceof BuildException);
         assertEquals("Tada!", ((BuildException) e).getMessage());
     }
-    
+
     public void testTwoCatches() {
         //  two catch blocks were not supported prior to TryCatchTask.java v 1.4.
         executeTarget("twoCatches");
@@ -72,4 +72,3 @@ public class TryCatchTaskTest extends BuildFileTest {
         assertNull(getProject().getReference("bar"));
    }
 }
-    

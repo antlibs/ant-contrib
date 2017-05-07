@@ -39,6 +39,6 @@ public class OsFamilyTest extends BuildFileTest {
         expectSpecificBuildException("missingProperty", "no attribute",
                                      "The attribute 'property' is required "
                                      + "for the OsFamily task.");
-    }        
-        
+    }
+
 }

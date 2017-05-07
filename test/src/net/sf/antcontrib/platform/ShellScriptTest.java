@@ -60,7 +60,6 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().indexOf("this is a property") > -1);
      }
 
-
     public void testPythonHello() {
         if (! hasPython)
             return;
@@ -122,7 +121,7 @@ public class ShellScriptTest extends BuildFileTest {
             "command.test", "Attribute failed",
             "Attribute command is not supported");
     }
-    
+
     private static boolean initialized = false;
     private static boolean hasSh       = false;
     private static boolean hasBash     = false;
@@ -131,7 +130,7 @@ public class ShellScriptTest extends BuildFileTest {
     private static boolean hasSed      = false;
     private static boolean hasCmd      = false;
     private static Object staticMonitor = new Object();
-    
+
     /**
      * check if the env contains the shells
      *    sh, bash, python and perl
@@ -148,7 +147,7 @@ public class ShellScriptTest extends BuildFileTest {
             hasPython = hasShell("haspython");
             hasSed = hasShell("hassed");
             hasCmd = hasShell("hascmd");
-            
+
         }
     }
 
@@ -161,5 +160,5 @@ public class ShellScriptTest extends BuildFileTest {
             return false;
         }
     }
-        
+
 }

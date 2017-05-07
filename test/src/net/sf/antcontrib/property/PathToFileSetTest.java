@@ -62,5 +62,5 @@ public class PathToFileSetTest extends BuildFileTest {
         assertTrue("property " + property + " contains " + expected,
                    result.indexOf(expected) == -1);
     }
-    
+
 }

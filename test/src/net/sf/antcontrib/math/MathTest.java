@@ -23,23 +23,22 @@ import net.sf.antcontrib.BuildFileTestBase;
  */
 public class MathTest extends BuildFileTestBase {
 
-   /**
-    * Constructor for the MathTest object
-    *
-    * @param name  Description of the Parameter
-    */
-   public MathTest( String name ) {
-      super( name );
-   }
+    /**
+     * Constructor for the MathTest object
+     *
+     * @param name  Description of the Parameter
+     */
+    public MathTest(String name) {
+        super(name);
+    }
 
-   /** The JUnit setup method */
-   public void setUp() {
-      configureProject( "test/resources/math/mathtest.xml" );
-   }
+    /** The JUnit setup method */
+    public void setUp() {
+        configureProject("test/resources/math/mathtest.xml");
+    }
 
-   /** A unit test for JUnit */
-   public void test1() {
-      expectPropertySet("test1", "result", "18");
-   }
+    /** A unit test for JUnit */
+    public void test1() {
+        expectPropertySet("test1", "result", "18");
+    }
 }
-

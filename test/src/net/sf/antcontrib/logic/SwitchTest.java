@@ -33,8 +33,8 @@ public class SwitchTest extends BuildFileTest {
     public void testNoValue() {
         expectSpecificBuildException("noValue", "no value",
                                      "Value is missing");
-    }        
-        
+    }
+
     public void testNoChildren() {
         expectSpecificBuildException("noChildren", "no children",
                                      "No cases supplied");

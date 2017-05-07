@@ -33,8 +33,8 @@ public class IfTaskTest extends BuildFileTest {
     public void testNoCondition() {
         expectSpecificBuildException("noCondition", "no condition",
                                      "You must nest a condition into <if>");
-    }        
-        
+    }
+
     public void testTwoConditions() {
         expectSpecificBuildException("twoConditions", "two conditions",
                                      "You must not nest more than one "

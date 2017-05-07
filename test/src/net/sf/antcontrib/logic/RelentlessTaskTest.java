@@ -49,7 +49,6 @@ public class RelentlessTaskTest extends BuildFileTest {
                                      "No tasks specified for <relentless>.");
     }
 
-
     private void simpleTest(String target) {
         executeTarget(target);
         int last = -1;

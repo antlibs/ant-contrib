@@ -47,7 +47,7 @@ public class PropertySelectorTest extends BuildFileTest {
         String order2 = expected2 + "," + expected1;
         int index1 = getLog().indexOf(order1);
         int index2 = getLog().indexOf(order2);
-        assertTrue("Neither '" + order1 + "' nor '" + order2 
+        assertTrue("Neither '" + order1 + "' nor '" + order2
                    + "' was found in '" + getLog() + "'",
                    index1 > -1 || index2 > -1);
     }

@@ -28,57 +28,50 @@ import net.sf.antcontrib.BuildFileTestBase;
  */
 public class AntCallBackTest extends BuildFileTestBase {
 
-   /**
-    * Constructor for the AntCallBackTest object
-    *
-    * @param name  Description of the Parameter
-    */
-   public AntCallBackTest( String name ) {
-      super( name );
-   }
+    /**
+     * Constructor for the AntCallBackTest object
+     *
+     * @param name  Description of the Parameter
+     */
+    public AntCallBackTest(String name) {
+        super(name);
+    }
 
+    /** The JUnit setup method */
+    public void setUp() {
+        configureProject("test/resources/logic/antcallbacktest.xml");
+    }
 
-   /** The JUnit setup method */
-   public void setUp() {
-      configureProject( "test/resources/logic/antcallbacktest.xml" );
-   }
+    /** A unit test for JUnit */
+    public void test1() {
+        expectPropertySet("test1", "prop1", "prop1");
+    }
 
+    /** A unit test for JUnit */
+    public void test2() {
+        expectPropertySet("test2", "prop1", "prop1");
+        expectPropertySet("test2", "prop2", "prop2");
+        expectPropertySet("test2", "prop3", "prop3");
+    }
 
-   /** A unit test for JUnit */
-   public void test1() {
-      expectPropertySet( "test1", "prop1", "prop1" );
-   }
+    /** A unit test for JUnit */
+    public void test3() {
+        expectPropertySet("test3", "prop1", "prop1");
+        expectPropertySet("test3", "prop2", "prop2");
+        expectPropertySet("test3", "prop3", "prop3");
+    }
 
+    /** A unit test for JUnit */
+    public void test4() {
+        expectPropertyUnset("test4", "prop1");
+        expectPropertySet("test4", "prop2", "prop2");
+        expectPropertySet("test4", "prop3", "prop3");
+    }
 
-   /** A unit test for JUnit */
-   public void test2() {
-      expectPropertySet( "test2", "prop1", "prop1" );
-      expectPropertySet( "test2", "prop2", "prop2" );
-      expectPropertySet( "test2", "prop3", "prop3" );
-   }
-
-
-   /** A unit test for JUnit */
-   public void test3() {
-      expectPropertySet( "test3", "prop1", "prop1" );
-      expectPropertySet( "test3", "prop2", "prop2" );
-      expectPropertySet( "test3", "prop3", "prop3" );
-   }
-
-
-   /** A unit test for JUnit */
-   public void test4() {
-      expectPropertyUnset( "test4", "prop1" );
-      expectPropertySet( "test4", "prop2", "prop2" );
-      expectPropertySet( "test4", "prop3", "prop3" );
-   }                                     
-
-
-   /** A unit test for JUnit */
-   public void test5() {
-      expectPropertySet( "test5", "prop1", "blah" );
-      expectPropertySet( "test5", "prop2", "prop2" );
-      expectPropertySet( "test5", "prop3", "prop3" );
-   }                
+    /** A unit test for JUnit */
+    public void test5() {
+        expectPropertySet("test5", "prop1", "blah");
+        expectPropertySet("test5", "prop2", "prop2");
+        expectPropertySet("test5", "prop3", "prop3");
+    }
 }
-

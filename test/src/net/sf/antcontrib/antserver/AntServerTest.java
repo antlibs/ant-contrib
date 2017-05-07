@@ -17,18 +17,12 @@ package net.sf.antcontrib.antserver;
 
 import net.sf.antcontrib.BuildFileTestBase;
 
-
-/****************************************************************************
+/**
  * Place class description here.
  *
  * @author		inger
- * @author		<additional author>
  *
- * @since
- *
- ****************************************************************************/
-
-
+ */
 public class AntServerTest
         extends BuildFileTestBase
 {
@@ -36,7 +30,6 @@ public class AntServerTest
     {
         super(name);
     }
-
 
     public void setUp()
     {
@@ -117,7 +110,6 @@ public class AntServerTest
                 sb.append(" and ");
             sb.append("\"").append(logs[i]).append("\"");
         }
-
 
         assertTrue("expecting log to contain " + sb.toString()
                 + " log was \"" + realLog + "\"",

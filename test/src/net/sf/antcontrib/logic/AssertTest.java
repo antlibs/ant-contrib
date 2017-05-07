@@ -28,53 +28,50 @@ import net.sf.antcontrib.BuildFileTestBase;
  */
 public class AssertTest extends BuildFileTestBase {
 
-   /**
-    * Constructor for the AntCallBackTest object
-    *
-    * @param name  Description of the Parameter
-    */
-   public AssertTest( String name ) {
-      super( name );
-   }
+    /**
+     * Constructor for the AntCallBackTest object
+     *
+     * @param name  Description of the Parameter
+     */
+    public AssertTest(String name) {
+        super(name);
+    }
 
+    /** The JUnit setup method */
+    public void setUp() {
+        configureProject("test/resources/logic/asserttest.xml");
+    }
 
-   /** The JUnit setup method */
-   public void setUp() {
-      configureProject( "test/resources/logic/asserttest.xml" );
-   }
+    /** A unit test for JUnit */
+    public void test1() {
+        executeTarget("test1");
+    }
 
+    public void test3() {
+        expectBuildException("test3");
+    }
 
-   /** A unit test for JUnit */
-   public void test1() {
-      executeTarget( "test1" );
-   }
+    public void test4() {
+        executeTarget("test4");
+    }
 
-   public void test3() {
-	   expectBuildException("test3");
-   }
-   
-   public void test4() {
-      executeTarget("test4");  
-   }
+    public void test5() {
+        executeTarget("test5");
+    }
 
-   public void test5() {
-      executeTarget("test5");  
-   }
-   
-   public void test6() {
-      executeTarget("test6"); 
-   }
-   
-   public void test7(){
-      expectBuildException("test7");
-   }
-   
-   public void test8() {
-      executeTarget("test8"); 
-   }
-   
-   public void test9() {
-      expectBuildException("test9");
-   }
+    public void test6() {
+        executeTarget("test6");
+    }
+
+    public void test7(){
+        expectBuildException("test7");
+    }
+
+    public void test8() {
+        executeTarget("test8");
+    }
+
+    public void test9() {
+        expectBuildException("test9");
+    }
 }
-
