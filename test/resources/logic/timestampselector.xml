@@ -1,7 +1,5 @@
 <project default="init">
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <property name="test.dir" value="timestampselector"/>
     <property name="test.file1" location="${test.dir}/file1.txt" />

@@ -1,8 +1,6 @@
 <project>
   <target name="init">
-    <taskdef resource="net/sf/antcontrib/antlib.xml">
-      <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
   </target>
 
   <target name="loop" depends="init">

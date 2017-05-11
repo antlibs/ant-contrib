@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <project default="everything" name="Antclipse test xml file" basedir=".">
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
 <target name="make.fs.output">
 	<!-- creates a fileset including all the files from the output directory, called ecl1-bin if your binary directory is bin/ -->

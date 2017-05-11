@@ -3,9 +3,7 @@
     <fail>Don't call this file directly.</fail>
   </target>
 
-  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-    <classpath location="${antcontrib.jar}"/>
-  </taskdef>
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
   <target name="cleanup">
     <delete quiet="yes" dir="targets"/>

@@ -3,9 +3,7 @@
     <fail>Don't call this file directly.</fail>
   </target>
 
-  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-    <classpath location="${antcontrib.jar}"/>
-  </taskdef>
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
   <!-- targets used to check if a shell exists -->
   <target name="hassh"> <shellscript shell="sh"/> </target>
@@ -53,7 +51,7 @@ print "hello world"
     <shellscript shell="!!!!^^^a shell that should not exist^^^^^!!!!"/>
   </target>
 
-  
+
   <target name="sh.inputstring">
     <shellscript shell="sh" inputstring="echo hello world"/>
   </target>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Project" default="build" basedir=".">
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <property file="propertyselector.properties" />
 

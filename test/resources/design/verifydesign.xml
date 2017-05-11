@@ -10,9 +10,7 @@
     <property name="designs" value="designfiles"/>
     <property name="webxml" value="web.xml"/>
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <target name="cleanup">
         <delete quiet="yes" dir="${output}"/>
@@ -21,7 +19,7 @@
     <target name="init">
         <mkdir dir="${jardir}"/>
     </target>
-    
+
     <target name="templateTest">
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
@@ -39,12 +37,12 @@
 			 <include name="${mod}/${dummy}/**"/>
     		 <include name="${mod}/${package.under.test}/**"/>
          </javac>
-         
+
          <war destfile="${war}" webxml="${webxml}">
          	<classes dir="${classes}"/>
          </war>
     </target>
-    
+
 	<target name="testArrayDepend" depends="init">
 	    <property name="package" value="arraydepend"/>
         <antcall target="templateTest">
@@ -76,7 +74,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-			
+
 	<target name="testCastDepend" depends="init">
 	    <property name="package" value="castdepend"/>
         <antcall target="templateTest">
@@ -84,7 +82,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-		
+
 	<target name="testCatchDepend" depends="init">
 	    <property name="package" value="catchdepend"/>
         <antcall target="templateTest">
@@ -92,7 +90,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testClassFiles" depends="init">
 	    <property name="package" value="castdepend"/>
         <antcall target="templateTest">
@@ -106,7 +104,7 @@
         	</path>
 		</verifydesign>
 	</target>
-	
+
 	<target name="testDeclareJavaUtil" depends="init">
 	    <property name="package" value="declarejavautil"/>
         <antcall target="templateTest">
@@ -114,7 +112,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testDeclareJavaUtilFail" depends="init">
 	    <property name="package" value="declarejavautil"/>
         <antcall target="templateTest">
@@ -122,7 +120,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}fail.xml"/>
 	</target>
-		
+
 	<target name="testDeclareJavax" depends="init">
 	    <property name="package" value="declarejavax"/>
         <antcall target="templateTest">
@@ -138,7 +136,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}pass.xml"/>
 	</target>
-			
+
 	<target name="testFieldDepend" depends="init">
 	    <property name="package" value="fielddepend"/>
         <antcall target="templateTest">
@@ -154,14 +152,14 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testInnerClassDepend" depends="init">
 	    <property name="package" value="innerclassdepend"/>
         <antcall target="templateTest">
            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>	
+	</target>
 
 	<target name="testInstanceOfDepend" depends="init">
 	    <property name="package" value="instanceofdepend"/>
@@ -169,8 +167,8 @@
            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>	
-		
+	</target>
+
 	<target name="testInterfaceDepend" depends="init">
 	    <property name="package" value="interfacedepend"/>
         <antcall target="templateTest">
@@ -178,7 +176,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testLocalVarDepend" depends="init">
 	    <property name="package" value="localvardepend"/>
         <antcall target="templateTest">
@@ -186,7 +184,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testLocalVarRefDepend" depends="init">
 	    <property name="package" value="localvarrefdepend"/>
         <antcall target="templateTest">
@@ -194,7 +192,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testMissingAttribute" depends="init">
 	    <property name="package" value="missingattribute"/>
         <antcall target="templateTest">
@@ -205,7 +203,7 @@
 
 	<target name="testMultipleErrors" depends="init">
 	    <property name="package" value="multipleerrors"/>
-	    	
+
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" debug="true" destdir="${classes}">
@@ -214,11 +212,11 @@
   		     <include name="${mod}/castdepend/**"/>
   		     <include name="${mod}/catchdepend/**"/>
         </javac>
-        <jar destfile="${jar}" basedir="${classes}"/>		
+        <jar destfile="${jar}" basedir="${classes}"/>
 
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-		
+
 	<target name="testNewDepend" depends="init">
 	    <property name="package" value="newdepend"/>
         <antcall target="templateTest">
@@ -226,7 +224,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testNewDepend2" depends="init">
 	    <property name="package" value="newdepend2"/>
         <antcall target="templateTest">
@@ -234,10 +232,10 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testNoDebugOption" depends="init">
 	     <property name="package" value="nodebugoption"/>
-	
+
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
@@ -245,19 +243,19 @@
          </javac>
          <javac srcdir="${src}" debug="false" destdir="${classes}">
     		 <include name="${mod}/${package}/**"/>
-         </javac>         
-         
+         </javac>
+
          <jar destfile="${jar}" basedir="${classes}"/>
-    
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>    
+
+         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
 	<target name="testNoJar" depends="init">
 	     <property name="package" value="nojar"/>
-    
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>    
+
+         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
-        
+
 	<target name="testParamDepend" depends="init">
 	    <property name="package" value="paramdepend"/>
         <antcall target="templateTest">
@@ -293,7 +291,7 @@
 		<mkdir dir="${classes}"/>
 		<mkdir dir="${classes2}"/>
 		<mkdir dir="${classes3}"/>
-		
+
         <javac srcdir="${src}" debug="true" destdir="${classes}">
 			<include name="${mod}/${dummy}/**"/>
         </javac>
@@ -301,20 +299,20 @@
         <javac srcdir="${src}" debug="true" destdir="${classes2}" classpath="${classes}">
 			<include name="${mod}/putstatic/**"/>
         </javac>
-		
+
         <javac srcdir="${src}" debug="true" destdir="${classes3}" classpath="${classes}">
    		    <include name="${mod}/arraydepend2/**"/>
         </javac>
-		
-        <jar destfile="${jar}" basedir="${classes3}"/>		
-		
+
+        <jar destfile="${jar}" basedir="${classes3}"/>
+
         <verifydesign design="${designs}/${package}.xml">
         	<path>
         	   <pathelement path="${classes2}:${jar}:${classes}"/>
         	</path>
 		</verifydesign>
 	</target>
-        		
+
 	<target name="testPutStatic" depends="init">
 	    <property name="package" value="putstatic"/>
         <antcall target="templateTest">
@@ -322,49 +320,49 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
     <target name="testRecursion" depends="init">
 	     <property name="package" value="recursion"/>
-	
+
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
-         </javac>         
-         
+         </javac>
+
          <jar destfile="${jar}" basedir="${classes}"/>
-    
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>     
+
+         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
-    	
+
     <target name="testRecursion2" depends="init">
 	     <property name="package" value="recursion2"/>
-	
+
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
-         </javac>         
-         
+         </javac>
+
          <jar destfile="${jar}" basedir="${classes}"/>
-    
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>     
+
+         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
-    
+
     <target name="testRecursion3" depends="init">
 	     <property name="package" value="recursion3"/>
-	
+
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
-         </javac>         
-         
+         </javac>
+
          <jar destfile="${jar}" basedir="${classes}"/>
-    
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>     
-    </target>    
-        		
+
+         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+    </target>
+
 	<target name="testReturnValDepend" depends="init">
 	    <property name="package" value="returnvaldepend"/>
         <antcall target="templateTest">
@@ -372,7 +370,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testSignatureExceptionDepend" depends="init">
 	    <property name="package" value="signatureexceptiondepend"/>
         <antcall target="templateTest">
@@ -387,7 +385,7 @@
            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>	
+	</target>
 
 	<target name="testStaticField2Depend" depends="init">
 	    <property name="package" value="staticfield2depend"/>
@@ -396,7 +394,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testStaticFieldDepend" depends="init">
 	    <property name="package" value="staticfielddepend"/>
         <antcall target="templateTest">
@@ -412,7 +410,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
 	</target>
-			
+
 	<target name="testSuperDepend" depends="init">
 	    <property name="package" value="superdepend"/>
         <antcall target="templateTest">
@@ -420,7 +418,7 @@
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"
                       deletefiles="true"/>
-	</target>	
+	</target>
 
 	<target name="testWarSuccess" depends="init">
 	    <property name="package" value="warsuccess"/>
@@ -429,7 +427,7 @@
         </antcall>
         <verifydesign jar="${war}" design="${designs}/${package}.xml"/>
 	</target>
-	
+
 	<target name="testWarFailure" depends="init">
 	    <property name="package" value="warfailure"/>
         <antcall target="templateWar">

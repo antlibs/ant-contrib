@@ -1,9 +1,7 @@
 <project name="test_compilewithwalls" basedir="." default="cleanup">
     <property name="test.dir" value="compilewithwalls"/>
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <target name="cleanup">
         <delete quiet="yes" dir="${test.dir}"/>
@@ -39,7 +37,7 @@
             <walls />
         </compilewithwalls>
     </target>
-	
+
 	<target name="testNoSrcDirInJavac" depends="init">
         <compilewithwalls intermediaryBuildDir="${test.dir}/dir2">
             <walls>
@@ -48,7 +46,7 @@
 
             <javac>
             </javac>
-        </compilewithwalls>	
+        </compilewithwalls>
 	</target>
 
     <target name="testIntermediaryDirAndDestDirSame" depends="init">
@@ -72,7 +70,7 @@
             </javac>
         </compilewithwalls>
     </target>
-        	
+
     <target name="testPackageDoesntEndWithStar" depends="init">
         <mkdir dir="${test.dir}/dir1" />
 
@@ -165,7 +163,7 @@
                     package="mod.*"
                     depends="modA,modB" />
             </walls>
-            
+
             <javac srcdir="./testB" destdir="${test.dir}/classes/testB">
             </javac>
         </compilewithwalls>
@@ -184,7 +182,7 @@
             </javac>
         </compilewithwalls>
     </target>
-    
+
     <target name="testCompileOfAllUsingDepends" depends="init">
         <mkdir dir="${test.dir}/classes/testC" />
         <compilewithwalls intermediaryBuildDir="${test.dir}/classes/testCtemp">
@@ -217,10 +215,10 @@
             </javac>
         </compilewithwalls>
     </target>
-    
+
     <target name="testPackageBBreakingWhenAIsCompiledFirstExternalWalls" depends="init">
         <mkdir dir="${test.dir}/classes/testB" />
-        <compilewithwalls walls="packageB-break.xml" intermediaryBuildDir="${test.dir}/classes/testBtemp">           
+        <compilewithwalls walls="packageB-break.xml" intermediaryBuildDir="${test.dir}/classes/testBtemp">
             <javac srcdir="./testB" destdir="${test.dir}/classes/testB">
             </javac>
         </compilewithwalls>

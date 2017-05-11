@@ -4,9 +4,7 @@
   </target>
 
   <target name="setup">
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-      <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
   </target>
 
   <target name="missingName" depends="setup">

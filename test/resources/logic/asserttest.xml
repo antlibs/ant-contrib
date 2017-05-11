@@ -4,12 +4,10 @@
    <description>
      test build file for the Assert task
    </description>
-   
-   <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-      <classpath location="${antcontrib.jar}"/>
-   </taskdef>         
-   <property name="ant.enable.asserts" value="true"/>         
-         
+
+   <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+   <property name="ant.enable.asserts" value="true"/>
+
    <target name="test1">
       <property name="testprop" value="true"/>
       <assert>
@@ -19,16 +17,16 @@
    	    <istrue value="${testprop}" />
       </assert>
    </target>
-   
+
    <target name="test2">
       <assert name="testprop"/>
    </target>
-   
+
    <target name="test3">
       <property name="testprop" value="true"/>
       <assert name="testprop" value="12"/>
    </target>
-   
+
    <!-- test boolean conditions -->
    <target name="test4">
       <assert>
@@ -70,5 +68,5 @@
             <ispropertyfalse property="testprop"/>
       </assert>
    </target>
-  
+
 </project>

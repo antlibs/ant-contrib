@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <antlib>
-    # Antclipse tasks
+    <!-- Antclipse tasks -->
     <taskdef name="antclipse" classname="net.sf.antcontrib.antclipse.ClassPathTask" onerror="ignore"/>
 
-    # AntServer tasks
+    <!-- AntServer tasks -->
     <taskdef name="antserver" classname="net.sf.antcontrib.antserver.server.ServerTask" onerror="ignore"/>
     <taskdef name="remoteant" classname="net.sf.antcontrib.antserver.client.ClientTask" onerror="ignore"/>
 
-    # Design Tasks
+    <!-- Design Tasks -->
     <taskdef name="verifydesign" classname="net.sf.antcontrib.design.VerifyDesign" onerror="ignore"/>
 
-    # IniFile
+    <!-- IniFile -->
     <taskdef name="inifile" classname="net.sf.antcontrib.inifile.IniFileTask" onerror="ignore"/>
 
-    # Logic tasks
+    <!-- Logic tasks -->
     <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" onerror="ignore"/>
     <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" onerror="ignore"/>
     <taskdef name="throw" classname="net.sf.antcontrib.logic.Throw" onerror="ignore"/>
@@ -28,24 +28,24 @@
     <taskdef name="relentless" classname="net.sf.antcontrib.logic.Relentless" onerror="ignore"/>
     <taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" onerror="ignore"/> 
 
-    # Math Tasks
+    <!-- Math Tasks -->
     <taskdef name="math" classname="net.sf.antcontrib.math.MathTask" onerror="ignore"/>
 
-    # Net tasks
+    <!-- Net tasks -->
     <taskdef name="post" classname="net.sf.antcontrib.net.PostTask" onerror="ignore"/>
 
-    # Performance Tasks
+    <!-- Performance Tasks -->
     <taskdef name="stopwatch" classname="net.sf.antcontrib.perf.StopWatchTask" onerror="ignore"/>
 
-    # Platform Tasks
+    <!-- Platform Tasks -->
     <taskdef name="osfamily" classname="net.sf.antcontrib.platform.OsFamily" onerror="ignore"/>
     <taskdef name="shellscript" classname="net.sf.antcontrib.platform.ShellScriptTask" onerror="ignore"/>
 
-    # Process Tasks
+    <!-- Process Tasks -->
     <taskdef name="forget" classname="net.sf.antcontrib.process.ForgetTask" onerror="ignore"/>
     <taskdef name="limit" classname="net.sf.antcontrib.process.Limit" onerror="ignore"/>
 
-    # Property Tasks
+    <!-- Property Tasks -->
     <taskdef name="propertycopy" classname="net.sf.antcontrib.property.PropertyCopy" onerror="ignore"/>
     <taskdef name="pathtofileset" classname="net.sf.antcontrib.property.PathToFileSet" onerror="ignore"/>
     <taskdef name="propertyselector" classname="net.sf.antcontrib.property.PropertySelector" onerror="ignore"/>
@@ -54,10 +54,10 @@
     <taskdef name="urlencode" classname="net.sf.antcontrib.property.URLEncodeTask" onerror="ignore"/>
     <taskdef name="var" classname="net.sf.antcontrib.property.Variable" onerror="ignore"/>
 
-    # Walls Tasks
+    <!-- Walls Tasks -->
     <taskdef name="compilewithwalls" classname="net.sf.antcontrib.walls.CompileWithWalls" onerror="ignore"/>
 
-    # HTTP Tasks
+    <!-- HTTP Tasks -->
     <typedef name="httpState" classname="net.sf.antcontrib.net.httpclient.HttpStateType" onerror="ignore"/>
     <typedef name="httpClient" classname="net.sf.antcontrib.net.httpclient.HttpClientType" onerror="ignore"/>        
     <taskdef name="getCookie" classname="net.sf.antcontrib.net.httpclient.GetCookieTask" onerror="ignore"/>
@@ -70,6 +70,6 @@
     <taskdef name="getMethod" classname="net.sf.antcontrib.net.httpclient.GetMethodTask" onerror="ignore"/>
     <taskdef name="headMethod" classname="net.sf.antcontrib.net.httpclient.HeadMethodTask" onerror="ignore"/>
 
-    # Ivy tasks
+    <!-- Ivy tasks -->
     <taskdef name="importurl" classname="net.sf.antcontrib.net.URLImportTask" onerror="ignore"/>
 </antlib>

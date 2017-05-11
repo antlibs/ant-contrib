@@ -4,9 +4,7 @@
   </target>
 
   <target name="setup">
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-      <classpath location="${antcontrib.jar}"/>
-    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
   </target>
 
   <target name="fullTest" depends="setup">
@@ -14,11 +12,11 @@
       <try>
         <fail>Tada!</fail>
       </try>
-      
+
       <catch>
         <echo>In &lt;catch&gt;.</echo>
       </catch>
-      
+
       <finally>
         <echo>In &lt;finally&gt;.</echo>
       </finally>
@@ -30,11 +28,11 @@
       <try>
         <fail>Tada!</fail>
       </try>
-      
+
       <catch>
         <echo>In &lt;catch&gt;.</echo>
       </catch>
-      
+
       <catch>
         <echo>In &lt;catch2&gt;.</echo>
       </catch>
@@ -46,7 +44,7 @@
       <try>
         <fail>Tada!</fail>
       </try>
-      
+
       <finally>
         <echo>In &lt;finally&gt;.</echo>
       </finally>
@@ -62,7 +60,7 @@
       <try>
         <fail>Tada!</fail>
       </try>
-      
+
       <try>
         <fail>Tada!</fail>
       </try>
@@ -70,7 +68,7 @@
       <catch>
         <echo>In &lt;catch&gt;.</echo>
       </catch>
-      
+
       <finally>
         <echo>In &lt;finally&gt;.</echo>
       </finally>
@@ -82,7 +80,7 @@
       <catch>
         <echo>In &lt;catch&gt;.</echo>
       </catch>
-      
+
       <finally>
         <echo>In &lt;finally&gt;.</echo>
       </finally>
@@ -94,11 +92,11 @@
       <try>
         <echo>Tada!</echo>
       </try>
-      
+
       <catch>
         <echo>In &lt;catch&gt;.</echo>
       </catch>
-      
+
       <finally>
         <echo>In &lt;finally&gt;.</echo>
       </finally>
