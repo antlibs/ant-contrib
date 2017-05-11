@@ -34,6 +34,7 @@ public class InstructionVisitor extends EmptyVisitor {
 	private final Design design;
 
 	/**
+	 * Constructor.
 	 * @param poolGen ConstantPoolGen
 	 * @param log Log
 	 * @param d Design

@@ -46,6 +46,7 @@ public class Numeric
     }
 
     /**
+     * evaluate() method
      * @return the value for this number as a Number. Cast as appropriate to
      *         Integer, Long, Float, or Double.
      */
@@ -75,6 +76,7 @@ public class Numeric
     }
 
     /**
+     * getDatatype() method
      * @return the datatype as one of the defined types.
      */
     public String getDatatype()

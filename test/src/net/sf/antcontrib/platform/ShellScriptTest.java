@@ -18,7 +18,7 @@ package net.sf.antcontrib.platform;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <shellscript>
+ * Testcase for &lt;shellscript&gt;.
  *
  * @author Peter Reilly
  */

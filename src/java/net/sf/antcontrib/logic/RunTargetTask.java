@@ -27,7 +27,7 @@ public class RunTargetTask extends Task {
     private String target = null;
 
     /**
-     * The target attribute
+     * The target attribute.
      *
      * @param target the name of a target to execute
      */
@@ -36,7 +36,7 @@ public class RunTargetTask extends Task {
     }
 
     /**
-     * execute the target
+     * execute the target.
      *
      * @exception BuildException if a target is not specified
      */

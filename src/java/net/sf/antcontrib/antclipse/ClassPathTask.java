@@ -139,7 +139,7 @@ public class ClassPathTask extends Task
 	}
 
 	/**
-	 * Setter for task parameter
+	 * Setter for task parameter.
 	 * @param project project name
 	 */
 	public void setProject(String project)
@@ -189,7 +189,7 @@ public class ClassPathTask extends Task
 		private FileSet fileSet = null;
 
 		/**
-		 * nazi style, forbid default constructor
+		 * nazi style, forbid default constructor.
 		 */
 		@SuppressWarnings("unused")
 		private FileSetCustomHandler()
@@ -197,6 +197,7 @@ public class ClassPathTask extends Task
 		}
 
 		/**
+		 * Constructor.
 		 * @param fileSet FileSet
 		 */
 		public FileSetCustomHandler(FileSet fileSet)
@@ -338,6 +339,7 @@ public class ClassPathTask extends Task
 		private Path path = null;
 
 		/**
+		 * Constructor.
 		 * @param path the path to add files
 		 */
 		public PathCustomHandler(Path path)
@@ -347,7 +349,7 @@ public class ClassPathTask extends Task
 		}
 
 		/**
-		 * nazi style, forbid default constructor
+		 * nazi style, forbid default constructor.
 		 */
 		@SuppressWarnings("unused")
 		private PathCustomHandler()

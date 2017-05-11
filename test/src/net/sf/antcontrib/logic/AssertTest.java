@@ -37,12 +37,12 @@ public class AssertTest extends BuildFileTestBase {
         super(name);
     }
 
-    /** The JUnit setup method */
+    /** The JUnit setup method. */
     public void setUp() {
         configureProject("test/resources/logic/asserttest.xml");
     }
 
-    /** A unit test for JUnit */
+    /** A unit test for JUnit. */
     public void test1() {
         executeTarget("test1");
     }

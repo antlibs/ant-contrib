@@ -18,7 +18,7 @@ package net.sf.antcontrib.logic;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <for>.
+ * Testcase for &lt;for&gt;.
  */
 public class ForTest extends BuildFileTest {
 

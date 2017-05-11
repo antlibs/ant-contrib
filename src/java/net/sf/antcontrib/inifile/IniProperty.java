@@ -31,7 +31,7 @@ public class IniProperty
     private String value;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public IniProperty()
     {
@@ -39,7 +39,7 @@ public class IniProperty
     }
 
     /**
-     * Construct an IniProperty with a certain name and value
+     * Construct an IniProperty with a certain name and value.
      * @param name The name of the property
      * @param value The property value
      */
@@ -51,7 +51,7 @@ public class IniProperty
     }
 
     /**
-     * Gets the name of the property
+     * Gets the name of the property.
      * @return String
      */
     public String getName()
@@ -60,7 +60,7 @@ public class IniProperty
     }
 
     /**
-     * Sets the name of the property
+     * Sets the name of the property.
      * @param name The name of the property
      */
     public void setName(String name)
@@ -69,7 +69,7 @@ public class IniProperty
     }
 
     /**
-     * Gets the value of the property
+     * Gets the value of the property.
      * @return String
      */
     public String getValue()
@@ -78,7 +78,7 @@ public class IniProperty
     }
 
     /**
-     * Sets the value of the property
+     * Sets the value of the property.
      * @param value the value of the property
      */
     public void setValue(String value)

@@ -76,7 +76,7 @@ public class ForTask extends Task {
 
     /**
      * Set the maximum amount of threads we're going to allow
-     * to execute in parallel
+     * to execute in parallel.
      * @param threadCount the number of threads to use
      */
     public void setThreadCount(int threadCount) {
@@ -169,6 +169,7 @@ public class ForTask extends Task {
     }
 
     /**
+     * createSequential() method.
      * @return a MacroDef#NestedSequential object to be configured
      */
     public Object createSequential() {

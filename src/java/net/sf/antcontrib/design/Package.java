@@ -72,6 +72,7 @@ public class Package {
     }
 
     /**
+     * setIncludeSubpackages() method.
      * @param b boolean
      */
     public void setIncludeSubpackages(boolean b) {
@@ -79,6 +80,7 @@ public class Package {
     }
 
     /**
+     * isIncludeSubpackages() method.
      * @return boolean
      */
     public boolean isIncludeSubpackages() {
@@ -86,6 +88,7 @@ public class Package {
     }
 
     /**
+     * setNeedDeclarations() method.
      * @param b boolean
      */
     public void setNeedDeclarations(boolean b) {
@@ -93,6 +96,7 @@ public class Package {
     }
 
     /**
+     * isNeedDeclarations() method.
      * @return boolean
      */
     public boolean isNeedDeclarations() {
@@ -100,6 +104,7 @@ public class Package {
     }
 
     /**
+     * setNeedDepends() method.
      * @param b boolean
      */
     public void setNeedDepends(boolean b) {
@@ -111,6 +116,7 @@ public class Package {
     }
 
     /**
+     * setUsed() method.
      * @param b boolean
      */
     public void setUsed(boolean b)
@@ -124,6 +130,7 @@ public class Package {
     }
 
     /**
+     * addUsedDependency() method.
      * @param d Depends
      */
     public void addUsedDependency(Depends d)

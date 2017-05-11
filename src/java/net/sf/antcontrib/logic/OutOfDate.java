@@ -39,15 +39,15 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 * than source files.
 * Sets a given property or runs an internal task.
 *
-* Based on
-*  org.apache.org.apache.tools.ant.taskdefs.UpToDate
+* <p>Based on
+*  org.apache.org.apache.tools.ant.taskdefs.UpToDate</p>
 *
 * @author Peter Reilly
 */
 public class OutOfDate extends Task implements Condition {
 
     /**
-     * Enumerated type for collection attribute
+     * Enumerated type for collection attribute.
      *
      * @see EnumeratedAttribute
      */
@@ -127,7 +127,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * The separator to use to separate the files
+     * The separator to use to separate the files.
      * @param separator separator used in outout properties
      */
 
@@ -137,7 +137,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * The value to set the named property to the target files
-     * are outofdate
+     * are outofdate.
      *
      * @param value the value to set the property
      */
@@ -146,7 +146,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * whether to always be outofdate
+     * whether to always be outofdate.
      * @param force true means that outofdate is always set, default
      *              false
      */
@@ -155,7 +155,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * whether to have verbose output
+     * whether to have verbose output.
      * @param verbose true means that outofdate outputs debug info
      */
     public void setVerbose(boolean verbose) {
@@ -167,7 +167,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * Add to the target files
+     * Add to the target files.
      *
      * @return a path to be configured
      */
@@ -179,7 +179,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * Add to the source files
+     * Add to the source files.
      *
      * @return a path to be configured
      */
@@ -191,7 +191,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * A property to contain the output source files
+     * A property to contain the output source files.
      *
      * @param outputSources the name of the property
      */
@@ -200,7 +200,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * A property to contain the output target files
+     * A property to contain the output target files.
      *
      * @param outputTargets the name of the property
      */
@@ -210,7 +210,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * A reference to contain the path of target files that
-     * are outofdate
+     * are outofdate.
      *
      * @param outputTargetsPath the name of the reference
      */
@@ -219,7 +219,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * A reference to contain the path of all the targets
+     * A reference to contain the path of all the targets.
      *
      * @param allTargetsPath the name of the reference
      */
@@ -228,7 +228,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * A property to contain all the target filenames
+     * A property to contain all the target filenames.
      *
      * @param allTargets the name of the property
      */
@@ -246,7 +246,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * optional nested delete element
+     * optional nested delete element.
      * @return an element to be configured
      */
     public DeleteTargets createDeleteTargets() {
@@ -255,7 +255,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * Embedded do parallel
+     * Embedded do parallel.
      * @param doTask the parallel to embed
      */
     public void addParallel(Parallel doTask) {
@@ -420,7 +420,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * Call evaluate and return an iterator over the result
+     * Call evaluate and return an iterator over the result.
      * @return an iterator over the result
      */
     public Iterator iterator() {
@@ -517,7 +517,7 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     * nested delete targets
+     * nested delete targets.
      */
     public class DeleteTargets {
         private boolean all         = false;
@@ -537,6 +537,7 @@ public class OutOfDate extends Task implements Condition {
         }
 
         /**
+         * setQuiet() method.
          * @param quiet if true suppress messages on deleting files
          */
         public void setQuiet(boolean quiet) {
@@ -545,6 +546,7 @@ public class OutOfDate extends Task implements Condition {
         }
 
         /**
+         * setFailOnError() method.
          * @param failOnError if true halt if there is a failure to delete
          */
         public void setFailOnError(boolean failOnError) {
@@ -646,10 +648,11 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     *  Wrapper for mapper - includes dir
+     *  Wrapper for mapper - includes dir.
      */
     public static class MyMapper extends Mapper {
         private File dir = null;
+
         /**
          * Creates a new <code>MyMapper</code> instance.
          *
@@ -660,6 +663,7 @@ public class OutOfDate extends Task implements Condition {
         }
 
         /**
+         * setDir() method.
          * @param dir the directory that the from files are relative to
          */
         public void setDir(File dir) {
@@ -667,6 +671,7 @@ public class OutOfDate extends Task implements Condition {
         }
 
         /**
+         * getDir() method.
          * @return the directory that the from files are relative to
          */
         public File getDir() {

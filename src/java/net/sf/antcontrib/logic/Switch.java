@@ -93,7 +93,7 @@ public class Switch extends Task
     private boolean caseInsensitive;
 
     /**
-     * Default Constructor
+     * Constructor.
      */
     public Switch()
     {
@@ -139,7 +139,7 @@ public class Switch extends Task
     }
 
     /**
-     * Sets the value being switched on
+     * Sets the value being switched on.
      * @param value String
      */
     public void setValue(String value)
@@ -195,7 +195,7 @@ public class Switch extends Task
     }
 
     /**
-     * Creates the &lt;default&gt; tag
+     * Creates the &lt;default&gt; tag.
      * @param res Sequential
      */
     public void addDefault(Sequential res)

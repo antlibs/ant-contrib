@@ -18,7 +18,7 @@ package net.sf.antcontrib.property;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <propertycopy>.
+ * Testcase for &lt;propertycopy&gt;.
  */
 public class PropertyCopyTest extends BuildFileTest {
 

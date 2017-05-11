@@ -38,11 +38,12 @@ import org.apache.tools.ant.Task;
  * are grouped by targets and tasks, and are sorted from fastest running to
  * slowest running.
  *
- * Output can be saved to a file by setting a property in Ant. Set
+ * <p>Output can be saved to a file by setting a property in Ant. Set
  * "performance.log" to the name of a file. This can be set either on the
  * command line with the -D option (<code>-Dperformance.log=/tmp/performance.log</code>)
  * or in the build file itself (<code>&lt;property name="performance.log"
- * location="/tmp/performance.log"/&gt;</code>).
+ * location="/tmp/performance.log"/&gt;</code>).</p>
+ *
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
  * @author Dale Anson, danson@germane-software.com
@@ -216,7 +217,7 @@ public class AntPerformanceListener implements BuildListener {
     }
 
     /**
-     * no-op
+     * no-op.
      */
     public void messageLogged(BuildEvent be) {
         // does nothing
@@ -249,18 +250,18 @@ public class AntPerformanceListener implements BuildListener {
     public class StopWatch {
 
         /**
-         * storage for start time
+         * storage for start time.
          */
         private long _start_time = 0;
 
         /**
-         * storage for stop time
+         * storage for stop time.
          */
         @SuppressWarnings("unused")
         private long _stop_time = 0;
 
         /**
-         * cumulative elapsed time
+         * cumulative elapsed time.
          */
         private long _total_time = 0;
 

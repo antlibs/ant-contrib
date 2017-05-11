@@ -243,7 +243,7 @@ public class Variable extends Task {
     }
 
     /**
-     * load variables from a file
+     * load variables from a file.
      *
      * @param file                file to load
      * @exception BuildException  Description of the Exception
@@ -274,7 +274,7 @@ public class Variable extends Task {
     }
 
     /**
-     * iterate through a set of properties, resolve them, then assign them
+     * iterate through a set of properties, resolve them, then assign them.
      *
      * @param props  The feature to be added to the Properties attribute
      */
@@ -289,7 +289,7 @@ public class Variable extends Task {
     }
 
     /**
-     * resolve properties inside a properties hashtable
+     * resolve properties inside a properties hashtable.
      *
      * @param props               properties object to resolve
      * @exception BuildException  Description of the Exception

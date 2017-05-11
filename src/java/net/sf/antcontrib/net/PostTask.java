@@ -65,32 +65,32 @@ public class PostTask extends Task {
     private URL to = null;
     /** File to read name/value pairs from. */
     private File propsFile = null;
-    /** storage for Ant properties */
+    /** storage for Ant properties. */
     private String textProps = null;
-    /** encoding to use for the name/value pairs */
+    /** encoding to use for the name/value pairs. */
     private String encoding = "UTF-8";
-    /** where to store the server response */
+    /** where to store the server response. */
     private File log = null;
-    /** append to the log? */
+    /** append to the log. */
     private boolean append = true;
-    /** verbose? */
+    /** verbose. */
     private boolean verbose = true;
-    /** want to keep the server response? */
+    /** want to keep the server response. */
     private boolean wantResponse = true;
-    /** store output in a property */
+    /** store output in a property. */
     private String property = null;
 
-    /** how long to wait for a response from the server */
+    /** how long to wait for a response from the server. */
     private long maxwait = 180000;   // units for maxwait is milliseconds
-    /** fail on error? */
+    /** fail on error. */
     private boolean failOnError = false;
 
     // storage for cookies
     private static final Hashtable cookieStorage = new Hashtable();
 
-    /** connection to the server */
+    /** connection to the server. */
     private URLConnection connection = null;
-    /** for thread handling */
+    /** for thread handling. */
     private Thread currentRunner = null;
 
     /**
@@ -176,9 +176,9 @@ public class PostTask extends Task {
      * spend at most 3 minutes to connect to the remote server and at most
      * another 3 minutes waiting on a response after the post has been sent.
      * This means that the wait period could total as much as 6 minutes (or 360
-     * seconds). <p>
+     * seconds).
      *
-     * The default wait period is 3 minutes (180 seconds).
+     * <p>The default wait period is 3 minutes (180 seconds).</p>
      *
      * @param wait  time to wait in seconds, set to 0 to wait forever.
      */
@@ -187,7 +187,7 @@ public class PostTask extends Task {
     }
 
     /**
-     * Should the build fail if the post fails?
+     * Should the build fail if the post fails.
      *
      * @param fail  true = fail the build, default is false
      */
@@ -217,7 +217,7 @@ public class PostTask extends Task {
     }
 
     /**
-     * Adds a feature to the Text attribute of the PostTask object
+     * Adds a feature to the Text attribute of the PostTask object.
      *
      * @param text  The feature to be added to the Text attribute
      */
@@ -439,7 +439,7 @@ public class PostTask extends Task {
     }
 
     /**
-     * Borrowed from Property -- load variables from a file
+     * Borrowed from Property -- load variables from a file.
      *
      * @param file                file to load
      * @exception BuildException  Description of the Exception
@@ -510,7 +510,7 @@ public class PostTask extends Task {
     }
 
     /**
-     * Description of the Method
+     * loadTextProps() method.
      *
      * @param tp String
      */
@@ -534,7 +534,7 @@ public class PostTask extends Task {
 
     /**
      * Borrowed from Property -- iterate through a set of properties, resolve
-     * them, then assign them
+     * them, then assign them.
      *
      * @param fileprops  The feature to be added to the Properties attribute
      */
@@ -550,7 +550,7 @@ public class PostTask extends Task {
 
     /**
      * Borrowed from Property -- resolve properties inside a properties
-     * hashtable
+     * hashtable.
      *
      * @param fileprops           Description of the Parameter
      * @exception BuildException  Description of the Exception
@@ -643,6 +643,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * Constructor.
          * @param name name of the cookie
          * @param value the value of the cookie
          */
@@ -656,6 +657,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * getId() object
          * @return the id of the cookie, used internally by Post to store the cookie
          * in a hashtable.
          */
@@ -676,6 +678,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * getName() method.
          * @return the name of the cookie
          */
         public String getName() {
@@ -683,6 +686,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * getValue() method.
          * @return the value of the cookie
          */
         public String getValue() {
@@ -690,6 +694,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * setDomain() method.
          * @param domain the domain of the cookie
          */
         public void setDomain(String domain) {
@@ -697,6 +702,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * getDomain() method.
          * @return the domain of the cookie
          */
         public String getDomain() {
@@ -704,6 +710,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * setPath method().
          * @param path the path of the cookie
          */
         public void setPath(String path) {
@@ -711,6 +718,7 @@ public class PostTask extends Task {
         }
 
         /**
+         * getPath() method.
          * @return the path of the cookie
          */
         public String getPath() {

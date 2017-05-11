@@ -38,7 +38,7 @@ import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 
 /**
- * Created on Jan 9, 2005
+ * Created on Jan 9, 2005.
  */
 class VisitorImpl extends EmptyVisitor {
 
@@ -199,6 +199,7 @@ class VisitorImpl extends EmptyVisitor {
 	}
 
 	/**
+	 * getNoFileMsg() method.
 	 * @param jarName File
 	 * @return String
 	 */

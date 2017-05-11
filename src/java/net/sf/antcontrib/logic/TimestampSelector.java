@@ -77,7 +77,7 @@ public class TimestampSelector extends Task
     private String age = AGE_YOUNGEST;
 
     /**
-     * Default Constructor
+     * Constructor.
      */
     public TimestampSelector()
     {

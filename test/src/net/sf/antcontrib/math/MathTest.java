@@ -18,7 +18,7 @@ package net.sf.antcontrib.math;
 import net.sf.antcontrib.BuildFileTestBase;
 
 /**
- *
+ * MathTest class.
  * @author   danson
  */
 public class MathTest extends BuildFileTestBase {
@@ -32,12 +32,12 @@ public class MathTest extends BuildFileTestBase {
         super(name);
     }
 
-    /** The JUnit setup method */
+    /** The JUnit setup method. */
     public void setUp() {
         configureProject("test/resources/math/mathtest.xml");
     }
 
-    /** A unit test for JUnit */
+    /** A unit test for JUnit. */
     public void test1() {
         expectPropertySet("test1", "result", "18");
     }

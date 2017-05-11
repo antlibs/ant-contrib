@@ -18,7 +18,7 @@ package net.sf.antcontrib.property;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <propertyselector>.
+ * Testcase for &lt;propertyselector&gt;.
  */
 public class PropertySelectorTest extends BuildFileTest {
 

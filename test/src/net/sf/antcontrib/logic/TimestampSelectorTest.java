@@ -18,7 +18,7 @@ package net.sf.antcontrib.logic;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <foreach>.
+ * Testcase for &lt;foreach&gt;.
  */
 public class TimestampSelectorTest extends BuildFileTest {
 

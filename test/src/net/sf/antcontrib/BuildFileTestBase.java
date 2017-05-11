@@ -40,7 +40,7 @@ public abstract class BuildFileTestBase extends BuildFileTest {
     }
 
     /**
-     * run a target, expect a build exception
+     * run a target, expect a build exception.
      *
      * @param target  target to run
      */
@@ -91,7 +91,7 @@ public abstract class BuildFileTestBase extends BuildFileTest {
 
     /**
      * run a target, expect an exception string containing the substring we look
-     * for (case sensitive match)
+     * for (case sensitive match).
      *
      * @param target    target to run
      * @param cause     information string to reader of report

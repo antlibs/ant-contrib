@@ -77,6 +77,7 @@ public class Package {
     }
 
     /**
+     * getJavaCopyFileSet() method.
      * @param p Project
      * @param l Location
      * @return FileSet
@@ -101,6 +102,7 @@ public class Package {
     }
 
     /**
+     * getClassCopyFileSet() method.
      * @param p Project
      * @param l Location
      * @return FileSet
@@ -117,6 +119,7 @@ public class Package {
     }
 
     /**
+     * getSrcPath() method.
      * @param baseDir File
      * @param p Project
      * @return the source path
@@ -129,6 +132,7 @@ public class Package {
     }
 
     /**
+     * getClasspath() method.
      * @param baseDir File
      * @param p Project
      * @return the classpath
@@ -168,6 +172,7 @@ public class Package {
     }
 
     /**
+     * setFaultReason() method.
      * @param r a fault reason string
      */
     public void setFaultReason(String r) {

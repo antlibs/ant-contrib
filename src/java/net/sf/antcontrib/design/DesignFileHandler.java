@@ -49,6 +49,7 @@ class DesignFileHandler implements ContentHandler {
     private final Location loc;
 
     /**
+     * Constructor.
      * @param log Log
      * @param file File
      * @param isCircularDesign boolean
@@ -62,6 +63,7 @@ class DesignFileHandler implements ContentHandler {
     }
 
     /**
+     * setNeedDeclarationsDefault() method.
      * @param b boolean
      */
     public void setNeedDeclarationsDefault(boolean b) {
@@ -69,6 +71,7 @@ class DesignFileHandler implements ContentHandler {
     }
 
     /**
+     * setNeedDependsDefault() method.
      * @param b boolean
      */
     public void setNeedDependsDefault(boolean b) {

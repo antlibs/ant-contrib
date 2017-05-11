@@ -37,7 +37,7 @@ public class IniFile
     private final Map sectionMap;
 
     /**
-     * Create a new IniFile object
+     * Create a new IniFile object.
      */
     public IniFile()
     {
@@ -47,7 +47,7 @@ public class IniFile
     }
 
     /**
-     * Gets the List of IniSection objects contained in this IniFile
+     * Gets the List of IniSection objects contained in this IniFile.
      * @return a List of IniSection objects
      */
     public List getSections()
@@ -56,7 +56,7 @@ public class IniFile
     }
 
     /**
-     * Gets the IniSection with the given name
+     * Gets the IniSection with the given name.
      * @param name the name of the section
      * @return IniSection
      */
@@ -87,7 +87,7 @@ public class IniFile
     }
 
     /**
-     * Removes an entire section from the IniFile
+     * Removes an entire section from the IniFile.
      * @param name The name of the section to remove
      */
     public void removeSection(String name)

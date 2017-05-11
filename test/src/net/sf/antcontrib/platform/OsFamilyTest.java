@@ -18,7 +18,7 @@ package net.sf.antcontrib.platform;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <osfamily>.
+ * Testcase for &lt;osfamily&gt;.
  */
 public class OsFamilyTest extends BuildFileTest {
 

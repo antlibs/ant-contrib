@@ -37,7 +37,7 @@ public class IniSection
     private final Map propertyMap;
 
     /**
-     * Default constructor, constructs an IniSection with no name
+     * Default constructor, constructs an IniSection with no name.
      */
     public IniSection()
     {
@@ -47,7 +47,7 @@ public class IniSection
     }
 
     /**
-     * Constructs an IniSection with the given name
+     * Constructs an IniSection with the given name.
      * @param name The name of the section
      */
     public IniSection(String name)
@@ -57,7 +57,7 @@ public class IniSection
     }
 
     /**
-     * Gets a list of all properties in this section
+     * Gets a list of all properties in this section.
      * @return A List of IniProperty objects
      */
     public List getProperties()
@@ -66,7 +66,7 @@ public class IniSection
     }
 
     /**
-     * Gets the name of the section
+     * Gets the name of the section.
      * @return String
      */
     public String getName()
@@ -75,7 +75,7 @@ public class IniSection
     }
 
     /**
-     * Sets the name of the section
+     * Sets the name of the section.
      * @param name The name of the section
      */
     public void setName(String name)
@@ -84,7 +84,7 @@ public class IniSection
     }
 
     /**
-     * Gets the property with the given name
+     * Gets the property with the given name.
      * @param name The name of the property
      * @return IniProperty
      */
@@ -114,7 +114,7 @@ public class IniSection
     }
 
     /**
-     * Removes a property from this section
+     * Removes a property from this section.
      * @param name The name of the property to remove
      */
     public void removeProperty(String name)

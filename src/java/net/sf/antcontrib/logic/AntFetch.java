@@ -32,7 +32,7 @@ import org.apache.tools.ant.taskdefs.Ant;
  * @author Dale Anson, danson@germane-software.com
  */
 public class AntFetch extends Ant {
-	/** the name of the property to fetch from the new project */
+	/** the name of the property to fetch from the new project. */
 	private String returnName = null;
 
 	private ProjectDelegate fakeProject = null;

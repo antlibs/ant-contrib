@@ -18,7 +18,7 @@ package net.sf.antcontrib.logic;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <relentless>.
+ * Testcase for &lt;relentless&gt;.
  * @author Christopher Heiny
  */
 public class RelentlessTaskTest extends BuildFileTest {

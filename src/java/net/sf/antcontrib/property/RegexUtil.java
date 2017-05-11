@@ -28,19 +28,20 @@ public class RegexUtil
 {
 
     /**
-     * An arbitrary node in a select expression
+     * An arbitrary node in a select expression.
      */
     private interface SelectNode
     {
         /**
-         * Select the value based on the groups
+         * Select the value based on the groups.
          * @param groups The groups found in the match
+         * @return String
          */
         String select(Vector groups);
     }
 
     /**
-     * A group node in a select expression
+     * A group node in a select expression.
      */
     private static class GroupSelectNode
         implements SelectNode
@@ -67,7 +68,7 @@ public class RegexUtil
     }
 
     /**
-     * An arbitrary node in a select expression
+     * An arbitrary node in a select expression.
      */
     private static class StringSelectNode
         implements SelectNode

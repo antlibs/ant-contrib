@@ -18,7 +18,7 @@ package net.sf.antcontrib.logic;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <switch>.
+ * Testcase for &lt;switch&gt;.
  */
 public class SwitchTest extends BuildFileTest {
 

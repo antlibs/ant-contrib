@@ -93,7 +93,7 @@ public class ShellScriptTask extends ExecTask {
     }
 
     /**
-     * execute the task
+     * execute the task.
      */
     public void execute() throws BuildException {
         // Remove per peter's comments.  Makes sense.

@@ -35,19 +35,19 @@ package net.sf.antcontrib.perf;
  */
 public class StopWatch {
 
-    /** an identifying name for this stopwatch */
+    /** an identifying name for this stopwatch. */
     private String name = "";
 
-    /** storage for start time */
+    /** storage for start time. */
     private long startTime = 0;
 
-    /** storage for stop time */
+    /** storage for stop time. */
     private long stopTime = 0;
 
-    /** cumulative elapsed time */
+    /** cumulative elapsed time. */
     private long totalTime = 0;
 
-    /** is the stopwatch running? */
+    /** is the stopwatch running. */
     private boolean running = false;
 
     /**
@@ -116,6 +116,7 @@ public class StopWatch {
     }
 
     /**
+     * getName() method.
      * @return the name of this StopWatch
      */
     public String getName() {

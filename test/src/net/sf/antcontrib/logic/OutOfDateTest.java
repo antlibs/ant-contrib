@@ -19,7 +19,7 @@ import org.apache.tools.ant.BuildFileTest;
 import org.apache.tools.ant.types.Path;
 
 /**
- * Testcase for <outofdate>.
+ * Testcase for &lt;outofdate&gt;.
  *
  * @author Peter Reilly
  */

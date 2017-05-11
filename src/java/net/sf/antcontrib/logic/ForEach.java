@@ -87,7 +87,7 @@ public class ForEach extends Task
     private Mapper mapper;
 
     /**
-     * Default Constructor
+     * Constructor.
      */
     public ForEach()
     {
@@ -305,7 +305,7 @@ public class ForEach extends Task
 
     /**
      * Set the maximum amount of threads we're going to allow
-     * at once to execute
+     * at once to execute.
      * @param maxThreads int
      */
     public void setMaxThreads(int maxThreads)
@@ -332,8 +332,8 @@ public class ForEach extends Task
     }
 
     /**
-     * @deprecated Use createPath instead.
      * @param set FileSet
+     * @deprecated Use createPath instead.
      */
     public void addFileset(FileSet set)
     {

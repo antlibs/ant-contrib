@@ -43,16 +43,16 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  *
  * <p>In addition to the condition, you can specify three different
  * child elements, <code>&lt;elseif&gt;</code>, <code>&lt;then&gt;</code> and
- * <code>&lt;else&gt;</code>.  All three subelements are optional.
+ * <code>&lt;else&gt;</code>.  All three subelements are optional.</p>
  *
- * Both <code>&lt;then&gt;</code> and <code>&lt;else&gt;</code> must not be
+ * <p>Both <code>&lt;then&gt;</code> and <code>&lt;else&gt;</code> must not be
  * used more than once inside the if task.  Both are
  * containers for Ant tasks, just like Ant's
  * <code>&lt;parallel&gt;</code> and <code>&lt;sequential&gt;</code>
  * tasks - in fact they are implemented using the same class as Ant's
  * <code>&lt;sequential&gt;</code> task.</p>
  *
- *  The <code>&lt;elseif&gt;</code> behaves exactly like an <code>&lt;if&gt;</code>
+ * <p>The <code>&lt;elseif&gt;</code> behaves exactly like an <code>&lt;if&gt;</code>
  * except that it cannot contain the <code>&lt;else&gt;</code> element
  * inside of it.  You may specify as may of these as you like, and the
  * order they are specified is the order they are evaluated in.  If the
@@ -60,7 +60,7 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * <code>&lt;elseif&gt;</code> who's conditional evaluates to true
  * will be executed.  The <code>&lt;else&gt;</code> will be executed
  * only if the <code>&lt;if&gt;</code> and all <code>&lt;elseif&gt;</code>
- * conditions are false.
+ * conditions are false.</p>
  *
  * <p>Use the following task to define the <code>&lt;if&gt;</code>
  * task before you use it the first time:</p>
@@ -150,7 +150,7 @@ public class IfTask extends ConditionBase {
     private Sequential   elseTasks = null;
 
     /**
-     * A nested Else if task
+     * A nested ElseIf task.
      * @param ei ElseIf
      */
     public void addElseIf(ElseIf ei)

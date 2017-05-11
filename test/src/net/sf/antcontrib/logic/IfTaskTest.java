@@ -18,7 +18,7 @@ package net.sf.antcontrib.logic;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <if>.
+ * Testcase for &lt;if&gt;.
  */
 public class IfTaskTest extends BuildFileTest {
 

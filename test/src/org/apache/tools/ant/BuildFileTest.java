@@ -51,7 +51,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  run a target, expect for any build exception
+     *  run a target, expect for any build exception.
      *
      *@param  target target to run
      *@param  cause  information string to reader of report
@@ -71,9 +71,8 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * Assert that the given substring is in the log messages
+     * Assert that the given substring is in the log messages.
      */
-
     protected void assertLogContaining(String substring) {
         String realLog = getLog();
         assertTrue("expecting log to contain \"" + substring + "\" log was \""
@@ -123,7 +122,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute the target, verify output matches expectations
+     *  execute the target, verify output matches expectations.
      *
      *@param  target  target to execute
      *@param  output  output to look for
@@ -136,11 +135,11 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute the target, verify output matches expectations
-     *  and that we got the named error at the end
-     *@param  target  target to execute
-     *@param  output  output to look for
-     *@param  error   Description of Parameter
+     * execute the target, verify output matches expectations
+     * and that we got the named error at the end.
+     * @param  target  target to execute
+     * @param  output  output to look for
+     * @param  error   Description of Parameter
      */
 
     protected void expectOutputAndError(String target, String output, String error) {
@@ -183,7 +182,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  set up to run the named project
+     *  set up to run the named project.
      *
      * @param  filename name of project file to run
      */
@@ -192,7 +191,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  set up to run the named project
+     *  set up to run the named project.
      *
      * @param  filename name of project file to run
      */
@@ -208,7 +207,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute a target we have set up
+     * execute a target we have set up.
      * @pre configureProject has been called
      * @param  targetName  target to run
      */
@@ -245,7 +244,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * get the directory of the project
+     * get the directory of the project.
      * @return the base dir of the project
      */
     protected File getProjectDir() {
@@ -253,12 +252,12 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  run a target, wait for a build exception
+     * run a target, wait for a build exception.
      *
-     *@param  target target to run
-     *@param  cause  information string to reader of report
-     *@param  msg    the message value of the build exception we are waiting for
-              set to null for any build exception to be valid
+     * @param  target target to run
+     * @param  cause  information string to reader of report
+     * @param  msg    the message value of the build exception we are waiting for
+     *         set to null for any build exception to be valid
      */
     protected void expectSpecificBuildException(String target, String cause, String msg) {
         try {
@@ -277,11 +276,11 @@ public abstract class BuildFileTest extends TestCase {
 
     /**
      *  run a target, expect an exception string
-     *  containing the substring we look for (case sensitive match)
+     *  containing the substring we look for (case sensitive match).
      *
-     *@param  target target to run
-     *@param  cause  information string to reader of report
-     *@param  contains  substring of the build exception to look for
+     * @param  target target to run
+     * @param  cause  information string to reader of report
+     * @param  contains  substring of the build exception to look for
      */
     protected void expectBuildExceptionContaining(String target, String cause, String contains) {
         try {
@@ -296,9 +295,8 @@ public abstract class BuildFileTest extends TestCase {
         fail("Should throw BuildException because: " + cause);
     }
 
-
     /**
-     * call a target, verify property is as expected
+     * call a target, verify property is as expected.
      *
      * @param target build file target
      * @param property property name
@@ -321,7 +319,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * assert that a property equals &quot;true&quot;
+     * assert that a property equals &quot;true&quot;.
      * @param property property name
      */
     protected void assertPropertySet(String property) {
@@ -329,13 +327,12 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * assert that a property is null
+     * assert that a property is null.
      * @param property property name
      */
     protected void assertPropertyUnset(String property) {
         assertPropertyEquals(property, null);
     }
-
 
     /**
      * call a target, verify named property is "true".
@@ -347,9 +344,8 @@ public abstract class BuildFileTest extends TestCase {
         expectPropertySet(target, property, "true");
     }
 
-
     /**
-     * call a target, verify property is null
+     * call a target, verify property is null.
      * @param target build file target
      * @param property property name
      */
@@ -385,14 +381,14 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * our own personal build listener
+     * our own personal build listener.
      */
     private class AntTestListener implements BuildListener {
         private int logLevel;
 
         /**
          * Constructs a test listener which will ignore log events
-         * above the given level
+         * above the given level.
          */
         public AntTestListener(int logLevel) {
             this.logLevel = logLevel;

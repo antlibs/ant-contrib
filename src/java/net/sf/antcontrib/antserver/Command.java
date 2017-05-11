@@ -38,7 +38,7 @@ public interface Command
 
     /**
      * Is there additional content being sent from the local
-     * machine to the remote server
+     * machine to the remote server.
      * @return long
      */
     long getContentLength();

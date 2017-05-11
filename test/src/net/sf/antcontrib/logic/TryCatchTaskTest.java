@@ -19,7 +19,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <trycatch>.
+ * Testcase for &lt;trycatch&gt;.
  */
 public class TryCatchTaskTest extends BuildFileTest {
 

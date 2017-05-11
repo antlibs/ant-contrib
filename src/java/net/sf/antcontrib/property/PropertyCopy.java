@@ -59,7 +59,7 @@ public class PropertyCopy
     private boolean silent;
 
     /**
-     * Default Constructor
+     * Default constructor.
      */
     public PropertyCopy()
     {

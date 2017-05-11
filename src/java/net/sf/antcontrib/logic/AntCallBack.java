@@ -58,7 +58,7 @@ import org.apache.tools.ant.util.FileUtils;
  */
 public class AntCallBack extends Task {
 
-    /** the basedir where is executed the build file */
+    /** the basedir where the build file is executed. */
     private File dir = null;
 
     /**
@@ -66,31 +66,31 @@ public class AntCallBack extends Task {
      */
     private String antFile = null;
 
-    /** the target to call if any */
+    /** the target to call if any. */
     private String target = null;
 
-    /** the output */
+    /** the output. */
     private String output = null;
 
-    /** should we inherit properties from the parent ? */
+    /** should we inherit properties from the parent. */
     private boolean inheritAll = true;
 
-    /** should we inherit references from the parent ? */
+    /** should we inherit references from the parent. */
     private boolean inheritRefs = false;
 
-    /** the properties to pass to the new project */
     private final Vector properties = new Vector();
+    /** the properties to pass to the new project. */
 
-    /** the references to pass to the new project */
     private final Vector references = new Vector();
+    /** the references to pass to the new project. */
 
-    /** the temporary project created to run the build file */
+    /** the temporary project created to run the build file. */
     private Project newProject;
 
     /** The stream to which output is to be written. */
     private PrintStream out = null;
 
-    /** the name of the property to fetch from the new project */
+    /** the name of the property to fetch from the new project. */
     private String returnName = null;
 
     /**
@@ -99,7 +99,7 @@ public class AntCallBack extends Task {
      * @param value  The new inheritAll value
      */
     public void setInheritAll(boolean value) {
-	inheritAll = value;
+        inheritAll = value;
     }
 
     /**
@@ -512,10 +512,10 @@ public class AntCallBack extends Task {
      * @param s  The new antfile value
      */
     public void setAntfile(String s) {
-	// @note: it is a string and not a file to handle relative/absolute
-	// otherwise a relative file will be resolved based on the current
-	// basedir.
-	this.antFile = s;
+        // @note: it is a string and not a file to handle relative/absolute
+        // otherwise a relative file will be resolved based on the current
+        // basedir.
+        this.antFile = s;
     }
 
     /**
@@ -525,7 +525,7 @@ public class AntCallBack extends Task {
      * @param s  The new target value
      */
     public void setTarget(String s) {
-	this.target = s;
+        this.target = s;
     }
 
     /**
@@ -536,7 +536,7 @@ public class AntCallBack extends Task {
      * @param s  The new output value
      */
     public void setOutput(String s) {
-	this.output = s;
+        this.output = s;
     }
 
     /**
@@ -577,7 +577,7 @@ public class AntCallBack extends Task {
      *      project. This may be a comma separate list of properties.
      */
     public void setReturn(String r) {
-	returnName = r;
+        returnName = r;
     }
 
     /**

@@ -28,7 +28,7 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
 public class BooleanConditionBase extends ConditionBase {
     /**
      * Adds a feature to the IsPropertyTrue attribute of the BooleanConditionBase
-     * object
+     * object.
      *
      * @param i  The feature to be added to the IsPropertyTrue attribute
      */
@@ -38,7 +38,7 @@ public class BooleanConditionBase extends ConditionBase {
 
     /**
      * Adds a feature to the IsPropertyFalse attribute of the
-     * BooleanConditionBase object
+     * BooleanConditionBase object.
      *
      * @param i  The feature to be added to the IsPropertyFalse attribute
      */

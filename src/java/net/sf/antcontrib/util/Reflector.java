@@ -58,6 +58,7 @@ public class Reflector {
     }
 
     /**
+     * getObject() method
      * @return the wrapped object.
      */
     public Object getObject() {

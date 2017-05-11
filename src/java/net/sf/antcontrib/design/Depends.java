@@ -27,6 +27,7 @@ public class Depends {
 	public Depends() {}
 
 	/**
+	 * Constructor.
 	 * @param name String
 	 */
 	public Depends(String name) {
@@ -35,6 +36,7 @@ public class Depends {
 	}
 
 	/**
+	 * setName() method.
 	 * @param s String
 	 */
 	public void setName(String s) {

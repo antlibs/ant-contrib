@@ -18,7 +18,7 @@ package net.sf.antcontrib.property;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <pathtofileset>.
+ * Testcase for &lt;pathtofileset&gt;.
  */
 public class PathToFileSetTest extends BuildFileTest {
 

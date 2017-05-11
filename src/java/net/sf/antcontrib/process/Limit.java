@@ -292,8 +292,8 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * The enumeration of units:
-     * millisecond, second, minute, hour, day, week
-     * Todo: we use timestamps in many places, why not factor this out
+     * millisecond, second, minute, hour, day, week.
+     * Todo: we use timestamps in many places, why not factor this out.
      */
     public static class TimeUnit extends EnumeratedAttribute {
 
@@ -304,7 +304,7 @@ public class Limit extends Task implements TaskContainer {
         public static final String DAY = "day";
         public static final String WEEK = "week";
 
-        /** static unit objects, for use as sensible defaults */
+        /** static unit objects, for use as sensible defaults. */
         public static final TimeUnit MILLISECOND_UNIT =
             new TimeUnit(MILLISECOND);
         public static final TimeUnit SECOND_UNIT =
@@ -362,7 +362,7 @@ public class Limit extends Task implements TaskContainer {
         }
 
         /**
-         * convert the time in the current unit, to millis
+         * convert the time in the current unit, to millis.
          * @param numberOfUnits long expressed in the current objects units
          * @return long representing the value in millis
          */

@@ -27,7 +27,7 @@ import java.io.Writer;
 public interface IniPart
 {
     /**
-     * Write this part of the IniFile to a writer
+     * Write this part of the IniFile to a writer.
      * @param writer The writer to write to
      * @throws IOException when something goes wrong
      */

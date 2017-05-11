@@ -94,12 +94,14 @@ public class CompileWithWalls extends Task {
         walls = new Walls();
         return walls;
     }
+
     public Javac createJavac() {
         if (javac != null)
             setJavacTwice = true;
         javac = new Javac();
         return javac;
     }
+
     public void execute() throws BuildException {
         if(cachedIOException != null)
             throw new BuildException(cachedIOException, getLocation());
@@ -272,6 +274,7 @@ public class CompileWithWalls extends Task {
         }
     }
     /**
+     * file1IsChildOfFile2() method.
      * @param tempBuildDir File
      * @param destDir File
      * @return boolean

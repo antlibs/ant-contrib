@@ -35,6 +35,7 @@ class WallsFileHandler extends HandlerBase {
     private Locator locator = null;
 
     /**
+     * Constructor.
      * @param walls CompileWithWalls
      * @param file File
      */

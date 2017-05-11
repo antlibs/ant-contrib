@@ -19,7 +19,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileTest;
 
 /**
- * Testcase for <throw>.
+ * Testcase for &lt;throw&gt;.
  */
 public class ThrowTaskTest extends BuildFileTest {
 

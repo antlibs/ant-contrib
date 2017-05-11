@@ -25,6 +25,7 @@ import org.apache.tools.ant.taskdefs.condition.Condition;
 import org.apache.tools.ant.taskdefs.condition.Equals;
 
 /**
+ * Assert class.
  * @author Matthew Inger
  */
 public class Assert

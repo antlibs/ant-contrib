@@ -25,13 +25,13 @@ import junit.textui.TestRunner;
 /**
  * BIG NOTE
  *
- * Always expect specific exceptions.  Most of these test cases when
+ * <p>Always expect specific exceptions.  Most of these test cases when
  * first submitted were not and therefore were not testing what they said
  * they were testing.  Exceptions were being caused by other things and the
  * tests were still passing.  Now all tests expect a specific exception
- * so if any other is thrown we will fail the test case.
+ * so if any other is thrown we will fail the test case.</p>
  *
- * Testcase for <propertycopy>.
+ * <p>Testcase for &lt;propertycopy&gt;.</p>
  */
 public class CompileWithWallsTest extends BuildFileTest {
 
