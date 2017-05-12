@@ -58,29 +58,29 @@ public class SwitchTest extends BuildFileTest {
 
     public void testDefault() {
         executeTarget("testDefault");
-        assertTrue(getLog().indexOf("In default") > -1);
-        assertTrue(getLog().indexOf("baz") > -1);
+        assertTrue(getLog().contains("In default"));
+        assertTrue(getLog().contains("baz"));
         assertEquals(-1, getLog().indexOf("${inner}"));
         assertEquals(-1, getLog().indexOf("In case"));
     }
 
     public void testCase() {
         executeTarget("testCase");
-        assertTrue(getLog().indexOf("In case") > -1);
-        assertTrue(getLog().indexOf("baz") > -1);
+        assertTrue(getLog().contains("In case"));
+        assertTrue(getLog().contains("baz"));
         assertEquals(-1, getLog().indexOf("${inner}"));
         assertEquals(-1, getLog().indexOf("In default"));
     }
 
     public void testCaseSensitive() {
         executeTarget("testCaseSensitive");
-        assertTrue(getLog().indexOf("In default") > -1);
+        assertTrue(getLog().contains("In default"));
         assertEquals(-1, getLog().indexOf("In case"));
     }
 
     public void testCaseInSensitive() {
         executeTarget("testCaseInSensitive");
-        assertTrue(getLog().indexOf("In case") > -1);
+        assertTrue(getLog().contains("In case"));
         assertEquals(-1, getLog().indexOf("In default"));
     }
 

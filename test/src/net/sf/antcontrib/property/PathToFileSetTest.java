@@ -54,13 +54,13 @@ public class PathToFileSetTest extends BuildFileTest {
     private void assertPropertyContains(String property, String expected) {
         String result = getProject().getProperty(property);
         assertTrue("property " + property + " contains " + expected,
-                   result.indexOf(expected) != -1);
+                result.contains(expected));
     }
 
     private void assertPropertyNotContains(String property, String expected) {
         String result = getProject().getProperty(property);
         assertTrue("property " + property + " contains " + expected,
-                   result.indexOf(expected) == -1);
+                !result.contains(expected));
     }
 
 }

@@ -103,14 +103,14 @@ public class CompileWithWalls extends Task {
     }
 
     public void execute() throws BuildException {
-        if(cachedIOException != null)
+        if (cachedIOException != null)
             throw new BuildException(cachedIOException, getLocation());
-        else if(cachedSAXException != null)
+        else if (cachedSAXException != null)
             throw new BuildException(cachedSAXException, getLocation());
-        else if(tempBuildDir == null)
+        else if (tempBuildDir == null)
             throw new BuildException(
-                "intermediaryBuildDir attribute must be specified on the compilewithwalls element"
-                    , getLocation());
+                "intermediaryBuildDir attribute must be specified on the compilewithwalls element",
+                getLocation());
         else if (javac == null)
             throw new BuildException(
                 "There must be a nested javac element",
@@ -134,17 +134,17 @@ public class CompileWithWalls extends Task {
         File destDir = javac.getDestdir();
         Path src  = javac.getSrcdir();
 
-        if(src == null)
+        if (src == null)
             throw new BuildException("Javac inside compilewithwalls must have a srcdir specified");
 
         String[] list = src.list();
-        File[] tempSrcDirs1 = new File[list.length];
-        for(int i = 0; i < list.length; i++) {
-            tempSrcDirs1[i] = getProject().resolveFile(list[i]);
+        File[] tempSrcDirs = new File[list.length];
+        for (int i = 0; i < list.length; i++) {
+            tempSrcDirs[i] = getProject().resolveFile(list[i]);
         }
 
         String[] classpaths = new String[0];
-        if(javac.getClasspath() != null)
+        if (javac.getClasspath() != null)
             classpaths = javac.getClasspath().list();
 
         File temp = null;
@@ -174,17 +174,17 @@ public class CompileWithWalls extends Task {
                 getLocation());
 
         //make sure tempBuildDir is not inside destDir or we are in trouble!!
-        if(file1IsChildOfFile2(tempBuildDir, destDir))
+        if (file1IsChildOfFile2(tempBuildDir, destDir))
             throw new BuildException("intermediaryBuildDir attribute cannot be specified\n"
-                    +"to be the same as destdir or inside desdir of the javac task.\n"
-                    +"This is an intermediary build directory only used by the\n"
-                    +"compilewithwalls task, not the class file output directory.\n"
-                    +"The class file output directory is specified in javac's destdir attribute", getLocation());
+                    + "to be the same as destdir or inside desdir of the javac task.\n"
+                    + "This is an intermediary build directory only used by the\n"
+                    + "compilewithwalls task, not the class file output directory.\n"
+                    + "The class file output directory is specified in javac's destdir attribute", getLocation());
 
         //create the tempBuildDir if it doesn't exist.
-        if(!tempBuildDir.exists()) {
+        if (!tempBuildDir.exists()) {
             tempBuildDir.mkdirs();
-            log("created direction="+tempBuildDir, Project.MSG_VERBOSE);
+            log("created direction=" + tempBuildDir, Project.MSG_VERBOSE);
         }
 
         Iterator iter = walls.getPackagesToCompile();
@@ -192,9 +192,9 @@ public class CompileWithWalls extends Task {
             Package toCompile = (Package)iter.next();
 
             File buildSpace = toCompile.getBuildSpace(tempBuildDir);
-            if(!buildSpace.exists()) {
+            if (!buildSpace.exists()) {
                 buildSpace.mkdir();
-                log("created directory="+buildSpace, Project.MSG_VERBOSE);
+                log("created directory=" + buildSpace, Project.MSG_VERBOSE);
             }
 
             FileSet javaIncludes2 =
@@ -203,13 +203,13 @@ public class CompileWithWalls extends Task {
             for(int i = 0; i < srcDirs2.size(); i++) {
                 File srcDir = (File)srcDirs2.get(i);
                 javaIncludes2.setDir(srcDir);
-                log(toCompile.getPackage()+": sourceDir["+i+"]="+srcDir+" destDir="+buildSpace, Project.MSG_VERBOSE);
+                log(toCompile.getPackage() + ": sourceDir[" + i + "]=" + srcDir + " destDir=" + buildSpace, Project.MSG_VERBOSE);
                 copyFiles(srcDir, buildSpace, javaIncludes2);
             }
 
             Path srcDir2   = toCompile.getSrcPath(tempBuildDir, getProject());
             Path classPath = toCompile.getClasspath(tempBuildDir, getProject());
-            if(javac.getClasspath() != null)
+            if (javac.getClasspath() != null)
                 classPath.addExisting(javac.getClasspath());
 
             //unfortunately, we cannot clear the SrcDir in Javac, so we have to clone
@@ -221,10 +221,10 @@ public class CompileWithWalls extends Task {
             buildSpaceJavac.setProject(getProject());
             buildSpaceJavac.setOwningTarget(getOwningTarget());
             buildSpaceJavac.setTaskName(getTaskName());
-            log(toCompile.getPackage()+": Compiling");
-            log(toCompile.getPackage()+": sourceDir="+srcDir2, Project.MSG_VERBOSE);
-            log(toCompile.getPackage()+": classPath="+classPath, Project.MSG_VERBOSE);
-            log(toCompile.getPackage()+": destDir="+buildSpace, Project.MSG_VERBOSE);
+            log(toCompile.getPackage() + ": Compiling");
+            log(toCompile.getPackage() + ": sourceDir=" + srcDir2, Project.MSG_VERBOSE);
+            log(toCompile.getPackage() + ": classPath=" + classPath, Project.MSG_VERBOSE);
+            log(toCompile.getPackage() + ": destDir=" + buildSpace, Project.MSG_VERBOSE);
             buildSpaceJavac.setSrcdir(srcDir2);
             buildSpaceJavac.setDestdir(buildSpace);
             //includes not used...ie. ignored

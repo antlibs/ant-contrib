@@ -77,7 +77,7 @@ public abstract class BuildFileTest extends TestCase {
         String realLog = getLog();
         assertTrue("expecting log to contain \"" + substring + "\" log was \""
                    + realLog + "\"",
-                   realLog.indexOf(substring) >= 0);
+                realLog.contains(substring));
     }
 
     /**
@@ -163,7 +163,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     private String cleanBuffer(StringBuffer buffer) {
-        StringBuffer cleanedBuffer = new StringBuffer();
+        StringBuilder cleanedBuffer = new StringBuilder();
         boolean cr = false;
         for (int i = 0; i < buffer.length(); i++) {
             char ch = buffer.charAt(i);
@@ -287,7 +287,7 @@ public abstract class BuildFileTest extends TestCase {
             executeTarget(target);
         } catch (org.apache.tools.ant.BuildException ex) {
             buildException = ex;
-            if ((null != contains) && (ex.getMessage().indexOf(contains) == -1)) {
+            if ((null != contains) && (!ex.getMessage().contains(contains))) {
                 fail("Should throw BuildException because '" + cause + "' with message containing '"
 		     + contains + "' (actual message '" + ex.getMessage() + "' instead)");
             }

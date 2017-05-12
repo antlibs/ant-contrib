@@ -44,14 +44,14 @@ public class ForeachTaskTest extends BuildFileTest {
 
     public void testFileset() {
         simpleTest("fileset");
-        assertTrue(getLog().indexOf("The nested fileset element is deprectated,"
-                                    + " use a nested path instead") > -1);
+        assertTrue(getLog().contains("The nested fileset element is deprecated,"
+                + " use a nested path instead"));
     }
 
     public void testFilesetAndList() {
         simpleTest("filesetAndList");
-        assertTrue(getLog().indexOf("The nested fileset element is deprectated,"
-                                    + " use a nested path instead") > -1);
+        assertTrue(getLog().contains("The nested fileset element is deprecated,"
+                + " use a nested path instead"));
     }
 
     public void testNoList() {
@@ -71,12 +71,12 @@ public class ForeachTaskTest extends BuildFileTest {
 
     public void testNestedParam() {
         executeTarget("nestedParam");
-        assertTrue(getLog().indexOf("Called with param: rincewind") > -1);
+        assertTrue(getLog().contains("Called with param: rincewind"));
     }
 
     public void testNestedReference() {
         executeTarget("nestedReference");
-        assertTrue(getLog().indexOf("Called with param: twoflower") > -1);
+        assertTrue(getLog().contains("Called with param: twoflower"));
     }
 
     public void testPath() {

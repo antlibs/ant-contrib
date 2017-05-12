@@ -101,10 +101,10 @@ public class AntServerTest
         String realLog = getLog();
 
         int cnt = 0;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < logs.length; i++)
         {
-            if (realLog.indexOf(logs[i]) >= 0)
+            if (realLog.contains(logs[i]))
                 cnt++;
             if (i != 0)
                 sb.append(" and ");

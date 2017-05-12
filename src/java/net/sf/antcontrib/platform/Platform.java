@@ -72,20 +72,19 @@ public class Platform
         String pathSep = System.getProperty("path.separator");
         int family = FAMILY_NONE;
 
-        if (osName.indexOf("windows") != -1)
+        if (osName.contains("windows"))
         {
             family = FAMILY_WINDOWS;
         }
-        else if (osName.indexOf("os/2") != -1)
+        else if (osName.contains("os/2"))
         {
             family = FAMILY_OS2;
         }
-        else if (osName.indexOf("z/os") != -1
-                 || osName.indexOf("os/390") != -1)
+        else if (osName.contains("z/os") || osName.contains("os/390"))
         {
             family = FAMILY_ZOS;
         }
-        else if (osName.indexOf("os/400") != -1)
+        else if (osName.contains("os/400"))
         {
             family = FAMILY_OS400;
         }
@@ -93,18 +92,18 @@ public class Platform
         {
             family = FAMILY_DOS;
         }
-        else if (osName.indexOf("mac") != -1)
+        else if (osName.contains("mac"))
         {
             if (osName.endsWith("x"))
                 family = FAMILY_UNIX; // MACOSX
             else
                 family = FAMILY_MAC;
         }
-        else if (osName.indexOf("nonstop_kernel") != -1)
+        else if (osName.contains("nonstop_kernel"))
         {
             family = FAMILY_TANDEM;
         }
-        else if (osName.indexOf("openvms") != -1)
+        else if (osName.contains("openvms"))
         {
             family = FAMILY_OPENVMS;
         }

@@ -87,7 +87,7 @@ public class Package {
 
         if (failureReason != null)
             throw new BuildException(failureReason, l);
-        else if(pack.indexOf("/") != -1 || pack.indexOf("\\") != -1)
+        else if (pack.contains("/") || pack.contains("\\"))
             throw new BuildException("A package name cannot contain '\\' or '/' like package="
         	    		+ pack + "\nIt must look like biz.xsoftware.* for example", l);
         FileSet set = new FileSet();

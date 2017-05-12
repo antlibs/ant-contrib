@@ -337,7 +337,7 @@ public class PostTask extends Task {
                                     if (verbose) {
                                         log(String.valueOf(((HttpURLConnection) connection).getResponseCode()));
                                         log(((HttpURLConnection) connection).getResponseMessage());
-                                        StringBuffer sb = new StringBuffer();
+                                        StringBuilder sb = new StringBuilder();
                                         map = connection.getHeaderFields();
                                         for (Iterator it = map.keySet().iterator(); it.hasNext();) {
                                             String name = (String) it.next();
@@ -487,7 +487,7 @@ public class PostTask extends Task {
             loadTextProps(textProps);
         }
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         try {
             Enumeration en = props.keys();
             while (en.hasMoreElements()) {
@@ -571,9 +571,9 @@ public class PostTask extends Task {
 
                 resolved = true;
                 if (propertyRefs.size() != 0) {
-                    StringBuffer sb = new StringBuffer();
                     Enumeration i = fragments.elements();
                     Enumeration j = propertyRefs.elements();
+                    StringBuilder sb = new StringBuilder();
                     while (i.hasMoreElements()) {
                         String fragment = (String) i.nextElement();
                         if (fragment == null) {
@@ -730,7 +730,7 @@ public class PostTask extends Task {
          * string is suitable for including with an http request.
          */
         public String toString() {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append(name).append("=").append(value).append(";");
             if (domain != null)
                 sb.append("Domain=").append(domain).append(";");

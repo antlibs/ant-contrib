@@ -89,15 +89,15 @@ public class AntPerformanceListener implements BuildListener {
         }
 
         // print the sorted results
-        StringBuffer msg = new StringBuffer();
+        StringBuilder msg = new StringBuilder();
         String lSep = System.getProperty("line.separator");
         msg.append(lSep).append("Statistics:").append(lSep);
         msg.append("-------------- Target Results ---------------------").append(lSep);
         it = sortedTargets.keySet().iterator();
         while (it.hasNext()) {
             StopWatch key = (StopWatch) it.next();
-            StringBuffer sb = new StringBuffer();
             Target target = (Target) sortedTargets.get(key);
+            StringBuilder sb = new StringBuilder();
             if (target != null) {
                 Project p = target.getProject();
                 if (p != null && p.getName() != null)
@@ -116,7 +116,7 @@ public class AntPerformanceListener implements BuildListener {
         while (it.hasNext()) {
             StopWatch key = (StopWatch) it.next();
             Task task = (Task) sortedTasks.get(key);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             Target target = task.getOwningTarget();
             if (target != null) {
                 Project p = target.getProject();

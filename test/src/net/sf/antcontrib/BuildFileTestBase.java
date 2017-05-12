@@ -60,7 +60,7 @@ public abstract class BuildFileTestBase extends BuildFileTest {
         String realLog = getLog();
         assertTrue("expecting log to NOT contain \"" + log + "\" log was \""
                    + realLog + "\"",
-                   realLog.indexOf(log) < 0);
+                !realLog.contains(log));
     }
 
     /**
@@ -107,7 +107,7 @@ public abstract class BuildFileTestBase extends BuildFileTest {
             PrintWriter writer = new PrintWriter(stacktrace, true);
             ex.printStackTrace(writer);
             String trace = stacktrace.toString();
-            if ((null != contains) && (trace.indexOf(contains) == -1)) {
+            if ((null != contains) && (!trace.contains(contains))) {
                 fail("Should throw BuildException because '" + cause + "' with message containing '" + contains + "' (actual message '" + trace + "' instead)");
             }
             return;

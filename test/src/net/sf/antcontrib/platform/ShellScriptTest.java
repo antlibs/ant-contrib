@@ -36,42 +36,42 @@ public class ShellScriptTest extends BuildFileTest {
         if (! hasSh)
             return;
         executeTarget("sh.hello");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
      }
 
     public void testBashHello() {
         if (! hasBash)
             return;
         executeTarget("bash.hello");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
      }
 
     public void testShInputString() {
         if (! hasSh)
             return;
         executeTarget("sh.inputstring");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
      }
 
     public void testShProperty() {
         if (! hasSh)
             return;
         executeTarget("sh.property");
-        assertTrue(getLog().indexOf("this is a property") > -1);
+        assertTrue(getLog().contains("this is a property"));
      }
 
     public void testPythonHello() {
         if (! hasPython)
             return;
         executeTarget("python.hello");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
     }
 
     public void testPerlHello() {
         if (! hasPerl)
             return;
         executeTarget("perl.hello");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
     }
 
     public void testNoShell() {
@@ -83,7 +83,7 @@ public class ShellScriptTest extends BuildFileTest {
         if (! hasSed)
             return;
         executeTarget("sed.test");
-        assertTrue(getLog().indexOf("BAR bar bar bar BAR bar") > -1);
+        assertTrue(getLog().contains("BAR bar bar bar BAR bar"));
     }
 
     public void testSetProperty() {
@@ -97,14 +97,14 @@ public class ShellScriptTest extends BuildFileTest {
         if (! hasSh)
             return;
         executeTarget("sh.tmp.suffix");
-        assertTrue(getLog().indexOf(".bat") > -1);
+        assertTrue(getLog().contains(".bat"));
     }
 
     public void testCmd() {
         if (! hasCmd)
             return;
         executeTarget("cmd.test");
-        assertTrue(getLog().indexOf("hello world") > -1);
+        assertTrue(getLog().contains("hello world"));
     }
 
     public void testDir() {
@@ -112,8 +112,7 @@ public class ShellScriptTest extends BuildFileTest {
             return;
         executeTarget("dir.test");
         assertTrue(
-            getProject().getProperty("dir.test.property")
-            .indexOf("subdir") > -1);
+                getProject().getProperty("dir.test.property").contains("subdir"));
     }
 
     public void testCommand() {
@@ -129,7 +128,7 @@ public class ShellScriptTest extends BuildFileTest {
     private static boolean hasPerl     = false;
     private static boolean hasSed      = false;
     private static boolean hasCmd      = false;
-    private static Object staticMonitor = new Object();
+    private static final Object staticMonitor = new Object();
 
     /**
      * check if the env contains the shells

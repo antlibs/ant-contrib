@@ -482,17 +482,17 @@ public class OutOfDate extends Task implements Condition {
     }
 
     private String setToString(Hashtable set) {
-        StringBuffer b = new StringBuffer();
         for (Enumeration e = set.keys(); e.hasMoreElements();) {
             File v = (File) e.nextElement();
+        StringBuilder b = new StringBuilder();
             if (b.length() != 0) {
                 b.append(separator);
             }
             String s = v.getAbsolutePath();
             // TODO: The following needs more work!
             // Handle paths contains sep
-            if (s.indexOf(separator) != -1) {
-                if (s.indexOf("\"") != -1) {
+            if (s.contains(separator)) {
+                if (s.contains("\"")) {
                     s = "'" + s + "'";
                 } else {
                     s = "\"" + s + "\"";

@@ -32,15 +32,12 @@ public class ForTest extends BuildFileTest {
 
     public void testLoop() {
         executeTarget("loop");
-        assertTrue(getLog().indexOf(
-                       "i is 10") != -1);
+        assertTrue(getLog().contains("i is 10"));
     }
 
     public void testStep() {
         executeTarget("step");
-        assertTrue(getLog().indexOf(
-                       "i is 10") != -1);
-        assertTrue(getLog().indexOf(
-                       "i is 3") == -1);
+        assertTrue(getLog().contains("i is 10"));
+        assertTrue(!getLog().contains("i is 3"));
     }
 }

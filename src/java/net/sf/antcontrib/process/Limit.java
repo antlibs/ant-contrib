@@ -249,7 +249,7 @@ public class Limit extends Task implements TaskContainer {
                 taskRunner = null;
                 runner.interrupt();
                 int index = tasks.indexOf(currentTask);
-                StringBuffer not_ran = new StringBuffer();
+                StringBuilder not_ran = new StringBuilder();
                 for (int i = index + 1; i < tasks.size(); i++) {
                     not_ran.append('<').append(((Task) tasks.get(i)).getTaskName()).append('>');
                     if (i < tasks.size() - 1) {
@@ -263,7 +263,7 @@ public class Limit extends Task implements TaskContainer {
                 }
 
                 // create output message
-                StringBuffer msg = new StringBuffer();
+                StringBuilder msg = new StringBuilder();
                 msg.append("Interrupted task <")
                     .append(currentTask.getTaskName())
                     .append(">. Waited ")

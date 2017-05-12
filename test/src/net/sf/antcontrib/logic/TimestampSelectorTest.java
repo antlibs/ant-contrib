@@ -53,6 +53,6 @@ public class TimestampSelectorTest extends BuildFileTest {
     private void simpleTest(String target, String expected)
     {
         executeTarget(target);
-        assertTrue(getLog().indexOf(expected) > -1);
+        assertTrue(getLog().contains(expected));
    }
 }

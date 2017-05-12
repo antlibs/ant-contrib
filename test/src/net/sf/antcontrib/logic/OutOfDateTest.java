@@ -43,7 +43,7 @@ public class OutOfDateTest extends BuildFileTest {
 
     public void testVerbose() {
         executeTarget("verbose");
-        assertTrue(getLog().indexOf("outofdate with regard to") > -1);
+        assertTrue(getLog().contains("outofdate with regard to"));
     }
 
     public void testDelete() {

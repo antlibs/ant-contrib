@@ -151,7 +151,7 @@ public class ClientTask
                         NodeList nl = d.getElementsByTagName("target");
                         int len = nl.getLength();
                         Element element = null;
-                        for (int i=0;i<len;i++)
+                        for (int i = 0; i < len; i++)
                         {
                             element = (Element)nl.item(i);
                             getProject().log("[" + element.getAttribute("name") + "]",

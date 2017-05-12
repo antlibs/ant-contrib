@@ -202,8 +202,8 @@ public class TimestampSelector extends Task
             // which is separated list of the files, using the
             // "pathSep" attribute as the separator
             String paths[] = path.list();
-            StringBuffer sb = new StringBuffer();
             for (int i=0;i<paths.length;i++)
+            StringBuilder sb = new StringBuilder();
             {
                 if (i != 0) sb.append(pathSep);
                 sb.append(paths[i]);

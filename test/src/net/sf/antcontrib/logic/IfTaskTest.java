@@ -59,15 +59,15 @@ public class IfTaskTest extends BuildFileTest {
 
     public void testNormalOperation() {
         executeTarget("normalOperation");
-        assertTrue(getLog().indexOf("In then") > -1);
-        assertTrue(getLog().indexOf("some value") > -1);
+        assertTrue(getLog().contains("In then"));
+        assertTrue(getLog().contains("some value"));
         assertEquals(-1, getLog().indexOf("${inner}"));
         assertEquals(-1, getLog().indexOf("In else"));
     }
 
     public void testNormalOperation2() {
         executeTarget("normalOperation2");
-        assertTrue(getLog().indexOf("In else") > -1);
+        assertTrue(getLog().contains("In else"));
         assertEquals(-1, getLog().indexOf("In then"));
     }
 
@@ -84,14 +84,14 @@ public class IfTaskTest extends BuildFileTest {
 
     public void testNormalOperationElseif() {
         executeTarget("normalOperationElseif");
-        assertTrue(getLog().indexOf("In elseif") > -1);
+        assertTrue(getLog().contains("In elseif"));
         assertEquals(-1, getLog().indexOf("In then"));
         assertEquals(-1, getLog().indexOf("In else-branch"));
     }
 
     public void testNormalOperationElseif2() {
         executeTarget("normalOperationElseif2");
-        assertTrue(getLog().indexOf("In else-branch") > -1);
+        assertTrue(getLog().contains("In else-branch"));
         assertEquals(-1, getLog().indexOf("In then"));
         assertEquals(-1, getLog().indexOf("In elseif"));
     }
