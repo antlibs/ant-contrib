@@ -84,7 +84,7 @@ public class TimestampSelector extends Task
         super();
     }
 
-    public void doFileSetExecute(String paths[])
+    public void doFileSetExecute(String[] paths)
         throws BuildException
     {
 
@@ -103,8 +103,8 @@ public class TimestampSelector extends Task
         if (end > start)
         {
             p = partition(array, start, end);
-            sort(array, start, p-1);
-            sort(array, p+1, end);
+            sort(array, start, p - 1);
+            sort(array, p + 1, end);
         }
     }
 
@@ -118,7 +118,8 @@ public class TimestampSelector extends Task
 
     protected int partition(Vector array, int start, int end)
     {
-        int left, right;
+        int left;
+        int right;
         File partitionElement;
 
         partitionElement = (File)array.elementAt(end);
@@ -228,8 +229,8 @@ public class TimestampSelector extends Task
 
     public void setAge(String age)
     {
-        if (age.equalsIgnoreCase(AGE_ELDEST) ||
-            age.equalsIgnoreCase(AGE_YOUNGEST))
+        if (age.equalsIgnoreCase(AGE_ELDEST)
+            || age.equalsIgnoreCase(AGE_YOUNGEST))
             this.age = age;
         else
             throw new BuildException("Invalid age: " + age);

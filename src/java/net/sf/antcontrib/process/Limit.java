@@ -265,11 +265,11 @@ public class Limit extends Task implements TaskContainer {
                 // create output message
                 StringBuffer msg = new StringBuffer();
                 msg.append("Interrupted task <")
-                .append(currentTask.getTaskName())
-                .append(">. Waited ")
-                .append((maxwait)).append(" ").append(unit.getValue())
-                .append(", but this task did not complete.")
-                .append((not_ran.length() > 0 ?
+                    .append(currentTask.getTaskName())
+                    .append(">. Waited ")
+                    .append((maxwait)).append(" ").append(unit.getValue())
+                    .append(", but this task did not complete.")
+                    .append((not_ran.length() > 0 ?
                         " The following tasks did not execute: " + not_ran.toString() + "." :
                         ""));
 

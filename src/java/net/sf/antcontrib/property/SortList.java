@@ -83,8 +83,8 @@ public class SortList
         this.orderPropertyFilePrefix = orderPropertyFilePrefix;
     }
 
-    private static void mergeSort(String src[],
-                                  String dest[],
+    private static void mergeSort(String[] src,
+                                  String[] dest,
                                   int low,
                                   int high,
                                   boolean caseSensitive,
@@ -93,28 +93,28 @@ public class SortList
 
         // Insertion sort on smallest arrays
         if (length < 7) {
-            for (int i=low; i<high; i++)
-                for (int j=i; j>low &&
-                        compare(dest[j-1],dest[j], caseSensitive, numeric)>0; j--)
-                    swap(dest, j, j-1);
+            for (int i = low; i < high; i++)
+                for (int j = i; j > low
+                     && compare(dest[j - 1],dest[j], caseSensitive, numeric) > 0; j--)
+                    swap(dest, j, j - 1);
             return;
         }
 
         // Recursively sort halves of dest into src
-        int mid = (low + high)/2;
+        int mid = (low + high) / 2;
         mergeSort(dest, src, low, mid, caseSensitive, numeric);
         mergeSort(dest, src, mid, high, caseSensitive, numeric);
 
         // If list is already sorted, just copy from src to dest.  This is an
         // optimization that results in faster sorts for nearly ordered lists.
-        if (compare(src[mid-1], src[mid], caseSensitive, numeric) <= 0) {
+        if (compare(src[mid - 1], src[mid], caseSensitive, numeric) <= 0) {
             System.arraycopy(src, low, dest, low, length);
             return;
         }
 
         // Merge sorted halves (now in src) into dest
-        for(int i = low, p = low, q = mid; i < high; i++) {
-            if (q>=high || p<mid && compare(src[p], src[q], caseSensitive, numeric)<=0)
+        for (int i = low, p = low, q = mid; i < high; i++) {
+            if (q >= high || p < mid && compare(src[p], src[q], caseSensitive, numeric) <= 0)
                 dest[i] = src[p++];
             else
                 dest[i] = src[q++];
@@ -155,7 +155,7 @@ public class SortList
     /**
      * Swaps x[a] with x[b].
      */
-    private static void swap(Object x[], int a, int b) {
+    private static void swap(Object[] x, int a, int b) {
         Object t = x[a];
         x[a] = x[b];
         x[b] = t;
@@ -192,8 +192,8 @@ public class SortList
                     if (orderPropertyFilePrefix != null)
                         prefPname = orderPropertyFilePrefix + "." + prefPname;
 
-                    if (props.contains(prefPname) &&
-                        ! orderedProps.contains(prefPname))
+                    if (props.contains(prefPname)
+                	&& ! orderedProps.contains(prefPname))
                     {
                         orderedProps.addElement(prefPname);
                     }
@@ -245,7 +245,7 @@ public class SortList
         while (st.hasMoreTokens())
             vec.addElement(st.nextToken());
 
-        String propList[] = null;
+        String[] propList = null;
 
         if (orderPropertyFile != null)
         {
@@ -262,7 +262,7 @@ public class SortList
         }
         else
         {
-            String s[] = (String[])(vec.toArray(new String[vec.size()]));
+            String[] s = vec.toArray(new String[vec.size()]);
             propList = new String[s.length];
             System.arraycopy(s, 0, propList, 0, s.length);
             mergeSort(s, propList, 0, s.length, casesensitive, numeric);

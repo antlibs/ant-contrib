@@ -37,8 +37,8 @@ public class AddCredentialsTask
 
 	protected void execute(HttpStateType stateType) throws BuildException {
 		if (credentials.isEmpty() && proxyCredentials.isEmpty()) {
-			throw new BuildException("Either regular or proxy credentials" +
-					" must be supplied.");
+			throw new BuildException("Either regular or proxy credentials"
+						 + " must be supplied.");
 		}
 
 		Iterator it = credentials.iterator();

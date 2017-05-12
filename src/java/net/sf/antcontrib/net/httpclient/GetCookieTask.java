@@ -79,8 +79,8 @@ public class GetCookieTask
 
 		HttpState state = stateType.getState();
 		CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
-		Cookie cookies[] = state.getCookies();
-		Cookie matches[] = spec.match(realm, port, path, secure, cookies);
+		Cookie[] cookies = state.getCookies();
+		Cookie[] matches = spec.match(realm, port, path, secure, cookies);
 
 		if (name != null) {
 			Cookie c = findCookie(matches, name);

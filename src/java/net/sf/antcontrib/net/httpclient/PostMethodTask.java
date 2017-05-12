@@ -189,9 +189,9 @@ public class PostMethodTask
 				}
 			}
 		}
-		else if (! parts.isEmpty()){
-			Part partArray[] = new Part[parts.size()];
-			for (int i=0;i<parts.size();i++) {
+		else if (! parts.isEmpty()) {
+			Part[] partArray = new Part[parts.size()];
+			for (int i = 0; i < parts.size(); i++) {
 				Object part = parts.get(i);
 				if (part instanceof FilePartType) {
 					FilePartType filePart = (FilePartType)part;

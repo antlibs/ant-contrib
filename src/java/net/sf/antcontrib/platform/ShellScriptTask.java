@@ -133,8 +133,8 @@ public class ShellScriptTask extends ExecTask {
         finally {
             if (tmpFile != null) {
                 if (! tmpFile.delete()) {
-                    log("Non-fatal error: could not delete temporary file " +
-                        tmpFile.getAbsolutePath());
+                    log("Non-fatal error: could not delete temporary file "
+                	+ tmpFile.getAbsolutePath());
                 }
             }
         }

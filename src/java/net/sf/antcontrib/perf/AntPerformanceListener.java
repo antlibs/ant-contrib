@@ -134,9 +134,9 @@ public class AntPerformanceListener implements BuildListener {
         msg.append(lSep);
         msg.append("-------------- Totals -----------------------------").append(lSep);
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss.SSS");
-        msg.append("Start time: " + format.format(new Date(start_time))).append(lSep);
-        msg.append("Stop time: " + format.format(new Date(stop_time))).append(lSep);
-        msg.append("Total time: " + format(master.total())).append(lSep);
+        msg.append("Start time: ").append(format.format(new Date(start_time))).append(lSep);
+        msg.append("Stop time: ").append(format.format(new Date(stop_time))).append(lSep);
+        msg.append("Total time: ").append(format(master.total())).append(lSep);
         System.out.println(msg.toString());
 
         // write stats to file?
@@ -315,7 +315,7 @@ public class AntPerformanceListener implements BuildListener {
     }
 
     // quick test for the formatter
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         AntPerformanceListener apl = new AntPerformanceListener();
 
         System.out.println(apl.format(1));

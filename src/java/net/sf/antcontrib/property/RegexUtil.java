@@ -102,8 +102,8 @@ public class RegexUtil
     {
         Vector nodes = new Vector();
         StringBuffer buf = new StringBuffer();
-        char c[] = input.toCharArray();
-        for (int i=0;i<c.length;i++)
+        char[] c = input.toCharArray();
+        for (int i = 0; i < c.length; i++)
         {
             if (c[i] == '\\')
             {
@@ -113,9 +113,9 @@ public class RegexUtil
                     buf.setLength(0);
                 }
 
-                while (i+1 < c.length && Character.isDigit(c[i+1]))
+                while (i + 1 < c.length && Character.isDigit(c[i + 1]))
                 {
-                    buf.append(c[i+1]);
+                    buf.append(c[i + 1]);
                     i++;
                 }
 

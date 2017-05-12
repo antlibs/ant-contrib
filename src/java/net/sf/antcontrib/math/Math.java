@@ -15,10 +15,10 @@
  */
 package net.sf.antcontrib.math;
 
-import org.apache.tools.ant.BuildException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.apache.tools.ant.BuildException;
 
 /**
  * Utility class for executing calculations.
@@ -30,7 +30,7 @@ public class Math
     public static final Number evaluate(String operation,
                                         String datatype,
                                         boolean strict,
-                                        Evaluateable operands[])
+                                        Evaluateable[] operands)
     {
         if (datatype == null)
             datatype = "double";
@@ -70,11 +70,11 @@ public class Math
 
     public static final Number add(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         Number result = null;
 
-        Number numbers[] = new Number[operands.length];
+        Number[] numbers = new Number[operands.length];
         for (int i = 0; i < operands.length; i++)
             numbers[i] = operands[i].evaluate();
 
@@ -111,11 +111,11 @@ public class Math
 
     public static final Number subtract(String datatype,
                                         boolean strict,
-                                        Evaluateable operands[])
+                                        Evaluateable[] operands)
     {
         Number result = null;
 
-        Number numbers[] = new Number[operands.length];
+        Number[] numbers = new Number[operands.length];
         for (int i = 0; i < operands.length; i++)
             numbers[i] = operands[i].evaluate();
 
@@ -152,11 +152,11 @@ public class Math
 
     public static final Number multiply(String datatype,
                                         boolean strict,
-                                        Evaluateable operands[])
+                                        Evaluateable[] operands)
     {
         Number result = null;
 
-        Number numbers[] = new Number[operands.length];
+        Number[] numbers = new Number[operands.length];
         for (int i = 0; i < operands.length; i++)
             numbers[i] = operands[i].evaluate();
 
@@ -193,11 +193,11 @@ public class Math
 
     public static final Number divide(String datatype,
                                       boolean strict,
-                                      Evaluateable operands[])
+                                      Evaluateable[] operands)
     {
         Number result = null;
 
-        Number numbers[] = new Number[operands.length];
+        Number[] numbers = new Number[operands.length];
         for (int i = 0; i < operands.length; i++)
             numbers[i] = operands[i].evaluate();
 
@@ -234,11 +234,11 @@ public class Math
 
     public static final Number mod(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         Number result = null;
 
-        Number numbers[] = new Number[operands.length];
+        Number[] numbers = new Number[operands.length];
         for (int i = 0; i < operands.length; i++)
             numbers[i] = operands[i].evaluate();
 
@@ -330,7 +330,7 @@ public class Math
 
     public static final Number random(String datatype,
                                       boolean strict,
-                                      Evaluateable operands[])
+                                      Evaluateable[] operands)
     {
         return execute("random",
                        datatype,
@@ -357,7 +357,7 @@ public class Math
 
     public static final Number abs(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         Object ops[] = new Object[]{convert(operands[0].evaluate(), datatype)};
         Class params[] = new Class[]{getPrimitiveClass(datatype)};
@@ -372,9 +372,9 @@ public class Math
     private static Number doOneDoubleArg(String operation,
                                          String datatype,
                                          boolean strict,
-                                         Evaluateable operands[])
+                                         Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             "double")};
         Class params[] = new Class[]{Double.TYPE};
 
@@ -387,30 +387,30 @@ public class Math
 
     public static final Number acos(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("acos", datatype, strict, operands);
     }
 
     public static final Number asin(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("asin", datatype, strict, operands);
     }
 
     public static final Number atan(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("atan", datatype, strict, operands);
     }
 
     public static final Number atan2(String datatype,
                                      boolean strict,
-                                     Evaluateable operands[])
+                                     Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             "double"),
                                     convert(operands[1].evaluate(),
                                             "double")};
@@ -426,58 +426,58 @@ public class Math
 
     public static final Number sin(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         return doOneDoubleArg("sin", datatype, strict, operands);
     }
 
     public static final Number tan(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         return doOneDoubleArg("sin", datatype, strict, operands);
     }
 
     public static final Number cos(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         return doOneDoubleArg("cos", datatype, strict, operands);
     }
 
     public static final Number ceil(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("ceil", datatype, strict, operands);
     }
 
     public static final Number floor(String datatype,
                                      boolean strict,
-                                     Evaluateable operands[])
+                                     Evaluateable[] operands)
     {
         return doOneDoubleArg("floor", datatype, strict, operands);
     }
 
     public static final Number exp(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
         return doOneDoubleArg("exp", datatype, strict, operands);
     }
 
     public static final Number rint(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("rint", datatype, strict, operands);
     }
 
     public static final Number round(String datatype,
                                      boolean strict,
-                                     Evaluateable operands[])
+                                     Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             datatype)};
         Class params[] = new Class[]{getPrimitiveClass(datatype)};
 
@@ -490,44 +490,44 @@ public class Math
 
     public static final Number sqrt(String datatype,
                                     boolean strict,
-                                    Evaluateable operands[])
+                                    Evaluateable[] operands)
     {
         return doOneDoubleArg("sqrt", datatype, strict, operands);
     }
 
     public static final Number degrees(String datatype,
                                        boolean strict,
-                                       Evaluateable operands[])
+                                       Evaluateable[] operands)
     {
         return todegrees(datatype, strict, operands);
     }
 
     public static final Number todegrees(String datatype,
                                        boolean strict,
-                                       Evaluateable operands[])
+                                       Evaluateable[] operands)
     {
         return doOneDoubleArg("toDegrees", datatype, strict, operands);
     }
 
     public static final Number radians(String datatype,
                                        boolean strict,
-                                       Evaluateable operands[])
+                                       Evaluateable[] operands)
     {
         return toradians(datatype, strict, operands);
     }
 
     public static final Number toradians(String datatype,
                                        boolean strict,
-                                       Evaluateable operands[])
+                                       Evaluateable[] operands)
     {
         return doOneDoubleArg("toRadians", datatype, strict, operands);
     }
 
     public static final Number ieeeremainder(String datatype,
                                              boolean strict,
-                                             Evaluateable operands[])
+                                             Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             "double"),
                                     convert(operands[1].evaluate(),
                                             "double")};
@@ -543,9 +543,9 @@ public class Math
 
     public static final Number min(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             datatype),
                                     convert(operands[1].evaluate(),
                                             datatype)};
@@ -561,9 +561,9 @@ public class Math
 
     public static final Number max(String datatype,
                                    boolean strict,
-                                   Evaluateable operands[])
+                                   Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(),
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             datatype),
                                     convert(operands[1].evaluate(),
                                             datatype)};

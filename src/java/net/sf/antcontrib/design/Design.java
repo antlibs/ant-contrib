@@ -79,17 +79,17 @@ public class Design {
     }
 
     private Package retrievePack(String thePackage) {
-        if(thePackage == null)
+        if (thePackage == null)
             throw new IllegalArgumentException("Cannot retrieve null packages");
 
         String currentPackage = thePackage;
         Package result = (Package)packageNameToPackage.get(currentPackage);
-        while(!Package.DEFAULT.equals(currentPackage)) {
-            log.log("p="+currentPackage+"result="+result, Project.MSG_DEBUG);
-            if(result != null) {
-                if(currentPackage.equals(thePackage))
+        while (!Package.DEFAULT.equals(currentPackage)) {
+            log.log("p=" + currentPackage + "result=" + result, Project.MSG_DEBUG);
+            if (result != null) {
+                if (currentPackage.equals(thePackage))
                     return result;
-                else if(result.isIncludeSubpackages())
+                else if (result.isIncludeSubpackages())
                     return result;
                 return null;
             }
@@ -98,7 +98,7 @@ public class Design {
         }
 
         //result must now be default package
-        if(result != null && result.isIncludeSubpackages())
+        if (result != null && result.isIncludeSubpackages())
             return result;
 
         return null;
@@ -110,17 +110,17 @@ public class Design {
 
         Depends[] depends = p.getDepends();
 
-        if(depends != null && !isCircularDesign) {
+        if (depends != null && !isCircularDesign) {
             //make sure all depends are in Map first
             //circular references then are not a problem because they must
             //put the stuff in order
             for(int i = 0; i < depends.length; i++) {
                 Package dependsPackage = (Package)nameToPackage.get(depends[i].getName());
 
-                if(dependsPackage == null) {
-                    throw new RuntimeException("package name="+p.getName()+" did not\n" +
-                            "have "+depends[i]+" listed before it.  circularDesign is off\n"+
-                            "so package="+p.getName()+" must be moved up in the xml file");
+                if (dependsPackage == null) {
+                    throw new RuntimeException("package name=" + p.getName() + " did not\n"
+                	    + "have " + depend + " listed before it.  circularDesign is off\n"
+                	    + "so package=" + p.getName() + " must be moved up in the xml file");
                 }
             }
         }
@@ -133,8 +133,8 @@ public class Design {
      * @param className Class name of a class our currentAliasPackage depends on.
      */
     public void verifyDependencyOk(String className) {
-        log.log("         className="+className, Project.MSG_DEBUG);
-        if(className.startsWith("L"))
+        log.log("         className=" + className, Project.MSG_DEBUG);
+        if (className.startsWith("L"))
             className = className.substring(1, className.length());
 
         //get the classPackage our currentAliasPackage depends on....
@@ -142,20 +142,20 @@ public class Design {
 
         //check if this is an needdeclarations="false" package, if so, the dependency is ok if it
         //is not declared
-        log.log("         classPackage="+classPackage, Project.MSG_DEBUG);
+        log.log("         classPackage=" + classPackage, Project.MSG_DEBUG);
         Package p = retrievePack(classPackage);
-        if(p == null) {
+        if (p == null) {
             throw new BuildException(getErrorMessage(currentClass, className), location);
         }
         p.setUsed(true); //set package to used since we have classes in it
-        if(p != null && !p.isNeedDeclarations())
+        if (p != null && !p.isNeedDeclarations())
             return;
 
         String pack = currentAliasPackage.getPackage();
 
-        log.log("         AllowedDepends="+pack, Project.MSG_DEBUG);
-        log.log("         CurrentDepends="+className, Project.MSG_DEBUG);
-        if(isClassInPackage(className, currentAliasPackage))
+        log.log("         AllowedDepends=" + pack, Project.MSG_DEBUG);
+        log.log("         CurrentDepends=" + className, Project.MSG_DEBUG);
+        if (isClassInPackage(className, currentAliasPackage))
             return;
 
         Depends[] depends = currentAliasPackage.getDepends();
@@ -167,9 +167,9 @@ public class Design {
             String name = d.getName();
 
             Package temp = getPackage(name);
-            log.log("         AllowedDepends="+temp.getPackage(), Project.MSG_DEBUG);
-            log.log("         CurrentDepends="+className, Project.MSG_DEBUG);
-            if(isClassInPackage(className, temp)) {
+            log.log("         AllowedDepends=" + temp.getPackage(), Project.MSG_DEBUG);
+            log.log("         CurrentDepends=" + className, Project.MSG_DEBUG);
+            if (isClassInPackage(className, temp)) {
                 temp.setUsed(true); //set package to used since we are depending on it(could be external package like junit)
                 currentAliasPackage.addUsedDependency(d);
                 return;
@@ -184,11 +184,11 @@ public class Design {
 
     public boolean isClassInPackage(String className, Package p) {
         String classPackage = VerifyDesignDelegate.getPackageName(className);
-        if(p.isIncludeSubpackages()) {
-            if(className.startsWith(p.getPackage()))
+        if (p.isIncludeSubpackages()) {
+            if (className.startsWith(p.getPackage()))
                 return true;
         } else { //if not including subpackages, the it must be the exact package.
-            if(classPackage.equals(p.getPackage()))
+            if (classPackage.equals(p.getPackage()))
                 return true;
         }
         return false;
@@ -202,25 +202,25 @@ public class Design {
         currentClass = className;
         String packageName = VerifyDesignDelegate.getPackageName(className);
 //      log("class="+className, Project.MSG_DEBUG);
-        if(!packageName.equals(currentPackageName) || currentAliasPackage == null) {
+        if (!packageName.equals(currentPackageName) || currentAliasPackage == null) {
             currentPackageName = packageName;
-            log.log("\nEvaluating package="+currentPackageName, Project.MSG_INFO);
+            log.log("\nEvaluating package=" + currentPackageName, Project.MSG_INFO);
             currentAliasPackage = retrievePack(packageName);
             // TODO: test this scenario
-            if(currentAliasPackage == null) {
-                log.log("   class="+className, Project.MSG_VERBOSE);
+            if (currentAliasPackage == null) {
+                log.log("   class=" + className, Project.MSG_VERBOSE);
                 throw new BuildException(getNoDefinitionError(className), location);
             }
 
             currentAliasPackage.setUsed(true);
         }
-        log.log("   class="+className, Project.MSG_VERBOSE);
+        log.log("   class=" + className, Project.MSG_VERBOSE);
 
-        if(packageName.equals(Package.DEFAULT)) {
-            if(className.indexOf('.') != -1) {
+        if (packageName.equals(Package.DEFAULT)) {
+            if (className.indexOf('.') != -1) {
                 throw new RuntimeException("Internal Error");
             }
-        } else if(!className.startsWith(currentPackageName))
+        } else if (!className.startsWith(currentPackageName))
             throw new RuntimeException("Internal Error");
 
         return currentAliasPackage.getNeedDepends();
@@ -232,24 +232,24 @@ public class Design {
 
     @SuppressWarnings("unused")
     void checkClass(String dependsOn) {
-        log.log("         dependsOn1="+dependsOn, Project.MSG_DEBUG);
-        if(dependsOn.endsWith("[]")) {
+        log.log("         dependsOn1=" + dependsOn, Project.MSG_DEBUG);
+        if (dependsOn.endsWith("[]")) {
             int index = dependsOn.indexOf("[");
             dependsOn = dependsOn.substring(0, index);
-            log.log("         dependsOn2="+dependsOn, Project.MSG_DEBUG);
+            log.log("         dependsOn2=" + dependsOn, Project.MSG_DEBUG);
         }
 
-        if(primitives.contains(dependsOn))
+        if (primitives.contains(dependsOn))
             return;
 
         //Anything in java.lang package seems to be passed in as just the
         //className with no package like Object, String or Class, so here we try to
         //see if the name is a java.lang class....
-        String tempTry = "java.lang."+dependsOn;
+        String tempTry = "java.lang." + dependsOn;
         try {
             Class c = VerifyDesign.class.getClassLoader().loadClass(tempTry);
             return;
-        } catch(ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             //not found, continue on...
         }
         //sometimes instead of passing java.lang.String or java.lang.Object, the bcel
@@ -262,18 +262,18 @@ public class Design {
     }
 
     public static String getErrorMessage(String className, String dependsOnClass) {
-        return "\nYou are violating your own design...." +
-                    "\nClass = "+className+" depends on\nClass = "+dependsOnClass+
-                    "\nThe dependency to allow this is not defined in your design" +
-                    "\nPackage="+VerifyDesignDelegate.getPackageName(className)+" is not defined to depend on"+
-                    "\nPackage="+VerifyDesignDelegate.getPackageName(dependsOnClass)+
-                    "\nChange the code or the design";
+        return "\nYou are violating your own design...."
+        	+ "\nClass = " + className + " depends on\nClass = " + dependsOnClass
+                + "\nThe dependency to allow this is not defined in your design"
+        	+ "\nPackage=" + VerifyDesignDelegate.getPackageName(className) + " is not defined to depend on"
+                + "\nPackage=" + VerifyDesignDelegate.getPackageName(dependsOnClass)
+                + "\nChange the code or the design";
     }
 
     public static String getNoDefinitionError(String className) {
-        return "\nPackage="+VerifyDesignDelegate.getPackageName(className)+" is not defined in the design.\n"+
-                    "All packages with classes must be declared in the design file\n"+
-                    "Class found in the offending package="+className;
+        return "\nPackage=" + VerifyDesignDelegate.getPackageName(className) + " is not defined in the design.\n"
+        	+ "All packages with classes must be declared in the design file\n"
+        	+ "Class found in the offending package=" + className;
     }
 
     public static String getWrapperMsg(File originalFile, String message) {
@@ -289,8 +289,8 @@ public class Design {
         Iterator iterator = values.iterator();
         while(iterator.hasNext()) {
             Package pack = (Package)iterator.next();
-            if(!pack.isUsed()) {
-                String msg = "Package name="+pack.getName()+" is unused.  Full package="+pack.getPackage();
+            if (!pack.isUsed()) {
+                String msg = "Package name=" + pack.getName() + " is unused.  Full package=" + pack.getPackage();
                 log.log(msg, Project.MSG_ERR);
                 designErrors.add(new BuildException(msg));
             } else {
@@ -308,7 +308,7 @@ public class Design {
         Iterator iterator = pack.getUnusedDepends().iterator();
         while(iterator.hasNext()) {
             Depends depends = (Depends)iterator.next();
-            String msg = "Package name="+pack.getName()+" has a dependency declared that is not true anymore.  Please erase the dependency <depends>"+depends.getName()+"</depends> from package="+pack.getName();
+            String msg = "Package name=" + pack.getName() + " has a dependency declared that is not true anymore.  Please erase the dependency <depends>" + depends.getName() + "</depends> from package=" + pack.getName();
             log.log(msg, Project.MSG_ERR);
             designErrors.add(new BuildException(msg));
         }

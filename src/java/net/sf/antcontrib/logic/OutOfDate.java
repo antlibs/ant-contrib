@@ -27,12 +27,11 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Parallel;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.condition.Condition;
+import org.apache.tools.ant.types.EnumeratedAttribute;
 import org.apache.tools.ant.types.Mapper;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.util.FileNameMapper;
 import org.apache.tools.ant.util.FileUtils;
-
-import org.apache.tools.ant.types.EnumeratedAttribute;
 
 /**
 * Task to help in calling tasks if generated files are older
@@ -52,9 +51,11 @@ public class OutOfDate extends Task implements Condition {
      * @see EnumeratedAttribute
      */
     public static class CollectionEnum extends EnumeratedAttribute {
-        /** Constants for the enumerations */
-        public static final int
-            SOURCES = 0, TARGETS = 1, ALLSOURCES = 2, ALLTARGETS = 3;
+        /** Constants for the enumerations. */
+        public static final int SOURCES = 0;
+        public static final int TARGETS = 1;
+        public static final int ALLSOURCES = 2;
+        public static final int ALLTARGETS = 3;
 
         /**
          * get the values
@@ -260,9 +261,8 @@ public class OutOfDate extends Task implements Condition {
      */
     public void addParallel(Parallel doTask) {
         if (this.doTask != null) {
-            throw new BuildException(
-                "You must not nest more that one <parallel> or <sequential>"
-                + " into <outofdate>");
+            throw new BuildException("You must not nest more that one <parallel> or <sequential>"
+                                     + " into <outofdate>");
         }
         this.doTask = doTask;
     }
@@ -273,9 +273,8 @@ public class OutOfDate extends Task implements Condition {
      */
     public void addSequential(Sequential doTask) {
         if (this.doTask != null) {
-            throw new BuildException(
-                "You must not nest more that one <parallel> or <sequential>"
-                + " into <outofdate>");
+            throw new BuildException("You must not nest more that one <parallel> or <sequential>"
+                                     + " into <outofdate>");
         }
         this.doTask = doTask;
     }
@@ -289,13 +288,11 @@ public class OutOfDate extends Task implements Condition {
         boolean ret = false;
         FileUtils fileUtils = FileUtils.newFileUtils();
         if (sourcepaths == null) {
-            throw new BuildException(
-                "You must specify a <sourcefiles> element.");
+            throw new BuildException("You must specify a <sourcefiles> element.");
         }
 
         if (targetpaths == null && mappers.size() == 0) {
-            throw new BuildException(
-                "You must specify a <targetfiles> or <mapper> element.");
+            throw new BuildException("You must specify a <targetfiles> or <mapper> element.");
         }
 
         // Source Paths
@@ -314,7 +311,7 @@ public class OutOfDate extends Task implements Condition {
         if (targetpaths != null) {
             String[] paths = targetpaths.list();
             if (paths.length == 0) {
-            	ret = true;
+                ret = true;
             }
             else {
             	for (int i = 0; i < paths.length; ++i) {
@@ -583,11 +580,11 @@ public class OutOfDate extends Task implements Condition {
                 log("Deleting " + file.getAbsolutePath(), myLogging);
                 if (!file.delete()) {
                     String message =
-                        "Unable to delete file " + file.getAbsolutePath();
+                            "Unable to delete file " + file.getAbsolutePath();
                     if (failOnError) {
                         throw new BuildException(message);
                     } else {
-                        log(message,  myLogging);
+                        log(message, myLogging);
                     }
                 }
             }
@@ -625,7 +622,7 @@ public class OutOfDate extends Task implements Condition {
                     log("Deleting " + f.getAbsolutePath(), myLogging);
                     if (!f.delete()) {
                         String message = "Unable to delete file "
-                            + f.getAbsolutePath();
+                                + f.getAbsolutePath();
                         if (failOnError) {
                             throw new BuildException(message);
                         } else {

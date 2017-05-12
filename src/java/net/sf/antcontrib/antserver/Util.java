@@ -26,7 +26,7 @@ import java.io.OutputStream;
  */
 public class Util
 {
-    public static final int CHUNK = 10*1024;
+    public static final int CHUNK = 10 * 1024;
 
     public static final void transferBytes(InputStream input,
                                            long length,
@@ -35,7 +35,7 @@ public class Util
         throws IOException
     {
 
-        byte b[] = new byte[CHUNK];
+        byte[] b = new byte[CHUNK];
         int read = 0;
         int totalread = 0;
 

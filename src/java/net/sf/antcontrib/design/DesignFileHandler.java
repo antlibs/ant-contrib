@@ -32,9 +32,9 @@ import org.xml.sax.SAXParseException;
  */
 class DesignFileHandler implements ContentHandler {
 
-    private final static String DESIGN = "design";
-    private final static String PACKAGE = "package";
-    private final static String DEPENDS = "depends";
+    private static final String DESIGN = "design";
+    private static final String PACKAGE = "package";
+    private static final String DEPENDS = "depends";
 
     private Log log = null;
     private File file = null;
@@ -93,7 +93,7 @@ class DesignFileHandler implements ContentHandler {
      */
     public InputSource resolveEntity(String publicId,
                                      String systemId) {
-        log.log("publicId="+publicId+" systemId="+systemId,
+        log.log("publicId=" + publicId + " systemId=" + systemId,
                 Project.MSG_VERBOSE);
         return null;
     }
@@ -124,7 +124,7 @@ class DesignFileHandler implements ContentHandler {
      * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String uri, String name, String qName, Attributes attrs) throws SAXException {
-        log.log("Parsing startElement="+name, Project.MSG_DEBUG);
+        log.log("Parsing startElement=" + name, Project.MSG_DEBUG);
         if (name == null || "".equals(name)) {
             // XMLReader is not-namespace aware
             name = qName;
@@ -132,42 +132,43 @@ class DesignFileHandler implements ContentHandler {
 
         try {
             Object o = null;
-            if(name.equals(DESIGN)) {
+            if (name.equals(DESIGN)) {
                 o = handleDesign(attrs);
-            } else if(name.equals(PACKAGE)) {
+            } else if (name.equals(PACKAGE)) {
                 currentPackage = handlePackage(attrs);
                 o = currentPackage;
-            } else if(name.equals(DEPENDS)) {
+            } else if (name.equals(DEPENDS)) {
                 o = handleDepends(attrs);
             } else {
-                throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                            +", Unexpected element \"" + name + "\"", locator);
+                throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                            + ", Unexpected element \"" + name + "\"", locator);
             }
             stack.push(o);
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             log.log("exception in startElement()", Project.MSG_INFO);
             throw new SAXParseException("Problem parsing", locator, e);
         }
     }
 
     private Design handleDesign(Attributes attrs) throws SAXParseException {
-        if(attrs.getLength() > 0)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", no attributes allowed for "+DESIGN+" element", locator);
-        else if(stack.size() > 0)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", "+DESIGN+" cannot be a subelement of "+stack.pop(), locator);
-        else if(attrs.getLength() > 0)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", "+DESIGN+" element can't have any attributes", locator);
+        if (attrs.getLength() > 0)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", no attributes allowed for " + DESIGN + " element", locator);
+        else if (stack.size() > 0)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", " + DESIGN + " cannot be a subelement of " + stack.pop(), locator);
+        else if (attrs.getLength() > 0)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", " + DESIGN + " element can't have any attributes", locator);
         design = new Design(isCircularDesign, log, loc);
         return design;
     }
 
     private Package handlePackage(Attributes attrs) throws SAXParseException {
-        if(stack.size() <= 0 || !(stack.peek() instanceof Design))
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", "+PACKAGE+" element must be nested in a "+DESIGN+" element", locator);
+        if (stack.size() <= 0 || !(stack.peek() instanceof Design))
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", " + PACKAGE + " element must be nested in a "
+                                        + DESIGN + " element", locator);
 
         int len = attrs.getLength();
         String name = null;
@@ -176,7 +177,7 @@ class DesignFileHandler implements ContentHandler {
         String subpackages = null;
         String needDeclarations = null;
         String needDepends = null;
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             String attrName = attrs.getLocalName(i);
 
             if ("".equals(attrName)) {
@@ -184,80 +185,80 @@ class DesignFileHandler implements ContentHandler {
                 attrName = attrs.getQName(i);
             }
             String value = attrs.getValue(i);
-            log.log("attr="+attrName+" value="+value, Project.MSG_DEBUG);
-            if("name".equals(attrName))
+            log.log("attr=" + attrName + " value=" + value, Project.MSG_DEBUG);
+            if ("name".equals(attrName))
                 name = value;
-            else if("package".equals(attrName))
+            else if ("package".equals(attrName))
                 thePackage = value;
-            else if("depends".equals(attrName))
+            else if ("depends".equals(attrName))
                 depends = value;
-            else if("subpackages".equals(attrName))
+            else if ("subpackages".equals(attrName))
                 subpackages = value;
-            else if("needdeclarations".equals(attrName))
+            else if ("needdeclarations".equals(attrName))
                 needDeclarations = value;
-            else if("needdepends".equals(attrName))
+            else if ("needdepends".equals(attrName))
                 needDepends = value;
             else
-                throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                            +"\n'"+attrName+"' attribute is an invalid attribute for the package element", locator);
+                throw new SAXParseException("Error in file=" + file.getAbsolutePath() + "\n'" + attrName
+                			    + "' attribute is an invalid attribute for the package element", locator);
         }
 
         //set the defaults
-        if(subpackages == null)
+        if (subpackages == null)
             subpackages = "exclude";
-        if(needDeclarations == null)
+        if (needDeclarations == null)
             needDeclarations = Boolean.toString(needDeclarationsDefault);
-        if(needDepends == null)
+        if (needDepends == null)
             needDepends = Boolean.toString(needDependsDefault);
 
         //make sure every attribute had a valid value...
-        if(name == null)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", package element must contain the 'name' attribute", locator);
-        else if(thePackage == null)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", package element must contain the 'package' attribute", locator);
-        else if(!("include".equals(subpackages) || "exclude".equals(subpackages)))
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +"\nThe subpackages attribute in the package element can only have a"
-                                        +"\nvalue of \"include\" or \"exclude\".  value='"+subpackages+"'", locator);
-        else if(!("true".equals(needDeclarations) || "false".equals(needDeclarations)))
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +"\nThe needdeclarations attribute in the package element can only have a"
-                                        +"\nvalue of \"true\" or \"false\".  value='"+needDeclarations+"'", locator);
-        else if(!("true".equals(needDepends) || "false".equals(needDepends)))
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +"\nThe needdepends attribute in the package element can only have a"
-                                        +"\nvalue of \"true\" or \"false\".  value='"+needDepends+"'", locator);
+        if (name == null)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", package element must contain the 'name' attribute", locator);
+        else if (thePackage == null)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", package element must contain the 'package' attribute", locator);
+        else if (!("include".equals(subpackages) || "exclude".equals(subpackages)))
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + "\nThe subpackages attribute in the package element can only have a"
+                                        + "\nvalue of \"include\" or \"exclude\".  value='" + subpackages + "'", locator);
+        else if (!("true".equals(needDeclarations) || "false".equals(needDeclarations)))
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + "\nThe needdeclarations attribute in the package element can only have a"
+                                        + "\nvalue of \"true\" or \"false\".  value='" + needDeclarations + "'", locator);
+        else if (!("true".equals(needDepends) || "false".equals(needDepends)))
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + "\nThe needdepends attribute in the package element can only have a"
+                                        + "\nvalue of \"true\" or \"false\".  value='" + needDepends + "'", locator);
 
         Package p = new Package();
         p.setName(name);
         p.setPackage(thePackage);
-        if("exclude".equals(subpackages))
+        if ("exclude".equals(subpackages))
             p.setIncludeSubpackages(false);
         else
             p.setIncludeSubpackages(true);
-        if("true".equals(needDeclarations))
+        if ("true".equals(needDeclarations))
             p.setNeedDeclarations(true);
         else
             p.setNeedDeclarations(false);
-        if("true".equals(needDepends))
+        if ("true".equals(needDepends))
             p.setNeedDepends(true);
         else
             p.setNeedDepends(false);
 
-        if(depends != null)
+        if (depends != null)
             p.addDepends(new Depends(depends));
         return p;
     }
 
     private Depends handleDepends(Attributes attrs) throws SAXParseException {
-        if(stack.size() <= 0 || !(stack.peek() instanceof Package))
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", "+DEPENDS+" element must be nested in a "+PACKAGE+" element", locator);
-        else if(attrs.getLength() > 0)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", "+DEPENDS+" element can't have any attributes", locator);
+        if (stack.size() <= 0 || !(stack.peek() instanceof Package))
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", " + DEPENDS + " element must be nested in a " + PACKAGE + " element", locator);
+        else if (attrs.getLength() > 0)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", " + DEPENDS + " element can't have any attributes", locator);
 
         return new Depends();
     }
@@ -268,22 +269,22 @@ class DesignFileHandler implements ContentHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         try {
             Object o = stack.pop();
-            if(o instanceof Package) {
+            if (o instanceof Package) {
                 Package p = (Package)o;
 
                 Package tmp = design.getPackage(p.getName());
-                if(tmp != null)
-                    throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                                +"\nname attribute on "+PACKAGE+" element has the same\n"
-                                                +"name as another package.  name=\""+p.getName()+"\" is used twice or more", locator);
+                if (tmp != null)
+                    throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                                + "\nname attribute on " + PACKAGE + " element has the same\n"
+                                                + "name as another package.  name=\"" + p.getName() + "\" is used twice or more", locator);
 
                 design.addConfiguredPackage(p);
                 currentPackage = null;
-            } else if(o instanceof Depends) {
+            } else if (o instanceof Depends) {
                 Depends d = (Depends)o;
                 currentPackage.addDepends(d);
             }
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new SAXParseException("exception", locator, e);
         }
     }
@@ -312,7 +313,7 @@ class DesignFileHandler implements ContentHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         try {
             Object o = stack.peek();
-            if(o instanceof Depends) {
+            if (o instanceof Depends) {
                 String s = new String(ch, start, length);
                 Depends d = (Depends)o;
                 if (d.getName() != null)
@@ -320,7 +321,7 @@ class DesignFileHandler implements ContentHandler {
                 else
                     d.setName(s.trim());
             }
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             log.log("exception in characters()", Project.MSG_INFO);
             throw new SAXParseException("exception", locator, e);
         }

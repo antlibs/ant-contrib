@@ -55,7 +55,7 @@ class WallsFileHandler extends HandlerBase {
      */
     public InputSource resolveEntity(String publicId,
                                      String systemId) {
-         compilewithwalls.log("publicId="+publicId+" systemId="+systemId,
+         compilewithwalls.log("publicId=" + publicId + " systemId=" + systemId,
              Project.MSG_VERBOSE);
         return null;
     }
@@ -74,37 +74,38 @@ class WallsFileHandler extends HandlerBase {
      */
     public void startElement(String name, AttributeList attrs) throws SAXParseException {
         if (name.equals("walls")) {
-            if(attrs.getLength() > 0)
-                throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                        +", no attributes allowed for walls element", locator);
+            if (attrs.getLength() > 0)
+                throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                        + ", no attributes allowed for walls element", locator);
             walls = this.compilewithwalls.createWalls();
         } else if (name.equals("package")) {
             handlePackage(attrs);
         } else {
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                +", Unexpected element \"" + name + "\"", locator);
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                + ", Unexpected element \"" + name + "\"", locator);
         }
     }
 
     private void handlePackage(AttributeList attrs) throws SAXParseException {
-        if(walls == null)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                                +", package element must be nested in a walls element", locator);
+        if (walls == null)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                                + ", package element must be nested in a walls element", locator);
 
         String name = attrs.getValue("name");
         String thePackage = attrs.getValue("package");
-        String depends = attrs.getValue("depends");
-        if(name == null)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                            +", package element must contain the 'name' attribute", locator);
-        else if(thePackage == null)
-            throw new SAXParseException("Error in file="+file.getAbsolutePath()
-                            +", package element must contain the 'package' attribute", locator);
+        if (name == null)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                            + ", package element must contain the 'name' attribute", locator);
+        else if (thePackage == null)
+            throw new SAXParseException("Error in file=" + file.getAbsolutePath()
+                            + ", package element must contain the 'package' attribute", locator);
 
         Package p = new Package();
         p.setName(name);
         p.setPackage(thePackage);
-        if(depends != null)
+
+        String depends = attrs.getValue("depends");
+        if (depends != null)
             p.setDepends(depends);
 
         walls.addConfiguredPackage(p);

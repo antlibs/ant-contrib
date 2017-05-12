@@ -61,8 +61,8 @@ public class OsFamily extends Task
         throws BuildException
     {
         if (property == null)
-            throw new BuildException("The attribute 'property' is required " +
-                                     "for the OsFamily task.");
+            throw new BuildException("The attribute 'property' is required "
+        	    		     + "for the OsFamily task.");
 
         String familyStr = Platform.getOsFamilyName();
         if (familyStr != null)

@@ -16,8 +16,8 @@
 package net.sf.antcontrib.math;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.DynamicConfigurator;
+import org.apache.tools.ant.Task;
 
 /**
  * Task for mathematical operations.

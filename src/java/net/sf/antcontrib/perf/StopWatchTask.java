@@ -49,10 +49,10 @@ public class StopWatchTask extends Task {
 
     public void setAction(String action) {
         action = action.toLowerCase();
-        if (action.equals(STOP) ||
-            action.equals(START) ||
-            action.equals(ELAPSED) ||
-            action.equals(TOTAL)) {
+        if (action.equals(STOP)
+           || action.equals(START)
+           || action.equals(ELAPSED)
+           || action.equals(TOTAL)) {
             this.action = action;
         }
         else {

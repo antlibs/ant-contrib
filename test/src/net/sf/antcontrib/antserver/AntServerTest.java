@@ -43,7 +43,7 @@ public class AntServerTest
 
     public void test1()
     {
-        String expected[] = new String[]
+        String[] expected = new String[]
         {
             "Test1 Successfully Called",
             "[test1_remote]"
@@ -54,7 +54,7 @@ public class AntServerTest
 
     public void test2()
     {
-        String expected[] = new String[]
+        String[] expected = new String[]
         {
             "Test2 Successfully Called",
             "[test2_remote]"
@@ -65,7 +65,7 @@ public class AntServerTest
 
     public void test3()
     {
-        String expected[] = new String[]
+        String[] expected = new String[]
         {
             "Test3 Successfully Called",
             "[test3_remote]"
@@ -76,7 +76,7 @@ public class AntServerTest
 
     public void test4()
     {
-        String expected[] = new String[]
+        String[] expected = new String[]
         {
             "Test4 Successfully Called",
             "[test4_remote]"
@@ -95,7 +95,7 @@ public class AntServerTest
      * &gt;= INFO when running the given target.
      */
     protected void expectLogContaining(String target,
-                                       String logs[])
+                                       String[] logs)
     {
         executeTarget(target);
         String realLog = getLog();

@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class Package {
 
-    public final static String DEFAULT = "default package";
+    public static final String DEFAULT = "default package";
     private String name;
     private String pack;
 
@@ -41,7 +41,7 @@ public class Package {
     private boolean isUsed = false;
 
     public void setName(String name) {
-        if("".equals(name))
+        if ("".equals(name))
             name = DEFAULT;
         this.name = name;
     }

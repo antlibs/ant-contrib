@@ -31,7 +31,7 @@ public class AntContribVersion {
 	 */
 	public static void main(String[] args) {
 		AntContribVersion version = new AntContribVersion(AntContribVersion.class);
-		System.out.println(""+version);
+		System.out.println("" + version);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class AntContribVersion {
 		String name = c.getName();
 		int index = name.lastIndexOf(".");
 
-		if(index < 0)
+		if (index < 0)
 			throw new RuntimeException("This class is the default package and can't be to use this feature");
 
 		String packageName = name.substring(0, index);
@@ -58,9 +58,9 @@ public class AntContribVersion {
 	 */
 	public String toString() {
 		String version = "\nVersion of Ant Contrib...";
-		version += "\ntitle="+thePackage.getImplementationTitle();
-		version += "\nwebsite="+thePackage.getImplementationVendor();
-		version += "\nversion="+thePackage.getImplementationVersion()+"\n";
+		version += "\ntitle=" + thePackage.getImplementationTitle();
+		version += "\nwebsite=" + thePackage.getImplementationVendor();
+		version += "\nversion=" + thePackage.getImplementationVersion() + "\n";
 
 		return version;
 	}

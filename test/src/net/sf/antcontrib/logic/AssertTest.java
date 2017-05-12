@@ -63,7 +63,7 @@ public class AssertTest extends BuildFileTestBase {
         executeTarget("test6");
     }
 
-    public void test7(){
+    public void test7() {
         expectBuildException("test7");
     }
 

@@ -255,12 +255,12 @@ public class AntCallBack extends Task {
      * @since       Ant 1.5
      */
     protected void handleOutput(String line) {
-	if (newProject != null) {
-	    newProject.demuxOutput(line, false);
-	}
-	else {
-	    super.handleOutput(line);
-	}
+        if (newProject != null) {
+            newProject.demuxOutput(line, false);
+        }
+        else {
+            super.handleOutput(line);
+        }
     }
 
     /**
@@ -270,12 +270,12 @@ public class AntCallBack extends Task {
      * @since       Ant 1.5
      */
     protected void handleErrorOutput(String line) {
-	if (newProject != null) {
-	    newProject.demuxOutput(line, true);
-	}
-	else {
-	    super.handleErrorOutput(line);
-	}
+        if (newProject != null) {
+            newProject.demuxOutput(line, true);
+        }
+        else {
+            super.handleErrorOutput(line);
+        }
     }
 
     /**
@@ -502,7 +502,7 @@ public class AntCallBack extends Task {
      * @param d  The new dir value
      */
     public void setDir(File d) {
-	this.dir = d;
+        this.dir = d;
     }
 
     /**
@@ -597,32 +597,32 @@ public class AntCallBack extends Task {
      * @author   danson
      */
     public static class Reference
-	extends org.apache.tools.ant.types.Reference {
+        extends org.apache.tools.ant.types.Reference {
 
-	/** Creates a reference to be configured by Ant */
-	public Reference() {
-	    super();
-	}
+        /** Creates a reference to be configured by Ant. */
+        public Reference() {
+            super();
+        }
 
-	private String targetid = null;
+        private String targetid = null;
 
-	/**
-	 * Set the id that this reference to be stored under in the new project.
-	 *
-	 * @param targetid  the id under which this reference will be passed to
-	 *      the new project
-	 */
-	public void setToRefid(String targetid) {
-	    this.targetid = targetid;
-	}
+        /**
+         * Set the id that this reference to be stored under in the new project.
+         *
+         * @param targetid  the id under which this reference will be passed to
+         *      the new project
+         */
+        public void setToRefid(String targetid) {
+            this.targetid = targetid;
+        }
 
-	/**
-	 * Get the id under which this reference will be stored in the new project
-	 *
-	 * @return   the id of the reference in the new project.
-	 */
-	public String getToRefid() {
-	    return targetid;
-	}
+        /**
+         * Get the id under which this reference will be stored in the new project
+         *
+         * @return   the id of the reference in the new project.
+         */
+        public String getToRefid() {
+            return targetid;
+        }
     }
 }

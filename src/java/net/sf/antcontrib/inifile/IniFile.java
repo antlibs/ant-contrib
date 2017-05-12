@@ -195,9 +195,9 @@ public class IniFile
             line = line.trim();
             if (line.length() > 0 && !line.startsWith("#") && !line.startsWith(";"))
             {
-                if(line.startsWith("[") && line.endsWith("]"))
+                if (line.startsWith("[") && line.endsWith("]"))
                 {
-                    String secName = line.substring(1, line.length()-1);
+                    String secName = line.substring(1, line.length() - 1);
                     currentSection = getSection(secName);
                     if (currentSection == null)
                     {
@@ -213,7 +213,7 @@ public class IniFile
                     if (pos != -1)
                     {
                         name = line.substring(0,pos);
-                        value = line.substring(pos+1);
+                        value = line.substring(pos + 1);
                     }
 
                     currentSection.setProperty(new IniProperty(name,value));

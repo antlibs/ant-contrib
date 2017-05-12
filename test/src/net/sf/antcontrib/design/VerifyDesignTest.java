@@ -36,14 +36,14 @@ import org.apache.tools.ant.util.JavaEnvUtils;
  */
 public class VerifyDesignTest extends BuildFileTest {
 
-    private final static String REASON = "Build should have failed with proper message and did not";
-    private String baseDir = "test"+File.separator
-        +"resources"+File.separator
-        +"design"+File.separator;
 
     public VerifyDesignTest(String name) {
         super(name);
     }
+    private static final String REASON = "Build should have failed with proper message and did not";
+    private final String baseDir = "test" + File.separator
+        + "resources" + File.separator
+        + "design" + File.separator;
 
     public void setUp() {
 
@@ -55,7 +55,7 @@ public class VerifyDesignTest extends BuildFileTest {
     private static String s = "";
 
     public static void log(String msg) {
-        s += msg+"\n";
+        s += msg + "\n";
     }
 
     public void tearDown() {
@@ -199,8 +199,8 @@ public class VerifyDesignTest extends BuildFileTest {
     }
 
     public void testMultipleErrors() {
-    	File jarFile = new File(baseDir+File.separator+"build"+File.separator+"jar"
-		    +File.separator+"test.jar");
+    	File jarFile = new File(baseDir + File.separator + "build" + File.separator + "jar"
+		    + File.separator + "test.jar");
         String class1 = "mod.arraydepend.ClassDependsOnArray";
         String class2 = "mod.dummy.DummyClass";
         //executeTarget("testMultipleErrors");
@@ -210,9 +210,9 @@ public class VerifyDesignTest extends BuildFileTest {
         class1 = "mod.catchdepend.ClassDependsOnCatch";
         class2 = "mod.dummy.DummyRuntimeException";
         String error3 = Design.getWrapperMsg(jarFile, Design.getErrorMessage(class1, class2));
-        String s = "\nEvaluating package=mod.arraydepend"+error1;
-        s += "\nEvaluating package=mod.castdepend"+error2;
-        s += "\nEvaluating package=mod.catchdepend"+error3;
+        String s = "\nEvaluating package=mod.arraydepend" + error1;
+        s += "\nEvaluating package=mod.castdepend" + error2;
+        s += "\nEvaluating package=mod.catchdepend" + error3;
         s += "\nEvaluating package=mod.dummy";
 
 //        executeTarget("testMultipleErrors");
@@ -317,7 +317,8 @@ public class VerifyDesignTest extends BuildFileTest {
 
     public void testSuperDepend() {
         String s = File.separator;
-        File f = new File("test"+s+"resources"+s+"design"+s+"build"+s+"jar"+s+"test.jar");
+        File f = new File("test" + s + "resources" + s + "design" + s + "build"
+        		+ s + "jar" + s + "test.jar");
 
         //      executeTarget("testSuperDepend");
         String class1 = "mod.superdepend.ClassDependsOnSuperMod2";

@@ -121,8 +121,8 @@ public class VerifyDesignDelegate implements Log {
     }
 
     public void execute() {
-        if(!designFile.exists() || designFile.isDirectory())
-            throw new BuildException("design attribute in verifydesign element specified an invalid file="+designFile);
+        if (!designFile.exists() || designFile.isDirectory())
+            throw new BuildException("design attribute in verifydesign element specified an invalid file=" + designFile);
 
         verifyJarFilesExist();
 
@@ -136,7 +136,7 @@ public class VerifyDesignDelegate implements Log {
             //reader.setErrorHandler(ch);
             //reader.setDTDHandler(ch);
 
-            log("about to start parsing file='"+designFile+"'", Project.MSG_INFO);
+            log("about to start parsing file='" + designFile + "'", Project.MSG_INFO);
             FileInputStream fileInput = new FileInputStream(designFile);
             InputSource src = new InputSource(fileInput);
             reader.parse(src);
@@ -151,12 +151,12 @@ public class VerifyDesignDelegate implements Log {
 
             //only put unused errors if there are no other errors
             //this is because you end up with false unused errors if you don't do this.
-            if(designErrors.isEmpty())
+            if (designErrors.isEmpty())
                 design.fillInUnusedPackages(designErrors);
 
             if (! designErrors.isEmpty()) {
-                log(designErrors.size()+"Errors.", Project.MSG_WARN);
-                if(!fillInBuildException)
+                log(designErrors.size() + "Errors.", Project.MSG_WARN);
+                if (!fillInBuildException)
                     throw new BuildException("Design check failed due to previous errors");
                 throwAllErrors();
             }
@@ -180,14 +180,14 @@ public class VerifyDesignDelegate implements Log {
             throw new RuntimeException("See attached exception", e);
             // throw new BuildException("IOException on design file='"
             // + designFile + "'. attached:", e);
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             maybeDeleteFiles();
             throw e;
         } finally {
 
         }
 
-        if(!verifiedAtLeastOne)
+        if (!verifiedAtLeastOne)
             throw new BuildException("Did not find any class or jar files to verify");
     }
     //some auto builds like cruisecontrol can only report all the
@@ -223,9 +223,9 @@ public class VerifyDesignDelegate implements Log {
 
     private void maybeDeleteFiles() {
         if (deleteFiles) {
-            log("Deleting all class and jar files so you do not get tempted to\n" +
-                    "use a jar that doesn't abide by the design(This option can\n" +
-                    "be turned off if you really want)", Project.MSG_INFO);
+            log("Deleting all class and jar files so you do not get tempted to\n"
+        	+ "use a jar that doesn't abide by the design (This option can\n"
+        	+ "be turned off if you really want)", Project.MSG_INFO);
 
             Enumeration pathsEnum = paths.elements();
             Path p = null;
@@ -242,7 +242,7 @@ public class VerifyDesignDelegate implements Log {
             File file = new File(files[i]);
 
             boolean deleted = file.delete();
-            if (! deleted) {
+            if (!deleted) {
                 file.deleteOnExit();
             }
         }
@@ -280,7 +280,7 @@ public class VerifyDesignDelegate implements Log {
         } else if (fileName.endsWith(".class")) {
             verifyClassAdheresToDesign(d, file);
         } else
-            throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file="+file.getAbsolutePath());
+            throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file=" + file.getAbsolutePath());
     }
 
     private void verifyClassAdheresToDesign(Design d, File classFile)
@@ -311,7 +311,7 @@ public class VerifyDesignDelegate implements Log {
         while(en.hasMoreElements()) {
             ZipEntry entry = (ZipEntry)en.nextElement();
             InputStream in = null;
-            if(entry.getName().endsWith(".class")) {
+            if (entry.getName().endsWith(".class")) {
                 in = jarFile.getInputStream(entry);
                 try {
                     in = jarFile.getInputStream(entry);
@@ -340,16 +340,14 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
-    private String className = "";
-
     private void verifyClassAdheresToDesign(Design d, InputStream in, String name, File originalClassOrJarFile) throws ClassFormatException, IOException {
         try {
             verifiedAtLeastOne = true;
             ClassParser parser = new ClassParser(in, name);
             JavaClass javaClass = parser.parse();
-            className = javaClass.getClassName();
+            String className = javaClass.getClassName();
 
-            if(!d.needEvalCurrentClass(className))
+            if (!d.needEvalCurrentClass(className))
                 return;
 
             ConstantPool pool = javaClass.getConstantPool();
@@ -357,7 +355,7 @@ public class VerifyDesignDelegate implements Log {
             VisitorImpl visitor = new VisitorImpl(pool, this, d, task.getLocation());
             DescendingVisitor desc = new DescendingVisitor(javaClass, visitor);
             desc.visit();
-        } catch(BuildException e) {
+        } catch (BuildException e) {
             log(Design.getWrapperMsg(originalClassOrJarFile, e.getMessage()), Project.MSG_ERR);
             designErrors.addElement(e);
         }
@@ -365,44 +363,44 @@ public class VerifyDesignDelegate implements Log {
 
     private void processConstantPool(ConstantPool pool) {
         Constant[] constants = pool.getConstantPool();
-        if(constants == null) {
+        if (constants == null) {
             log("      constants=null", Project.MSG_VERBOSE);
             return;
         }
 
-        log("      constants len="+constants.length, Project.MSG_VERBOSE);
-        for(int i = 0; i < constants.length; i++) {
+        log("      constants len=" + constants.length, Project.MSG_VERBOSE);
+        for (int i = 0; i < constants.length; i++) {
             processConstant(pool, constants[i], i);
         }
     }
 
     private void processConstant(ConstantPool pool, Constant c, int i) {
-        if(c == null) //don't know why, but constant[0] seems to be always null.
+        if (c == null) //don't know why, but constant[0] seems to be always null.
             return;
 
-        log("      const["+i+"]="+pool.constantToString(c)+" inst="+c.getClass().getName(), Project.MSG_DEBUG);
+        log("      const[" + i + "]=" + pool.constantToString(c) + " inst=" + c.getClass().getName(),
+        	Project.MSG_DEBUG);
         byte tag = c.getTag();
-        switch(tag) {
+        switch (tag) {
             //reverse engineered from ConstantPool.constantToString..
-        case Constants.CONSTANT_Class:
-            int ind   = ((ConstantClass)c).getNameIndex();
-            c   = pool.getConstant(ind, Constants.CONSTANT_Utf8);
-            String className = Utility.compactClassName(((ConstantUtf8)c).getBytes(), false);
-            log("      classNamePre="+className, Project.MSG_DEBUG);
-            className = getRidOfArray(className);
-            String firstLetter = className.charAt(0)+"";
-            if(primitives.contains(firstLetter))
-                return;
-            log("      className="+className, Project.MSG_VERBOSE);
-            design.checkClass(className);
-            break;
-        default:
-
+            case Constants.CONSTANT_Class:
+                int ind = ((ConstantClass)c).getNameIndex();
+                c = pool.getConstant(ind, Constants.CONSTANT_Utf8);
+                String className = Utility.compactClassName(((ConstantUtf8)c).getBytes(), false);
+                log("      classNamePre=" + className, Project.MSG_DEBUG);
+                className = getRidOfArray(className);
+                String firstLetter = className.charAt(0) + "";
+                if (primitives.contains(firstLetter))
+                    return;
+                log("      className=" + className, Project.MSG_VERBOSE);
+                design.checkClass(className);
+                break;
+            default:
         }
     }
 
     private static String getRidOfArray(String className) {
-        while(className.startsWith("["))
+        while (className.startsWith("["))
             className = className.substring(1, className.length());
         return className;
     }
@@ -410,7 +408,7 @@ public class VerifyDesignDelegate implements Log {
     public static String getPackageName(String className) {
         String packageName = Package.DEFAULT;
         int index = className.lastIndexOf(".");
-        if(index > 0)
+        if (index > 0)
             packageName = className.substring(0, index);
         // TODO: test the else scenario here (it is a corner case)...
 

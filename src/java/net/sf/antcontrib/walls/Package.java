@@ -58,7 +58,7 @@ public class Package {
     }
 
     public void setDepends(String d) {
-        if(d == null) {
+        if (d == null) {
             throw new RuntimeException("depends cannot be set to null");
         }
 
@@ -66,7 +66,7 @@ public class Package {
         StringTokenizer tok = new StringTokenizer(d, ", \t");
         depends = new String[tok.countTokens()];
         int i = 0;
-        while(tok.hasMoreTokens()) {
+        while (tok.hasMoreTokens()) {
             depends[i] = tok.nextToken();
             i++;
         }
@@ -85,11 +85,11 @@ public class Package {
      */
     public FileSet getJavaCopyFileSet(Project p, Location l) throws BuildException {
 
-        if(failureReason != null)
+        if (failureReason != null)
             throw new BuildException(failureReason, l);
         else if(pack.indexOf("/") != -1 || pack.indexOf("\\") != -1)
-            throw new BuildException("A package name cannot contain '\\' or '/' like package="+pack
-                                +"\nIt must look like biz.xsoftware.* for example", l);
+            throw new BuildException("A package name cannot contain '\\' or '/' like package="
+        	    		+ pack + "\nIt must look like biz.xsoftware.* for example", l);
         FileSet set = new FileSet();
 
         String match = getMatch(p, pack, ".java");
@@ -140,10 +140,10 @@ public class Package {
     public Path getClasspath(File baseDir, Project p) {
         Path path = new Path(p);
 
-        if(depends != null) {
             for(int i = 0; i < depends.length; i++) {
                 String buildSpace = depends[i];
 
+        if (depends != null) {
                 File dependsDir = new File(baseDir, buildSpace);
                 path.setLocation(dependsDir);
             }
@@ -159,10 +159,10 @@ public class Package {
         String match;
         @SuppressWarnings("unused")
         String classMatch;
-        if(pack.endsWith("**")) {
-            match  = pack + File.separatorChar+"*"+postFix;
+        if (pack.endsWith("**")) {
+            match  = pack + File.separatorChar + "*" + postFix;
         }
-        else if(pack.endsWith("*")) {
+        else if (pack.endsWith("*")) {
             match  = pack + postFix;
         }
         else

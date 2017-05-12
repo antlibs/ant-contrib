@@ -39,12 +39,12 @@ public abstract class AbstractHttpStateTypeTask
 
 		Object stateRef = project.getReference(stateRefId);
 		if (stateRef == null) {
-			throw new BuildException("Reference '" + stateRefId +
-					"' is not defined.");
+			throw new BuildException("Reference '" + stateRefId
+						 + "' is not defined.");
 		}
 		if (! (stateRef instanceof HttpStateType)) {
-			throw new BuildException("Reference '" + stateRefId +
-					"' is not of the correct type.");
+			throw new BuildException("Reference '" + stateRefId
+						 + "' is not of the correct type.");
 		}
 
 		return (HttpStateType) stateRef;

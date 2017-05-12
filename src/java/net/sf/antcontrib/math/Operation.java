@@ -133,7 +133,7 @@ public class Operation
     }
 
     public Number evaluate() {
-        Evaluateable ops[] = null;
+        Evaluateable[] ops = null;
 
         if (hasLocalOperands) {
             List localOps = new ArrayList();

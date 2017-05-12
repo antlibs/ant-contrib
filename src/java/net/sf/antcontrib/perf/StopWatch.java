@@ -137,7 +137,8 @@ public class StopWatch {
         else {
             String dec = total.substring(total.length() - 3);
             total = "";
-            int min = 0, sec = 0;
+            int min = 0;
+            int sec = 0;
             min = (int) (ms / 60000);
             sec = min > 0 ? (int) ((ms - (min * 60000)) / 1000) : (int) (ms / 1000);
             if (min > 0) {
@@ -164,7 +165,7 @@ public class StopWatch {
         return sb.toString();
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         StopWatch sw = new StopWatch("test");
 
         // test the formatter

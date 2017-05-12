@@ -177,9 +177,9 @@ public abstract class AbstractMethodTask
 				try {
 					is = method.getResponseBodyAsStream();
 					fos = new FileOutputStream(responseDataFile);
-					byte buf[] = new byte[10*1024];
+					byte[] buf = new byte[10 * 1024];
 					int read = 0;
-					while ((read = is.read(buf, 0, 10*1024)) != -1) {
+					while ((read = is.read(buf, 0, 10 * 1024)) != -1) {
 						fos.write(buf, 0, read);
 					}
 				}

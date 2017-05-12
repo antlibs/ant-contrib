@@ -30,7 +30,7 @@ public class PropertySelectorTest extends BuildFileTest {
         configureProject("test/resources/property/propertyselector.xml");
     }
 
-    public void testDefaultGrouping() {
+    public void testDefaultGrouping0() {
         simpleTest("select.test.grouping.0",
                    "module.Module1.id", "module.Module2.id");
     }
@@ -40,8 +40,7 @@ public class PropertySelectorTest extends BuildFileTest {
                    "Module1", "Module2");
     }
 
-    private void simpleTest(String target, String expected1, String expected2)
-    {
+    private void simpleTest(String target, String expected1, String expected2) {
         executeTarget(target);
         String order1 = expected1 + "," + expected2;
         String order2 = expected2 + "," + expected1;

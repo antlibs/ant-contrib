@@ -28,7 +28,7 @@ public class Params {
 		}
 	}
 
-	public static class DoubleParam extends Param{
+	public static class DoubleParam extends Param {
 		private double value;
 
 		public double getValue() {
@@ -41,7 +41,7 @@ public class Params {
 
 	}
 
-	public static class BooleanParam extends Param{
+	public static class BooleanParam extends Param {
 		private boolean value;
 
 		public boolean getValue() {
@@ -54,7 +54,7 @@ public class Params {
 
 	}
 
-	public static class IntParam extends Param{
+	public static class IntParam extends Param {
 		private int value;
 
 		public int getValue() {
@@ -67,7 +67,7 @@ public class Params {
 
 	}
 
-	public static class LongParam extends Param{
+	public static class LongParam extends Param {
 		private long value;
 
 		public long getValue() {
@@ -80,7 +80,7 @@ public class Params {
 
 	}
 
-	public static class StringParam extends Param{
+	public static class StringParam extends Param {
 		private String value;
 
 		public String getValue() {

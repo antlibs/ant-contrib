@@ -30,9 +30,9 @@ public class SilentCopy extends Copy {
     }
 
     public void log(String msg, int level) {
-        if(level == Project.MSG_INFO)
+        if (level == Project.MSG_INFO)
             super.log(msg, Project.MSG_VERBOSE);
-        else if(level == Project.MSG_VERBOSE)
+        else if (level == Project.MSG_VERBOSE)
             super.log(msg, Project.MSG_DEBUG);
 
     }

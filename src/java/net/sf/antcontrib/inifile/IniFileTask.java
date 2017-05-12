@@ -35,7 +35,7 @@ import org.apache.tools.ant.taskdefs.Property;
 public class IniFileTask
         extends Task
 {
-    public static abstract class IniOperation
+    public abstract static class IniOperation
     {
         private String section;
         private String property;
@@ -73,7 +73,7 @@ public class IniFileTask
         protected abstract void operate(IniFile file);
     }
 
-    public static abstract class IniOperationConditional extends IniOperation
+    public abstract static class IniOperationConditional extends IniOperation
     {
         private String ifCond;
         private String unlessCond;
@@ -120,7 +120,7 @@ public class IniFileTask
         }
     }
 
-    public static abstract class IniOperationPropertySetter extends IniOperation
+    public abstract static class IniOperationPropertySetter extends IniOperation
     {
         private boolean override;
         private String resultproperty;

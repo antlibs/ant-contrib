@@ -190,7 +190,7 @@ public class Platform
     public static final String[] getDefaultShellArguments()
     {
         int family = getOsFamily();
-        String args[] = null;
+        String[] args = null;
 
         switch (family)
         {

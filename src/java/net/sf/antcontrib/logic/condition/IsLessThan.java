@@ -29,7 +29,8 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
  */
 public class IsLessThan extends Equals {
 
-    private String arg1, arg2;
+    private String arg1;
+    private String arg2;
     private boolean trim = false;
     private boolean caseSensitive = true;
 
@@ -76,7 +77,7 @@ public class IsLessThan extends Equals {
             double num2 = Double.parseDouble(arg2);
             return num1 < num2;
         }
-        catch(NumberFormatException nfe) {
+        catch (NumberFormatException nfe) {
             // ignored, fall thru to string comparision
         }
 

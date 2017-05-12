@@ -136,8 +136,8 @@ public class URLImportTask
 		else if (ivyConfFile != null) {
 			configure.setFile(ivyConfFile);
 		}
-		else if (repositoryDir != null ||
-				 repositoryUrl != null) {
+		else if (repositoryDir != null
+			 || repositoryUrl != null) {
 			File temp = null;
 			FileWriter fw = null;
 
@@ -209,7 +209,7 @@ public class URLImportTask
 		DirectoryScanner scanner =
 			fileset.getDirectoryScanner(getProject());
 
-		String files[] = scanner.getIncludedFiles();
+		String[] files = scanner.getIncludedFiles();
 
 		File file = new File(scanner.getBasedir(), files[0]);
 
@@ -218,12 +218,12 @@ public class URLImportTask
 	    if ("xml".equalsIgnoreCase(type)) {
 	    	importFile = file;
 	    }
-	    else if ("jar".equalsIgnoreCase(type) ||
-	    		"zip".equalsIgnoreCase(type)) {
+	    else if ("jar".equalsIgnoreCase(type)
+		     || "zip".equalsIgnoreCase(type)) {
 	    	File dir = new File(file.getParentFile(),
 	    			file.getName() + ".extracted");
-	    	if (! dir.exists() ||
-	    			dir.lastModified() < file.lastModified()) {
+	    	if (! dir.exists()
+	    	    || dir.lastModified() < file.lastModified()) {
 	    		dir.mkdir();
 	    		Expand expand = (Expand)getProject().createTask("unjar");
 	    		expand.setSrc(file);
@@ -232,8 +232,8 @@ public class URLImportTask
 	    	}
 	    	importFile = new File(dir, resource);
 	    	if (! importFile.exists()) {
-	    		throw new BuildException("Cannot find a '" + resource + "' file in " +
-	    				file.getName());
+	    		throw new BuildException("Cannot find a '" + resource + "' file in "
+	    					 + file.getName());
 	    	}
 	    }
 	    else {

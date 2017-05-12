@@ -193,9 +193,9 @@ class VisitorImpl extends EmptyVisitor {
 	}
 
 	public static String getNoDebugMsg(String className) {
-		return "Class="+className+" was not compiled with the debug option(-g) and\n" +
-				"therefore verifydesign cannot be used on this jar.  Please compile your code\n"+
-				"with -g option in javac or debug=\"true\" in the ant build.xml file";
+		return "Class=" + className + " was not compiled with the debug option(-g) and\n"
+			+ "therefore verifydesign cannot be used on this jar.  Please compile your code\n"
+			+ "with -g option in javac or debug=\"true\" in the ant build.xml file";
 	}
 
 	/**
@@ -204,7 +204,8 @@ class VisitorImpl extends EmptyVisitor {
 	 * @return String
 	 */
 	public static String getNoFileMsg(File jarName) {
-		return "File you specified in your path(or jar attribute)='"+jarName.getAbsolutePath()+"' does not exist";
+		return "File you specified in your path(or jar attribute)='"
+			+ jarName.getAbsolutePath() + "' does not exist";
 	}
 
 }

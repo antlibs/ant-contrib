@@ -201,7 +201,7 @@ public abstract class BuildFileTest extends TestCase {
         fullLogBuffer = new StringBuffer();
         project = new Project();
         project.init();
-        project.setUserProperty( "ant.file" , new File(filename).getAbsolutePath() );
+        project.setUserProperty("ant.file" , new File(filename).getAbsolutePath());
         project.addBuildListener(new AntTestListener(logLevel));
         ProjectHelper.configureProject(project, new File(filename));
     }
@@ -288,7 +288,8 @@ public abstract class BuildFileTest extends TestCase {
         } catch (org.apache.tools.ant.BuildException ex) {
             buildException = ex;
             if ((null != contains) && (ex.getMessage().indexOf(contains) == -1)) {
-                fail("Should throw BuildException because '" + cause + "' with message containing '" + contains + "' (actual message '" + ex.getMessage() + "' instead)");
+                fail("Should throw BuildException because '" + cause + "' with message containing '"
+		     + contains + "' (actual message '" + ex.getMessage() + "' instead)");
             }
             return;
         }
@@ -359,7 +360,7 @@ public abstract class BuildFileTest extends TestCase {
      * relative to the package name or absolute from the root path.
      * @param resource the resource to retrieve its url.
      */
-    protected URL getResource(String resource){
+    protected URL getResource(String resource) {
         URL url = getClass().getResource(resource);
         assertNotNull("Could not find resource :" + resource, url);
         return url;
@@ -371,7 +372,7 @@ public abstract class BuildFileTest extends TestCase {
     private static class AntOutputStream extends java.io.OutputStream {
         private StringBuffer buffer;
 
-        public AntOutputStream( StringBuffer buffer ) {
+        public AntOutputStream(StringBuffer buffer) {
             this.buffer = buffer;
         }
 
@@ -459,9 +460,9 @@ public abstract class BuildFileTest extends TestCase {
                 return;
             }
 
-            if (event.getPriority() == Project.MSG_INFO ||
-                event.getPriority() == Project.MSG_WARN ||
-                event.getPriority() == Project.MSG_ERR) {
+            if (event.getPriority() == Project.MSG_INFO
+		|| event.getPriority() == Project.MSG_WARN
+		|| event.getPriority() == Project.MSG_ERR) {
                 logBuffer.append(event.getMessage());
             }
             fullLogBuffer.append(event.getMessage());

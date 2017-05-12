@@ -38,13 +38,13 @@ public class Walls {
     public void addConfiguredPackage(Package p) {
 
         String pack = p.getPackage();
-        if(!pack.endsWith(".*") && !pack.endsWith(".**"))
-            p.setFaultReason("The package='"+pack+"' must end with "
-                        +".* or .** such as biz.xsoftware.* or "
-                        +"biz.xsoftware.**");
+        if (!pack.endsWith(".*") && !pack.endsWith(".**"))
+            p.setFaultReason("The package='" + pack + "' must end with "
+                        + ".* or .** such as biz.xsoftware.* or "
+                        + "biz.xsoftware.**");
 
         String[] depends = p.getDepends();
-        if(depends == null) {
+        if (depends == null) {
             nameToPackage.put(p.getName(), p);
             packages.add(p);
             return;
