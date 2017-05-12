@@ -18,8 +18,7 @@
 
     <target name="dotest1">
         <remoteant machine="${server.host}" port="${server.port}">
-            <runtarget target="test1_remote">
-            </runtarget>
+            <runtarget target="test1_remote"/>
         </remoteant>
     </target>
 
@@ -60,8 +59,7 @@
 
     <target name="dotest3">
         <remoteant machine="${server.host}" port="${server.port}">
-            <runant target="test3_remote" antfile="${ant.file}">
-            </runant>
+            <runant target="test3_remote" antfile="${ant.file}"/>
         </remoteant>
     </target>
 
@@ -111,6 +109,7 @@
             <param name="test.target" value="dotest5"/>
         </antcall>
     </target>
+
     <target name="run.test.with.server">
         <parallel>
             <antserver port="${server.port}"/>

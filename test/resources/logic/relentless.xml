@@ -18,36 +18,34 @@
   <target name="failTask" depends="setup" description="2 tasks should fail" >
     <relentless>
         <antcall target="echo" >
-            <param name="param" value="1" />
+            <param name="param" value="1"/>
         </antcall>
-        <fail message="This task has failed." />
+        <fail message="This task has failed."/>
         <antcall target="echo" >
-            <param name="param" value="3" />
+            <param name="param" value="3"/>
         </antcall>
-        <fail message="This task has failed as well." />
+        <fail message="This task has failed as well."/>
     </relentless>
   </target>
 
   <target name="simpleTasks" depends="setup">
     <relentless>
         <antcall target="echo" >
-            <param name="param" value="1" />
+            <param name="param" value="1"/>
         </antcall>
         <antcall target="echo" >
-            <param name="param" value="2" />
+            <param name="param" value="2"/>
         </antcall>
         <antcall target="echo" >
-            <param name="param" value="3" />
+            <param name="param" value="3"/>
         </antcall>
         <antcall target="echo" >
-            <param name="param" value="4" />
+            <param name="param" value="4"/>
         </antcall>
     </relentless>
   </target>
 
   <target name="noTasks" depends="setup">
-    <relentless>
-    </relentless>
+    <relentless/>
   </target>
-
 </project>

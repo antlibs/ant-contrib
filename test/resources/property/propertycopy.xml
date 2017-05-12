@@ -24,8 +24,8 @@
   </target>
 
   <target name="normal" depends="setup">
-    <property name="org" value="MyOrg" />
-    <property name="org.MyOrg.DisplayName" value="My Organiziation" />
-    <propertycopy name="displayName" from="org.${org}.DisplayName" />
+    <property name="org" value="MyOrg"/>
+    <property name="org.MyOrg.DisplayName" value="My Organization"/>
+    <propertycopy name="displayName" from="org.${org}.DisplayName"/>
   </target>
 </project>

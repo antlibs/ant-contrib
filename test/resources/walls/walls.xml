@@ -1,9 +1,9 @@
 <walls>
     <package name="modA"
-        package="mod.modA.*" />
+        package="mod.modA.*"/>
     <package name="modB"
-        package="mod.modB.*" />
+        package="mod.modB.*"/>
     <package name="mod"
         package="mod.*"
-        depends="modA,modB" />
+        depends="modA,modB"/>
 </walls>

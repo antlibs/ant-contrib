@@ -149,5 +149,4 @@
     </outofdate>
     <fail unless="empty-sources.called">Empty sources seq not triggered</fail>
   </target>
-
 </project>

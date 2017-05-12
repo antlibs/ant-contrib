@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="antcallbacktest" basedir="." default="test1">
    <description>
      test build file for the AntCallBack task

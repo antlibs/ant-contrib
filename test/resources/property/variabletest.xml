@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="variabletest" basedir="." default="test1">
    <description>
       test build file for the Variable task
@@ -9,40 +8,40 @@
 
    <!-- use like a standard property -->
    <target name="test1">
-      <var name="x" value="6" />
+      <var name="x" value="6"/>
    </target>
 
    <!-- use like a standard property -->
    <target name="test2">
-      <var name="x" value="12" />
+      <var name="x" value="12"/>
    </target>
 
    <!-- can append to itself -->
    <target name="test3">
-      <var name="x" value="12" />
-      <var name="x" value="6 + ${x}" /> <!-- 6 + 12 -->
+      <var name="x" value="12"/>
+      <var name="x" value="6 + ${x}"/> <!-- 6 + 12 -->
    </target>
 
    <!-- property can't override -->
    <target name="test4">
-      <var name="x" value="6" />
-      <property name="x" value="12" />
+      <var name="x" value="6"/>
+      <property name="x" value="12"/>
    </target>
 
    <!-- can append multiple times -->
    <target name="test5">
-      <var name="str" value="I" />
-      <var name="str" value="${str} am" />
-      <var name="str" value="${str} a" />
-      <var name="str" value="${str} string." />
+      <var name="str" value="I"/>
+      <var name="str" value="${str} am"/>
+      <var name="str" value="${str} a"/>
+      <var name="str" value="${str} string."/>
       <!-- I am a string. -->
    </target>
 
    <!-- property can't override -->
    <target name="test6">
-      <var name="x" value="blue" />
+      <var name="x" value="blue"/>
       <tstamp>
-         <format property="x" pattern="EEEE" />
+         <format property="x" pattern="EEEE"/>
       </tstamp>
       <var name="x" value="Today is ${x}."/>
       <!-- Today is blue. -->
@@ -50,8 +49,8 @@
 
    <!-- can override property -->
    <target name="test7">
-      <property name="x" value="12" />
-      <var name="x" value="6" />
+      <property name="x" value="12"/>
+      <var name="x" value="6"/>
    </target>
 
    <!-- TODO: uses the Antelope <if>, need to adjust to use ant-contrib <if>

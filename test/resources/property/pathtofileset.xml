@@ -39,5 +39,4 @@
     <pathtofileset dir="${test.dir}/0" pathrefid="simple"
                     name="simple.0.fileset"/>
   </target>
-
 </project>

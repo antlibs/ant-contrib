@@ -38,171 +38,171 @@
     		 <include name="${mod}/${package.under.test}/**"/>
          </javac>
 
-         <war destfile="${war}" webxml="${webxml}">
-         	<classes dir="${classes}"/>
-         </war>
+        <war destfile="${war}" webxml="${webxml}">
+            <classes dir="${classes}"/>
+        </war>
     </target>
 
-	<target name="testArrayDepend" depends="init">
-	    <property name="package" value="arraydepend"/>
+    <target name="testArrayDepend" depends="init">
+        <property name="package" value="arraydepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testArrayDepend2" depends="init">
-	    <property name="package" value="arraydepend2"/>
+    <target name="testArrayDepend2" depends="init">
+        <property name="package" value="arraydepend2"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testArrayDepend3" depends="init">
-	    <property name="package" value="arraydepend3"/>
+    <target name="testArrayDepend3" depends="init">
+        <property name="package" value="arraydepend3"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testBadXML" depends="init">
-	    <property name="package" value="badxml"/>
+    <target name="testBadXML" depends="init">
+        <property name="package" value="badxml"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testCastDepend" depends="init">
-	    <property name="package" value="castdepend"/>
+    <target name="testCastDepend" depends="init">
+        <property name="package" value="castdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testCatchDepend" depends="init">
-	    <property name="package" value="catchdepend"/>
+    <target name="testCatchDepend" depends="init">
+        <property name="package" value="catchdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testClassFiles" depends="init">
-	    <property name="package" value="castdepend"/>
+    <target name="testClassFiles" depends="init">
+        <property name="package" value="castdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign design="${designs}/${package}.xml">
-        	<path>
-               <fileset dir="${classes}">
-                  <include name="**/*.class"/>
-               </fileset>
-        	</path>
-		</verifydesign>
-	</target>
+            <path>
+                <fileset dir="${classes}">
+                    <include name="**/*.class"/>
+                </fileset>
+            </path>
+        </verifydesign>
+    </target>
 
-	<target name="testDeclareJavaUtil" depends="init">
-	    <property name="package" value="declarejavautil"/>
+    <target name="testDeclareJavaUtil" depends="init">
+        <property name="package" value="declarejavautil"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testDeclareJavaUtilFail" depends="init">
-	    <property name="package" value="declarejavautil"/>
+    <target name="testDeclareJavaUtilFail" depends="init">
+        <property name="package" value="declarejavautil"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}fail.xml"/>
-	</target>
+    </target>
 
-	<target name="testDeclareJavax" depends="init">
-	    <property name="package" value="declarejavax"/>
+    <target name="testDeclareJavax" depends="init">
+        <property name="package" value="declarejavax"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testDeclareJavaxPass" depends="init">
-	    <property name="package" value="declarejavax"/>
+    <target name="testDeclareJavaxPass" depends="init">
+        <property name="package" value="declarejavax"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}pass.xml"/>
-	</target>
+    </target>
 
-	<target name="testFieldDepend" depends="init">
-	    <property name="package" value="fielddepend"/>
+    <target name="testFieldDepend" depends="init">
+        <property name="package" value="fielddepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testFieldRefDepend" depends="init">
-	    <property name="package" value="fieldrefdepend"/>
+    <target name="testFieldRefDepend" depends="init">
+        <property name="package" value="fieldrefdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testInnerClassDepend" depends="init">
-	    <property name="package" value="innerclassdepend"/>
+    <target name="testInnerClassDepend" depends="init">
+        <property name="package" value="innerclassdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testInstanceOfDepend" depends="init">
-	    <property name="package" value="instanceofdepend"/>
+    <target name="testInstanceOfDepend" depends="init">
+        <property name="package" value="instanceofdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testInterfaceDepend" depends="init">
-	    <property name="package" value="interfacedepend"/>
+    <target name="testInterfaceDepend" depends="init">
+        <property name="package" value="interfacedepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testLocalVarDepend" depends="init">
-	    <property name="package" value="localvardepend"/>
+    <target name="testLocalVarDepend" depends="init">
+        <property name="package" value="localvardepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testLocalVarRefDepend" depends="init">
-	    <property name="package" value="localvarrefdepend"/>
+    <target name="testLocalVarRefDepend" depends="init">
+        <property name="package" value="localvarrefdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testMissingAttribute" depends="init">
-	    <property name="package" value="missingattribute"/>
+    <target name="testMissingAttribute" depends="init">
+        <property name="package" value="missingattribute"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testMultipleErrors" depends="init">
-	    <property name="package" value="multipleerrors"/>
+    <target name="testMultipleErrors" depends="init">
+        <property name="package" value="multipleerrors"/>
 
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
@@ -215,26 +215,26 @@
         <jar destfile="${jar}" basedir="${classes}"/>
 
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testNewDepend" depends="init">
-	    <property name="package" value="newdepend"/>
+    <target name="testNewDepend" depends="init">
+        <property name="package" value="newdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testNewDepend2" depends="init">
-	    <property name="package" value="newdepend2"/>
+    <target name="testNewDepend2" depends="init">
+        <property name="package" value="newdepend2"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testNoDebugOption" depends="init">
-	     <property name="package" value="nodebugoption"/>
+    <target name="testNoDebugOption" depends="init">
+        <property name="package" value="nodebugoption"/>
 
          <delete dir="${classes}"/>
          <mkdir dir="${classes}"/>
@@ -245,52 +245,52 @@
     		 <include name="${mod}/${package}/**"/>
          </javac>
 
-         <jar destfile="${jar}" basedir="${classes}"/>
+        <jar destfile="${jar}" basedir="${classes}"/>
 
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
-	<target name="testNoJar" depends="init">
-	     <property name="package" value="nojar"/>
+    <target name="testNoJar" depends="init">
+        <property name="package" value="nojar"/>
 
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
-	<target name="testParamDepend" depends="init">
-	    <property name="package" value="paramdepend"/>
+    <target name="testParamDepend" depends="init">
+        <property name="package" value="paramdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testPassLocalDepend" depends="init">
-	    <property name="package" value="passlocaldepend"/>
+    <target name="testPassLocalDepend" depends="init">
+        <property name="package" value="passlocaldepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testPathElementLocation" depends="init">
-	    <property name="package" value="putstatic"/>
+    <target name="testPathElementLocation" depends="init">
+        <property name="package" value="putstatic"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign design="${designs}/${package}.xml">
-        	<path>
-        	   <pathelement location="${classes}"/>
-        	</path>
-		</verifydesign>
-	</target>
+            <path>
+                <pathelement location="${classes}"/>
+            </path>
+        </verifydesign>
+    </target>
 
-	<target name="testPathElementPath" depends="init">
-	    <property name="package"  value="pathelementpath"/>
-		<property name="classes2" value="${output}/classes2"/>
+    <target name="testPathElementPath" depends="init">
+        <property name="package"  value="pathelementpath"/>
+        <property name="classes2" value="${output}/classes2"/>
         <property name="classes3" value="${output}/classes3"/>
-		<mkdir dir="${classes}"/>
-		<mkdir dir="${classes2}"/>
-		<mkdir dir="${classes3}"/>
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${classes2}"/>
+        <mkdir dir="${classes3}"/>
 
         <javac srcdir="${src}" debug="true" destdir="${classes}">
 			<include name="${mod}/${dummy}/**"/>
@@ -307,132 +307,132 @@
         <jar destfile="${jar}" basedir="${classes3}"/>
 
         <verifydesign design="${designs}/${package}.xml">
-        	<path>
-        	   <pathelement path="${classes2}:${jar}:${classes}"/>
-        	</path>
-		</verifydesign>
-	</target>
+            <path>
+                <pathelement path="${classes2}:${jar}:${classes}"/>
+            </path>
+        </verifydesign>
+    </target>
 
-	<target name="testPutStatic" depends="init">
-	    <property name="package" value="putstatic"/>
+    <target name="testPutStatic" depends="init">
+        <property name="package" value="putstatic"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
     <target name="testRecursion" depends="init">
-	     <property name="package" value="recursion"/>
+        <property name="package" value="recursion"/>
 
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
          </javac>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
 
-         <jar destfile="${jar}" basedir="${classes}"/>
+        <jar destfile="${jar}" basedir="${classes}"/>
 
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
     <target name="testRecursion2" depends="init">
-	     <property name="package" value="recursion2"/>
+        <property name="package" value="recursion2"/>
 
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
          </javac>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
 
-         <jar destfile="${jar}" basedir="${classes}"/>
+        <jar destfile="${jar}" basedir="${classes}"/>
 
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
     <target name="testRecursion3" depends="init">
-	     <property name="package" value="recursion3"/>
+        <property name="package" value="recursion3"/>
 
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
          <javac srcdir="${src}" debug="true" destdir="${classes}">
      		 <include name="${mod}/${package}/**"/>
          </javac>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
 
-         <jar destfile="${jar}" basedir="${classes}"/>
+        <jar destfile="${jar}" basedir="${classes}"/>
 
-         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
     </target>
 
-	<target name="testReturnValDepend" depends="init">
-	    <property name="package" value="returnvaldepend"/>
+    <target name="testReturnValDepend" depends="init">
+        <property name="package" value="returnvaldepend"/>
+        <antcall target="templateTest">
+            <param name="package.under.test" value="${package}"/>
+        </antcall>
+        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
+    </target>
+
+    <target name="testSignatureExceptionDepend" depends="init">
+        <property name="package" value="signatureexceptiondepend"/>
         <antcall target="templateTest">
            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testSignatureExceptionDepend" depends="init">
-	    <property name="package" value="signatureexceptiondepend"/>
+    <target name="testStaticDepend" depends="init">
+        <property name="package" value="staticdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testStaticDepend" depends="init">
-	    <property name="package" value="staticdepend"/>
+    <target name="testStaticField2Depend" depends="init">
+        <property name="package" value="staticfield2depend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testStaticField2Depend" depends="init">
-	    <property name="package" value="staticfield2depend"/>
+    <target name="testStaticFieldDepend" depends="init">
+        <property name="package" value="staticfielddepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testStaticFieldDepend" depends="init">
-	    <property name="package" value="staticfielddepend"/>
+    <target name="testStaticFinalDepend" depends="init">
+        <property name="package" value="staticfinaldepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testStaticFinalDepend" depends="init">
-	    <property name="package" value="staticfinaldepend"/>
+    <target name="testSuperDepend" depends="init">
+        <property name="package" value="superdepend"/>
         <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
-        </antcall>
-        <verifydesign jar="${jar}" design="${designs}/${package}.xml"/>
-	</target>
-
-	<target name="testSuperDepend" depends="init">
-	    <property name="package" value="superdepend"/>
-        <antcall target="templateTest">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${jar}" design="${designs}/${package}.xml"
                       deletefiles="true"/>
-	</target>
+    </target>
 
-	<target name="testWarSuccess" depends="init">
-	    <property name="package" value="warsuccess"/>
+    <target name="testWarSuccess" depends="init">
+        <property name="package" value="warsuccess"/>
         <antcall target="templateWar">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${war}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 
-	<target name="testWarFailure" depends="init">
-	    <property name="package" value="warfailure"/>
+    <target name="testWarFailure" depends="init">
+        <property name="package" value="warfailure"/>
         <antcall target="templateWar">
-           <param name="package.under.test" value="${package}"/>
+            <param name="package.under.test" value="${package}"/>
         </antcall>
         <verifydesign jar="${war}" design="${designs}/${package}.xml"/>
-	</target>
+    </target>
 </project>

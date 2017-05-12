@@ -16,9 +16,9 @@
         <propertyselector property="module.list"
             match="module\.([^\.]*)\.id"
             delimiter=","
-            casesensitive="false" />
+            casesensitive="false"/>
 
-        <echo message="${module.list}" />
+        <echo message="${module.list}"/>
     </target>
 
     <target name="select.test.grouping.1" depends="init">
@@ -26,9 +26,8 @@
             match="module\.([^\.]*)\.id"
             select="\1"
             delimiter=","
-            casesensitive="false" />
+            casesensitive="false"/>
 
-        <echo message="${module.list}" />
+        <echo message="${module.list}"/>
     </target>
-
 </project>
