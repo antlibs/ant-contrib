@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Project" default="default" basedir=".">
+<project name="Project" default="default">
 
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <property name="server.host" value="localhost"/>
     <property name="server.port" value="17000"/>
 
-    <target name="default">
-    </target>
+    <dirname property="client.testdir" file="${ant.file}"/>
+
+    <target name="default"/>
 
     <!-- =============================================== -->
     <!--                      TEST 1                     -->
@@ -53,7 +54,7 @@
     <!--                      TEST 3                     -->
     <!-- =============================================== -->
     <target name="test3_remote">
-        <touch file="E:/test3.txt"/>
+        <touch file="${client.testdir}/test3.txt"/>
         <echo message="Test3 Successfully Called"/>
     </target>
 
@@ -91,17 +92,13 @@
     </target>
 
     <target name="dotest5">
-        <mkdir dir="servertests"/>
+        <mkdir dir="${client.testdir}/servertests"/>
         <remoteant machine="${server.host}" port="${server.port}">
-            <sendfile file="clientfile.txt" todir="servertests"/>
+            <sendfile file="${client.testdir}/clientfile.txt" todir="${client.testdir}/servertests"/>
         </remoteant>
         <available property="file.available"
-            file="servertests/clientfile.txt"/>
+            file="${client.testdir}/servertests/clientfile.txt"/>
         <fail unless="file.available"/>
-    </target>
-
-    <target name="cleanup">
-        <delete quiet="yes" dir="servertests"/>
     </target>
 
     <target name="test5">
@@ -133,5 +130,9 @@
         </parallel>
     </target>
 
+    <target name="cleanup">
+        <delete quiet="yes" dir="${client.testdir}/servertests"/>
+        <delete quiet="yes" file="${client.testdir}/test3.txt"/>
+    </target>
 
 </project>

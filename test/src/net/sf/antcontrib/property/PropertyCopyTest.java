@@ -15,44 +15,49 @@
  */
 package net.sf.antcontrib.property;
 
-import org.apache.tools.ant.BuildFileTest;
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;propertycopy&gt;.
  */
-public class PropertyCopyTest extends BuildFileTest {
+public class PropertyCopyTest extends BuildFileTestBase {
 
-    public PropertyCopyTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/property/propertycopy.xml");
+        configureProject("property/propertycopy.xml");
     }
 
     /**
      * Runs a propertyCopy without a specified name attribute.
      */
+    @Test
     public void testMissingName() {
         expectSpecificBuildException("missingName", "missing name",
                                      "You must specify a property to set.");
     }
 
+    @Test
     public void testMissingFrom() {
         expectSpecificBuildException("missingFrom", "missing from",
                                      "Missing the 'from' attribute.");
     }
 
+    @Test
     public void testNonSilent() {
         expectSpecificBuildException("nonSilent", "from doesn't exist",
                                      "Property 'bar' is not defined.");
     }
 
+    @Test
     public void testSilent() {
         executeTarget("silent");
         assertPropertyEquals("foo", null);
     }
 
+    @Test
     public void testNormal() {
         executeTarget("normal");
         assertPropertyEquals("displayName", "My Organization");

@@ -15,6 +15,9 @@
  */
 package net.sf.antcontrib;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,15 +32,6 @@ import org.apache.tools.ant.BuildFileTest;
  * @author   Dale Anson
  */
 public abstract class BuildFileTestBase extends BuildFileTest {
-
-    /**
-     * Constructor for the BuildFileTestBase object
-     *
-     * @param name  string to pass up to TestCase constructor
-     */
-    public BuildFileTestBase(String name) {
-        super(name);
-    }
 
     /**
      * run a target, expect a build exception.

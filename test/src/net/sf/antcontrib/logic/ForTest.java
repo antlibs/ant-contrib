@@ -15,26 +15,30 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;for&gt;.
  */
-public class ForTest extends BuildFileTest {
+public class ForTest extends BuildFileTestBase {
 
-    public ForTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/for.xml");
+        configureProject("logic/for.xml");
     }
 
+    @Test
     public void testLoop() {
         executeTarget("loop");
         assertTrue(getLog().contains("i is 10"));
     }
 
+    @Test
     public void testStep() {
         executeTarget("step");
         assertTrue(getLog().contains("i is 10"));

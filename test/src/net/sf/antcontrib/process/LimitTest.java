@@ -17,20 +17,22 @@ package net.sf.antcontrib.process;
 
 import net.sf.antcontrib.BuildFileTestBase;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class LimitTest extends BuildFileTestBase {
 
-    public LimitTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/limittest.xml");
+        configureProject("logic/limittest.xml");
     }
 
+    @Test
     public void test1() {
        expectLogNotContaining("test1", "_failed_");
     }
 
+    @Test
     public void test2() {
        expectLogContaining("test2", "_passed_");
     }

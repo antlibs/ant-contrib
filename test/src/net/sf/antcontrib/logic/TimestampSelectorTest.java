@@ -15,37 +15,45 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;foreach&gt;.
  */
-public class TimestampSelectorTest extends BuildFileTest {
+public class TimestampSelectorTest extends BuildFileTestBase {
 
-    public TimestampSelectorTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/timestampselector.xml");
+        configureProject("logic/timestampselector.xml");
     }
 
+    @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    @Test
     public void testFileStampFL() {
         simpleTest("filestamp.fl", "file2.txt");
     }
 
+    @Test
     public void testFileStampPR() {
         simpleTest("filestamp.pr", "file2.txt");
     }
 
+    @Test
     public void testDirStampDL() {
         simpleTest("dirstamp.dl", "dir2");
     }
 
+    @Test
     public void testDirStampPR() {
         simpleTest("dirstamp.pr", "dir2");
     }

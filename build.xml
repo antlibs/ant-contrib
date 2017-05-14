@@ -83,10 +83,7 @@
             <fileset dir="${test.src.dir}"
                  includes="**/*.properties,**/*.xml"/>
             <fileset dir="${test.resources.dir}"
-                 includes="**/*.java,**/*.properties,**/*.xml"
-                 excludes="**/design/src/**/*"/>
-            <fileset dir="${test.resources.dir}/design/src"
-                 includes="**/design/src/**/*"/>
+                 includes="**/*.java,**/*.properties,**/*.xml,**/*.txt,**/.classpath"/>
         </copy>
     </target>
 
@@ -102,6 +99,30 @@
             </manifest>
             <fileset dir="${target.classes.dir}"/>
         </jar>
+    </target>
+
+    <target name="test" description="o Run JUnit tests" depends="jar">
+        <junit fork="true" haltonerror="false" haltonfailure="false"
+               errorproperty="junit.error" failureproperty="junit.failure">
+            <formatter type="brief" usefile="false"/>
+            <sysproperty key="basedir" value="${target.test-classes.dir}"/>
+            <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
+            <batchtest>
+                <fileset dir="${target.test-classes.dir}" includes="net/sf/antcontrib/**/*Test.class">
+                    <exclude name="**/${skip.tests}/**" if="skip.tests"/>
+                    <exclude name="**/antclipse/**" unless="eclipse.present"/>
+                    <exclude name="walls/**"/>
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path refid="test.classpath"/>
+                <pathelement location="${target.classes.dir}"/>
+                <pathelement location="${target.test-classes.dir}"/>
+            </classpath>
+        </junit>
+
+        <fail message="JUnit error (${junit.error}) encountered." if="junit.error"/>
+        <fail message="JUnit failure (${junit.failure}) encountered." if="junit.failure"/>
     </target>
 
     <target name="javadoc" description="o Build javadoc" depends="classpath">
@@ -131,7 +152,7 @@
         </copy>
     </target>
 
-    <target name="dist-stage" description="o Stage distribution" depends="jar,docs">
+    <target name="dist-stage" description="o Stage distribution" depends="test,docs">
         <mkdir dir="${target.stage.dir}"/>
         <mkdir dir="${target.stage.dir}/lib"/>
 
@@ -194,7 +215,6 @@
                         includes="**/*"
                         excludes="target,target/**/*,dist,dist/**/*"/>
         </tar>
-
     </target>
 
     <target name="package" description="o Package and checksum the distribution" depends="tar.gz,zip">
@@ -208,45 +228,6 @@
     </target>
 
     <target name="dist" depends="package"/>
-
-    <target name="run-test" depends="jar">
-        <junit haltonfailure="false" haltonerror="false"
-               errorproperty="junit.error" failureproperty="junit.failure">
-            <formatter type="brief" usefile="false"/>
-            <batchtest>
-                <fileset dir="${target.test-classes.dir}" excludes="${skip-tests}">
-                    <exclude name="**/antclipse/**" unless="eclipse.present"/>
-                    <exclude name="walls/**"/>
-                </fileset>
-            </batchtest>
-            <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
-            <classpath>
-                <path refid="test.classpath"/>
-                <pathelement location="${target.classes.dir}"/>
-                <pathelement location="${target.test-classes.dir}"/>
-            </classpath>
-        </junit>
-
-        <fail message="JUnit error (${junit.error}) encountered." if="junit.error"/>
-        <fail message="JUnit failure (${junit.failure}) encountered." if="junit.failure"/>
-    </target>
-
-    <target name="test-all" depends="compile-tests">
-        <antcall target="run-test">
-            <param name="skip-tests" value="**/BuildFileTestBase.class"/>
-        </antcall>
-    </target>
-
-    <target name="gump-safe-test" depends="compile-tests">
-      <!-- all AntServerTest tests started failing on Gump
-           with IOException at 2004-12-06T15:00:16
-           after successfully completing at 2004-12-06T03:00:19 -->
-        <antcall target="run-test">
-            <param name="skip-tests" value="**/AntServerTest.class **/BuildFileTest*.class"/>
-        </antcall>
-    </target>
-
-    <target name="test" depends="gump-safe-test"/>
 
     <target name="clean">
         <delete includeemptydirs="true">

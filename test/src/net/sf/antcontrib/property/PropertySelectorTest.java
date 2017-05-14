@@ -15,26 +15,30 @@
  */
 package net.sf.antcontrib.property;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.tools.ant.BuildFileTest;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;propertyselector&gt;.
  */
 public class PropertySelectorTest extends BuildFileTest {
 
-    public PropertySelectorTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/property/propertyselector.xml");
+        configureProject("property/propertyselector.xml");
     }
 
+    @Test
     public void testDefaultGrouping0() {
         simpleTest("select.test.grouping.0",
                    "module.Module1.id", "module.Module2.id");
     }
 
+    @Test
     public void testDefaultGrouping1() {
         simpleTest("select.test.grouping.1",
                    "Module1", "Module2");

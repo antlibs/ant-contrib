@@ -15,25 +15,30 @@
  */
 package net.sf.antcontrib.property;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;pathtofileset&gt;.
  */
-public class PathToFileSetTest extends BuildFileTest {
+public class PathToFileSetTest extends BuildFileTestBase {
 
-    public PathToFileSetTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/property/pathtofileset.xml");
+        configureProject("property/pathtofileset.xml");
     }
 
+    @After
     public void tearDown() {
         executeTarget("cleanup");
     }
 
+    @Test
     public void testSimple() {
         executeTarget("simple");
         assertPropertyContains("simple.0.property", "0.java");
@@ -46,6 +51,7 @@ public class PathToFileSetTest extends BuildFileTest {
         assertPropertyContains("simple.1.property", "3.java");
     }
 
+    @Test
     public void testSimpleException() {
         expectBuildExceptionContaining("simple-exception", "expect not relative to",
                                        "is not relative to");

@@ -15,6 +15,9 @@
  */
 package net.sf.antcontrib.math;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import net.sf.antcontrib.BuildFileTestBase;
 
 /**
@@ -23,21 +26,14 @@ import net.sf.antcontrib.BuildFileTestBase;
  */
 public class MathTest extends BuildFileTestBase {
 
-    /**
-     * Constructor for the MathTest object
-     *
-     * @param name  Description of the Parameter
-     */
-    public MathTest(String name) {
-        super(name);
-    }
-
     /** The JUnit setup method. */
+    @Before
     public void setUp() {
-        configureProject("test/resources/math/mathtest.xml");
+        configureProject("math/mathtest.xml");
     }
 
     /** A unit test for JUnit. */
+    @Test
     public void test1() {
         expectPropertySet("test1", "result", "18");
     }

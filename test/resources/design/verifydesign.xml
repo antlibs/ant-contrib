@@ -1,14 +1,16 @@
-<project name="test_verifydesign" basedir="." default="cleanup">
-    <property name="output" value="build"/>
+<project name="test_verifydesign" default="cleanup">
+    <!-- basedir is set to test-classes -->
+    <dirname property="testdir" file="${ant.file}"/>
+    <property name="output" value="${testdir}/build"/>
     <property name="classes" value="${output}/classes"/>
     <property name="jardir" value="${output}/jar"/>
     <property name="jar" value="${jardir}/test.jar"/>
     <property name="war" value="${jardir}/test.war"/>
-    <property name="src" value="src"/>
-    <property name="mod" value="mod"/>
-    <property name="dummy" value="dummy"/>
-    <property name="designs" value="designfiles"/>
-    <property name="webxml" value="web.xml"/>
+    <property name="src" value="${testdir}/src"/>
+    <property name="mod" value="${testdir}/mod"/>
+    <property name="dummy" value="${testdir}/dummy"/>
+    <property name="designs" value="${testdir}/designfiles"/>
+    <property name="webxml" value="${testdir}/web.xml"/>
 
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
@@ -17,26 +19,32 @@
     </target>
 
     <target name="init">
+        <condition property="javac.executable" value="${java.home}/bin/javac" else="${java.home}/../bin/javac">
+           <or>
+               <available file="${java.home}/bin/javac" type="file"/>
+               <available file="${java.home}/bin/javac.exe" type="file"/>
+           </or>
+        </condition>
         <mkdir dir="${jardir}"/>
     </target>
 
     <target name="templateTest">
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-			 <include name="${mod}/${dummy}/**"/>
-    		 <include name="${mod}/${package.under.test}/**"/>
-         </javac>
-         <jar destfile="${jar}" basedir="${classes}"/>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${dummy}/**"/>
+            <include name="${mod}/${package.under.test}/**"/>
+        </javac>
+        <jar destfile="${jar}" basedir="${classes}"/>
     </target>
 
     <target name="templateWar">
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-			 <include name="${mod}/${dummy}/**"/>
-    		 <include name="${mod}/${package.under.test}/**"/>
-         </javac>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${dummy}/**"/>
+            <include name="${mod}/${package.under.test}/**"/>
+        </javac>
 
         <war destfile="${war}" webxml="${webxml}">
             <classes dir="${classes}"/>
@@ -206,11 +214,11 @@
 
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" debug="true" destdir="${classes}">
-			 <include name="${mod}/${dummy}/**"/>
-   		     <include name="${mod}/arraydepend/**"/>
-  		     <include name="${mod}/castdepend/**"/>
-  		     <include name="${mod}/catchdepend/**"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${dummy}/**"/>
+            <include name="${mod}/arraydepend/**"/>
+            <include name="${mod}/castdepend/**"/>
+            <include name="${mod}/catchdepend/**"/>
         </javac>
         <jar destfile="${jar}" basedir="${classes}"/>
 
@@ -236,14 +244,14 @@
     <target name="testNoDebugOption" depends="init">
         <property name="package" value="nodebugoption"/>
 
-         <delete dir="${classes}"/>
-         <mkdir dir="${classes}"/>
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-			 <include name="${mod}/${dummy}/**"/>
-         </javac>
-         <javac srcdir="${src}" debug="false" destdir="${classes}">
-    		 <include name="${mod}/${package}/**"/>
-         </javac>
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${dummy}/**"/>
+        </javac>
+        <javac srcdir="${src}" debug="false" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${package}/**"/>
+        </javac>
 
         <jar destfile="${jar}" basedir="${classes}"/>
 
@@ -292,16 +300,16 @@
         <mkdir dir="${classes2}"/>
         <mkdir dir="${classes3}"/>
 
-        <javac srcdir="${src}" debug="true" destdir="${classes}">
-			<include name="${mod}/${dummy}/**"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${dummy}/**"/>
         </javac>
 
-        <javac srcdir="${src}" debug="true" destdir="${classes2}" classpath="${classes}">
-			<include name="${mod}/putstatic/**"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes2}" classpath="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/putstatic/**"/>
         </javac>
 
-        <javac srcdir="${src}" debug="true" destdir="${classes3}" classpath="${classes}">
-   		    <include name="${mod}/arraydepend2/**"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes3}" classpath="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/arraydepend2/**"/>
         </javac>
 
         <jar destfile="${jar}" basedir="${classes3}"/>
@@ -324,11 +332,11 @@
     <target name="testRecursion" depends="init">
         <property name="package" value="recursion"/>
 
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-     		 <include name="${mod}/${package}/**"/>
-         </javac>
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${package}/**"/>
+        </javac>
 
         <jar destfile="${jar}" basedir="${classes}"/>
 
@@ -338,11 +346,11 @@
     <target name="testRecursion2" depends="init">
         <property name="package" value="recursion2"/>
 
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-     		 <include name="${mod}/${package}/**"/>
-         </javac>
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${package}/**"/>
+        </javac>
 
         <jar destfile="${jar}" basedir="${classes}"/>
 
@@ -352,11 +360,11 @@
     <target name="testRecursion3" depends="init">
         <property name="package" value="recursion3"/>
 
-         <javac srcdir="${src}" debug="true" destdir="${classes}">
-     		 <include name="${mod}/${package}/**"/>
-         </javac>
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">
+            <include name="${mod}/${package}/**"/>
+        </javac>
 
         <jar destfile="${jar}" basedir="${classes}"/>
 

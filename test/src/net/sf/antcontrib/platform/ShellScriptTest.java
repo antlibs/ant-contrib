@@ -15,23 +15,27 @@
  */
 package net.sf.antcontrib.platform;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;shellscript&gt;.
  *
  * @author Peter Reilly
  */
-public class ShellScriptTest extends BuildFileTest {
-    public ShellScriptTest(String name) {
-        super(name);
-    }
+public class ShellScriptTest extends BuildFileTestBase {
 
+    @Before
     public void setUp() {
-        configureProject("test/resources/platform/shellscript.xml");
+        configureProject("platform/shellscript.xml");
         staticInitialize();
     }
 
+    @Test
     public void testShHello() {
         if (! hasSh)
             return;
@@ -39,6 +43,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
      }
 
+    @Test
     public void testBashHello() {
         if (! hasBash)
             return;
@@ -46,6 +51,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
      }
 
+    @Test
     public void testShInputString() {
         if (! hasSh)
             return;
@@ -53,6 +59,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
      }
 
+    @Test
     public void testShProperty() {
         if (! hasSh)
             return;
@@ -60,6 +67,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("this is a property"));
      }
 
+    @Test
     public void testPythonHello() {
         if (! hasPython)
             return;
@@ -67,6 +75,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
     }
 
+    @Test
     public void testPerlHello() {
         if (! hasPerl)
             return;
@@ -74,11 +83,13 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
     }
 
+    @Test
     public void testNoShell() {
         expectBuildExceptionContaining(
             "noshell", "Execute failed", "a shell that should not exist");
     }
 
+    @Test
     public void testSed() {
         if (! hasSed)
             return;
@@ -86,6 +97,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("BAR bar bar bar BAR bar"));
     }
 
+    @Test
     public void testSetProperty() {
         if (! hasSh)
             return;
@@ -93,6 +105,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertPropertyEquals("sh.set.property", "hello world");
     }
 
+    @Test
     public void testTmpSuffix() {
         if (! hasSh)
             return;
@@ -100,6 +113,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains(".bat"));
     }
 
+    @Test
     public void testCmd() {
         if (! hasCmd)
             return;
@@ -107,6 +121,7 @@ public class ShellScriptTest extends BuildFileTest {
         assertTrue(getLog().contains("hello world"));
     }
 
+    @Test
     public void testDir() {
         if (! hasBash)
             return;
@@ -115,6 +130,7 @@ public class ShellScriptTest extends BuildFileTest {
                 getProject().getProperty("dir.test.property").contains("subdir"));
     }
 
+    @Test
     public void testCommand() {
         expectBuildExceptionContaining(
             "command.test", "Attribute failed",

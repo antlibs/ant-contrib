@@ -15,35 +15,42 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;relentless&gt;.
  * @author Christopher Heiny
  */
-public class RelentlessTaskTest extends BuildFileTest {
+public class RelentlessTaskTest extends BuildFileTestBase {
 
-    public RelentlessTaskTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/relentless.xml");
+        configureProject("logic/relentless.xml");
     }
 
+    @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    @Test
     public void testSimpleTasks() {
         simpleTest("simpleTasks");
     }
 
+    @Test
     public void testFailTask() {
         expectSpecificBuildException("failTask", "2 failed tasks",
                                      "Relentless execution: 2 of 4 tasks failed.");
     }
 
+    @Test
     public void testNoTasks() {
         expectSpecificBuildException("noTasks", "missing task list",
                                      "No tasks specified for <relentless>.");

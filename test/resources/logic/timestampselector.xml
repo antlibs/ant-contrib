@@ -1,7 +1,8 @@
 <project default="init">
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
-    <property name="test.dir" value="timestampselector"/>
+    <dirname property="top.dir" file="${ant.file}"/>
+    <property name="test.dir" value="${top.dir}/timestampselector"/>
     <property name="test.file1" location="${test.dir}/file1.txt"/>
     <property name="test.file2" location="${test.dir}/file2.txt"/>
     <property name="test.dir1" location="${test.dir}/dir1"/>

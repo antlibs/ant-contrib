@@ -15,6 +15,9 @@
  */
 package net.sf.antcontrib.logic;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import net.sf.antcontrib.BuildFileTestBase;
 
 /**
@@ -28,49 +31,49 @@ import net.sf.antcontrib.BuildFileTestBase;
  */
 public class AssertTest extends BuildFileTestBase {
 
-    /**
-     * Constructor for the AntCallBackTest object
-     *
-     * @param name  Description of the Parameter
-     */
-    public AssertTest(String name) {
-        super(name);
-    }
-
     /** The JUnit setup method. */
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/asserttest.xml");
+        configureProject("logic/asserttest.xml");
     }
 
     /** A unit test for JUnit. */
+    @Test
     public void test1() {
         executeTarget("test1");
     }
 
+    @Test
     public void test3() {
         expectBuildException("test3");
     }
 
+    @Test
     public void test4() {
         executeTarget("test4");
     }
 
+    @Test
     public void test5() {
         executeTarget("test5");
     }
 
+    @Test
     public void test6() {
         executeTarget("test6");
     }
 
+    @Test
     public void test7() {
         expectBuildException("test7");
     }
 
+    @Test
     public void test8() {
         executeTarget("test8");
     }
 
+    @Test
     public void test9() {
         expectBuildException("test9");
     }

@@ -15,7 +15,13 @@
  */
 package net.sf.antcontrib.antserver;
 
+import static org.junit.Assert.assertTrue;
+
 import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Place class description here.
@@ -23,24 +29,22 @@ import net.sf.antcontrib.BuildFileTestBase;
  * @author		inger
  *
  */
-public class AntServerTest
-        extends BuildFileTestBase
+public class AntServerTest extends BuildFileTestBase
 {
-    public AntServerTest(String name)
-    {
-        super(name);
-    }
 
+    @Before
     public void setUp()
     {
-        configureProject("test/resources/antserver/antservertest.xml");
+        configureProject("antserver/antservertest.xml");
     }
 
+    @After
     public void tearDown()
     {
         executeTarget("cleanup");
     }
 
+    @Test
     public void test1()
     {
         String[] expected = new String[]
@@ -52,6 +56,7 @@ public class AntServerTest
         expectLogContaining("test1", expected);
     }
 
+    @Test
     public void test2()
     {
         String[] expected = new String[]
@@ -63,6 +68,7 @@ public class AntServerTest
         expectLogContaining("test2", expected);
     }
 
+    @Test
     public void test3()
     {
         String[] expected = new String[]
@@ -74,6 +80,7 @@ public class AntServerTest
         expectLogContaining("test3", expected);
     }
 
+    @Test
     public void test4()
     {
         String[] expected = new String[]
@@ -85,6 +92,7 @@ public class AntServerTest
         expectLogContaining("test4", expected);
     }
 
+    @Test
     public void test5()
     {
         this.executeTarget("test5");

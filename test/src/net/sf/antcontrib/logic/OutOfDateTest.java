@@ -15,51 +15,62 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
 import org.apache.tools.ant.types.Path;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;outofdate&gt;.
  *
  * @author Peter Reilly
  */
-public class OutOfDateTest extends BuildFileTest {
+public class OutOfDateTest extends BuildFileTestBase {
 
-    public OutOfDateTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/outofdate.xml");
+        configureProject("logic/outofdate.xml");
     }
 
+    @After
     public void tearDown() {
         executeTarget("cleanup");
     }
 
+    @Test
     public void testSimple() {
         executeTarget("simple");
     }
 
+    @Test
     public void testVerbose() {
         executeTarget("verbose");
         assertTrue(getLog().contains("outofdate with regard to"));
     }
 
+    @Test
     public void testDelete() {
         executeTarget("delete");
     }
 
+    @Test
     public void testDeleteAll() {
         executeTarget("delete-all");
     }
 
+    @Test
     public void testDeleteQuiet() {
         executeTarget("init");
         executeTarget("delete-quiet");
         assertTrue("No deleting message", !getLog().contains("Deleting"));
     }
 
+    @Test
     public void testFileset() {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
@@ -91,6 +102,7 @@ public class OutOfDateTest extends BuildFileTest {
         assertTrue(targets.length == 3);
     }
 
+    @Test
     public void testEmptySources() {
         executeTarget("empty-sources");
     }

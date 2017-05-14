@@ -1,25 +1,26 @@
 <project default="invalid">
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+  <dirname property="topdir" file="${ant.file}"/>
+
   <target name="invalid">
     <fail>Don't call this file directly.</fail>
   </target>
 
-  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
-
   <target name="cleanup">
-    <delete quiet="yes" dir="targets"/>
-    <delete quiet="yes" dir="sources"/>
+    <delete quiet="yes" dir="${topdir}/targets"/>
+    <delete quiet="yes" dir="${topdir}/sources"/>
   </target>
 
   <target name="init">
-    <mkdir dir="targets"/>
-    <mkdir dir="sources"/>
+    <mkdir dir="${topdir}/targets"/>
+    <mkdir dir="${topdir}/sources"/>
 
-    <touch file="sources/s1" millis="100000"/>
-    <touch file="targets/t1" millis="100"/>
-    <touch file="targets/t2" millis="1000000"/>
-    <path id="sources" path="sources/s1"/>
+    <touch file="${topdir}/sources/s1" millis="100000"/>
+    <touch file="${topdir}/targets/t1" millis="100"/>
+    <touch file="${topdir}/targets/t2" millis="1000000"/>
+    <path id="sources" path="${topdir}/sources/s1"/>
     <path id="targets">
-      <fileset dir="targets"/>
+      <fileset dir="${topdir}/targets"/>
     </path>
   </target>
 
@@ -48,13 +49,13 @@
       <deletetargets/>
     </outofdate>
     <if>
-      <available file="targets/t1"/>
+      <available file="${topdir}/targets/t1"/>
       <then>
         <fail>delete failed</fail>
       </then>
     </if>
     <if>
-      <available file="targets/t2"/>
+      <available file="${topdir}/targets/t2"/>
       <else>
         <fail>delete too much</fail>
       </else>
@@ -68,13 +69,13 @@
       <deletetargets all="true"/>
     </outofdate>
     <if>
-      <available file="targets/t1"/>
+      <available file="${topdir}/targets/t1"/>
       <then>
         <fail>delete failed</fail>
       </then>
     </if>
     <if>
-      <available file="targets/t2"/>
+      <available file="${topdir}/targets/t2"/>
       <then>
         <fail>delete all failed</fail>
       </then>
@@ -91,20 +92,20 @@
 
   <target name="outofdate.init">
     <!-- generated -->
-    <mkdir dir="outofdate/gen/1/2/3"/>
-    <touch file="outofdate/gen/index.done"/>
-    <touch file="outofdate/gen/1/2/file.done"/>
-    <touch file="outofdate/gen/1/done.c"/>
-    <touch file="outofdate/gen/1/done.h"/>
-    <touch file="outofdate/gen/1/partial.c"/>
+    <mkdir dir="${topdir}/outofdate/gen/1/2/3"/>
+    <touch file="${topdir}/outofdate/gen/index.done"/>
+    <touch file="${topdir}/outofdate/gen/1/2/file.done"/>
+    <touch file="${topdir}/outofdate/gen/1/done.c"/>
+    <touch file="${topdir}/outofdate/gen/1/done.h"/>
+    <touch file="${topdir}/outofdate/gen/1/partial.c"/>
 
       <!-- sources -->
-      <mkdir dir="outofdate/source/1/2/3"/>
-      <touch file="outofdate/source/newer.text"/>
-      <touch file="outofdate/source/1/2/file.notdone"/>
-      <touch file="outofdate/source/1/2/file.done"/>
-      <touch file="outofdate/source/1/done.y"/>
-      <touch file="outofdate/source/1/partial.y"/>
+      <mkdir dir="${topdir}/outofdate/source/1/2/3"/>
+      <touch file="${topdir}/outofdate/source/newer.text"/>
+      <touch file="${topdir}/outofdate/source/1/2/file.notdone"/>
+      <touch file="${topdir}/outofdate/source/1/2/file.done"/>
+      <touch file="${topdir}/outofdate/source/1/done.y"/>
+      <touch file="${topdir}/outofdate/source/1/partial.y"/>
 
   </target>
 
@@ -114,13 +115,13 @@
       outputtargets="outofdate.targets"
       alltargets="outofdate.alltargets"
       outputsourcespath="outofdate.sources.path"
-      outputtargetspath="outofdate.targets.path"
-    >
+      outputtargetspath="outofdate.targets.path">
       <sourcefiles>
-        <fileset dir="outofdate/source"/>
-        <pathelement path="outofdate.xml"/>
+        <fileset dir="${topdir}/outofdate/source"/>
+	<!-- basedir is set to test-classes -->
+        <pathelement path="${topdir}/outofdate.xml"/>
       </sourcefiles>
-      <targetfiles path="outofdate/gen/index.done"/>
+      <targetfiles path="${topdir}/outofdate/gen/index.done"/>
       <mapper type="glob" from="outofdate/source/1/2/*"
               to="outofdate/gen/1/2/*"/>
       <mapper type="glob"
@@ -136,7 +137,7 @@
         <echo message="outofdate triggered"/>
       </sequential>
     </outofdate>
-    <delete dir="outofdate"/>
+    <delete dir="${topdir}/outofdate"/>
   </target>
 
   <target name="empty-sources" depends="init">

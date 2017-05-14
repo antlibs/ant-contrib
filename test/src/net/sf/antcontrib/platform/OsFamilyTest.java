@@ -15,26 +15,28 @@
  */
 package net.sf.antcontrib.platform;
 
-import org.apache.tools.ant.BuildFileTest;
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;osfamily&gt;.
  */
-public class OsFamilyTest extends BuildFileTest {
+public class OsFamilyTest extends BuildFileTestBase {
 
-    public OsFamilyTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/platform/osfamily.xml");
+        configureProject("platform/osfamily.xml");
     }
 
+    @Test
     public void testConsistency() {
         executeTarget("consistency");
         assertPropertyEquals("consistent", "true");
     }
 
+    @Test
     public void testMissingProperty() {
         expectSpecificBuildException("missingProperty", "no attribute",
                                      "The attribute 'property' is required "

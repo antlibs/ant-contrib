@@ -15,74 +15,89 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;foreach&gt;.
  */
-public class ForeachTaskTest extends BuildFileTest {
+public class ForeachTaskTest extends BuildFileTestBase {
 
-    public ForeachTaskTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/foreach.xml");
+        configureProject("logic/foreach.xml");
     }
 
+    @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    @Test
     public void testSimpleList() {
         simpleTest("simpleList");
     }
 
+    @Test
     public void testDelimiter() {
         simpleTest("delimiter");
     }
 
+    @Test
     public void testFileset() {
         simpleTest("fileset");
         assertTrue(getLog().contains("The nested fileset element is deprecated,"
                 + " use a nested path instead"));
     }
 
+    @Test
     public void testFilesetAndList() {
         simpleTest("filesetAndList");
         assertTrue(getLog().contains("The nested fileset element is deprecated,"
                 + " use a nested path instead"));
     }
 
+    @Test
     public void testNoList() {
         expectSpecificBuildException("noList", "neither list nor fileset",
                                      "You must have a list or path to iterate through");
     }
 
+    @Test
     public void testNoTarget() {
         expectSpecificBuildException("noTarget", "no target",
                                      "You must supply a target to perform");
     }
 
+    @Test
     public void testNoParam() {
         expectSpecificBuildException("noParam", "no param",
                                      "You must supply a property name to set on each iteration in param");
     }
 
+    @Test
     public void testNestedParam() {
         executeTarget("nestedParam");
         assertTrue(getLog().contains("Called with param: rincewind"));
     }
 
+    @Test
     public void testNestedReference() {
         executeTarget("nestedReference");
         assertTrue(getLog().contains("Called with param: twoflower"));
     }
 
+    @Test
     public void testPath() {
         simpleTest("path");
     }
 
+    @Test
     public void testPathAndList() {
         simpleTest("pathAndList");
     }

@@ -15,13 +15,16 @@
  */
 package net.sf.antcontrib.design;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
-
-import org.apache.tools.ant.BuildFileTest;
+import net.sf.antcontrib.BuildFileTestBase;
 import org.apache.tools.ant.util.JavaEnvUtils;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * BIG NOTE
@@ -34,20 +37,16 @@ import org.apache.tools.ant.util.JavaEnvUtils;
  *
  * <p>Testcase for &lt;propertycopy&gt;.</p>
  */
-public class VerifyDesignTest extends BuildFileTest {
+public class VerifyDesignTest extends BuildFileTestBase {
 
-
-    public VerifyDesignTest(String name) {
-        super(name);
-    }
     private static final String REASON = "Build should have failed with proper message and did not";
     private final String baseDir = "test" + File.separator
         + "resources" + File.separator
         + "design" + File.separator;
 
+    @Before
     public void setUp() {
-
-        configureProject("test/resources/design/verifydesign.xml");
+        configureProject("design/verifydesign.xml");
 //        project.log("ASFDSADF", Project.MSG_INFO);
     }
 
@@ -58,22 +57,26 @@ public class VerifyDesignTest extends BuildFileTest {
         s += msg + "\n";
     }
 
+    @After
     public void tearDown() {
         executeTarget("cleanup");
 
         //System.out.println("test log=\n"+s);
     }
 
+    @Test
     public void testArrayDepend() {
         String class1 = "mod.arraydepend.ClassDependsOnArray";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testArrayDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testArrayDepend2() {
         executeTarget("testArrayDepend2");
     }
 
+    @Test
     public void testArrayDepend3() {
         String class1 = "mod.arraydepend3.ClassDependsOnArray";
         //
@@ -84,47 +87,55 @@ public class VerifyDesignTest extends BuildFileTest {
         expectDesignCheckFailure("testArrayDepend3", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testBadXML() {
-    	File designFile = new File("test/resources/design/designfiles/badxml.xml");
+    	File designFile = new File("target/test-classes/design/designfiles/badxml.xml");
         String msg = "\nProblem parsing design file='"
 			+ designFile.getAbsolutePath() + "'.  \nline=3 column=1 Reason:\nElement type \"design\" must be followed by either attribute specifications, \">\" or \"/>\".\n";
         expectSpecificBuildException("testBadXML", REASON, msg);
     }
 
+    @Test
     public void testCastDepend() {
         String class1 = "mod.castdepend.ClassDependsOnCast";
         String class2 = "mod.dummy.DummyInterface";
         expectDesignCheckFailure("testCastDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testCatchDepend() {
         String class1 = "mod.catchdepend.ClassDependsOnCatch";
         String class2 = "mod.dummy.DummyRuntimeException";
         expectDesignCheckFailure("testCatchDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testClassFiles() {
     	String class1 = "mod.castdepend.ClassDependsOnCast";
     	String class2 = "mod.dummy.DummyInterface";
     	expectDesignCheckFailure("testClassFiles", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testDeclareJavaUtil() {
         executeTarget("testDeclareJavaUtil");
     }
 
+    @Test
     public void testDeclareJavaUtilFail() {
         String class1 = "mod.declarejavautil.ClassDependsOnJavaUtil";
         String class2 = "java.util.List";
         expectDesignCheckFailure("testDeclareJavaUtilFail", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testDeclareJavax() {
         String class1 = "mod.declarejavax.ClassDependsOnJavax";
         String class2 = "javax.swing.JButton";
         expectDesignCheckFailure("testDeclareJavax", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testDeclareJavaxPass() {
         executeTarget("testDeclareJavaxPass");
     }
@@ -137,12 +148,14 @@ public class VerifyDesignTest extends BuildFileTest {
 
     //depend on dummy should pass after needDeclareFalse
 
+    @Test
     public void testFieldDepend() {
         String class1 = "mod.fielddepend.ClassDependsOnField";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testFieldDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testFieldRefDepend() {
         if (JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_1)
             || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_2)
@@ -155,30 +168,35 @@ public class VerifyDesignTest extends BuildFileTest {
         expectDesignCheckFailure("testFieldRefDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testInnerClassDepend() {
         String class1 = "mod.innerclassdepend.InnerClassDependsOnSuper$Inner";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testInnerClassDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testInstanceOfDepend() {
         String class1 = "mod.instanceofdepend.ClassDependsOnInstanceOf";
         String class2 = "mod.dummy.DummyInterface";
         expectDesignCheckFailure("testInstanceOfDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testInterfaceDepend() {
         String class1 = "mod.interfacedepend.ClassDependsOnInterfaceMod2";
         String class2 = "mod.dummy.DummyInterface";
         expectDesignCheckFailure("testInterfaceDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testLocalVarDepend() {
         String class1 = "mod.localvardepend.ClassDependsOnLocalVar";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testLocalVarDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testLocalVarRefDepend() {
         if (JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_1)
             || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_2)
@@ -190,6 +208,7 @@ public class VerifyDesignTest extends BuildFileTest {
         expectDesignCheckFailure("testLocalVarRefDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testMissingAttribute() {
     	File designFile = new File("test/resources/design/designfiles/missingattribute.xml");
         String msg = "\nProblem parsing design file='"
@@ -198,6 +217,7 @@ public class VerifyDesignTest extends BuildFileTest {
         expectSpecificBuildException("testMissingAttribute", REASON, msg);
     }
 
+    @Test
     public void testMultipleErrors() {
     	File jarFile = new File(baseDir + File.separator + "build" + File.separator + "jar"
 		    + File.separator + "test.jar");
@@ -219,91 +239,110 @@ public class VerifyDesignTest extends BuildFileTest {
         expectDesignCheckFailure("testMultipleErrors", s);
     }
 
+    @Test
     public void testNewDepend() {
         String class1 = "mod.newdepend.ClassDependsOnNew";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testNewDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testNewDepend2() {
         String class1 = "mod.newdepend2.ClassDependsOnNewInField";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testNewDepend2", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testNoDebugOption() {
         String class1 = "mod.nodebugoption.ClassDependsOnLocalVar";
         expectDesignCheckFailure("testNoDebugOption", VisitorImpl.getNoDebugMsg(class1));
     }
+
+    @Test
     public void testNoJar() {
     	File jar = new File("test/resources/design/build/jar/test.jar");
         expectSpecificBuildException("testNoJar", REASON, VisitorImpl.getNoFileMsg(jar));
     }
 
+    @Test
     public void testParamDepend() {
         String class1 = "mod.paramdepend.ClassDependsOnParameter";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testParamDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testPassLocalDepend() {
         executeTarget("testPassLocalDepend");
     }
 
+    @Test
     public void testPathElementLocation() {
     	executeTarget("testPathElementLocation");
     }
 
+    @Test
     public void testPathElementPath() {
     	executeTarget("testPathElementPath");
     }
 
+    @Test
     public void testPutStatic() {
     	executeTarget("testPutStatic");
     }
 
+    @Test
     public void testRecursion() {
         executeTarget("testRecursion");
     }
 
+    @Test
     public void testRecursion2() {
         executeTarget("testRecursion2");
     }
 
+    @Test
     public void testRecursion3() {
         executeTarget("testRecursion3");
     }
 
+    @Test
     public void testReturnValDepend() {
         String class1 = "mod.returnvaldepend.ClassDependsOnReturnValue";
         String class2 = "mod.dummy.DummyInterface";
         expectDesignCheckFailure("testReturnValDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testSignatureExceptionDepend() {
         String class1 = "mod.signatureexceptiondepend.ClassDependsOnExceptionInMethodSignature";
         String class2 = "mod.dummy.DummyException";
         expectDesignCheckFailure("testSignatureExceptionDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testStaticDepend() {
         String class1 = "mod.staticdepend.ClassDependsOnStatic";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testStaticDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testStaticField2Depend() {
         String class1 = "mod.staticfield2depend.ClassDependsOnStaticField";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testStaticField2Depend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testStaticFieldDepend() {
         String class1 = "mod.staticfielddepend.ClassDependsOnStaticField";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testStaticFieldDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testStaticFinalDepend() {
         //This is an impossible test since javac compiles String and primitive constants into the code
         //losing any reference to the class that contains the constant...In this one instance,
@@ -315,6 +354,7 @@ public class VerifyDesignTest extends BuildFileTest {
         //      expectDesignCheckFailure("testStaticFinalDepend", Design.getErrorMessage(class1, class2));
     }
 
+    @Test
     public void testSuperDepend() {
         String s = File.separator;
         File f = new File("test" + s + "resources" + s + "design" + s + "build"
@@ -329,20 +369,16 @@ public class VerifyDesignTest extends BuildFileTest {
         assertTrue("jar file should not exist yet still does", !f.exists());
     }
 
+    @Test
     public void testWarSuccess() {
     	executeTarget("testWarSuccess");
     }
 
+    @Test
     public void testWarFailure() {
         String class1 = "mod.warfailure.ClassDependsOnSuperMod2";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testWarFailure", Design.getErrorMessage(class1, class2));
-    }
-
-    public static void main(String[] args) {
-        TestSuite suite = new TestSuite();
-        suite.addTest(new VerifyDesignTest("testArrayDepend2"));
-        TestRunner.run(suite);
     }
 
     private void expectDesignCheckFailure(String target, String message) {

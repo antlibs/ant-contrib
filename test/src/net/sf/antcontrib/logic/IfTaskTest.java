@@ -15,48 +15,57 @@
  */
 package net.sf.antcontrib.logic;
 
-import org.apache.tools.ant.BuildFileTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;if&gt;.
  */
-public class IfTaskTest extends BuildFileTest {
+public class IfTaskTest extends BuildFileTestBase {
 
-    public IfTaskTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/if.xml");
+        configureProject("logic/if.xml");
     }
 
+    @Test
     public void testNoCondition() {
         expectSpecificBuildException("noCondition", "no condition",
                                      "You must nest a condition into <if>");
     }
 
+    @Test
     public void testTwoConditions() {
         expectSpecificBuildException("twoConditions", "two conditions",
                                      "You must not nest more than one "
                                      + "condition into <if>");
     }
 
+    @Test
     public void testNothingToDo() {
         expectLog("nothingToDo", "");
     }
 
+    @Test
     public void testTwoThens() {
         expectSpecificBuildException("twoThens", "two <then>s",
                                      "You must not nest more than one "
                                      + "<then> into <if>");
     }
 
+    @Test
     public void testTwoElses() {
         expectSpecificBuildException("twoElses", "two <else>s",
                                      "You must not nest more than one "
                                      + "<else> into <if>");
     }
 
+    @Test
     public void testNormalOperation() {
         executeTarget("normalOperation");
         assertTrue(getLog().contains("In then"));
@@ -65,23 +74,27 @@ public class IfTaskTest extends BuildFileTest {
         assertEquals(-1, getLog().indexOf("In else"));
     }
 
+    @Test
     public void testNormalOperation2() {
         executeTarget("normalOperation2");
         assertTrue(getLog().contains("In else"));
         assertEquals(-1, getLog().indexOf("In then"));
     }
 
+    @Test
     public void testNoConditionInElseif() {
         expectSpecificBuildException("noConditionInElseif", "no condition",
                                      "You must nest a condition into <elseif>");
     }
 
+    @Test
     public void testTwoConditionInElseif() {
         expectSpecificBuildException("twoConditionsInElseif", "two conditions",
                                      "You must not nest more than one "
                                      + "condition into <elseif>");
     }
 
+    @Test
     public void testNormalOperationElseif() {
         executeTarget("normalOperationElseif");
         assertTrue(getLog().contains("In elseif"));
@@ -89,6 +102,7 @@ public class IfTaskTest extends BuildFileTest {
         assertEquals(-1, getLog().indexOf("In else-branch"));
     }
 
+    @Test
     public void testNormalOperationElseif2() {
         executeTarget("normalOperationElseif2");
         assertTrue(getLog().contains("In else-branch"));

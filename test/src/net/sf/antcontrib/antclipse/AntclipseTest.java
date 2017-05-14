@@ -15,44 +15,32 @@
  */
 package net.sf.antcontrib.antclipse;
 
-import org.apache.tools.ant.BuildFileTest;
+import net.sf.antcontrib.BuildFileTestBase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Basic test for "antclipse" task. For the moment it just launches the test xml script.
  * @author Adrian Spinei aspinei@myrealbox.com
  * @version $Revision: 1.2 $
  */
-public class AntclipseTest extends BuildFileTest
+public class AntclipseTest extends BuildFileTestBase
 {
 
-	/**
-	 * Simple overridden constructor
-	 * @param arg0 String
-	 */
-	public AntclipseTest(String arg0)
-	{
-		super(arg0);
-	}
-
 	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
+	 * @see org.junit.Before
 	 */
+	@Before
 	public void setUp()
 	{
-		configureProject("test/resources/antclipse/antclipsetest.xml");
-	}
-
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	public void tearDown()
-	{
-		//nothing to do
+		configureProject("antclipse/antclipsetest.xml");
 	}
 
 	/**
 	 * Launches the "everything" task. Should not throw errors.
 	 */
+	@Test
 	public void testExecuteDefaultBuild()
 	{
 		executeTarget("everything");

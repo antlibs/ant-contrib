@@ -15,56 +15,67 @@
  */
 package net.sf.antcontrib.property;
 
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import net.sf.antcontrib.BuildFileTestBase;
 
 public class VariableTest extends BuildFileTestBase {
 
-    public VariableTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/property/variabletest.xml");
+        configureProject("property/variabletest.xml");
     }
 
+    @Test
     public void test1() {
        expectPropertySet("test1", "x", "6");
     }
 
+    @Test
     public void test2() {
        expectPropertySet("test2", "x", "12");
     }
 
+    @Test
     public void test3() {
        expectPropertySet("test3", "x", "6 + 12");
     }
 
+    @Test
     public void test4() {
        expectPropertySet("test4", "x", "6");
     }
 
+    @Test
     public void test5() {
        expectPropertySet("test5", "str", "I am a string.");
     }
 
+    @Test
     public void test6() {
        expectPropertySet("test6", "x", "Today is blue.");
     }
 
+    @Test
     public void test7() {
        expectPropertySet("test7", "x", "6");
     }
 
-    /* TODO: depends on the Antelope <if>, need to adjust to use the ant-contrib <if>
+    /* TODO: depends on the Antelope <if>, need to adjust to use the ant-contrib <if> */
+    @Ignore
     public void test8() {
        expectPropertySet("test8", "x", "12");
        expectLogContaining("test8", "12");
     }
-    */
+
+    @Test
     public void test9() {
       expectPropertyUnset("test9", "i");
     }
 
+    @Test
     public void test10() {
       expectPropertySet("test10", "x", "xxx");
     }

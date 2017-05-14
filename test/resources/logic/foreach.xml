@@ -5,10 +5,12 @@
 
   <target name="setup">
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+    <dirname property="topdir" file="${ant.file}"/>
+    <property name="testdir" value="${topdir}/foreachtest"/>
   </target>
 
   <target name="teardown">
-    <delete dir="foreachtest"/>
+    <delete dir="${testdir}"/>
   </target>
 
   <target name="echo">
@@ -33,20 +35,20 @@
   </target>
 
   <target name="fileset" depends="setup">
-    <mkdir dir="foreachtest"/>
-    <touch file="foreachtest/1"/>
-    <touch file="foreachtest/2"/>
-    <touch file="foreachtest/3"/>
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/1"/>
+    <touch file="${testdir}/2"/>
+    <touch file="${testdir}/3"/>
     <foreach target="echoFilename" param="param">
-      <fileset dir="foreachtest"/>
+      <fileset dir="${testdir}"/>
     </foreach>
   </target>
 
   <target name="filesetAndList" depends="setup">
-    <mkdir dir="foreachtest"/>
-    <touch file="foreachtest/3"/>
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/3"/>
     <foreach list="1,2" target="echoFilename" param="param">
-      <fileset dir="foreachtest"/>
+      <fileset dir="${testdir}"/>
     </foreach>
   </target>
 
@@ -78,23 +80,23 @@
   </target>
 
   <target name="path" depends="setup">
-    <mkdir dir="foreachtest"/>
-    <touch file="foreachtest/1"/>
-    <touch file="foreachtest/2"/>
-    <touch file="foreachtest/3"/>
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/1"/>
+    <touch file="${testdir}/2"/>
+    <touch file="${testdir}/3"/>
     <foreach target="echoFilename" param="param">
       <path>
-        <fileset dir="foreachtest"/>
+        <fileset dir="${testdir}"/>
       </path>
     </foreach>
   </target>
 
   <target name="pathAndList" depends="setup">
-    <mkdir dir="foreachtest"/>
-    <touch file="foreachtest/3"/>
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/3"/>
     <foreach list="1,2" target="echoFilename" param="param">
       <path>
-        <fileset dir="foreachtest"/>
+        <fileset dir="${testdir}"/>
       </path>
     </foreach>
   </target>

@@ -17,21 +17,27 @@
 
 package org.apache.tools.ant;
 
-import junit.framework.TestCase;
-import org.apache.tools.ant.Project;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
+import org.apache.tools.ant.Project;
+
 /**
- * A BuildFileTest is a TestCase which executes targets from an Ant buildfile
- * for testing.
+ * A BuildFileTest provides extra methods for JUnit tests which
+ * execute targets from an Ant buildfile.
  *
- * This class provides a number of utility methods for particular build file
- * tests which extend this class.
+ * <p>This class provides a number of utility methods for particular build file
+ * tests which extend this class.</p>
  *
  */
-public abstract class BuildFileTest extends TestCase {
+public abstract class BuildFileTest {
 
     protected Project project;
 
@@ -40,15 +46,6 @@ public abstract class BuildFileTest extends TestCase {
     private StringBuffer outBuffer;
     private StringBuffer errBuffer;
     private BuildException buildException;
-
-    /**
-     *  Constructor for the BuildFileTest object
-     *
-     *@param  name string to pass up to TestCase constructor
-     */
-    public BuildFileTest(String name) {
-        super(name);
-    }
 
     /**
      *  run a target, expect for any build exception.

@@ -15,22 +15,29 @@
  */
 package net.sf.antcontrib.logic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import net.sf.antcontrib.BuildFileTestBase;
+
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildFileTest;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;trycatch&gt;.
  */
-public class TryCatchTaskTest extends BuildFileTest {
+public class TryCatchTaskTest extends BuildFileTestBase {
 
-    public TryCatchTaskTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/trycatch.xml");
+        configureProject("logic/trycatch.xml");
     }
 
+    @Test
     public void testFullTest() {
         executeTarget("fullTest");
         assertEquals("Tada!", getProject().getProperty("foo"));
@@ -40,26 +47,31 @@ public class TryCatchTaskTest extends BuildFileTest {
         assertEquals("Tada!", ((BuildException) e).getMessage());
     }
 
+    @Test
     public void testTwoCatches() {
         //  two catch blocks were not supported prior to TryCatchTask.java v 1.4.
         executeTarget("twoCatches");
     }
 
+    @Test
     public void testTwoFinallys() {
         expectSpecificBuildException("twoFinallys", "two finally children",
                                      "You must not specify more than one <finally>");
     }
 
+    @Test
     public void testTwoTrys() {
         expectSpecificBuildException("twoTrys", "two try children",
                                      "You must not specify more than one <try>");
     }
 
+    @Test
     public void testNoTry() {
         expectSpecificBuildException("noTry", "no try child",
                                      "A nested <try> element is required");
     }
 
+    @Test
     public void testNoException() {
         executeTarget("noException");
         int message = getLog().indexOf("Tada!");

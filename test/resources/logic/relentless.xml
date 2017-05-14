@@ -1,4 +1,5 @@
 <project name="relentless unit tests" default="invalid">
+  <dirname property="topdir" file="${ant.file}"/>
   <target name="invalid">
     <fail>Don't call this file directly.</fail>
   </target>
@@ -8,7 +9,7 @@
   </target>
 
   <target name="teardown">
-    <delete dir="relentless"/>
+    <delete dir="${topdir}/relentless"/>
   </target>
 
   <target name="echo">

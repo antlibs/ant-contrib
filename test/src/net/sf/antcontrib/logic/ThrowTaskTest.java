@@ -15,22 +15,24 @@
  */
 package net.sf.antcontrib.logic;
 
+import net.sf.antcontrib.BuildFileTestBase;
+
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildFileTest;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testcase for &lt;throw&gt;.
  */
-public class ThrowTaskTest extends BuildFileTest {
+public class ThrowTaskTest extends BuildFileTestBase {
 
-    public ThrowTaskTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() {
-        configureProject("test/resources/logic/throw.xml");
+        configureProject("logic/throw.xml");
     }
 
+    @Test
     public void testRefid() {
         String message = "exception created by testcase";
         getProject().addReference("testref", new BuildException(message));

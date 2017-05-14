@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Project" default="build" basedir=".">
-
-    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
-
-    <property file="propertyselector.properties" />
-
+<project name="Project" default="build">
     <target name="init">
-        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-            <classpath location="${antcontrib.jar}"/>
-        </taskdef>
-        <property file="propertyselector.properties" />
+        <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+	<!-- basedir is set to test-classes -->
+	<dirname property="topdir" file="${ant.file}"/>
+	<property file="${topdir}/propertyselector.properties"/>
     </target>
 
     <target name="select.test.grouping.0" depends="init">
