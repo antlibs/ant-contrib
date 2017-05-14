@@ -86,18 +86,18 @@ public class InstructionVisitor extends EmptyVisitor {
 		design.checkClass(type);
 	}
 	public void visitINVOKESTATIC(INVOKESTATIC s) {
-		String t = s.getClassName(poolGen);
-		log.log("         instr(invokestatic)="+t, Project.MSG_DEBUG);
+		String t = s.getReferenceType(poolGen).getClass().getName();
+		log.log("         instr(invokestatic)=" + t, Project.MSG_DEBUG);
 
 		design.checkClass(t);
 	}
 
 	public void visitPUTSTATIC(PUTSTATIC s) {
-		String one = s.getClassName(poolGen);
+		String one = s.getReferenceType(poolGen).getClass().getName();
 		String two = s.getFieldName(poolGen);
 		String three = s.getName(poolGen);
 		String four = s.getSignature(poolGen);
-		String five = s.getClassType(poolGen)+"";
+		String five = s.getReferenceType(poolGen).getClass().getName() + "";
 		String six = s.getFieldType(poolGen) + "";
 		log.log("         instr(putstatic)a=" + one, Project.MSG_DEBUG);
 		log.log("         instr(putstatic)b=" + two, Project.MSG_DEBUG);

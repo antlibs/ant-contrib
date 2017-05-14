@@ -34,7 +34,6 @@ public class Server
     private final ServerTask task;
     private int port = 17000;
     private boolean running = false;
-    private Thread thread = null;
 
     public Server(ServerTask task, int port)
     {
@@ -46,7 +45,7 @@ public class Server
     public void start()
         throws InterruptedException
     {
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
         thread.join();
     }

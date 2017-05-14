@@ -121,12 +121,12 @@ public class RegexTask
         if (global)
             options |= Regexp.REPLACE_ALL;
 
-        Regexp sregex = regexp.getRegexp(project);
+        Regexp sregex = regexp.getRegexp(getProject());
 
         String output = null;
 
         if (sregex.matches(input, options)) {
-            String expression = replace.getExpression(project);
+            String expression = replace.getExpression(getProject());
             output = sregex.substitute(input,
                                        expression,
                                        options);
@@ -145,7 +145,7 @@ public class RegexTask
         if (! caseSensitive)
             options |= Regexp.MATCH_CASE_INSENSITIVE;
 
-        Regexp sregex = regexp.getRegexp(project);
+        Regexp sregex = regexp.getRegexp(getProject());
 
         String output = select;
         Vector groups = sregex.getGroups(input, options);

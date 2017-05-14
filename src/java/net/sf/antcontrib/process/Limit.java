@@ -269,9 +269,9 @@ public class Limit extends Task implements TaskContainer {
                     .append(">. Waited ")
                     .append((maxwait)).append(" ").append(unit.getValue())
                     .append(", but this task did not complete.")
-                    .append((not_ran.length() > 0 ?
-                        " The following tasks did not execute: " + not_ran.toString() + "." :
-                        ""));
+                    .append((not_ran.length() > 0
+                        ? " The following tasks did not execute: " + not_ran.toString() + "."
+                        : ""));
 
                 // deal with it
                 if (failOnError) {
@@ -325,12 +325,12 @@ public class Limit extends Task implements TaskContainer {
         private final Hashtable timeTable = new Hashtable();
 
         public TimeUnit() {
-            timeTable.put(MILLISECOND, new Long(1L));
-            timeTable.put(SECOND, new Long(1000L));
-            timeTable.put(MINUTE, new Long(1000L * 60L));
-            timeTable.put(HOUR, new Long(1000L * 60L * 60L));
-            timeTable.put(DAY, new Long(1000L * 60L * 60L * 24L));
-            timeTable.put(WEEK, new Long(1000L * 60L * 60L * 24L * 7L));
+            timeTable.put(MILLISECOND, 1L);
+            timeTable.put(SECOND, 1000L);
+            timeTable.put(MINUTE, 1000L * 60L);
+            timeTable.put(HOUR, 1000L * 60L * 60L);
+            timeTable.put(DAY, 1000L * 60L * 60L * 24L);
+            timeTable.put(WEEK, 1000L * 60L * 60L * 24L * 7L);
         }
 
         /**
@@ -353,8 +353,7 @@ public class Limit extends Task implements TaskContainer {
 
         public long getMultiplier() {
             String key = getValue().toLowerCase();
-            Long l = (Long) timeTable.get(key);
-            return l.longValue();
+            return timeTable.get(key);
         }
 
         public String[] getValues() {

@@ -196,12 +196,12 @@ public abstract class BuildFileTest extends TestCase {
      * @param  filename name of project file to run
      */
     protected void configureProject(String filename, int logLevel)
-        throws BuildException {
+            throws BuildException {
         logBuffer = new StringBuffer();
         fullLogBuffer = new StringBuffer();
         project = new Project();
         project.init();
-        project.setUserProperty("ant.file" , new File(filename).getAbsolutePath());
+        project.setUserProperty("ant.file", new File(filename).getAbsolutePath());
         project.addBuildListener(new AntTestListener(logLevel));
         ProjectHelper.configureProject(project, new File(filename));
     }
@@ -369,8 +369,8 @@ public abstract class BuildFileTest extends TestCase {
     /**
      * an output stream which saves stuff to our buffer.
      */
-    private static class AntOutputStream extends java.io.OutputStream {
-        private StringBuffer buffer;
+    private static class AntOutputStream extends OutputStream {
+        private final StringBuffer buffer;
 
         public AntOutputStream(StringBuffer buffer) {
             this.buffer = buffer;
@@ -385,7 +385,7 @@ public abstract class BuildFileTest extends TestCase {
      * our own personal build listener.
      */
     private class AntTestListener implements BuildListener {
-        private int logLevel;
+        private final int logLevel;
 
         /**
          * Constructs a test listener which will ignore log events

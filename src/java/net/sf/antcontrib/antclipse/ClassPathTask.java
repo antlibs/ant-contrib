@@ -46,8 +46,8 @@ public class ClassPathTask extends Task
 	private boolean includeOutput = false; //default, do not include output directory
 	private boolean includeLibs = true; //default, include all libraries
 	private boolean verbose = false; //default quiet
-	RegexpPatternMapper irpm = null;
-	RegexpPatternMapper erpm = null;
+	private RegexpPatternMapper irpm = null;
+	private RegexpPatternMapper erpm = null;
 	public static final String TARGET_CLASSPATH = "classpath";
 	public static final String TARGET_FILESET = "fileset";
 	private String produce = null; //classpath by default
@@ -167,7 +167,7 @@ public class ClassPathTask extends Task
 		{
 			FileSet fileSet = new FileSet();
 			this.getProject().addReference(this.idContainer, fileSet);
-			fileSet.setDir(new File(this.getProject().getBaseDir().getAbsolutePath().toString()));
+			fileSet.setDir(new File(this.getProject().getBaseDir().getAbsolutePath()));
 			handler = new FileSetCustomHandler(fileSet);
 		}
 		parser.parse(new File(this.getProject().getBaseDir().getAbsolutePath(), ".classpath"), handler);
@@ -204,7 +204,7 @@ public class ClassPathTask extends Task
 		{
 			super();
 			this.fileSet = fileSet;
-			projDir = getProject().getBaseDir().getAbsolutePath().toString();
+			projDir = getProject().getBaseDir().getAbsolutePath();
 		}
 
 		/**

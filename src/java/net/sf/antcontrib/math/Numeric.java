@@ -15,6 +15,9 @@
  */
 package net.sf.antcontrib.math;
 
+import static java.lang.Math.E;
+import static java.lang.Math.PI;
+
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -39,9 +42,9 @@ public class Numeric
     public void setValue(String value)
     {
         if (value.equals("E"))
-            value = String.valueOf(java.lang.Math.E);
+            value = String.valueOf(E);
         else if (value.equals("PI"))
-            value = String.valueOf(java.lang.Math.PI);
+            value = String.valueOf(PI);
         this.value = value;
     }
 

@@ -75,7 +75,7 @@ public class CompileWithWalls extends Task {
         parser.setDTDHandler(hb);
         try {
             log("about to start parsing walls file", Project.MSG_INFO);
-            parser.parse(wallsFile.toURL().toExternalForm());
+            parser.parse(wallsFile.toURI().toURL().toExternalForm());
         } catch (SAXException e) {
             cachedSAXException = e;
             throw new ParsingWallsException("Problem parsing walls file attached:", e);
@@ -282,16 +282,16 @@ public class CompileWithWalls extends Task {
      */
     private boolean file1IsChildOfFile2(File tempBuildDir, File destDir) {
         File parent = tempBuildDir;
-        for(int i = 0; i < 1000; i++) {
-            if(parent.compareTo(destDir) == 0)
+        for (int i = 0; i < 1000; i++) {
+            if (parent.compareTo(destDir) == 0)
                 return true;
             parent = parent.getParentFile();
-            if(parent == null)
+            if (parent == null)
                 return false;
         }
 
         throw new RuntimeException("You either have more than 1000 directories in"
-            +"\nyour hierarchy or this is a bug, please report. parent="+parent+"  destDir="+destDir);
+            + "\nyour hierarchy or this is a bug, please report. parent=" + parent + "  destDir=" + destDir);
     }
 
     /**
@@ -345,7 +345,7 @@ public class CompileWithWalls extends Task {
         public ParsingWallsException(String message, Throwable cause) {
             super(message);
 
-            this.message = message+"\n";
+            this.message = message + "\n";
 
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);

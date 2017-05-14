@@ -84,7 +84,7 @@ public class ForTask extends Task {
             throw new BuildException("Illegal value for threadCount " + threadCount
                                      + " it should be > 0");
         }
-        this.threadCount = new Integer(threadCount);
+        this.threadCount = threadCount;
     }
 
     /**
@@ -213,7 +213,7 @@ public class ForTask extends Task {
         if (parallel) {
             parallelTasks = (Parallel) getProject().createTask("parallel");
             if (threadCount != null) {
-                parallelTasks.setThreadCount(threadCount.intValue());
+                parallelTasks.setThreadCount(threadCount);
             }
         }
         if (list == null && currPath == null && hasIterators.size() == 0
@@ -232,7 +232,7 @@ public class ForTask extends Task {
                 + "to perform");
         }
         if (end != null) {
-            int iEnd = end.intValue();
+            int iEnd = end;
             if (step == 0) {
                 throw new BuildException("step cannot be 0");
             } else if (iEnd > begin && step < 0) {
@@ -301,7 +301,7 @@ public class ForTask extends Task {
 
         // Take care of the begin/end/step attributes
         if (end != null) {
-            int iEnd = end.intValue();
+            int iEnd = end;
             if (step > 0) {
                 for (int i = begin; i < (iEnd + 1); i = i + step) {
                     doToken("" + i);

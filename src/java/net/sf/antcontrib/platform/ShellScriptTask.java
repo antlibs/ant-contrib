@@ -146,10 +146,10 @@ public class ShellScriptTask extends ExecTask {
     protected void writeScript() throws BuildException {
         FileOutputStream os = null;
         try {
-            FileUtils fileUtils = FileUtils.newFileUtils();
+            FileUtils fileUtils = FileUtils.getFileUtils();
             // NB: use File.io.createTempFile whenever jdk 1.2 is allowed
-            tmpFile = fileUtils.createTempFile("script", tmpSuffix, null);
-            os = new java.io.FileOutputStream(tmpFile);
+            tmpFile = fileUtils.createTempFile("script", tmpSuffix, null, false, false);
+            os = new FileOutputStream(tmpFile);
             String string = script.toString();
             os.write(string.getBytes(), 0, string.length());
             os.close();

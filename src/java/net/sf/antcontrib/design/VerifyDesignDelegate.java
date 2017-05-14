@@ -84,9 +84,6 @@ public class VerifyDesignDelegate implements Log {
     }
 
     public void addConfiguredPath(Path path) {
-//      Path newPath = new Path(task.getProject());
-//      path.
-
         paths.add(path);
     }
 
@@ -155,7 +152,7 @@ public class VerifyDesignDelegate implements Log {
                 design.fillInUnusedPackages(designErrors);
 
             if (! designErrors.isEmpty()) {
-                log(designErrors.size() + "Errors.", Project.MSG_WARN);
+                log(designErrors.size() + " errors.", Project.MSG_WARN);
                 if (!fillInBuildException)
                     throw new BuildException("Design check failed due to previous errors");
                 throwAllErrors();

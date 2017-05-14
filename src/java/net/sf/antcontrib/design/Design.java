@@ -218,10 +218,10 @@ public class Design {
 
         if (packageName.equals(Package.DEFAULT)) {
             if (className.indexOf('.') != -1) {
-                throw new RuntimeException("Internal Error");
+                throw new RuntimeException("Internal error");
             }
         } else if (!className.startsWith(currentPackageName))
-            throw new RuntimeException("Internal Error");
+            throw new RuntimeException("Internal error");
 
         return currentAliasPackage.getNeedDepends();
     }

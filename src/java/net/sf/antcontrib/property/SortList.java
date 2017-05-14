@@ -235,7 +235,7 @@ public class SortList
 
         String val = value;
         if (val == null && ref != null)
-            val = ref.getReferencedObject(project).toString();
+            val = ref.getReferencedObject(getProject()).toString();
 
         if (val == null)
             throw new BuildException("Either the 'Value' or 'Refid' attribute must be set.");

@@ -38,8 +38,8 @@ import org.apache.tools.ant.util.FileUtils;
 * than source files.
 * Sets a given property or runs an internal task.
 *
-* <p>Based on
-*  org.apache.org.apache.tools.ant.taskdefs.UpToDate</p>
+* <p>Based on {@link
+*  org.apache.tools.ant.taskdefs.UpToDate UpToDate} task</p>
 *
 * @author Peter Reilly
 */
@@ -286,7 +286,7 @@ public class OutOfDate extends Task implements Condition {
      */
     public boolean eval() {
         boolean ret = false;
-        FileUtils fileUtils = FileUtils.newFileUtils();
+        FileUtils fileUtils = FileUtils.getFileUtils();
         if (sourcepaths == null) {
             throw new BuildException("You must specify a <sourcefiles> element.");
         }

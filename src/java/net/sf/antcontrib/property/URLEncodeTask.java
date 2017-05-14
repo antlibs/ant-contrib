@@ -16,6 +16,7 @@
 package net.sf.antcontrib.property;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.apache.tools.ant.BuildException;
@@ -40,7 +41,11 @@ public class URLEncodeTask
 
     public void setValue(String value)
     {
-        this.value = URLEncoder.encode(value);
+        try {
+            this.value = URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getValue(Project p)

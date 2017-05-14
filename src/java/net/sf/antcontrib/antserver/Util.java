@@ -15,6 +15,8 @@
  */
 package net.sf.antcontrib.antserver;
 
+import static java.lang.Math.min;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,7 +43,7 @@ public class Util
 
         while (totalread < length)
         {
-            int toRead = (int)Math.min(CHUNK, length - totalread);
+            int toRead = (int) min(CHUNK, length - totalread);
             read = input.read(b, 0, toRead);
             output.write(b, 0, read);
             totalread += read;

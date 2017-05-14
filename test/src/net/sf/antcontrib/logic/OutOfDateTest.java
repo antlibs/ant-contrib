@@ -57,47 +57,35 @@ public class OutOfDateTest extends BuildFileTest {
     public void testDeleteQuiet() {
         executeTarget("init");
         executeTarget("delete-quiet");
-        assertTrue("No deleting message", getLog().indexOf("Deleting") == -1);
+        assertTrue("No deleting message", !getLog().contains("Deleting"));
     }
 
     public void testFileset() {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
-        assertTrue(getLog().indexOf("outofdate triggered") > -1);
+        assertTrue(getLog().contains("outofdate triggered"));
         String outofdateSources =
             getProject().getProperty("outofdate.sources");
         // switch \ to / if present
         outofdateSources.replace('\\', '/');
-        assertTrue("newer.text empty", outofdateSources.indexOf(
-                       "newer.text") > -1);
-        assertTrue("file.notdone", outofdateSources.indexOf(
-                       "outofdate/source/1/2/file.notdone") > -1);
-        assertTrue("file.done", outofdateSources.indexOf(
-                       "outofdate/source/1/2/file.done") == -1);
-        assertTrue("done.y", outofdateSources.indexOf(
-                       "outofdate/source/1/done.y") == -1);
-        assertTrue("partial.y", outofdateSources.indexOf(
-                       "outofdate/source/1/partial.y") > -1);
+        assertTrue("newer.text empty", outofdateSources.contains("newer.text"));
+        assertTrue("file.notdone", outofdateSources.contains("outofdate/source/1/2/file.notdone"));
+        assertTrue("file.done", !outofdateSources.contains("outofdate/source/1/2/file.done"));
+        assertTrue("done.y", !outofdateSources.contains("outofdate/source/1/done.y"));
+        assertTrue("partial.y", outofdateSources.contains("outofdate/source/1/partial.y"));
         String outofdateTargets =
             getProject().getProperty("outofdate.targets");
-        assertTrue(outofdateTargets.indexOf(
-                       "outofdate.xml") > -1);
-        assertTrue(outofdateTargets.indexOf(
-                       "outofdate/gen/1/2/file.notdone") > -1);
-        assertTrue(outofdateTargets.indexOf(
-                       "outofdate/gen/1/partial.h") > -1);
-        assertTrue(outofdateTargets.indexOf(
-                       "outofdate/gen/1/partial.c") == -1);
-        assertTrue(outofdateTargets.indexOf(
-                       "outofdate/gen/1/done.h") == -1);
+        assertTrue(outofdateTargets.contains("outofdate.xml"));
+        assertTrue(outofdateTargets.contains("outofdate/gen/1/2/file.notdone"));
+        assertTrue(outofdateTargets.contains("outofdate/gen/1/partial.h"));
+        assertTrue(!outofdateTargets.contains("outofdate/gen/1/partial.c"));
+        assertTrue(!outofdateTargets.contains("outofdate/gen/1/done.h"));
 
-        Path sourcesPath = (Path) getProject().getReference(
-            "outofdate.sources.path");
+        Path sourcesPath = getProject().getReference("outofdate.sources.path");
         assertTrue(sourcesPath != null);
         String[] sources = sourcesPath.list();
         assertTrue(sources.length == 3);
-        Path targetsPath = (Path) getProject().getReference(
-            "outofdate.targets.path");
+        Path targetsPath = getProject().getReference("outofdate.targets.path");
         String[] targets = targetsPath.list();
         assertTrue(targetsPath != null);
         assertTrue(targets.length == 3);

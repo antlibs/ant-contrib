@@ -50,7 +50,6 @@ public class ConnectionHandler
     private static long nextGroupId = 0;
     private final ServerTask task;
     private final Socket socket;
-    private Thread thread;
     private Throwable thrown;
 
     public ConnectionHandler(ServerTask task, Socket socket)
@@ -69,7 +68,7 @@ public class ConnectionHandler
             nextGroupId++;
 
         ThreadGroup group = new ThreadGroup("server-tg-" + gid);
-        thread = new Thread(group, this);
+        Thread thread = new Thread(group, this);
         thread.start();
     }
 

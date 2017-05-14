@@ -117,28 +117,12 @@ public class Platform
 
     public static final String getOsFamilyName()
     {
-        int family = getOsFamily();
-        return (String)(familyNames.get(new Integer(family)));
-    }
-
-    public static final Properties getEnv()
-    {
-        Properties env = new Properties();
-        Vector osEnv = Execute.getProcEnvironment();
-        for (Enumeration e = osEnv.elements(); e.hasMoreElements();) {
-            String entry = (String) e.nextElement();
-            int pos = entry.indexOf('=');
-            if (pos != -1) {
-                env.setProperty(entry.substring(0, pos),
-                        entry.substring(pos + 1));
-            }
-        }
-        return env;
+        return familyNames.get(getOsFamily());
     }
 
     public static final String getDefaultShell()
     {
-        String shell = getEnv().getProperty("SHELL");
+        String shell = Execute.getEnvironmentVariables().get("SHELL");
 
         if (shell == null)
         {

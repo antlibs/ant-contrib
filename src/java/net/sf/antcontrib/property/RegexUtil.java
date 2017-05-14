@@ -30,7 +30,7 @@ public class RegexUtil
     /**
      * An arbitrary node in a select expression.
      */
-    private interface SelectNode
+    public interface SelectNode
     {
         /**
          * Select the value based on the groups.

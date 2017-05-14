@@ -179,11 +179,11 @@ public class StopWatch {
         // test the stopwatch
         try {
             System.out.println("StopWatch: " + sw.getName());
-            Thread.currentThread().sleep(2000);
+            Thread.sleep(2000);
             sw.stop();
             System.out.println(sw.toString());
             sw.start();
-            Thread.currentThread().sleep(2000);
+            Thread.sleep(2000);
             sw.stop();
             System.out.println("elapsed: " + sw.format(sw.elapsed()));
             System.out.println("total: " + sw.format(sw.total()));

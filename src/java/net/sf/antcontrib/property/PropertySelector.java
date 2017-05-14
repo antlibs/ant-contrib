@@ -84,10 +84,10 @@ public class PropertySelector
         if (!caseSensitive)
             options |= Regexp.MATCH_CASE_INSENSITIVE;
 
-        Regexp regex = match.getRegexp(project);
         Hashtable props = project.getProperties();
         Enumeration e = props.keys();
-        StringBuffer buf = new StringBuffer();
+        Regexp regex = match.getRegexp(getProject());
+        StringBuilder buf = new StringBuilder();
         int cnt = 0;
 
         Vector used = new Vector();
@@ -107,7 +107,7 @@ public class PropertySelector
                     RegularExpression result = null;
                     result = new RegularExpression();
                     result.setPattern("\\\\" + i);
-                    Regexp sregex = result.getRegexp(project);
+                    Regexp sregex = result.getRegexp(getProject());
                     output = sregex.substitute(output, s, Regexp.MATCH_DEFAULT);
                 }
 

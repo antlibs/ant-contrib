@@ -223,7 +223,7 @@ public class Client
         {
             // Read the response object
             response = (Response) ois.readObject();
-            project.log("Received Response: " + response,
+            project.log("Received response: " + response,
                     Project.MSG_DEBUG);
             if (response.getContentLength() != 0)
             {

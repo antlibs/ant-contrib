@@ -58,7 +58,7 @@ public class ClassPathParser
 		}
 		catch (SAXParseException exc)
 		{
-			Location location = new Location(fName.toString(), exc.getLineNumber(), exc.getColumnNumber());
+			Location location = new Location(fName, exc.getLineNumber(), exc.getColumnNumber());
 			Throwable throwable = exc.getException();
 			if (throwable instanceof BuildException)
 			{

@@ -249,28 +249,28 @@ public class Variable extends Task {
      * @exception BuildException  Description of the Exception
      */
     private void loadFile(File file) throws BuildException {
-	Properties props = new Properties();
-	try {
-	    if (file.exists()) {
-		FileInputStream fis = new FileInputStream(file);
-		try {
-		    props.load(fis);
-		}
-		finally {
-		    if (fis != null) {
-			fis.close();
-		    }
-		}
-		addProperties(props);
-	    }
-	    else {
-		log("Unable to find property file: " + file.getAbsolutePath(),
-		     Project.MSG_VERBOSE);
-	    }
-	}
-	catch (IOException ex) {
-	    throw new BuildException(ex, location);
-	}
+        Properties props = new Properties();
+        try {
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                try {
+                    props.load(fis);
+                }
+                finally {
+                    if (fis != null) {
+                        fis.close();
+                    }
+                }
+                addProperties(props);
+            }
+            else {
+                log("Unable to find property file: " + file.getAbsolutePath(),
+                     Project.MSG_VERBOSE);
+            }
+        }
+        catch (IOException ex) {
+            throw new BuildException(ex, getLocation());
+        }
     }
 
     /**

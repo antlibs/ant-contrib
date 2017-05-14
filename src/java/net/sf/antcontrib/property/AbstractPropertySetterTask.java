@@ -67,7 +67,7 @@ public abstract class AbstractPropertySetterTask
             }
             else
             {
-                Property p = (Property)project.createTask("property");
+                Property p = (Property)getProject().createTask("property");
                 p.setName(property);
                 p.setValue(value);
                 p.execute();

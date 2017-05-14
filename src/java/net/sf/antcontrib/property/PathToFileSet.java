@@ -31,7 +31,7 @@ public class PathToFileSet
     private String pathRefId;
     private boolean ignoreNonRelative = false;
 
-    private static final FileUtils fileUtils = FileUtils.newFileUtils();
+    private static final FileUtils fileUtils = FileUtils.getFileUtils();
 
     public void setDir(File dir) {
         this.dir = dir;
@@ -81,7 +81,7 @@ public class PathToFileSet
         boolean atLeastOne = false;
         for (int i = 0; i < sources.length; ++i) {
             File sourceFile = new File(sources[i]);
-            if (! sourceFile.exists())
+            if (!sourceFile.exists())
                 continue;
             String relativeName = getRelativeName(dirNormal, sourceFile);
             if (relativeName == null && !ignoreNonRelative) {

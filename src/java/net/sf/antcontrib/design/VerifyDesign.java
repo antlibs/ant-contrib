@@ -65,6 +65,7 @@ public class VerifyDesign
     public void addConfiguredPath(Path path) {
         delegate.addConfiguredPath(path);
     }
+
     public void execute()
             throws BuildException {
         delegate.execute();
