@@ -27,6 +27,8 @@ import org.apache.tools.ant.Project;
 import net.sf.antcontrib.antserver.Command;
 import net.sf.antcontrib.antserver.Util;
 
+import static org.apache.tools.ant.util.FileUtils.isAbsolutePath;
+
 /**
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
@@ -94,21 +96,6 @@ public class SendFileCommand
         if (tofile == null && todir == null)
             throw new BuildException("Missing both attributes 'tofile' and 'todir'"
                 + " at least one must be supplied");
-
-        /*
-        try
-        {
-            String realBasePath = project.getBaseDir().getCanonicalPath();
-            String realGetBasePath = file.getCanonicalPath();
-            if (! realGetBasePath.startsWith(realBasePath))
-                throw new SecurityException("Cannot access a file that is not rooted in the project execution directory");
-        }
-        catch (IOException e)
-        {
-            throw new BuildException(e);
-        }
-        */
-
     }
 
     public boolean execute(Project project,
@@ -120,21 +107,29 @@ public class SendFileCommand
 
         if (tofile != null)
         {
-            dest = new File(project.getBaseDir(), tofile);
-            if (! new File(tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                System.out.println("throwing an exception");
-                throw new SecurityException("The requested filename must be a relative path.");
+            if (isAbsolutePath(tofile)) {
+                if (!new File(tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+                    throw new SecurityException("The requested filename must be in the project file tree.");
+                }
+                dest = new File(tofile);
+            } else {
+                dest = new File(project.getBaseDir(), tofile);
             }
         }
         else
         {
-            dest = new File(project.getBaseDir(), todir);
-            dest = new File(dest, fileBaseName);
-
-            if (! new File(todir, tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                throw new SecurityException("The requested filename must be a relative path.");
+            if (isAbsolutePath(todir)) {
+                if (!new File(todir).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+                    throw new SecurityException("The requested directory must be in the project file tree.");
+                }
+                dest = new File(todir);
+            } else {
+                dest = new File(project.getBaseDir(), todir);
             }
-
+            if (!dest.canWrite()) {
+                throw new SecurityException("The requested directory is not writable.");
+            }
+            dest = new File(dest, fileBaseName);
         }
 
         FileOutputStream fos =  null;
