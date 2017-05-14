@@ -37,12 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.property.ResolvePropertyMap;
 
 /**
  * This task does an http post. Name/value pairs for the post can be set in
@@ -543,55 +543,21 @@ public class PostTask extends Task {
      * Borrowed from Property -- resolve properties inside a properties
      * hashtable.
      *
-     * @param fileprops           Description of the Parameter
+     * @param props           Description of the Parameter
      * @exception BuildException  Description of the Exception
      */
-    private void resolveAllProperties(Properties fileprops) throws BuildException {
-        for (Enumeration<Object> e = fileprops.keys(); e.hasMoreElements();) {
-            String name = e.nextElement().toString();
-            String value = fileprops.getProperty(name);
-
-            boolean resolved = false;
-            while (!resolved) {
-                Vector<String> fragments = new Vector<String>();
-                Vector<String> propertyRefs = new Vector<String>();
-                /// this is the Ant 1.5 way of doing it. The Ant 1.6 PropertyHelper
-                /// should be used -- eventually.
-                ProjectHelper.parsePropertyString(value, fragments,
-                        propertyRefs);
-
-                resolved = true;
-                if (propertyRefs.size() != 0) {
-                    StringBuilder sb = new StringBuilder();
-                    Enumeration<String> i = fragments.elements();
-                    Enumeration<String> j = propertyRefs.elements();
-                    while (i.hasMoreElements()) {
-                        String fragment = i.nextElement();
-                        if (fragment == null) {
-                            String propertyName = j.nextElement();
-                            if (propertyName.equals(name)) {
-                                throw new BuildException("Property " + name
-                                        + " was circularly "
-                                        + "defined.");
-                            }
-                            fragment = getProject().getProperty(propertyName);
-                            if (fragment == null) {
-                                if (fileprops.containsKey(propertyName)) {
-                                    fragment = fileprops.getProperty(propertyName);
-                                    resolved = false;
-                                }
-                                else {
-                                    fragment = "${" + propertyName + "}";
-                                }
-                            }
-                        }
-                        sb.append(fragment);
-                    }
-                    value = sb.toString();
-                    fileprops.put(name, value);
-                }
-            }
+    private void resolveAllProperties(Properties props) throws BuildException {
+        PropertyHelper propertyHelper
+                = PropertyHelper.getPropertyHelper(getProject());
+        Map<String, Object> properties = new HashMap<String, Object>();
+        for (Object key : props.keySet()) {
+            properties.put(key.toString(), props.get(key));
         }
+        new ResolvePropertyMap(
+                getProject(),
+                propertyHelper,
+                propertyHelper.getExpanders())
+                .resolveAllProperties(properties, null, false);
     }
 
     /**

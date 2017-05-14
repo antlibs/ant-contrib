@@ -24,12 +24,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.property.ResolvePropertyMap;
 
 /**
  * Similar to Property, but this property is mutable. In fact, much of the code
@@ -282,7 +282,7 @@ public class Variable extends Task {
      *
      * @param props  The feature to be added to the Properties attribute
      */
-    protected void addProperties(Properties props) {
+    private void addProperties(Properties props) {
         resolveAllProperties(props);
         Enumeration<Object> e = props.keys();
         while (e.hasMoreElements()) {
@@ -299,49 +299,17 @@ public class Variable extends Task {
      * @exception BuildException  Description of the Exception
      */
     private void resolveAllProperties(Properties props) throws BuildException {
-        for (Enumeration<Object> e = props.keys(); e.hasMoreElements();) {
-            String name = e.nextElement().toString();
-            String value = props.getProperty(name);
-
-            boolean resolved = false;
-            while (!resolved) {
-                Vector<String> fragments = new Vector<String>();
-                Vector<String> propertyRefs = new Vector<String>();
-                ProjectHelper.parsePropertyString(value, fragments,
-                                                   propertyRefs);
-
-                resolved = true;
-                if (propertyRefs.size() != 0) {
-                    StringBuilder sb = new StringBuilder();
-                    Enumeration<String> i = fragments.elements();
-                    Enumeration<String> j = propertyRefs.elements();
-                    while (i.hasMoreElements()) {
-                        String fragment = i.nextElement();
-                        if (fragment == null) {
-                            String propertyName = j.nextElement();
-                            if (propertyName.equals(name)) {
-                                throw new BuildException("Property " + name
-                                                          + " was circularly "
-                                                          + "defined.");
-                            }
-                            fragment = getProject().getProperty(propertyName);
-                            if (fragment == null) {
-                                if (props.containsKey(propertyName)) {
-                                    fragment = props.getProperty(propertyName);
-                                    resolved = false;
-                                }
-                                else {
-                                    fragment = "${" + propertyName + "}";
-                                }
-                            }
-                        }
-                        sb.append(fragment);
-                    }
-                    value = sb.toString();
-                    props.put(name, value);
-                }
-            }
+        PropertyHelper propertyHelper
+                = PropertyHelper.getPropertyHelper(getProject());
+        Map<String, Object> properties = new HashMap<String, Object>();
+        for (Object key : props.keySet()) {
+            properties.put(key.toString(), props.get(key));
         }
+        new ResolvePropertyMap(
+                getProject(),
+                propertyHelper,
+                propertyHelper.getExpanders())
+                .resolveAllProperties(properties, null, false);
     }
 
 }

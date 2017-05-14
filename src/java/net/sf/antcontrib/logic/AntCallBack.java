@@ -595,8 +595,8 @@ public class AntCallBack extends Task {
         extends org.apache.tools.ant.types.Reference {
 
         /** Creates a reference to be configured by Ant. */
-        public Reference() {
-            super();
+        public Reference(Project p, String id) {
+            super(p, id);
         }
 
         private String targetid = null;
