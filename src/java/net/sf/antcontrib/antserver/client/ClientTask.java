@@ -17,8 +17,8 @@ package net.sf.antcontrib.antserver.client;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -48,14 +48,14 @@ public class ClientTask
 {
     private String machine = "localhost";
     private int port = 17000;
-    private final Vector commands;
+    private final List<Command> commands;
     private boolean persistent = false;
     private boolean failOnError = true;
 
     public ClientTask()
     {
         super();
-        this.commands = new Vector();
+        this.commands = new ArrayList<Command>();
     }
 
     public void setMachine(String machine)
@@ -100,11 +100,8 @@ public class ClientTask
 
     public void execute()
     {
-        Enumeration e = commands.elements();
-        Command c = null;
-        while (e.hasMoreElements())
+        for (Command c : commands)
         {
-            c = (Command)e.nextElement();
             c.validate(getProject());
         }
 
@@ -121,14 +118,11 @@ public class ClientTask
 
                 client.connect();
 
-                e = commands.elements();
-                c = null;
                 Response r = null;
                 Document d = null;
                 boolean keepGoing = true;
-                while (e.hasMoreElements() && keepGoing)
+                for (Command c : commands)
                 {
-                    c = (Command)e.nextElement();
                     r = client.sendCommand(c);
                     if (! r.isSucceeded())
                     {
@@ -165,9 +159,11 @@ public class ClientTask
 
                     if (c instanceof ShutdownCommand)
                     {
-                        keepGoing = false;
                         client.shutdown();
                     }
+
+                    if (!keepGoing)
+                	break;
                 }
 
                 if (failCount > 0 && failOnError)

@@ -28,11 +28,11 @@ import java.util.Map;
  */
 public class Walls {
 
-    private final List packages = new LinkedList();
-    private final Map nameToPackage = new HashMap();
+    private final List<Package> packages = new LinkedList<Package>();
+    private final Map<String, Package> nameToPackage = new HashMap<String, Package>();
 
     public Package getPackage(String name) {
-        return (Package)nameToPackage.get(name);
+        return nameToPackage.get(name);
     }
 
     public void addConfiguredPackage(Package p) {
@@ -53,12 +53,12 @@ public class Walls {
         //make sure all depends are in Map first
         //circular references then are not a problem because they must
         //put the stuff in order
-        for(int i = 0; i < depends.length; i++) {
-            Package dependsPackage = (Package)nameToPackage.get(depends[i]);
+        for (String depend : depends) {
+            Package dependsPackage = nameToPackage.get(depend);
 
-            if(dependsPackage == null) {
-                p.setFaultReason("package name="+p.getName()+" did not have "
-                        +depends[i]+" listed before it and cannot compile without it");
+            if (dependsPackage == null) {
+                p.setFaultReason("package name=" + p.getName() + " did not have "
+                        + depend + " listed before it and cannot compile without it");
             }
         }
 
@@ -66,7 +66,7 @@ public class Walls {
         packages.add(p);
     }
 
-    public Iterator getPackagesToCompile() {
+    public Iterator<Package> getPackagesToCompile() {
         //must return the list, as we need to process in order, so unfortunately
         //we cannot pass back an iterator from the hashtable because that would
         //be unordered and would break.

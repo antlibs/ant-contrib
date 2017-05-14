@@ -81,30 +81,26 @@ public class Math
         if (datatype.equalsIgnoreCase("int"))
         {
             int sum = 0;
-            for (int i = 0; i < numbers.length; i++)
-                sum += numbers[i].intValue();
-            result = new Integer(sum);
+            for (Number number : numbers) sum += number.intValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("long"))
         {
             long sum = 0;
-            for (int i = 0; i < numbers.length; i++)
-                sum += numbers[i].longValue();
-            result = new Long(sum);
+            for (Number number : numbers) sum += number.longValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("float"))
         {
             float sum = 0;
-            for (int i = 0; i < numbers.length; i++)
-                sum += numbers[i].floatValue();
-            result = new Float(sum);
+            for (Number number : numbers) sum += number.floatValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("double"))
         {
             double sum = 0;
-            for (int i = 0; i < numbers.length; i++)
-                sum += numbers[i].doubleValue();
-            result = new Double(sum);
+            for (Number number : numbers) sum += number.doubleValue();
+            result = sum;
         }
         return result;
     }
@@ -124,28 +120,28 @@ public class Math
             int sum = numbers[0].intValue();
             for (int i = 1; i < numbers.length; i++)
                 sum -= numbers[i].intValue();
-            result = new Integer(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("long"))
         {
             long sum = numbers[0].longValue();
             for (int i = 1; i < numbers.length; i++)
                 sum -= numbers[i].longValue();
-            result = new Long(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("float"))
         {
             float sum = numbers[0].floatValue();
             for (int i = 1; i < numbers.length; i++)
                 sum -= numbers[i].floatValue();
-            result = new Float(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("double"))
         {
             double sum = numbers[0].doubleValue();
             for (int i = 1; i < numbers.length; i++)
                 sum -= numbers[i].doubleValue();
-            result = new Double(sum);
+            result = sum;
         }
         return result;
     }
@@ -163,30 +159,26 @@ public class Math
         if (datatype.equalsIgnoreCase("int"))
         {
             int sum = 1;
-            for (int i = 0; i < numbers.length; i++)
-                sum *= numbers[i].intValue();
-            result = new Integer(sum);
+            for (Number number : numbers) sum *= number.intValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("long"))
         {
             long sum = 1;
-            for (int i = 0; i < numbers.length; i++)
-                sum *= numbers[i].longValue();
-            result = new Long(sum);
+            for (Number number : numbers) sum *= number.longValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("float"))
         {
             float sum = 1;
-            for (int i = 0; i < numbers.length; i++)
-                sum *= numbers[i].floatValue();
-            result = new Float(sum);
+            for (Number number : numbers) sum *= number.floatValue();
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("double"))
         {
             double sum = 1;
-            for (int i = 0; i < numbers.length; i++)
-                sum *= numbers[i].doubleValue();
-            result = new Double(sum);
+            for (Number number : numbers) sum *= number.doubleValue();
+            result = sum;
         }
         return result;
     }
@@ -206,28 +198,28 @@ public class Math
             int sum = numbers[0].intValue();
             for (int i = 1; i < numbers.length; i++)
                 sum /= numbers[i].intValue();
-            result = new Integer(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("long"))
         {
             long sum = numbers[0].longValue();
             for (int i = 1; i < numbers.length; i++)
                 sum /= numbers[i].longValue();
-            result = new Long(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("float"))
         {
             float sum = numbers[0].floatValue();
             for (int i = 1; i < numbers.length; i++)
                 sum /= numbers[i].floatValue();
-            result = new Float(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("double"))
         {
             double sum = numbers[0].doubleValue();
             for (int i = 1; i < numbers.length; i++)
                 sum /= numbers[i].doubleValue();
-            result = new Double(sum);
+            result = sum;
         }
         return result;
     }
@@ -247,28 +239,28 @@ public class Math
             int sum = numbers[0].intValue();
             for (int i = 1; i < numbers.length; i++)
                 sum %= numbers[i].intValue();
-            result = new Integer(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("long"))
         {
             long sum = numbers[0].longValue();
             for (int i = 1; i < numbers.length; i++)
                 sum %= numbers[i].longValue();
-            result = new Long(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("float"))
         {
             float sum = numbers[0].floatValue();
             for (int i = 1; i < numbers.length; i++)
                 sum %= numbers[i].floatValue();
-            result = new Float(sum);
+            result = sum;
         }
         else if (datatype.equalsIgnoreCase("double"))
         {
             double sum = numbers[0].doubleValue();
             for (int i = 1; i < numbers.length; i++)
                 sum %= numbers[i].doubleValue();
-            result = new Double(sum);
+            result = sum;
         }
         return result;
     }
@@ -278,25 +270,25 @@ public class Math
         if (datatype == null)
             datatype = "double";
         if (datatype.equals("int"))
-            return new Integer(n.intValue());
+            return n.intValue();
         if (datatype.equals("long"))
-            return new Long(n.longValue());
+            return n.longValue();
         if (datatype.equals("float"))
-            return new Float(n.floatValue());
+            return n.floatValue();
         if (datatype.equals("double"))
-            return new Double(n.doubleValue());
+            return n.doubleValue();
         throw new BuildException("Invalid datatype.");
     }
 
     public static final Number execute(String method,
                                        String datatype,
                                        boolean strict,
-                                       Class paramTypes[],
-                                       Object params[])
+                                       Class<?>[] paramTypes,
+                                       Object[] params)
     {
         try
         {
-            Class c = null;
+            Class<?> c = null;
             if (strict)
             {
                 c = Thread.currentThread().getContextClassLoader().loadClass("java.lang.StrictMath");
@@ -339,7 +331,7 @@ public class Math
                        new Object[0]);
     }
 
-    public static Class getPrimitiveClass(String datatype)
+    public static Class<? extends Number> getPrimitiveClass(String datatype)
     {
         if (datatype == null)
             return Double.TYPE;
@@ -359,8 +351,8 @@ public class Math
                                    boolean strict,
                                    Evaluateable[] operands)
     {
-        Object ops[] = new Object[]{convert(operands[0].evaluate(), datatype)};
-        Class params[] = new Class[]{getPrimitiveClass(datatype)};
+        Object[] ops = new Object[]{convert(operands[0].evaluate(), datatype)};
+        Class<?>[] params = new Class<?>[]{getPrimitiveClass(datatype)};
 
         return execute("abs",
                        datatype,
@@ -376,7 +368,7 @@ public class Math
     {
         Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             "double")};
-        Class params[] = new Class[]{Double.TYPE};
+        Class<?>[] params = new Class<?>[]{Double.TYPE};
 
         return execute(operation,
                        datatype,
@@ -414,7 +406,7 @@ public class Math
                                             "double"),
                                     convert(operands[1].evaluate(),
                                             "double")};
-        Class params[] = new Class[]{Double.TYPE,
+        Class<?>[] params = new Class<?>[]{Double.TYPE,
                                      Double.TYPE};
 
         return execute("atan2",
@@ -479,7 +471,7 @@ public class Math
     {
         Object[] ops = new Object[]{convert(operands[0].evaluate(),
                                             datatype)};
-        Class params[] = new Class[]{getPrimitiveClass(datatype)};
+        Class<?>[] params = new Class<?>[]{getPrimitiveClass(datatype)};
 
         return execute("round",
                        datatype,
@@ -531,7 +523,7 @@ public class Math
                                             "double"),
                                     convert(operands[1].evaluate(),
                                             "double")};
-        Class params[] = new Class[]{Double.TYPE,
+        Class<?>[] params = new Class<?>[]{Double.TYPE,
                                      Double.TYPE};
 
         return execute("IEEERemainder",
@@ -549,7 +541,7 @@ public class Math
                                             datatype),
                                     convert(operands[1].evaluate(),
                                             datatype)};
-        Class params[] = new Class[]{getPrimitiveClass(datatype),
+        Class<?>[] params = new Class<?>[]{getPrimitiveClass(datatype),
                                      getPrimitiveClass(datatype)};
 
         return execute("min",
@@ -567,7 +559,7 @@ public class Math
                                             datatype),
                                     convert(operands[1].evaluate(),
                                             datatype)};
-        Class params[] = new Class[]{getPrimitiveClass(datatype),
+        Class<?>[] params = new Class<?>[]{getPrimitiveClass(datatype),
                                      getPrimitiveClass(datatype)};
 
         return execute("max",

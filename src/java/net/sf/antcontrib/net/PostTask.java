@@ -32,8 +32,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -60,7 +59,7 @@ import org.apache.tools.ant.Task;
 public class PostTask extends Task {
 
     /** Storage for name/value pairs to send. */
-    private final Hashtable props = new Hashtable();
+    private final Map<String, String> props = new HashMap<String, String>();
     /** URL to send the name/value pairs to. */
     private URL to = null;
     /** File to read name/value pairs from. */
@@ -86,7 +85,7 @@ public class PostTask extends Task {
     private boolean failOnError = false;
 
     // storage for cookies
-    private static final Hashtable cookieStorage = new Hashtable();
+    private static final Map<String, Cookie> cookieStorage = new HashMap<String, Cookie>();
 
     /** connection to the server. */
     private URLConnection connection = null;
@@ -254,12 +253,9 @@ public class PostTask extends Task {
                                 "application/x-www-form-urlencoded");
 
                             // check if there are cookies to be included
-                            for (Iterator it = cookieStorage.keySet().iterator(); it.hasNext();) {
-                                StringBuffer sb = new StringBuffer();
-                                Object name = it.next();
-                                if (name != null) {
-                                    String key = name.toString();
-                                    Cookie cookie = (Cookie) cookieStorage.get(name);
+                            for (String key : cookieStorage.keySet()) {
+                                if (key != null) {
+                                    Cookie cookie = cookieStorage.get(key);
                                     if (to.getPath().startsWith(cookie.getPath())) {
                                         connection.addRequestProperty("Cookie", cookie.toString());
                                     }
@@ -320,13 +316,11 @@ public class PostTask extends Task {
                             try {
                                 if (connection instanceof HttpURLConnection) {
                                     // read and store cookies
-                                    Map map = connection.getHeaderFields();
-                                    for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-                                        String name = (String) it.next();
+                                    Map<String, List<String>> map = connection.getHeaderFields();
+                                    for (String name : map.keySet()) {
                                         if (name != null && name.equals("Set-Cookie")) {
-                                            List cookies = (List) map.get(name);
-                                            for (Iterator c = cookies.iterator(); c.hasNext();) {
-                                                String raw = (String) c.next();
+                                            List<String> cookies = map.get(name);
+                                            for (String raw : cookies) {
                                                 Cookie cookie = new Cookie(raw);
                                                 cookieStorage.put(cookie.getId(), cookie);
                                             }
@@ -339,17 +333,16 @@ public class PostTask extends Task {
                                         log(((HttpURLConnection) connection).getResponseMessage());
                                         StringBuilder sb = new StringBuilder();
                                         map = connection.getHeaderFields();
-                                        for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-                                            String name = (String) it.next();
+                                        for (String name : map.keySet()) {
                                             sb.append(name).append("=");
-                                            List values = (List) map.get(name);
+                                            List<String> values = map.get(name);
                                             if (values != null) {
                                                 if (values.size() == 1)
                                                     sb.append(values.get(0));
                                                 else if (values.size() > 1) {
                                                     sb.append("[");
-                                                    for (Iterator v = values.iterator(); v.hasNext();) {
-                                                        sb.append(v.next()).append(",");
+                                                    for (String value : values) {
+                                                        sb.append(value).append(",");
                                                     }
                                                     sb.append("]");
                                                 }
@@ -489,16 +482,14 @@ public class PostTask extends Task {
 
         StringBuilder content = new StringBuilder();
         try {
-            Enumeration en = props.keys();
-            while (en.hasMoreElements()) {
-                String name = (String) en.nextElement();
-                String value = (String) props.get(name);
+            for (String name : props.keySet()) {
+                if (content.length() != 0) {
+                    content.append("&");
+                }
+                String value = props.get(name);
                 content.append(URLEncoder.encode(name, encoding));
                 content.append("=");
                 content.append(URLEncoder.encode(value, encoding));
-                if (en.hasMoreElements()) {
-                    content.append("&");
-                }
             }
         }
         catch (IOException ex) {
@@ -540,9 +531,9 @@ public class PostTask extends Task {
      */
     private void addProperties(Properties fileprops) {
         resolveAllProperties(fileprops);
-        Enumeration e = fileprops.keys();
+        Enumeration<Object> e = fileprops.keys();
         while (e.hasMoreElements()) {
-            String name = (String) e.nextElement();
+            String name = e.nextElement().toString();
             String value = fileprops.getProperty(name);
             props.put(name, value);
         }
@@ -556,14 +547,14 @@ public class PostTask extends Task {
      * @exception BuildException  Description of the Exception
      */
     private void resolveAllProperties(Properties fileprops) throws BuildException {
-        for (Enumeration e = fileprops.keys(); e.hasMoreElements();) {
-            String name = (String) e.nextElement();
+        for (Enumeration<Object> e = fileprops.keys(); e.hasMoreElements();) {
+            String name = e.nextElement().toString();
             String value = fileprops.getProperty(name);
 
             boolean resolved = false;
             while (!resolved) {
-                Vector fragments = new Vector();
-                Vector propertyRefs = new Vector();
+                Vector<String> fragments = new Vector<String>();
+                Vector<String> propertyRefs = new Vector<String>();
                 /// this is the Ant 1.5 way of doing it. The Ant 1.6 PropertyHelper
                 /// should be used -- eventually.
                 ProjectHelper.parsePropertyString(value, fragments,
@@ -571,13 +562,13 @@ public class PostTask extends Task {
 
                 resolved = true;
                 if (propertyRefs.size() != 0) {
-                    Enumeration i = fragments.elements();
-                    Enumeration j = propertyRefs.elements();
                     StringBuilder sb = new StringBuilder();
+                    Enumeration<String> i = fragments.elements();
+                    Enumeration<String> j = propertyRefs.elements();
                     while (i.hasMoreElements()) {
-                        String fragment = (String) i.nextElement();
+                        String fragment = i.nextElement();
                         if (fragment == null) {
-                            String propertyName = (String) j.nextElement();
+                            String propertyName = j.nextElement();
                             if (propertyName.equals(name)) {
                                 throw new BuildException("Property " + name
                                         + " was circularly "
@@ -664,7 +655,7 @@ public class PostTask extends Task {
         public String getId() {
             if (id == null)
                 setId(path, name);
-            return id.toString();
+            return id;
         }
 
         private void setId(String name) {

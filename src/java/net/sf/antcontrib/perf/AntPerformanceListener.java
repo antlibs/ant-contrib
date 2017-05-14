@@ -51,8 +51,8 @@ import org.apache.tools.ant.Task;
  */
 public class AntPerformanceListener implements BuildListener {
 
-    private HashMap targetStats = new HashMap();    // key is Target, value is StopWatch
-    private HashMap taskStats = new HashMap();      // key is Task, value is StopWatch
+    private HashMap<Target, StopWatch> targetStats = new HashMap<Target, StopWatch>();
+    private HashMap<Task, StopWatch> taskStats = new HashMap<Task, StopWatch>();
     private StopWatch master = null;
     private long start_time = 0;
 
@@ -71,20 +71,16 @@ public class AntPerformanceListener implements BuildListener {
         long stop_time = master.stop();
 
         // sort targets, key is StopWatch, value is Target
-        TreeMap sortedTargets = new TreeMap(new StopWatchComparator());
-        Iterator it = targetStats.keySet().iterator();
-        while (it.hasNext()) {
-            Object key = it.next();
-            Object value = targetStats.get(key);
+        TreeMap<StopWatch, Target> sortedTargets = new TreeMap<StopWatch, Target>(new StopWatchComparator());
+        for (Target key : targetStats.keySet()) {
+            StopWatch value = targetStats.get(key);
             sortedTargets.put(value, key);
         }
 
         // sort tasks, key is StopWatch, value is Task
-        TreeMap sortedTasks = new TreeMap(new StopWatchComparator());
-        it = taskStats.keySet().iterator();
-        while (it.hasNext()) {
-            Object key = it.next();
-            Object value = taskStats.get(key);
+        TreeMap<StopWatch, Task> sortedTasks = new TreeMap<StopWatch, Task>(new StopWatchComparator());
+        for (Task key : taskStats.keySet()) {
+            StopWatch value = taskStats.get(key);
             sortedTasks.put(value, key);
         }
 
@@ -93,11 +89,11 @@ public class AntPerformanceListener implements BuildListener {
         String lSep = System.getProperty("line.separator");
         msg.append(lSep).append("Statistics:").append(lSep);
         msg.append("-------------- Target Results ---------------------").append(lSep);
-        it = sortedTargets.keySet().iterator();
+        Iterator<StopWatch> it = sortedTargets.keySet().iterator();
         while (it.hasNext()) {
-            StopWatch key = (StopWatch) it.next();
-            Target target = (Target) sortedTargets.get(key);
+            StopWatch key = it.next();
             StringBuilder sb = new StringBuilder();
+            Target target = sortedTargets.get(key);
             if (target != null) {
                 Project p = target.getProject();
                 if (p != null && p.getName() != null)
@@ -114,8 +110,8 @@ public class AntPerformanceListener implements BuildListener {
         msg.append("-------------- Task Results -----------------------").append(lSep);
         it = sortedTasks.keySet().iterator();
         while (it.hasNext()) {
-            StopWatch key = (StopWatch) it.next();
-            Task task = (Task) sortedTasks.get(key);
+            StopWatch key = it.next();
+            Task task = sortedTasks.get(key);
             StringBuilder sb = new StringBuilder();
             Target target = task.getOwningTarget();
             if (target != null) {
@@ -162,8 +158,8 @@ public class AntPerformanceListener implements BuildListener {
 
         // reset the stats registers
 
-        targetStats = new HashMap();
-        taskStats = new HashMap();
+        targetStats = new HashMap<Target, StopWatch>();
+        taskStats = new HashMap<Task, StopWatch>();
     }
 
     /**
@@ -194,7 +190,7 @@ public class AntPerformanceListener implements BuildListener {
      * Stop timing the given target.
      */
     public void targetFinished(BuildEvent be) {
-        StopWatch sw = (StopWatch) targetStats.get(be.getTarget());
+        StopWatch sw = targetStats.get(be.getTarget());
         sw.stop();
     }
 
@@ -211,8 +207,8 @@ public class AntPerformanceListener implements BuildListener {
      * Stop timing the given task.
      */
     public void taskFinished(BuildEvent be) {
-        StopWatch sw = (StopWatch) taskStats.get(be.getTask());
-	if (sw != null)
+        StopWatch sw = taskStats.get(be.getTask());
+        if (sw != null)
             sw.stop();
     }
 
@@ -226,13 +222,11 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * Compares the total times for two StopWatches.
      */
-    public class StopWatchComparator implements Comparator {
+    public class StopWatchComparator implements Comparator<StopWatch> {
         /**
          * Compares the total times for two StopWatches.
          */
-        public int compare(Object o1, Object o2) {
-            StopWatch a = (StopWatch) o1;
-            StopWatch b = (StopWatch) o2;
+        public int compare(StopWatch a, StopWatch b) {
             if (a.total() < b.total())
                 return -1;
             else if (a.total() == b.total())

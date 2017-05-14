@@ -70,9 +70,9 @@ class VisitorImpl extends EmptyVisitor {
 
 		design.checkClass(superClass);
 
-		for (int i = 0; i < names.length; i++) {
-			log("      interfaces=" + names[i], Project.MSG_VERBOSE);
-			design.checkClass(names[i]);
+		for (String name : names) {
+			log("      interfaces=" + name, Project.MSG_VERBOSE);
+			design.checkClass(name);
 		}
 	}
 
@@ -115,9 +115,9 @@ class VisitorImpl extends EmptyVisitor {
 		ExceptionTable excs = m.getExceptionTable();
 		if (excs != null) {
 			types = excs.getExceptionNames();
-			for (int i = 0; i < types.length; i++) {
-				log("         exc=" + types[i], Project.MSG_VERBOSE);
-				design.checkClass(types[i]);
+			for (String type : types) {
+				log("         exc=" + type, Project.MSG_VERBOSE);
+				design.checkClass(type);
 			}
 		}
 

@@ -44,7 +44,7 @@ class DesignFileHandler implements ContentHandler {
 
     private Design design = null;
     private Package currentPackage = null;
-    private final Stack stack = new Stack();
+    private final Stack<Object> stack = new Stack<Object>();
     private Locator locator = null;
     private final Location loc;
 

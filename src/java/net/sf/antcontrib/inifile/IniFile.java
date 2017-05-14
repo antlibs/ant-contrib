@@ -33,8 +33,8 @@ import java.util.Map;
  */
 public class IniFile
 {
-    private final List sections;
-    private final Map sectionMap;
+    private final List<IniSection> sections;
+    private final Map<String, IniSection> sectionMap;
 
     /**
      * Create a new IniFile object.
@@ -42,15 +42,15 @@ public class IniFile
     public IniFile()
     {
         super();
-        this.sections = new ArrayList();
-        this.sectionMap = new HashMap();
+        this.sections = new ArrayList<IniSection>();
+        this.sectionMap = new HashMap<String, IniSection>();
     }
 
     /**
      * Gets the List of IniSection objects contained in this IniFile.
      * @return a List of IniSection objects
      */
-    public List getSections()
+    public List<IniSection> getSections()
     {
         return sections;
     }
@@ -62,7 +62,7 @@ public class IniFile
      */
     public IniSection getSection(String name)
     {
-        return (IniSection)sectionMap.get(name);
+        return sectionMap.get(name);
     }
 
     /**
@@ -72,7 +72,7 @@ public class IniFile
      */
     public void setSection(IniSection section)
     {
-        IniSection sec = (IniSection)sectionMap.get(section.getName());
+        IniSection sec = sectionMap.get(section.getName());
         if (sec != null)
         {
             int idx = sections.indexOf(sec);
@@ -92,7 +92,7 @@ public class IniFile
      */
     public void removeSection(String name)
     {
-        IniSection sec = (IniSection)sectionMap.get(name);
+        IniSection sec = sectionMap.get(name);
         if (sec != null)
         {
             int idx = sections.indexOf(sec);
@@ -165,11 +165,11 @@ public class IniFile
     public void write(Writer writer)
         throws IOException
     {
-        Iterator it = sections.iterator();
+        Iterator<IniSection> it = sections.iterator();
         IniSection section = null;
         while (it.hasNext())
         {
-            section = (IniSection)it.next();
+            section = it.next();
             section.write(writer);
             writer.write(System.getProperty("line.separator"));
         }

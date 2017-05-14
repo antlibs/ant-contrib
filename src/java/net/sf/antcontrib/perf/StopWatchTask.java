@@ -15,7 +15,8 @@
  */
 package net.sf.antcontrib.perf;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -35,7 +36,7 @@ public class StopWatchTask extends Task {
     private String action = null;
 
     // storage for watches
-    private static Hashtable watches = null;
+    private static Map<String, StopWatch> watches = null;
 
     // action definitions
     private static final String STOP = "stop";
@@ -66,7 +67,7 @@ public class StopWatchTask extends Task {
         if (action == null)
             action = START;
         if (watches == null)
-            watches = new Hashtable<String, StopWatch>();
+            watches = new HashMap<String, StopWatch>();
         StopWatch sw = watches.get(name);
         if (sw == null && action.equals(START)) {
             sw = new StopWatch(name);

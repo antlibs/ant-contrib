@@ -33,8 +33,8 @@ public class Package {
 
     //holds the name attribute of the package element of each
     //package this package depends on.
-    private List depends;
-    private final Set unusedDepends = new HashSet();
+    private List<Depends> depends;
+    private final Set<Depends> unusedDepends = new HashSet<Depends>();
     private boolean isIncludeSubpackages;
     private boolean needDeclarations;
     private boolean needDepends;
@@ -58,17 +58,17 @@ public class Package {
     }
 
     public void addDepends(Depends d) {
-        if(depends == null)
-            depends = new ArrayList();
+        if (depends == null)
+            depends = new ArrayList<Depends>();
         depends.add(d);
         unusedDepends.add(d);
     }
 
     public Depends[] getDepends() {
         Depends[] d = new Depends[0];
-        if(depends == null)
+        if (depends == null)
             return d;
-        return (Depends[])depends.toArray(d);
+        return depends.toArray(d);
     }
 
     /**
@@ -138,7 +138,7 @@ public class Package {
         unusedDepends.remove(d);
     }
 
-    public Set getUnusedDepends() {
+    public Set<Depends> getUnusedDepends() {
         return unusedDepends;
     }
 

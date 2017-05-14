@@ -39,9 +39,9 @@ public class Reflector {
      */
     public Reflector(String name) {
         try {
-            Class clazz;
+            Class<?> clazz;
             clazz = Class.forName(name);
-            Constructor constructor;
+            Constructor<?> constructor;
             constructor = clazz.getConstructor(new Class[]{});
             obj = constructor.newInstance(new Object[]{});
         } catch (Throwable t) {
@@ -99,7 +99,7 @@ public class Reflector {
         String methodName, String className, Object o) {
         try {
             Method method;
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             method = obj.getClass().getMethod(
                 methodName, new Class[] {clazz});
             return method.invoke(obj, new Object[] {o});
@@ -123,7 +123,7 @@ public class Reflector {
      * @return the object returned by the method
      */
     public Object callExplicit(
-        String methodName, Class classType, Object o) {
+        String methodName, Class<?> classType, Object o) {
         try {
             Method method;
             method = obj.getClass().getMethod(

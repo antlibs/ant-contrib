@@ -63,10 +63,10 @@ public class GetCookieTask
 		this.property = property;
 	}
 
-	private Cookie findCookie(Cookie cookies[], String name) {
-		for (int i=0;i<cookies.length;i++) {
-			if (cookies[i].getName().equals(name)) {
-				return cookies[i];
+	private Cookie findCookie(Cookie[] cookies, String name) {
+		for (Cookie cooky : cookies) {
+			if (cooky.getName().equals(name)) {
+				return cooky;
 			}
 		}
 		return null;
@@ -102,13 +102,11 @@ public class GetCookieTask
 		}
 		else if (prefix != null) {
 			if (matches != null && matches.length > 0) {
-				for (int i=0;i<matches.length;i++) {
-					String propName =
-						prefix +
-						matches[i].getName();
-					Property p = (Property)getProject().createTask("property");
+				for (Cookie match : matches) {
+					String propName = prefix + match.getName();
+					Property p = (Property) getProject().createTask("property");
 					p.setName(propName);
-					p.setValue(matches[i].getValue());
+					p.setValue(match.getValue());
 					p.perform();
 				}
 			}

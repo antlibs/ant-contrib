@@ -15,13 +15,12 @@
  */
 package net.sf.antcontrib.math;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DynamicConfigurator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DynamicConfigurator;
 
 /**
  * Class to represent a mathematical operation.
@@ -31,7 +30,7 @@ import java.util.Vector;
 public class Operation
         implements Evaluateable, DynamicConfigurator {
     private String operation = "add";
-    private final Vector operands = new Vector();
+    private final List<Evaluateable> operands = new ArrayList<Evaluateable>();
     private String datatype = "double";
     private boolean strict = false;
 
@@ -136,16 +135,16 @@ public class Operation
         Evaluateable[] ops = null;
 
         if (hasLocalOperands) {
-            List localOps = new ArrayList();
-            for (int i = 0; i < localOperands.length; i++) {
-                if (localOperands[i] != null)
-                    localOps.add(localOperands[i]);
+            List<Numeric> localOps = new ArrayList<Numeric>();
+            for (Numeric localOperand : localOperands) {
+                if (localOperand != null)
+                    localOps.add(localOperand);
             }
 
-            ops = (Evaluateable[]) localOps.toArray(new Evaluateable[localOps.size()]);
+            ops = localOps.toArray(new Evaluateable[localOps.size()]);
         }
         else {
-            ops = (Evaluateable[]) operands.toArray(new Evaluateable[operands.size()]);
+            ops = operands.toArray(new Evaluateable[operands.size()]);
         }
 
         return Math.evaluate(operation,

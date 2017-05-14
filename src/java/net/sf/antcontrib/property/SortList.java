@@ -19,10 +19,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
@@ -130,8 +130,8 @@ public class SortList
 
         if (numeric)
         {
-            double d1 = new Double(s1).doubleValue();
-            double d2 = new Double(s2).doubleValue();
+            double d1 = Double.parseDouble(s1);
+            double d2 = Double.parseDouble(s2);
             if (d1 < d2)
                 res = -1;
             else if (d1 == d2)
@@ -161,11 +161,11 @@ public class SortList
         x[b] = t;
     }
 
-    private Vector sortByOrderPropertyFile(Vector props)
+    private List<String> sortByOrderPropertyFile(List<String> props)
         throws IOException
     {
         FileReader fr = null;
-        Vector orderedProps = new Vector();
+        List<String> orderedProps = new ArrayList<String>();
 
         try
         {
@@ -195,17 +195,15 @@ public class SortList
                     if (props.contains(prefPname)
                 	&& ! orderedProps.contains(prefPname))
                     {
-                        orderedProps.addElement(prefPname);
+                        orderedProps.add(prefPname);
                     }
                 }
             }
 
-            Enumeration e = props.elements();
-            while (e.hasMoreElements())
+            for (String prop : props)
             {
-                String prop = (String)(e.nextElement());
                 if (! orderedProps.contains(prop))
-                    orderedProps.addElement(prop);
+                    orderedProps.add(prop);
             }
 
             return orderedProps;
@@ -241,9 +239,9 @@ public class SortList
             throw new BuildException("Either the 'Value' or 'Refid' attribute must be set.");
 
         StringTokenizer st = new StringTokenizer(val, delimiter);
-        Vector vec = new Vector(st.countTokens());
+        List<String> vec = new ArrayList<String>(st.countTokens());
         while (st.hasMoreTokens())
-            vec.addElement(st.nextToken());
+            vec.add(st.nextToken());
 
         String[] propList = null;
 
@@ -251,9 +249,8 @@ public class SortList
         {
             try
             {
-                Vector sorted = sortByOrderPropertyFile(vec);
-                propList = new String[sorted.size()];
-                sorted.copyInto(propList);
+                List<String> sorted = sortByOrderPropertyFile(vec);
+                propList = sorted.toArray(new String[sorted.size()]);
             }
             catch (IOException e)
             {
@@ -268,11 +265,11 @@ public class SortList
             mergeSort(s, propList, 0, s.length, casesensitive, numeric);
         }
 
-        StringBuffer sb = new StringBuffer();
-        for (int i=0;i<propList.length;i++)
+        StringBuilder sb = new StringBuilder();
+        for (String prop : propList)
         {
-            if (i != 0) sb.append(delimiter);
-            sb.append(propList[i]);
+            if (sb.length() != 0) sb.append(delimiter);
+            sb.append(prop);
         }
 
         setPropertyValue(sb.toString());

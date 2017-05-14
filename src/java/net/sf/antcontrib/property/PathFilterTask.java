@@ -81,9 +81,9 @@ public class PathFilterTask
 		Path selectedFiles = (Path)getProject().createDataType("path");
 
 		if (this.path != null) {
-			String files[] = this.path.list();
-			for (int i=0;i<files.length;i++) {
-				File file = new File(files[i]);
+			String[] files = this.path.list();
+			for (String fileName : files) {
+				File file = new File(fileName);
 				if (select.isSelected(file.getParentFile(),
 						file.getName(),
 						file)) {

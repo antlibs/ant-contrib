@@ -20,7 +20,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -136,71 +138,73 @@ public class Variable extends Task {
      * Remove a property from the project's property table and the userProperty table.
      * Note that Ant 1.6 uses a helper for this.
      */
+    @SuppressWarnings("unchecked")
     private void removeProperty(String name) {
-	Hashtable properties = null;
-	// Ant 1.5 stores properties in Project
-	try {
-	    properties = (Hashtable) getValue(getProject(), "properties");
-	    if (properties != null) {
-		properties.remove(name);
-	    }
-	}
-	catch (Exception e) {
-	    // ignore, could be Ant 1.6
-	}
-	try {
-	    properties = (Hashtable) getValue(getProject(), "userProperties");
-	    if (properties != null) {
-		properties.remove(name);
-	    }
-	}
-	catch (Exception e) {
-	    // ignore, could be Ant 1.6
-	}
+        Hashtable<String, Object> properties = null;
+        // Ant 1.5 stores properties in Project
+        try {
+            properties = (Hashtable<String, Object>) getValue(getProject(), "properties");
+            if (properties != null) {
+                properties.remove(name);
+            }
+        }
+        catch (Exception e) {
+            // ignore, could be Ant 1.6
+        }
+        try {
+            properties = (Hashtable<String, Object>) getValue(getProject(), "userProperties");
+            if (properties != null) {
+                properties.remove(name);
+            }
+        }
+        catch (Exception e) {
+            // ignore, could be Ant 1.6
+        }
 
-	// Ant 1.6 uses a PropertyHelper, can check for it by checking for a
-	// reference to "ant.PropertyHelper"
-	try {
-	    Object property_helper = getProject().getReference("ant.PropertyHelper");
-	    if (property_helper != null) {
-		try {
-		    properties = (Hashtable) getValue(property_helper, "properties");
-		    if (properties != null) {
-			properties.remove(name);
-		    }
-		}
-		catch (Exception e) {
-		    // ignore
-		}
-		try {
-		    properties = (Hashtable) getValue(property_helper, "userProperties");
-		    if (properties != null) {
-			properties.remove(name);
-		    }
-		}
-		catch (Exception e) {
-		    // ignore
-		}
-	    }
-	}
-	catch (Exception e) {
-	    // ignore, could be Ant 1.5
-	}
+        // Ant 1.6 uses a PropertyHelper, can check for it by checking for a
+        // reference to "ant.PropertyHelper"
+        try {
+            Object property_helper = getProject().getReference("ant.PropertyHelper");
+            if (property_helper != null) {
+                try {
+                    properties = (Hashtable<String, Object>) getValue(property_helper, "properties");
+                    if (properties != null) {
+                        properties.remove(name);
+                    }
+                }
+                catch (Exception e) {
+                    // ignore
+                }
+                try {
+                    properties = (Hashtable<String, Object>) getValue(property_helper, "userProperties");
+                    if (properties != null) {
+                        properties.remove(name);
+                    }
+                }
+                catch (Exception e) {
+                    // ignore
+                }
+            }
+        }
+        catch (Exception e) {
+            // ignore, could be Ant 1.5
+        }
     }
 
+    @SuppressWarnings("unchecked")
     private void forceProperty(String name, String value) {
-	try {
-	    Hashtable properties = (Hashtable) getValue(getProject(), "properties");
-	    if (properties == null) {
-		getProject().setUserProperty(name, value);
-	    }
-	    else {
-		properties.put(name, value);
-	    }
-	}
-	catch (Exception e) {
-	    getProject().setUserProperty(name, value);
-	}
+        try {
+            Map<String, String> properties = (HashMap<String, String>) getValue(getProject(), "properties");
+            if (properties == null) {
+                getProject().setUserProperty(name, value);
+            }
+            else {
+                properties.put(name, value);
+            }
+        }
+        catch (Exception e) {
+            getProject().setUserProperty(name, value);
+        }
     }
 
     /**
@@ -212,16 +216,16 @@ public class Variable extends Task {
      * @return                          The field value
      * @exception NoSuchFieldException  Darn, nothing to fondle.
      */
-    private Field getField(Class thisClass, String fieldName) throws NoSuchFieldException {
-	if (thisClass == null) {
-	    throw new NoSuchFieldException("Invalid field : " + fieldName);
-	}
-	try {
-	    return thisClass.getDeclaredField(fieldName);
-	}
-	catch (NoSuchFieldException e) {
-	    return getField(thisClass.getSuperclass(), fieldName);
-	}
+    private Field getField(Class<?> thisClass, String fieldName) throws NoSuchFieldException {
+        if (thisClass == null) {
+            throw new NoSuchFieldException("Invalid field : " + fieldName);
+        }
+        try {
+            return thisClass.getDeclaredField(fieldName);
+        }
+        catch (NoSuchFieldException e) {
+            return getField(thisClass.getSuperclass(), fieldName);
+        }
     }
 
     /**
@@ -279,13 +283,13 @@ public class Variable extends Task {
      * @param props  The feature to be added to the Properties attribute
      */
     protected void addProperties(Properties props) {
-	resolveAllProperties(props);
-	Enumeration e = props.keys();
-	while (e.hasMoreElements()) {
-	    String name = (String) e.nextElement();
-	    String value = props.getProperty(name);
-	    forceProperty(name, value);
-	}
+        resolveAllProperties(props);
+        Enumeration<Object> e = props.keys();
+        while (e.hasMoreElements()) {
+            String name = (String) e.nextElement();
+            String value = props.getProperty(name);
+            forceProperty(name, value);
+        }
     }
 
     /**
@@ -295,49 +299,49 @@ public class Variable extends Task {
      * @exception BuildException  Description of the Exception
      */
     private void resolveAllProperties(Properties props) throws BuildException {
-	for (Enumeration e = props.keys(); e.hasMoreElements();) {
-	    String name = (String) e.nextElement();
-	    String value = props.getProperty(name);
+        for (Enumeration<Object> e = props.keys(); e.hasMoreElements();) {
+            String name = e.nextElement().toString();
+            String value = props.getProperty(name);
 
-	    boolean resolved = false;
-	    while (!resolved) {
-		Vector fragments = new Vector();
-		Vector propertyRefs = new Vector();
-		ProjectHelper.parsePropertyString(value, fragments,
-						   propertyRefs);
+            boolean resolved = false;
+            while (!resolved) {
+                Vector<String> fragments = new Vector<String>();
+                Vector<String> propertyRefs = new Vector<String>();
+                ProjectHelper.parsePropertyString(value, fragments,
+                                                   propertyRefs);
 
-		resolved = true;
-		if (propertyRefs.size() != 0) {
-		    StringBuffer sb = new StringBuffer();
-		    Enumeration i = fragments.elements();
-		    Enumeration j = propertyRefs.elements();
-		    while (i.hasMoreElements()) {
-			String fragment = (String) i.nextElement();
-			if (fragment == null) {
-			    String propertyName = (String) j.nextElement();
-			    if (propertyName.equals(name)) {
-				throw new BuildException("Property " + name
-							  + " was circularly "
-							  + "defined.");
-			    }
-			    fragment = getProject().getProperty(propertyName);
-			    if (fragment == null) {
-				if (props.containsKey(propertyName)) {
-				    fragment = props.getProperty(propertyName);
-				    resolved = false;
-				}
-				else {
-				    fragment = "${" + propertyName + "}";
-				}
-			    }
-			}
-			sb.append(fragment);
-		    }
-		    value = sb.toString();
-		    props.put(name, value);
-		}
-	    }
-	}
+                resolved = true;
+                if (propertyRefs.size() != 0) {
+                    StringBuilder sb = new StringBuilder();
+                    Enumeration<String> i = fragments.elements();
+                    Enumeration<String> j = propertyRefs.elements();
+                    while (i.hasMoreElements()) {
+                        String fragment = i.nextElement();
+                        if (fragment == null) {
+                            String propertyName = j.nextElement();
+                            if (propertyName.equals(name)) {
+                                throw new BuildException("Property " + name
+                                                          + " was circularly "
+                                                          + "defined.");
+                            }
+                            fragment = getProject().getProperty(propertyName);
+                            if (fragment == null) {
+                                if (props.containsKey(propertyName)) {
+                                    fragment = props.getProperty(propertyName);
+                                    resolved = false;
+                                }
+                                else {
+                                    fragment = "${" + propertyName + "}";
+                                }
+                            }
+                        }
+                        sb.append(fragment);
+                    }
+                    value = sb.toString();
+                    props.put(name, value);
+                }
+            }
+        }
     }
 
 }

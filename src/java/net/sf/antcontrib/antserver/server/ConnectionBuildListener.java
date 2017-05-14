@@ -36,7 +36,7 @@ public class ConnectionBuildListener
         implements BuildListener
 {
     private Document results;
-    private Stack elementStack;
+    private Stack<Element> elementStack;
     private final ThreadGroup group;
 
     public ConnectionBuildListener()
@@ -46,7 +46,7 @@ public class ConnectionBuildListener
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         results = builder.newDocument();
-        elementStack = new Stack();
+        elementStack = new Stack<Element>();
 
         Element rootElement = results.createElement("results");
         elementStack.push(rootElement);
@@ -71,7 +71,7 @@ public class ConnectionBuildListener
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element parent = (Element)elementStack.peek();
+        Element parent = elementStack.peek();
 
         Element myElement = results.createElement("target");
         myElement.setAttribute("name", event.getTarget().getName());
@@ -85,7 +85,7 @@ public class ConnectionBuildListener
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element myElement = (Element)elementStack.peek();
+        Element myElement = elementStack.peek();
 
         String message = event.getMessage();
         if (message != null)
@@ -125,7 +125,7 @@ public class ConnectionBuildListener
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element parent = (Element)elementStack.peek();
+        Element parent = elementStack.peek();
 
         Element myElement = results.createElement("task");
         myElement.setAttribute("name", event.getTask().getTaskName());
@@ -139,7 +139,7 @@ public class ConnectionBuildListener
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element myElement = (Element)elementStack.peek();
+        Element myElement = elementStack.peek();
 
         Throwable t = event.getException();
         if (t != null)

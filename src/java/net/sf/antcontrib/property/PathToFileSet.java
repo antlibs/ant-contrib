@@ -67,8 +67,6 @@ public class PathToFileSet
         if (! (path instanceof Path))
             throw new BuildException(pathRefId + " is not a path");
 
-        String[] sources = ((Path) path).list();
-
         FileSet fileSet = new FileSet();
         fileSet.setProject(getProject());
         fileSet.setDir(dir);
@@ -79,14 +77,14 @@ public class PathToFileSet
         }
 
         boolean atLeastOne = false;
-        for (int i = 0; i < sources.length; ++i) {
-            File sourceFile = new File(sources[i]);
+        for (String source : ((Path) path).list()) {
+            File sourceFile = new File(source);
             if (!sourceFile.exists())
                 continue;
             String relativeName = getRelativeName(dirNormal, sourceFile);
             if (relativeName == null && !ignoreNonRelative) {
                 throw new BuildException(
-                    sources[i] + " is not relative to " + dir.getAbsolutePath());
+                        source + " is not relative to " + dir.getAbsolutePath());
             }
             if (relativeName == null)
                 continue;

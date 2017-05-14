@@ -15,8 +15,11 @@
  */
 package net.sf.antcontrib.logic;
 
+import static java.lang.Math.min;
+
 import java.io.File;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -91,13 +94,13 @@ public class TimestampSelector extends Task
     }
 
     // Sorts entire array
-    public void sort(Vector array)
+    public void sort(List<File> array)
     {
         sort(array, 0, array.size() - 1);
     }
 
     // Sorts partial array
-    protected void sort(Vector array, int start, int end)
+    protected void sort(List<File> array, int start, int end)
     {
         int p;
         if (end > start)
@@ -116,23 +119,23 @@ public class TimestampSelector extends Task
             return new Long(b.lastModified()).compareTo(new Long(a.lastModified()));
     }
 
-    protected int partition(Vector array, int start, int end)
+    protected int partition(List<File> array, int start, int end)
     {
         int left;
         int right;
         File partitionElement;
 
-        partitionElement = (File)array.elementAt(end);
+        partitionElement = array.get(end);
 
         left = start - 1;
         right = end;
         for (;;)
         {
-            while (compare(partitionElement, (File)array.elementAt(++left)) == 1)
+            while (compare(partitionElement, array.get(++left)) == 1)
             {
                 if (left == end) break;
             }
-            while (compare(partitionElement, (File)array.elementAt(--right)) == -1)
+            while (compare(partitionElement, array.get(--right)) == -1)
             {
                 if (right == start) break;
             }
@@ -144,13 +147,13 @@ public class TimestampSelector extends Task
         return left;
     }
 
-    protected void swap(Vector array, int i, int j)
+    protected void swap(List<File> array, int i, int j)
     {
-        Object temp;
+        File temp;
 
-        temp = array.elementAt(i);
-        array.setElementAt(array.elementAt(j), i);
-        array.setElementAt(temp, j);
+        temp = array.get(i);
+        array.set(i, array.get(j));
+        array.set(j, temp);
     }
 
     public void execute()
@@ -163,30 +166,23 @@ public class TimestampSelector extends Task
 
         // Figure out the list of existing file elements
         // from the designated path
-        String s[] = path.list();
-        Vector v = new Vector();
-        for (int i=0;i<s.length;i++)
-        {
-            File f = new File(s[i]);
+        List<File> v = new ArrayList<File>();
+        for (String value : path.list()) {
+            File f = new File(value);
             if (f.exists())
-                v.addElement(f);
+                v.add(f);
         }
 
         // Sort the vector, need to make java 1.1 compliant
         sort(v);
 
         // Pull off the first N items
-        Vector v2 = new Vector();
-        int sz = v.size();
-        for (int i=0;i<sz && i<count;i++)
-            v2.add(v.elementAt(i));
+        List<File> v2 = v.subList(0, min(count, v.size()));
 
         // Build the resulting Path object
         Path path = new Path(getProject());
-        sz = v2.size();
-        for (int i=0;i<sz;i++)
+        for (File f : v2)
         {
-            File f = (File)(v.elementAt(i));
             Path p = new Path(getProject(), f.getAbsolutePath());
             path.addExisting(p);
         }
@@ -201,15 +197,14 @@ public class TimestampSelector extends Task
             // Concat the paths, and put them in a property
             // which is separated list of the files, using the
             // "pathSep" attribute as the separator
-            String paths[] = path.list();
-            for (int i=0;i<paths.length;i++)
             StringBuilder sb = new StringBuilder();
+            for (String paths : path.list())
             {
-                if (i != 0) sb.append(pathSep);
-                sb.append(paths[i]);
+                if (sb.length() != 0) sb.append(pathSep);
+                sb.append(paths);
             }
 
-            if (paths.length != 0)
+            if (sb.length() != 0)
                 getProject().setProperty(property, sb.toString());
         }
     }

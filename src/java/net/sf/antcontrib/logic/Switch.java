@@ -15,7 +15,8 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -88,7 +89,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
 public class Switch extends Task
 {
     private String value;
-    private final Vector cases;
+    private final List<Case> cases;
     private Sequential defaultCase;
     private boolean caseInsensitive;
 
@@ -97,7 +98,7 @@ public class Switch extends Task
      */
     public Switch()
     {
-        cases = new Vector();
+        cases = new ArrayList<Case>();
     }
 
     public void execute()
@@ -110,11 +111,8 @@ public class Switch extends Task
 
         Sequential selectedCase = defaultCase;
 
-        int sz = cases.size();
-        for (int i=0;i<sz;i++)
+        for (Case c : cases)
         {
-            Case c = (Case)(cases.elementAt(i));
-
             String cvalue = c.value;
             if (cvalue == null) {
                 throw new BuildException("Value is required for case.");
@@ -175,7 +173,7 @@ public class Switch extends Task
         public boolean equals(Object o)
         {
             boolean res = false;
-            Case c = (Case)o;
+            Case c = (Case) o;
             if (c.value.equals(value))
                 res = true;
             return res;
@@ -186,11 +184,11 @@ public class Switch extends Task
      * Creates the &lt;case&gt; tag
      * @return Switch.Case
      */
-    public Switch.Case createCase()
+    public Case createCase()
         throws BuildException
     {
-        Switch.Case res = new Switch.Case();
-        cases.addElement(res);
+        Case res = new Case();
+        cases.add(res);
         return res;
     }
 

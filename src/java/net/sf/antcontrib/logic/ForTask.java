@@ -49,7 +49,7 @@ public class ForTask extends Task {
     private boolean    trim;
     private boolean    keepgoing = false;
     private MacroDef   macroDef;
-    private final List hasIterators = new ArrayList();
+    private final List<HasIterator> hasIterators = new ArrayList<HasIterator>();
     private boolean    parallel = false;
     private Integer    threadCount;
     private Parallel   parallelTasks;
@@ -318,14 +318,14 @@ public class ForTask extends Task {
         if (currPath != null) {
             pathElements = currPath.list();
         }
-        for (int i = 0; i < pathElements.length; i++) {
-            File nextFile = new File(pathElements[i]);
+        for (String pathElement : pathElements) {
+            File nextFile = new File(pathElement);
             doToken(nextFile.getAbsolutePath());
         }
 
         // Take care of iterators
-        for (Iterator i = hasIterators.iterator(); i.hasNext();) {
-            Iterator it = ((HasIterator) i.next()).iterator();
+        for (HasIterator hasIterator : hasIterators) {
+            Iterator<?> it = hasIterator.iterator();
             while (it.hasNext()) {
                 doToken(it.next().toString());
             }
@@ -342,7 +342,7 @@ public class ForTask extends Task {
      *
      * @param map a Map object - iterate over the values.
      */
-    public void add(Map map) {
+    public void add(Map<?, ?> map) {
         hasIterators.add(new MapIterator(map));
     }
 
@@ -387,7 +387,7 @@ public class ForTask extends Task {
      *
      * @param collection a <code>Collection</code> value.
      */
-    public void add(Collection collection) {
+    public void add(Collection<?> collection) {
         hasIterators.add(new ReflectIterator(collection));
     }
 
@@ -396,7 +396,7 @@ public class ForTask extends Task {
      *
      * @param iterator an <code>Iterator</code> value
      */
-    public void add(Iterator iterator) {
+    public void add(Iterator<?> iterator) {
         hasIterators.add(new IteratorIterator(iterator));
     }
 
@@ -413,26 +413,26 @@ public class ForTask extends Task {
     /**
      * Interface for the objects in the iterator collection.
      */
-    private interface HasIterator {
-        Iterator iterator();
+    public interface HasIterator {
+        Iterator<?> iterator();
     }
 
     private static class IteratorIterator implements HasIterator {
-        private final Iterator iterator;
-        public IteratorIterator(Iterator iterator) {
+        private final Iterator<?> iterator;
+        public IteratorIterator(Iterator<?> iterator) {
             this.iterator = iterator;
         }
-        public Iterator iterator() {
+        public Iterator<?> iterator() {
             return this.iterator;
         }
     }
 
     private static class MapIterator implements HasIterator {
-        private final Map map;
-        public MapIterator(Map map) {
+        private final Map<?, ?> map;
+        public MapIterator(Map<?, ?> map) {
             this.map = map;
         }
-        public Iterator iterator() {
+        public Iterator<?> iterator() {
             return map.values().iterator();
         }
     }
@@ -452,9 +452,9 @@ public class ForTask extends Task {
             }
         }
 
-        public Iterator iterator() {
+        public Iterator<?> iterator() {
             try {
-                return (Iterator) method.invoke(obj, new Object[] {});
+                return (Iterator<?>) method.invoke(obj, new Object[] {});
             } catch (Throwable t) {
                 throw new BuildException(t);
             }

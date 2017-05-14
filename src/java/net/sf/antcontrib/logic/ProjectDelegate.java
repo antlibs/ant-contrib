@@ -36,7 +36,7 @@ extends Project {
 		delegate.addBuildListener(arg0);
 	}
 
-	public void addDataTypeDefinition(String arg0, Class arg1) {
+	public void addDataTypeDefinition(String arg0, Class<?> arg1) {
 		delegate.addDataTypeDefinition(arg0, arg1);
 	}
 
@@ -60,11 +60,11 @@ extends Project {
 		delegate.addTarget(arg0);
 	}
 
-	public void addTaskDefinition(String arg0, Class arg1) throws BuildException {
+	public void addTaskDefinition(String arg0, Class<?> arg1) throws BuildException {
 		delegate.addTaskDefinition(arg0, arg1);
 	}
 
-	public void checkTaskClass(Class arg0) throws BuildException {
+	public void checkTaskClass(Class<?> arg0) throws BuildException {
 		delegate.checkTaskClass(arg0);
 	}
 
@@ -108,7 +108,7 @@ extends Project {
 		return delegate.equals(arg0);
 	}
 
-	public void executeSortedTargets(Vector arg0) throws BuildException {
+	public void executeSortedTargets(Vector<Target> arg0) throws BuildException {
 		delegate.executeSortedTargets(arg0);
 	}
 
@@ -116,7 +116,7 @@ extends Project {
 		delegate.executeTarget(arg0);
 	}
 
-	public void executeTargets(Vector arg0) throws BuildException {
+	public void executeTargets(Vector<String> arg0) throws BuildException {
 		delegate.executeTargets(arg0);
 	}
 
@@ -140,7 +140,7 @@ extends Project {
 		return delegate.getBaseDir();
 	}
 
-	public Vector getBuildListeners() {
+	public Vector<BuildListener> getBuildListeners() {
 		return delegate.getBuildListeners();
 	}
 
@@ -148,7 +148,7 @@ extends Project {
 		return delegate.getCoreLoader();
 	}
 
-	public Hashtable getDataTypeDefinitions() {
+	public Hashtable<String, Class<?>> getDataTypeDefinitions() {
 		return delegate.getDataTypeDefinitions();
 	}
 
@@ -184,7 +184,7 @@ extends Project {
 		return delegate.getName();
 	}
 
-	public Hashtable getProperties() {
+	public Hashtable<String, Object> getProperties() {
 		return delegate.getProperties();
 	}
 
@@ -192,19 +192,19 @@ extends Project {
 		return delegate.getProperty(arg0);
 	}
 
-	public Object getReference(String arg0) {
+	public <T> T getReference(String arg0) {
 		return delegate.getReference(arg0);
 	}
 
-	public Hashtable getReferences() {
+	public Hashtable<String, Object> getReferences() {
 		return delegate.getReferences();
 	}
 
-	public Hashtable getTargets() {
+	public Hashtable<String, Target> getTargets() {
 		return delegate.getTargets();
 	}
 
-	public Hashtable getTaskDefinitions() {
+	public Hashtable<String, Class<?>> getTaskDefinitions() {
 		return delegate.getTaskDefinitions();
 	}
 
@@ -212,7 +212,7 @@ extends Project {
 		return delegate.getThreadTask(arg0);
 	}
 
-	public Hashtable getUserProperties() {
+	public Hashtable<String, Object> getUserProperties() {
 		return delegate.getUserProperties();
 	}
 

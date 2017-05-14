@@ -40,7 +40,7 @@ public class AntContribVersion {
 	 * the manifest version info.
 	 * @param c The Class on whose package to use to get version info.
 	 */
-	public AntContribVersion(Class c) {
+	public AntContribVersion(Class<?> c) {
 		String name = c.getName();
 		int index = name.lastIndexOf(".");
 

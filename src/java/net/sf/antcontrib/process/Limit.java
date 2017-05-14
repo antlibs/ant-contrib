@@ -1,4 +1,3 @@
-
 /*
 * Copyright (c) 2001-2004 Ant-Contrib project.  All rights reserved.
 *
@@ -17,7 +16,8 @@
 package net.sf.antcontrib.process;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
@@ -41,7 +41,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 public class Limit extends Task implements TaskContainer {
 
     // storage for nested tasks
-    private final Vector tasks = new Vector();
+    private final Vector<Task> tasks = new Vector<Task>();
 
     // time units, default value is 3 minutes.
     private long maxwait = 180;
@@ -218,13 +218,13 @@ public class Limit extends Task implements TaskContainer {
         try {
             // start executing nested tasks
             final Thread runner = new Thread() {
-		    public void run() {
-                        Enumeration e = tasks.elements();
+                    public void run() {
+                        Enumeration<Task> e = tasks.elements();
                         while (e.hasMoreElements()) {
                             if (taskRunner != this) {
                                 break;
                             }
-                            currentTask = (Task) e.nextElement();
+                            currentTask = e.nextElement();
                             try {
                                 currentTask.perform();
                             }
@@ -251,7 +251,7 @@ public class Limit extends Task implements TaskContainer {
                 int index = tasks.indexOf(currentTask);
                 StringBuilder not_ran = new StringBuilder();
                 for (int i = index + 1; i < tasks.size(); i++) {
-                    not_ran.append('<').append(((Task) tasks.get(i)).getTaskName()).append('>');
+                    not_ran.append('<').append(tasks.get(i).getTaskName()).append('>');
                     if (i < tasks.size() - 1) {
                         not_ran.append(", ");
                     }
@@ -322,7 +322,7 @@ public class Limit extends Task implements TaskContainer {
                     MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK
                 };
 
-        private final Hashtable timeTable = new Hashtable();
+        private final Map<String, Long> timeTable = new HashMap<String, Long>();
 
         public TimeUnit() {
             timeTable.put(MILLISECOND, 1L);

@@ -16,9 +16,10 @@
 package net.sf.antcontrib.logic;
 
 import java.io.File;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -78,8 +79,8 @@ public class ForEach extends Task
     private String target;
     private boolean inheritAll;
     private boolean inheritRefs;
-    private final Vector params;
-    private final Vector references;
+    private final List<Property> params;
+    private final List<Ant.Reference> references;
     private Path currPath;
     private boolean parallel;
     private boolean trim;
@@ -98,26 +99,24 @@ public class ForEach extends Task
         this.target = null;
         this.inheritAll = false;
         this.inheritRefs = false;
-        this.params = new Vector();
-        this.references = new Vector();
-    	this.parallel = false;
+        this.params = new ArrayList<Property>();
+        this.references = new ArrayList<Ant.Reference>();
+        this.parallel = false;
         this.maxThreads = 5;
     }
 
-    private void executeParallel(Vector tasks)
+    private void executeParallel(List<CallTarget> tasks)
     {
         ThreadPool pool = new ThreadPool(maxThreads);
-        Enumeration e = tasks.elements();
         Runnable r = null;
-        Vector threads = new Vector();
+        List<ThreadPoolThread> threads = new ArrayList<ThreadPoolThread>();
 
         // start each task in it's own thread, using the
         // pool to ensure that we don't exceed the maximum
         // amount of threads
-        while (e.hasMoreElements())
+        for (final Task task : tasks)
         {
             // Create the Runnable object
-            final Task task = (Task)e.nextElement();
             r = new Runnable()
             {
                 public void run()
@@ -134,7 +133,7 @@ public class ForEach extends Task
                 ThreadPoolThread tpt = pool.borrowThread();
                 tpt.setRunnable(r);
                 tpt.start();
-                threads.addElement(tpt);
+                threads.add(tpt);
             }
             catch (Exception ex)
             {
@@ -145,11 +144,8 @@ public class ForEach extends Task
 
         // Wait for all threads to finish before we
         // are allowed to return.
-        Enumeration te = threads.elements();
-        Thread t= null;
-        while (te.hasMoreElements())
+        for (Thread t : threads)
         {
-            t = (Thread)te.nextElement();
             if (t.isAlive())
             {
                 try
@@ -164,14 +160,11 @@ public class ForEach extends Task
         }
     }
 
-    private void executeSequential(Vector tasks)
+    private void executeSequential(List<CallTarget> tasks)
     {
         TaskContainer tc = (TaskContainer) getProject().createTask("sequential");
-        Enumeration e = tasks.elements();
-        Task t = null;
-        while (e.hasMoreElements())
+        for (Task t : tasks)
         {
-            t = (Task)e.nextElement();
             tc.addTask(t);
         }
 
@@ -189,7 +182,7 @@ public class ForEach extends Task
         if (target == null)
             throw new BuildException("You must supply a target to perform");
 
-        Vector values = new Vector();
+        List<Object> values = new ArrayList<Object>();
 
         // Take Care of the list attribute
         if (list != null)
@@ -200,41 +193,27 @@ public class ForEach extends Task
             {
                 String tok = st.nextToken();
                 if (trim) tok = tok.trim();
-                values.addElement(tok);
+                values.add(tok);
             }
         }
 
-        String[] pathElements = new String[0];
         if (currPath != null) {
-            pathElements = currPath.list();
-        }
-
-        for (int i=0;i<pathElements.length;i++)
-        {
-            if (mapper != null)
-            {
-                FileNameMapper m = mapper.getImplementation();
-                String mapped[] = m.mapFileName(pathElements[i]);
-                for (int j=0;j<mapped.length;j++)
-                    values.addElement(mapped[j]);
-            }
-            else
-            {
-                values.addElement(new File(pathElements[i]));
+            for (String pathElement : currPath.list()) {
+        	    if (mapper != null) {
+        	        FileNameMapper m = mapper.getImplementation();
+        	        String[] mapped = m.mapFileName(pathElement);
+                    Collections.addAll(values, mapped);
+        	    } else {
+        	        values.add(new File(pathElement));
+        	    }
             }
         }
 
-        Vector tasks = new Vector();
+        List<CallTarget> tasks = new ArrayList<CallTarget>();
 
-        int sz = values.size();
-        CallTarget ct = null;
-        Object val = null;
-        Property p = null;
-
-        for (int i = 0; i < sz; i++) {
-            val = values.elementAt(i);
-            ct = createCallTarget();
-            p = ct.createParam();
+        for (Object val : values) {
+            CallTarget ct = createCallTarget();
+            Property p = ct.createParam();
             p.setName(param);
 
             if (val instanceof File)
@@ -242,7 +221,7 @@ public class ForEach extends Task
             else
                 p.setValue((String)val);
 
-            tasks.addElement(ct);
+            tasks.add(ct);
         }
 
         if (parallel && maxThreads > 1)
@@ -319,7 +298,7 @@ public class ForEach extends Task
      * @param p Property
      */
     public void addParam(Property p) {
-        params.addElement(p);
+        params.add(p);
     }
 
     /**
@@ -328,7 +307,7 @@ public class ForEach extends Task
      * @param r Ant.Reference
      */
     public void addReference(Ant.Reference r) {
-        references.addElement(r);
+        references.add(r);
     }
 
     /**
@@ -363,9 +342,7 @@ public class ForEach extends Task
         ct.setTarget(target);
         ct.setInheritAll(inheritAll);
         ct.setInheritRefs(inheritRefs);
-        Enumeration e = params.elements();
-        while (e.hasMoreElements()) {
-            Property param = (Property) e.nextElement();
+        for (Property param : params) {
             Property toSet = ct.createParam();
             toSet.setName(param.getName());
             if (param.getValue() != null) {
@@ -391,9 +368,8 @@ public class ForEach extends Task
             }
         }
 
-        e = references.elements();
-        while (e.hasMoreElements()) {
-            ct.addReference((Ant.Reference) e.nextElement());
+        for (Ant.Reference r : references) {
+            ct.addReference(r);
         }
 
         return ct;

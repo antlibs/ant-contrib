@@ -15,8 +15,8 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -131,7 +131,7 @@ public class TryCatchTask extends Task {
 
         public boolean execute(Throwable t) throws BuildException {
             try {
-                Class c = Thread.currentThread().getContextClassLoader().loadClass(throwable);
+                Class<?> c = Thread.currentThread().getContextClassLoader().loadClass(throwable);
                 if (c.isAssignableFrom(t.getClass())) {
                     execute();
                     return true;
@@ -145,7 +145,7 @@ public class TryCatchTask extends Task {
     }
 
     private Sequential tryTasks = null;
-    private final Vector catchBlocks = new Vector();
+    private final List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>();
     private Sequential finallyTasks = null;
     private String property = null;
     private String reference = null;
@@ -223,10 +223,9 @@ public class TryCatchTask extends Task {
             }
 
             boolean executed = false;
-            Enumeration blocks = catchBlocks.elements();
-            while (blocks.hasMoreElements() && ! executed) {
-                CatchBlock cb = (CatchBlock)blocks.nextElement();
+            for (CatchBlock cb : catchBlocks) {
                 executed = cb.execute(e);
+                if (executed) break;
             }
 
             if (! executed) {

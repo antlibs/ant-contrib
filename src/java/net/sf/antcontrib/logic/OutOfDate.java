@@ -16,10 +16,11 @@
 package net.sf.antcontrib.logic;
 
 import java.io.File;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -67,14 +68,14 @@ public class OutOfDate extends Task implements Condition {
     }
 
     // attributes and nested elements
-    private Task doTask = null;
+    private Task   doTask = null;
     private String property;
     private String value                = "true";
     private boolean force               = false;
     private int    verbosity            = Project.MSG_VERBOSE;
-    private final Vector mappers        = new Vector();
-    private Path targetpaths            = null;
-    private Path sourcepaths            = null;
+    private final List<MyMapper> mappers = new ArrayList<MyMapper>();
+    private Path   targetpaths          = null;
+    private Path   sourcepaths          = null;
     private String outputSources        = null;
     private String outputSourcesPath    = null;
     private String outputTargets        = null;
@@ -86,10 +87,10 @@ public class OutOfDate extends Task implements Condition {
     private int    collection     = CollectionEnum.SOURCES;
 
     // variables
-    private final Hashtable targetSet = new Hashtable();
-    private final Hashtable sourceSet = new Hashtable();
-    private final Hashtable allTargetSet = new Hashtable();
-    private final Hashtable allSourceSet = new Hashtable();
+    private final Map<File, File> targetSet = new HashMap<File, File>();
+    private final Map<File, File> sourceSet = new HashMap<File, File>();
+    private final Map<File, File> allTargetSet = new HashMap<File, File>();
+    private final Map<File, File> allSourceSet = new HashMap<File, File>();
 
     /**
      * Set the collection attribute, controls what is
@@ -113,7 +114,7 @@ public class OutOfDate extends Task implements Condition {
      */
     public Mapper createMapper() {
         MyMapper mapper = new MyMapper(getProject());
-        mappers.addElement(mapper);
+        mappers.add(mapper);
         return mapper;
     }
 
@@ -298,8 +299,8 @@ public class OutOfDate extends Task implements Condition {
         // Source Paths
         String[] spaths = sourcepaths.list();
 
-        for (int i = 0; i < spaths.length; i++) {
-            File sourceFile = new File(spaths[i]);
+        for (String spath : spaths) {
+            File sourceFile = new File(spath);
             if (!sourceFile.exists()) {
                 throw new BuildException(sourceFile.getAbsolutePath()
                                          + " not found.");
@@ -314,20 +315,19 @@ public class OutOfDate extends Task implements Condition {
                 ret = true;
             }
             else {
-            	for (int i = 0; i < paths.length; ++i) {
-            		if (targetNeedsGen(paths[i], spaths)) {
-            			ret = true;
-            		}
-            	}
+                for (String path : paths) {
+                    if (targetNeedsGen(path, spaths)) {
+                        ret = true;
+                    }
+                }
             }
         }
 
         // Mapper Paths
-        for (Enumeration e = mappers.elements(); e.hasMoreElements();) {
-            MyMapper mapper = (MyMapper) e.nextElement();
+        for (MyMapper mapper : mappers) {
 
-            File   relativeDir = mapper.getDir();
-            File   baseDir = new File(getProject().getProperty("basedir"));
+            File relativeDir = mapper.getDir();
+            File baseDir = new File(getProject().getProperty("basedir"));
             if (relativeDir == null) {
                 relativeDir = baseDir;
             }
@@ -340,10 +340,10 @@ public class OutOfDate extends Task implements Condition {
             for (int i = 0; i < spaths.length; ++i) {
                 String[] mapped = fileNameMapper.mapFileName(rpaths[i]);
                 if (mapped != null) {
-                    for (int j = 0; j < mapped.length; ++j) {
+                    for (String mappedName : mapped) {
                         if (outOfDate(new File(spaths[i]),
-                                      fileUtils.resolveFile(
-                                          baseDir, mapped[j]))) {
+                                fileUtils.resolveFile(
+                                        baseDir, mappedName))) {
                             ret = true;
                         }
                     }
@@ -401,8 +401,8 @@ public class OutOfDate extends Task implements Condition {
     private boolean targetNeedsGen(String target, String[] spaths) {
         boolean ret = false;
         File targetFile = new File(target);
-        for (int i = 0; i < spaths.length; i++) {
-            if (outOfDate(new File(spaths[i]), targetFile)) {
+        for (String spath : spaths) {
+            if (outOfDate(new File(spath), targetFile)) {
                 ret = true;
             }
         }
@@ -420,7 +420,7 @@ public class OutOfDate extends Task implements Condition {
      * Call evaluate and return an iterator over the result.
      * @return an iterator over the result
      */
-    public Iterator iterator() {
+    public Iterator<File> iterator() {
         // Perhaps should check the result and return
         // an empty set if it returns false
         eval();
@@ -481,10 +481,9 @@ public class OutOfDate extends Task implements Condition {
         return ret;
     }
 
-    private String setToString(Hashtable set) {
-        for (Enumeration e = set.keys(); e.hasMoreElements();) {
-            File v = (File) e.nextElement();
+    private String setToString(Map<File, File> set) {
         StringBuilder b = new StringBuilder();
+        for (File v: set.keySet()) {
             if (b.length() != 0) {
                 b.append(separator);
             }
@@ -503,10 +502,9 @@ public class OutOfDate extends Task implements Condition {
         return b.toString();
     }
 
-    private Path setToPath(Hashtable set) {
+    private Path setToPath(Map<File, File> set) {
         Path ret = new Path(getProject());
-        for (Enumeration e = set.keys(); e.hasMoreElements();) {
-            File v = (File) e.nextElement();
+        for (File v : set.keySet()) {
             Path.PathElement el = ret.createPathElement();
             el.setLocation(v);
         }
@@ -568,8 +566,8 @@ public class OutOfDate extends Task implements Condition {
             }
 
             String[] names = toBeDeleted.list();
-            for (int i = 0; i < names.length; ++i) {
-                File file = new File(names[i]);
+            for (String name : names) {
+                File file = new File(name);
                 if (!file.exists()) {
                     continue;
                 }
@@ -613,8 +611,7 @@ public class OutOfDate extends Task implements Condition {
             if (list == null) {
                 list = new String[0];
             }
-            for (int i = 0; i < list.length; i++) {
-                String s = list[i];
+            for (String s : list) {
                 File f = new File(d, s);
                 if (f.isDirectory()) {
                     removeDir(f);

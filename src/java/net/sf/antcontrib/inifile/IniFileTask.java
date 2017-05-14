@@ -19,8 +19,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -296,12 +297,12 @@ public class IniFileTask
 
     private File source;
     private File dest;
-    private final Vector operations;
+    private final List<IniOperation> operations;
 
     public IniFileTask()
     {
         super();
-        this.operations = new Vector();
+        this.operations = new ArrayList<IniOperation>();
     }
 
     public Set createSet()
@@ -359,11 +360,11 @@ public class IniFileTask
             throw new BuildException(e);
         }
 
-        Iterator it = operations.iterator();
+        Iterator<IniOperation> it = operations.iterator();
         IniOperation operation = null;
         while (it.hasNext())
         {
-            operation = (IniOperation)it.next();
+            operation = it.next();
             operation.execute(getProject(), iniFile);
         }
 

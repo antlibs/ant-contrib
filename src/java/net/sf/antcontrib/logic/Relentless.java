@@ -15,12 +15,12 @@
  */
 package net.sf.antcontrib.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
-
-import java.util.Iterator;
-import java.util.Vector;
 
 /** Relentless is an Ant task that will relentlessly execute other tasks,
  * ignoring any failures until all tasks have completed.  If any of the
@@ -31,7 +31,7 @@ import java.util.Vector;
 public class Relentless extends Task implements TaskContainer {
     /** We keep the list of tasks we will execute here.
      */
-    private final Vector taskList = new Vector();
+    private final List<Task> taskList = new ArrayList<Task>();
 
     /** Flag indicating how much output to generate.
      */
@@ -50,9 +50,7 @@ public class Relentless extends Task implements TaskContainer {
             throw new BuildException("No tasks specified for <relentless>.");
         }
         log("Relentlessly executing: " + this.getDescription());
-        Iterator iter = taskList.iterator();
-        while (iter.hasNext()) {
-            Task t = (Task) iter.next();
+        for (Task t : taskList) {
             taskNo++;
             String desc = t.getDescription();
             if (desc == null) {

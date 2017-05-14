@@ -17,8 +17,8 @@ package net.sf.antcontrib.antserver.commands;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
@@ -31,6 +31,7 @@ import net.sf.antcontrib.antserver.Command;
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
  *
  */
+@SuppressWarnings("serial")
 public class RunAntCommand
         extends AbstractCommand
         implements Command
@@ -39,16 +40,16 @@ public class RunAntCommand
     private String antFile;
     private String dir;
     private String target;
-    private Vector properties;
-    private Vector references;
+    private List<PropertyContainer> properties;
+    private List<ReferenceContainer> references;
     private boolean inheritall = false;
     private boolean interitrefs = false;
 
     public RunAntCommand()
     {
         super();
-        this.properties = new Vector();
-        this.references = new Vector();
+        this.properties = new ArrayList<PropertyContainer>();
+        this.references = new ArrayList<ReferenceContainer>();
     }
 
     public String getTarget()
@@ -61,22 +62,22 @@ public class RunAntCommand
         this.target = target;
     }
 
-    public Vector getProperties()
+    public List<PropertyContainer> getProperties()
     {
         return properties;
     }
 
-    public void setProperties(Vector properties)
+    public void setProperties(List<PropertyContainer> properties)
     {
         this.properties = properties;
     }
 
-    public Vector getReferences()
+    public List<ReferenceContainer> getReferences()
     {
         return references;
     }
 
-    public void setReferences(Vector references)
+    public void setReference(List<ReferenceContainer> references)
     {
         this.references = references;
     }
@@ -123,12 +124,12 @@ public class RunAntCommand
 
     public void addConfiguredProperty(PropertyContainer property)
     {
-        properties.addElement(property);
+        properties.add(property);
     }
 
     public void addConfiguredReference(ReferenceContainer reference)
     {
-        references.addElement(reference);
+        references.add(reference);
     }
 
     public void validate(Project project)
@@ -154,24 +155,17 @@ public class RunAntCommand
         if (antFile != null)
             ant.setAntfile(antFile);
 
-        Enumeration e = properties.elements();
-        PropertyContainer pc = null;
-        Property p = null;
-        while (e.hasMoreElements())
+
+        for (PropertyContainer pc : properties)
         {
-            pc = (PropertyContainer)e.nextElement();
-            p = ant.createProperty();
+            Property p = ant.createProperty();
             p.setName(pc.getName());
             p.setValue(pc.getValue());
         }
 
-        e = references.elements();
-        ReferenceContainer rc = null;
-        Ant.Reference ref = null;
-        while (e.hasMoreElements())
+        for (ReferenceContainer rc : references)
         {
-            rc = (ReferenceContainer)e.nextElement();
-            ref = new Ant.Reference();
+            Ant.Reference ref = new Ant.Reference();
             ref.setRefId(rc.getRefId());
             ref.setToRefid(rc.getToRefId());
             ant.addReference(ref);

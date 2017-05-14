@@ -20,10 +20,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
@@ -78,11 +79,11 @@ public class AntCallBack extends Task {
     /** should we inherit references from the parent. */
     private boolean inheritRefs = false;
 
-    private final Vector properties = new Vector();
     /** the properties to pass to the new project. */
+    private final List<Property> properties = new ArrayList<Property>();
 
-    private final Vector references = new Vector();
     /** the references to pass to the new project. */
+    private final List<Reference> references = new ArrayList<Reference>();
 
     /** the temporary project created to run the build file. */
     private Project newProject;
@@ -132,10 +133,8 @@ public class AntCallBack extends Task {
      */
     private void reinit() {
         init();
-        final int count = properties.size();
-        for (int i = 0; i < count; i++) {
-            Property p = properties.elementAt(i);
-            Property newP = (Property)newProject.createTask("property");
+        for (Property p : properties) {
+            Property newP = (Property) newProject.createTask("property");
             newP.setName(p.getName());
             if (p.getValue() != null) {
                 newP.setValue(p.getValue());
@@ -158,7 +157,7 @@ public class AntCallBack extends Task {
             if (p.getClasspath() != null) {
                 newP.setClasspath(p.getClasspath());
             }
-            properties.setElementAt(newP, i);
+            properties.set(properties.indexOf(p), newP);
         }
     }
 
@@ -170,82 +169,81 @@ public class AntCallBack extends Task {
      * input handler.
      */
     private void initializeProject() {
-	newProject.setInputHandler(getProject().getInputHandler());
+        newProject.setInputHandler(getProject().getInputHandler());
 
-	Vector listeners = project.getBuildListeners();
-	final int count = listeners.size();
-	for (int i = 0; i < count; i++) {
-	    newProject.addBuildListener((BuildListener)listeners.elementAt(i));
-	}
+        List<BuildListener> listeners = getProject().getBuildListeners();
+        for (BuildListener listener : listeners) {
+            newProject.addBuildListener(listener);
+        }
 
-	if (output != null) {
-	    File outfile = null;
-	    if (dir != null) {
-		outfile = FileUtils.newFileUtils().resolveFile(dir, output);
-	    }
-	    else {
-		outfile = getProject().resolveFile(output);
-	    }
-	    try {
-		out = new PrintStream(new FileOutputStream(outfile));
-		DefaultLogger logger = new DefaultLogger();
-		logger.setMessageOutputLevel(Project.MSG_INFO);
-		logger.setOutputPrintStream(out);
-		logger.setErrorPrintStream(out);
-		newProject.addBuildListener(logger);
-	    }
-	    catch (IOException ex) {
-		log("Ant: Can't set output to " + output);
-	    }
-	}
+        if (output != null) {
+            File outfile = null;
+            if (dir != null) {
+                outfile = FileUtils.getFileUtils().resolveFile(dir, output);
+            }
+            else {
+                outfile = getProject().resolveFile(output);
+            }
+            try {
+                out = new PrintStream(new FileOutputStream(outfile));
+                DefaultLogger logger = new DefaultLogger();
+                logger.setMessageOutputLevel(Project.MSG_INFO);
+                logger.setOutputPrintStream(out);
+                logger.setErrorPrintStream(out);
+                newProject.addBuildListener(logger);
+            }
+            catch (IOException ex) {
+                log("Ant: Can't set output to " + output);
+            }
+        }
 
-	Hashtable taskdefs = project.getTaskDefinitions();
-	Enumeration et = taskdefs.keys();
-	while (et.hasMoreElements()) {
-	    String taskName = (String)et.nextElement();
-	    if (taskName.equals("property")) {
-		// we have already added this taskdef in #init
-		continue;
-	    }
-	    Class taskClass = (Class)taskdefs.get(taskName);
-	    newProject.addTaskDefinition(taskName, taskClass);
-	}
+        Hashtable<String, Class<?>> taskdefs = getProject().getTaskDefinitions();
+        Enumeration<String> et = taskdefs.keys();
+        while (et.hasMoreElements()) {
+            String taskName = et.nextElement();
+            if (taskName.equals("property")) {
+                // we have already added this taskdef in #init
+                continue;
+            }
+            Class<?> taskClass = taskdefs.get(taskName);
+            newProject.addTaskDefinition(taskName, taskClass);
+        }
 
-	Hashtable typedefs = project.getDataTypeDefinitions();
-	Enumeration e = typedefs.keys();
-	while (e.hasMoreElements()) {
-	    String typeName = (String)e.nextElement();
-	    Class typeClass = (Class)typedefs.get(typeName);
-	    newProject.addDataTypeDefinition(typeName, typeClass);
-	}
+        Hashtable<String, Class<?>> typedefs = getProject().getDataTypeDefinitions();
+        Enumeration<String> e = typedefs.keys();
+        while (e.hasMoreElements()) {
+            String typeName = e.nextElement();
+            Class<?> typeClass = typedefs.get(typeName);
+            newProject.addDataTypeDefinition(typeName, typeClass);
+        }
 
-	// set user-defined properties
-	getProject().copyUserProperties(newProject);
+        // set user-defined properties
+        getProject().copyUserProperties(newProject);
 
-	if (!inheritAll) {
-	    // set Java built-in properties separately,
-	    // b/c we won't inherit them.
-	    newProject.setSystemProperties();
-	}
-	else {
-	    // set all properties from calling project
-	    Hashtable props = getProject().getProperties();
-	    e = props.keys();
-	    while (e.hasMoreElements()) {
-		String arg = e.nextElement().toString();
-		if ("basedir".equals(arg) || "ant.file".equals(arg)) {
-		    // basedir and ant.file get special treatment in execute()
-		    continue;
-		}
+        if (!inheritAll) {
+            // set Java built-in properties separately,
+            // b/c we won't inherit them.
+            newProject.setSystemProperties();
+        }
+        else {
+            // set all properties from calling project
+            Hashtable<String, Object> props = getProject().getProperties();
+            e = props.keys();
+            while (e.hasMoreElements()) {
+                String arg = e.nextElement();
+                if ("basedir".equals(arg) || "ant.file".equals(arg)) {
+                    // basedir and ant.file get special treatment in execute()
+                    continue;
+                }
 
-		String value = props.get(arg).toString();
-		// don't re-set user properties, avoid the warning message
-		if (newProject.getProperty(arg) == null) {
-		    // no user property
-		    newProject.setNewProperty(arg, value);
-		}
-	    }
-	}
+                String value = props.get(arg).toString();
+                // don't re-set user properties, avoid the warning message
+                if (newProject.getProperty(arg) == null) {
+                    // no user property
+                    newProject.setNewProperty(arg, value);
+                }
+            }
+        }
     }
 
     /**
@@ -284,101 +282,100 @@ public class AntCallBack extends Task {
      * @exception BuildException  Description of the Exception
      */
     public void execute() throws BuildException {
-	setAntfile(getProject().getProperty("ant.file"));
+        setAntfile(getProject().getProperty("ant.file"));
 
-	File savedDir = dir;
-	String savedAntFile = antFile;
-	String savedTarget = target;
-	try {
-	    if (newProject == null) {
-		reinit();
-	    }
+        File savedDir = dir;
+        String savedAntFile = antFile;
+        String savedTarget = target;
+        try {
+            if (newProject == null) {
+                reinit();
+            }
 
-	    if ((dir == null) && (inheritAll)) {
-		dir = project.getBaseDir();
-	    }
+            if ((dir == null) && (inheritAll)) {
+                dir = getProject().getBaseDir();
+            }
 
-	    initializeProject();
+            initializeProject();
 
-	    if (dir != null) {
-		newProject.setBaseDir(dir);
-		if (savedDir != null) {   // has been set explicitly
-		    newProject.setInheritedProperty("basedir",
-						    dir.getAbsolutePath());
-		}
-	    }
-	    else {
-		dir = project.getBaseDir();
-	    }
+            if (dir != null) {
+                newProject.setBaseDir(dir);
+                if (savedDir != null) {   // has been set explicitly
+                    newProject.setInheritedProperty("basedir",
+                                                    dir.getAbsolutePath());
+                }
+            }
+            else {
+                dir = getProject().getBaseDir();
+            }
 
-	    overrideProperties();
+            overrideProperties();
 
-	    if (antFile == null) {
-		throw new BuildException("Attribute target is required.",
-					 location);
-		//antFile = "build.xml";
-	    }
+            if (antFile == null) {
+                throw new BuildException("Attribute target is required.",
+                                         getLocation());
+                //antFile = "build.xml";
+            }
 
-	    File file = FileUtils.newFileUtils().resolveFile(dir, antFile);
-	    antFile = file.getAbsolutePath();
+            File file = FileUtils.getFileUtils().resolveFile(dir, antFile);
+            antFile = file.getAbsolutePath();
 
-	    log("calling target " + (target != null ? target : "[default]")
-                + " in build file " + antFile.toString(),
-		Project.MSG_VERBOSE);
-	    newProject.setUserProperty("ant.file", antFile);
-	    ProjectHelper.configureProject(newProject, new File(antFile));
+            log("calling target " + (target != null ? target : "[default]")
+                + " in build file " + antFile,
+                Project.MSG_VERBOSE);
+            newProject.setUserProperty("ant.file", antFile);
+            ProjectHelper.configureProject(newProject, new File(antFile));
 
-	    if (target == null) {
-		target = newProject.getDefaultTarget();
-	    }
+            if (target == null) {
+                target = newProject.getDefaultTarget();
+            }
 
-	    addReferences();
+            addReferences();
 
-	    // Are we trying to call the target in which we are defined?
-	    if (newProject.getBaseDir().equals(project.getBaseDir()) &&
-		newProject.getProperty("ant.file").equals(project.getProperty("ant.file")) &&
-		getOwningTarget() != null &&
-		target.equals(this.getOwningTarget().getName())) {
+            // Are we trying to call the target in which we are defined?
+            if (newProject.getBaseDir().equals(getProject().getBaseDir())
+        	&& newProject.getProperty("ant.file").equals(getProject().getProperty("ant.file"))
+        	&& getOwningTarget() != null
+        	&& target.equals(this.getOwningTarget().getName())) {
 
-		throw new BuildException("antcallback task calling its own parent "
-					 + "target");
-	    }
+                throw new BuildException("antcallback task calling its own parent target");
+            }
 
-	    newProject.executeTarget(target);
+            newProject.executeTarget(target);
 
-	    // copy back the props if possible
-	    if (returnName != null) {
-		StringTokenizer st = new StringTokenizer(returnName, ",");
-		while (st.hasMoreTokens()) {
-		    String name = st.nextToken().trim();
-		    String value = newProject.getUserProperty(name);
-		    if (value != null) {
-			project.setUserProperty(name, value);
-		    }
-		    else {
-			value = newProject.getProperty(name);
-			if (value != null) {
-			    project.setProperty(name, value);
-			}
-		    }
-		}
-	    }
-	}
-	finally {
-	    // help the gc
-	    newProject = null;
-	    if (output != null && out != null) {
-		try {
-		    out.close();
-		}
-		catch (final Exception e) {
-		    //ignore
-		}
-	    }
-	    dir = savedDir;
-	    antFile = savedAntFile;
-	    target = savedTarget;
-	}
+            // copy back the props if possible
+            if (returnName != null) {
+                StringTokenizer st = new StringTokenizer(returnName, ",");
+                while (st.hasMoreTokens()) {
+                    String name = st.nextToken().trim();
+                    String value = newProject.getUserProperty(name);
+                    if (value != null) {
+                        getProject().setUserProperty(name, value);
+                    }
+                    else {
+                        value = newProject.getProperty(name);
+                        if (value != null) {
+                            getProject().setProperty(name, value);
+                        }
+                    }
+                }
+            }
+        }
+        finally {
+            // help the gc
+            newProject = null;
+            if (output != null && out != null) {
+                try {
+                    out.close();
+                }
+                catch (final Exception e) {
+                    //ignore
+                }
+            }
+            dir = savedDir;
+            antFile = savedAntFile;
+            target = savedTarget;
+        }
     }
 
     /**
@@ -388,13 +385,11 @@ public class AntCallBack extends Task {
      * @exception BuildException  Description of the Exception
      */
     private void overrideProperties() throws BuildException {
-	Enumeration e = properties.elements();
-	while (e.hasMoreElements()) {
-	    Property p = (Property)e.nextElement();
-	    p.setProject(newProject);
-	    p.execute();
-	}
-	getProject().copyInheritedProperties(newProject);
+        for (Property p : properties) {
+            p.setProject(newProject);
+            p.execute();
+        }
+        getProject().copyInheritedProperties(newProject);
     }
 
     /**
@@ -404,45 +399,45 @@ public class AntCallBack extends Task {
      *
      * @exception BuildException  Description of the Exception
      */
+    @SuppressWarnings("unchecked")
     private void addReferences() throws BuildException {
-	Hashtable thisReferences = (Hashtable)project.getReferences().clone();
-	Hashtable newReferences = newProject.getReferences();
-	Enumeration e;
-	if (references.size() > 0) {
-	    for (e = references.elements(); e.hasMoreElements();) {
-		Reference ref = (Reference)e.nextElement();
-		String refid = ref.getRefId();
-		if (refid == null) {
-		    throw new BuildException("the refid attribute is required"
-					     + " for reference elements");
-		}
-		if (!thisReferences.containsKey(refid)) {
-		    log("Parent project doesn't contain any reference '"
-			+ refid + "'",
-			Project.MSG_WARN);
-		    continue;
-		}
+        Hashtable<String, Object> thisReferences = (Hashtable<String, Object>) getProject().getReferences().clone();
+        Hashtable<String, Object> newReferences = newProject.getReferences();
+        if (references.size() > 0) {
+            for (Reference ref : references) {
+                String refid = ref.getRefId();
+                if (refid == null) {
+                    throw new BuildException("the refid attribute is required"
+                                             + " for reference elements");
+                }
+                if (!thisReferences.containsKey(refid)) {
+                    log("Parent project doesn't contain any reference '"
+                        + refid + "'",
+                        Project.MSG_WARN);
+                    continue;
+                }
 
-		thisReferences.remove(refid);
-		String toRefid = ref.getToRefid();
-		if (toRefid == null) {
-		    toRefid = refid;
-		}
-		copyReference(refid, toRefid);
-	    }
-	}
+                thisReferences.remove(refid);
+                String toRefid = ref.getToRefid();
+                if (toRefid == null) {
+                    toRefid = refid;
+                }
+                copyReference(refid, toRefid);
+            }
+        }
 
-	// Now add all references that are not defined in the
-	// subproject, if inheritRefs is true
-	if (inheritRefs) {
-	    for (e = thisReferences.keys(); e.hasMoreElements();) {
-		String key = (String)e.nextElement();
-		if (newReferences.containsKey(key)) {
-		    continue;
-		}
-		copyReference(key, key);
-	    }
-	}
+        // Now add all references that are not defined in the
+        // subproject, if inheritRefs is true
+        if (inheritRefs) {
+            Enumeration<String> f = thisReferences.keys();
+            while (f.hasMoreElements()) {
+                String key = f.nextElement();
+                if (newReferences.containsKey(key)) {
+                    continue;
+                }
+                copyReference(key, key);
+            }
+        }
     }
 
     /**
@@ -456,41 +451,41 @@ public class AntCallBack extends Task {
      * @param newKey  Description of the Parameter
      */
     private void copyReference(String oldKey, String newKey) {
-	Object orig = project.getReference(oldKey);
-	Class c = orig.getClass();
-	Object copy = orig;
-	try {
-	    Method cloneM = c.getMethod("clone", new Class[0]);
-	    if (cloneM != null) {
-		copy = cloneM.invoke(orig, new Object[0]);
-	    }
-	}
-	catch (Exception e) {
-	    // not Clonable
-	}
+        Object orig = getProject().getReference(oldKey);
+        Class<?> c = orig.getClass();
+        Object copy = orig;
+        try {
+            Method cloneM = c.getMethod("clone");
+            if (cloneM != null) {
+                copy = cloneM.invoke(orig);
+            }
+        }
+        catch (Exception e) {
+            // not Clonable
+        }
 
-	if (copy instanceof ProjectComponent) {
-	    ((ProjectComponent)copy).setProject(newProject);
-	}
-	else {
-	    try {
-		Method setProjectM =
-		    c.getMethod("setProject", new Class[]{Project.class});
-		if (setProjectM != null) {
-		    setProjectM.invoke(copy, new Object[]{newProject});
-		}
-	    }
-	    catch (NoSuchMethodException e) {
-		// ignore this if the class being referenced does not have
-		// a set project method.
-	    }
-	    catch (Exception e2) {
-		String msg = "Error setting new project instance for "
-		    + "reference with id " + oldKey;
-		throw new BuildException(msg, e2, location);
-	    }
-	}
-	newProject.addReference(newKey, copy);
+        if (copy instanceof ProjectComponent) {
+            ((ProjectComponent)copy).setProject(newProject);
+        }
+        else {
+            try {
+                Method setProjectM =
+                    c.getMethod("setProject", Project.class);
+                if (setProjectM != null) {
+                    setProjectM.invoke(copy, newProject);
+                }
+            }
+            catch (NoSuchMethodException e) {
+                // ignore this if the class being referenced does not have
+                // a set project method.
+            }
+            catch (Exception e2) {
+                String msg = "Error setting new project instance for "
+                    + "reference with id " + oldKey;
+                throw new BuildException(msg, e2, getLocation());
+            }
+        }
+        newProject.addReference(newKey, copy);
     }
 
     /**
@@ -546,17 +541,17 @@ public class AntCallBack extends Task {
      * @return   Description of the Return Value
      */
     public Property createProperty() {
-	if (newProject == null) {
-	    reinit();
-	}
-	/*
-	 *  Property p = new Property(true, getProject());
-	 */
-	Property p = new Property();
-	p.setProject(newProject);
-	p.setTaskName("property");
-	properties.addElement(p);
-	return p;
+        if (newProject == null) {
+            reinit();
+        }
+        /*
+         *  Property p = new Property(true, getProject());
+         */
+        Property p = new Property();
+        p.setProject(newProject);
+        p.setTaskName("property");
+        properties.add(p);
+        return p;
     }
 
     /**
@@ -587,7 +582,7 @@ public class AntCallBack extends Task {
      * @param r  The feature to be added to the Reference attribute
      */
     public void addReference(Reference r) {
-	references.addElement(r);
+        references.add(r);
     }
 
     /**

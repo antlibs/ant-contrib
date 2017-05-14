@@ -24,8 +24,8 @@ import org.apache.tools.ant.BuildException;
 public class AddCredentialsTask
 	extends AbstractHttpStateTypeTask {
 
-	private final List credentials = new ArrayList();
-	private final List proxyCredentials = new ArrayList();
+	private final List<Credentials> credentials = new ArrayList<Credentials>();
+	private final List<Credentials> proxyCredentials = new ArrayList<Credentials>();
 
 	public void addConfiguredCredentials(Credentials credentials) {
 		this.credentials.add(credentials);
@@ -41,15 +41,15 @@ public class AddCredentialsTask
 						 + " must be supplied.");
 		}
 
-		Iterator it = credentials.iterator();
+		Iterator<Credentials> it = credentials.iterator();
 		while (it.hasNext()) {
-			Credentials c = (Credentials)it.next();
+			Credentials c = it.next();
 			stateType.addConfiguredCredentials(c);
 		}
 
 		it = proxyCredentials.iterator();
 		while (it.hasNext()) {
-			Credentials c = (Credentials)it.next();
+			Credentials c = it.next();
 			stateType.addConfiguredProxyCredentials(c);
 		}
 	}

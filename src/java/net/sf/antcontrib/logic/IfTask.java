@@ -15,7 +15,8 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Sequential;
@@ -146,7 +147,7 @@ public class IfTask extends ConditionBase {
     }
 
     private Sequential   thenTasks = null;
-    private final Vector elseIfTasks = new Vector();
+    private final List<ElseIf> elseIfTasks = new ArrayList<ElseIf>();
     private Sequential   elseTasks = null;
 
     /**
@@ -155,7 +156,7 @@ public class IfTask extends ConditionBase {
      */
     public void addElseIf(ElseIf ei)
     {
-        elseIfTasks.addElement(ei);
+        elseIfTasks.add(ei);
     }
 
     /**
@@ -202,11 +203,8 @@ public class IfTask extends ConditionBase {
         else
         {
             boolean done = false;
-            int sz = elseIfTasks.size();
-            for (int i=0;i<sz && ! done;i++)
+            for (ElseIf ei : elseIfTasks)
             {
-
-                ElseIf ei = (ElseIf)(elseIfTasks.elementAt(i));
                 if (ei.eval())
                 {
                     done = true;

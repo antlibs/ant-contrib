@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -41,7 +40,7 @@ import org.apache.tools.ant.util.FileUtils;
 public class PostMethodTask
 	extends AbstractMethodTask {
 
-	private final List parts = new ArrayList();
+	private final List<Object> parts = new ArrayList<Object>();
 	private boolean multipart;
 	private transient FileInputStream stream;
 
@@ -133,9 +132,7 @@ public class PostMethodTask
 	public void setParameters(File parameters) {
 		PostMethod post = getPostMethod();
 		Properties p = new Properties();
-		Iterator it = p.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
+		for (Map.Entry<Object, Object> entry : p.entrySet()) {
 			post.addParameter(entry.getKey().toString(),
 					entry.getValue().toString());
 		}

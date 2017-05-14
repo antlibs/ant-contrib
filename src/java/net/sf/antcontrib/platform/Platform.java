@@ -15,10 +15,8 @@
  */
 package net.sf.antcontrib.platform;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Execute;
 
@@ -27,43 +25,43 @@ import org.apache.tools.ant.taskdefs.Execute;
  */
 public class Platform
 {
-    public static final int FAMILY_NONE = 0;
-    public static final int FAMILY_UNIX = 1;
-    public static final int FAMILY_WINDOWS = 2;
-    public static final int FAMILY_OS2 = 3;
-    public static final int FAMILY_ZOS = 4;
-    public static final int FAMILY_OS400 = 5;
-    public static final int FAMILY_DOS = 6;
-    public static final int FAMILY_MAC = 7;
-    public static final int FAMILY_MACOSX = 8;
-    public static final int FAMILY_TANDEM = 9;
-    public static final int FAMILY_OPENVMS = 10;
+    private static final int FAMILY_NONE = 0;
+    private static final int FAMILY_UNIX = 1;
+    private static final int FAMILY_WINDOWS = 2;
+    private static final int FAMILY_OS2 = 3;
+    private static final int FAMILY_ZOS = 4;
+    private static final int FAMILY_OS400 = 5;
+    private static final int FAMILY_DOS = 6;
+    private static final int FAMILY_MAC = 7;
+    private static final int FAMILY_MACOSX = 8;
+    private static final int FAMILY_TANDEM = 9;
+    private static final int FAMILY_OPENVMS = 10;
 
-    public static final String FAMILY_NAME_UNIX = "unix";
-    public static final String FAMILY_NAME_WINDOWS = "windows";
-    public static final String FAMILY_NAME_OS2 = "os/2";
-    public static final String FAMILY_NAME_ZOS = "z/os";
-    public static final String FAMILY_NAME_OS400 = "os/400";
-    public static final String FAMILY_NAME_DOS = "dos";
-    public static final String FAMILY_NAME_MAC = "mac";
-    public static final String FAMILY_NAME_TANDEM = "tandem";
-    public static final String FAMILY_NAME_OPENVMS = "openvms";
+    private static final String FAMILY_NAME_UNIX = "unix";
+    private static final String FAMILY_NAME_WINDOWS = "windows";
+    private static final String FAMILY_NAME_OS2 = "os/2";
+    private static final String FAMILY_NAME_ZOS = "z/os";
+    private static final String FAMILY_NAME_OS400 = "os/400";
+    private static final String FAMILY_NAME_DOS = "dos";
+    private static final String FAMILY_NAME_MAC = "mac";
+    private static final String FAMILY_NAME_TANDEM = "tandem";
+    private static final String FAMILY_NAME_OPENVMS = "openvms";
 
-    private static final Hashtable familyNames;
+    private static final Map<Integer, String> familyNames;
 
     static
     {
-    	familyNames = new Hashtable();
-    	familyNames.put(new Integer(FAMILY_WINDOWS), FAMILY_NAME_WINDOWS);
-        familyNames.put(new Integer(FAMILY_OS2), FAMILY_NAME_OS2);
-        familyNames.put(new Integer(FAMILY_ZOS), FAMILY_NAME_ZOS);
-        familyNames.put(new Integer(FAMILY_OS400), FAMILY_NAME_OS400);
-        familyNames.put(new Integer(FAMILY_DOS), FAMILY_NAME_DOS);
-        familyNames.put(new Integer(FAMILY_MAC), FAMILY_NAME_MAC);
-        familyNames.put(new Integer(FAMILY_MACOSX), FAMILY_NAME_UNIX);
-        familyNames.put(new Integer(FAMILY_TANDEM), FAMILY_NAME_TANDEM);
-        familyNames.put(new Integer(FAMILY_UNIX), FAMILY_NAME_UNIX);
-        familyNames.put(new Integer(FAMILY_OPENVMS), FAMILY_NAME_OPENVMS);
+        familyNames = new HashMap<Integer, String>();
+        familyNames.put(FAMILY_WINDOWS, FAMILY_NAME_WINDOWS);
+        familyNames.put(FAMILY_OS2, FAMILY_NAME_OS2);
+        familyNames.put(FAMILY_ZOS, FAMILY_NAME_ZOS);
+        familyNames.put(FAMILY_OS400, FAMILY_NAME_OS400);
+        familyNames.put(FAMILY_DOS, FAMILY_NAME_DOS);
+        familyNames.put(FAMILY_MAC, FAMILY_NAME_MAC);
+        familyNames.put(FAMILY_MACOSX, FAMILY_NAME_UNIX);
+        familyNames.put(FAMILY_TANDEM, FAMILY_NAME_TANDEM);
+        familyNames.put(FAMILY_UNIX, FAMILY_NAME_UNIX);
+        familyNames.put(FAMILY_OPENVMS, FAMILY_NAME_OPENVMS);
     }
 
     public static final int getOsFamily()

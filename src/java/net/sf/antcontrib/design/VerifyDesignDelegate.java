@@ -19,9 +19,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.Set;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -58,7 +61,7 @@ import org.xml.sax.XMLReader;
 public class VerifyDesignDelegate implements Log {
 
     private File designFile;
-    private final Vector paths = new Vector();
+    private final List<Path> paths = new ArrayList<Path>();
     private boolean isCircularDesign = false;
     private boolean deleteFiles = false;
     private boolean fillInBuildException = false;
@@ -67,8 +70,8 @@ public class VerifyDesignDelegate implements Log {
 
     private final Task task;
     private Design design;
-    private final HashSet primitives = new HashSet();
-    private final Vector designErrors = new Vector();
+    private final Set<String> primitives = new HashSet<String>();
+    private final List<BuildException> designErrors = new ArrayList<BuildException>();
     private boolean verifiedAtLeastOne = false;
 
     public VerifyDesignDelegate(Task task) {
@@ -139,10 +142,7 @@ public class VerifyDesignDelegate implements Log {
             reader.parse(src);
             design = ch.getDesign();
 
-            Enumeration pathsEnum = paths.elements();
-            Path p = null;
-            while (pathsEnum.hasMoreElements()) {
-                p = (Path)pathsEnum.nextElement();
+            for (Path p : paths) {
                 verifyPathAdheresToDesign(design, p);
             }
 
@@ -194,9 +194,7 @@ public class VerifyDesignDelegate implements Log {
     //in that cruisecontrol is not using like LogListeners or something
     private void throwAllErrors() {
         String result = "Design check failed due to following errors";
-        Enumeration exceptions = designErrors.elements();
-        while(exceptions.hasMoreElements()) {
-            BuildException be = (BuildException)exceptions.nextElement();
+        for (BuildException be : designErrors) {
             String message = be.getMessage();
             result += "\n" + message;
         }
@@ -204,13 +202,9 @@ public class VerifyDesignDelegate implements Log {
     }
 
     private void verifyJarFilesExist() {
-        Enumeration pathsEnum = paths.elements();
-        Path p = null;
-        while (pathsEnum.hasMoreElements()) {
-            p = (Path)pathsEnum.nextElement();
-            String files[] = p.list();
-            for (int i=0;i<files.length;i++) {
-                File file = new File(files[i]);
+        for (Path p : paths) {
+            for (String fileName : p.list()) {
+                File file = new File(fileName);
 
                 if (!file.exists())
                     throw new BuildException(VisitorImpl.getNoFileMsg(file));
@@ -224,19 +218,15 @@ public class VerifyDesignDelegate implements Log {
         	+ "use a jar that doesn't abide by the design (This option can\n"
         	+ "be turned off if you really want)", Project.MSG_INFO);
 
-            Enumeration pathsEnum = paths.elements();
-            Path p = null;
-            while (pathsEnum.hasMoreElements()) {
-                p = (Path)pathsEnum.nextElement();
+            for (Path p : paths) {
                 deleteFilesInPath(p);
             }
         }
     }
 
     private void deleteFilesInPath(Path p) {
-        String files[] = p.list();
-        for (int i=0;i<files.length;i++) {
-            File file = new File(files[i]);
+        for (String fileName : p.list()) {
+            File file = new File(fileName);
 
             boolean deleted = file.delete();
             if (!deleted) {
@@ -246,10 +236,9 @@ public class VerifyDesignDelegate implements Log {
     }
 
     private void verifyPathAdheresToDesign(Design d, Path p) throws ClassFormatException, IOException {
-        String files[] = p.list();
-        for (int i=0;i<files.length;i++) {
-            File file = new File(files[i]);
-            if(file.isDirectory()) {
+        for (String fileName : p.list()) {
+            File file = new File(fileName);
+            if (file.isDirectory()) {
                 FileSet set = new FileSet();
                 set.setDir(file);
                 set.setProject(task.getProject());
@@ -262,11 +251,11 @@ public class VerifyDesignDelegate implements Log {
                 DirectoryScanner scanner = set.getDirectoryScanner(task.getProject());
                 scanner.setBasedir(file);
                 String[] scannerFiles = scanner.getIncludedFiles();
-                for(int j = 0; j < scannerFiles.length; j++) {
-                    verifyPartOfPath(scannerFiles[j], new File(file, scannerFiles[j]), d);
+                for (String scannerFile : scannerFiles) {
+                    verifyPartOfPath(scannerFile, new File(file, scannerFile), d);
                 }
             } else
-                verifyPartOfPath(files[i], file, d);
+                verifyPartOfPath(fileName, file, d);
         }
     }
 
@@ -304,9 +293,9 @@ public class VerifyDesignDelegate implements Log {
             throws ClassFormatException, IOException {
 
         try {
-        Enumeration en = jarFile.entries();
-        while(en.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry)en.nextElement();
+        Enumeration<JarEntry> en = jarFile.entries();
+        while (en.hasMoreElements()) {
+            ZipEntry entry = en.nextElement();
             InputStream in = null;
             if (entry.getName().endsWith(".class")) {
                 in = jarFile.getInputStream(entry);
@@ -354,7 +343,7 @@ public class VerifyDesignDelegate implements Log {
             desc.visit();
         } catch (BuildException e) {
             log(Design.getWrapperMsg(originalClassOrJarFile, e.getMessage()), Project.MSG_ERR);
-            designErrors.addElement(e);
+            designErrors.add(e);
         }
     }
 

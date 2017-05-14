@@ -75,6 +75,7 @@ public class PropertySelector
             throw new BuildException("No match expression specified.");
     }
 
+    @SuppressWarnings("unchecked")
     public void execute()
             throws BuildException
     {
@@ -84,25 +85,25 @@ public class PropertySelector
         if (!caseSensitive)
             options |= Regexp.MATCH_CASE_INSENSITIVE;
 
-        Hashtable props = project.getProperties();
-        Enumeration e = props.keys();
         Regexp regex = match.getRegexp(getProject());
+        Hashtable<String, Object> props = getProject().getProperties();
+        Enumeration<String> e = props.keys();
         StringBuilder buf = new StringBuilder();
         int cnt = 0;
 
-        Vector used = new Vector();
+        Vector<String> used = new Vector<String>();
 
         while (e.hasMoreElements())
         {
-            String key = (String) (e.nextElement());
+            String key = e.nextElement();
             if (regex.matches(key, options))
             {
                 String output = select;
-                Vector groups = regex.getGroups(key, options);
+                Vector<String> groups = regex.getGroups(key, options);
                 int sz = groups.size();
                 for (int i = 0; i < sz; i++)
                 {
-                    String s = (String) (groups.elementAt(i));
+                    String s = groups.elementAt(i);
 
                     RegularExpression result = null;
                     result = new RegularExpression();

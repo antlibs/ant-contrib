@@ -51,7 +51,8 @@ public class CompileWithWalls extends Task {
     private File wallsFile;
     private File tempBuildDir;
 
-    private Map packagesNeedingCompiling = new HashMap();
+    @SuppressWarnings("unused")
+    private Map<String, String> packagesNeedingCompiling = new HashMap<String, String>();
 
     private SAXException cachedSAXException = null;
     private IOException cachedIOException = null;
@@ -132,9 +133,7 @@ public class CompileWithWalls extends Task {
         getProject().addTaskDefinition("SilentMove", SilentMove.class);
         getProject().addTaskDefinition("SilentCopy", SilentCopy.class);
 
-        File destDir = javac.getDestdir();
         Path src  = javac.getSrcdir();
-
         if (src == null)
             throw new BuildException("Javac inside compilewithwalls must have a srcdir specified");
 
@@ -148,27 +147,27 @@ public class CompileWithWalls extends Task {
         if (javac.getClasspath() != null)
             classpaths = javac.getClasspath().list();
 
-        File temp = null;
-        for(int i = 0; i < classpaths.length; i++) {
-            temp = new File(classpaths[i]);
-            if(temp.isDirectory()) {
+        for (String classpath : classpaths) {
+            File temp = new File(classpath);
+            if (temp.isDirectory()) {
 
-                for(int n = 0; n < tempSrcDirs1.length; n++) {
-                    if(tempSrcDirs1[n].compareTo(temp) == 0)
-                    throw new BuildException("The classpath cannot contain any of the\n"
-                            +"src directories, but it does.\n"
-                            +"srcdir="+tempSrcDirs1[n]);
+                for (File tempSrcDir : tempSrcDirs) {
+                    if (tempSrcDir.compareTo(temp) == 0)
+                        throw new BuildException("The classpath cannot contain any of the\n"
+                                + "src directories, but it does.\n"
+                                + "srcdir=" + tempSrcDir);
                 }
             }
         }
 
         //get rid of non-existent srcDirs
-        List srcDirs2 = new ArrayList();
-        for(int i = 0; i < tempSrcDirs1.length; i++) {
-            if(tempSrcDirs1[i].exists())
-                srcDirs2.add(tempSrcDirs1[i]);
+        List<File> srcDirs2 = new ArrayList<File>();
+        for (File tempSrcDir : tempSrcDirs) {
+            if (tempSrcDir.exists())
+                srcDirs2.add(tempSrcDir);
         }
 
+        File destDir = javac.getDestdir();
         if (destDir == null)
             throw new BuildException(
                 "destdir was not specified in nested javac task",
@@ -188,9 +187,9 @@ public class CompileWithWalls extends Task {
             log("created direction=" + tempBuildDir, Project.MSG_VERBOSE);
         }
 
-        Iterator iter = walls.getPackagesToCompile();
+        Iterator<Package> iter = walls.getPackagesToCompile();
         while (iter.hasNext()) {
-            Package toCompile = (Package)iter.next();
+            Package toCompile = iter.next();
 
             File buildSpace = toCompile.getBuildSpace(tempBuildDir);
             if (!buildSpace.exists()) {
@@ -201,8 +200,8 @@ public class CompileWithWalls extends Task {
             FileSet javaIncludes2 =
                 toCompile.getJavaCopyFileSet(getProject(), getLocation());
 
-            for(int i = 0; i < srcDirs2.size(); i++) {
-                File srcDir = (File)srcDirs2.get(i);
+            for (int i = 0; i < srcDirs2.size(); i++) {
+                File srcDir = srcDirs2.get(i);
                 javaIncludes2.setDir(srcDir);
                 log(toCompile.getPackage() + ": sourceDir[" + i + "]=" + srcDir + " destDir=" + buildSpace, Project.MSG_VERBOSE);
                 copyFiles(srcDir, buildSpace, javaIncludes2);
@@ -260,10 +259,10 @@ public class CompileWithWalls extends Task {
 
             Javac.ImplementationSpecificArgument arg;
             String[] args = javac.getCurrentCompilerArgs();
-            if(args != null) {
-                for(int i = 0; i < args.length;i++) {
+            if (args != null) {
+                for (String jcarg : args) {
                     arg = buildSpaceJavac.createCompilerArg();
-                    arg.setValue(args[i]);
+                    arg.setValue(jcarg);
                 }
             }
 

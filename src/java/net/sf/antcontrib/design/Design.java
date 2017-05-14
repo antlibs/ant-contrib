@@ -16,12 +16,10 @@
 package net.sf.antcontrib.design;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
@@ -34,8 +32,8 @@ import org.apache.tools.ant.Project;
  */
 public class Design {
 
-    private final Map nameToPackage = new HashMap();
-    private final Map packageNameToPackage = new HashMap();
+    private final Map<String, Package> nameToPackage = new HashMap<String, Package>();
+    private final Map<String, Package> packageNameToPackage = new HashMap<String, Package>();
     private final boolean isCircularDesign;
     private final Log log;
     private final Location location;
@@ -44,7 +42,7 @@ public class Design {
     private String currentPackageName = null;
     private Package currentAliasPackage = null;
 
-    private final HashSet primitives = new HashSet();
+    private final HashSet<String> primitives = new HashSet<String>();
 
     public Design(boolean isCircularDesign, Log log, Location loc) {
         //by default, add java as a configured package with the name java
@@ -75,7 +73,7 @@ public class Design {
     }
 
     public Package getPackage(String nameAttribute) {
-        return (Package)nameToPackage.get(nameAttribute);
+        return nameToPackage.get(nameAttribute);
     }
 
     private Package retrievePack(String thePackage) {
@@ -83,7 +81,7 @@ public class Design {
             throw new IllegalArgumentException("Cannot retrieve null packages");
 
         String currentPackage = thePackage;
-        Package result = (Package)packageNameToPackage.get(currentPackage);
+        Package result = packageNameToPackage.get(currentPackage);
         while (!Package.DEFAULT.equals(currentPackage)) {
             log.log("p=" + currentPackage + "result=" + result, Project.MSG_DEBUG);
             if (result != null) {
@@ -94,7 +92,7 @@ public class Design {
                 return null;
             }
             currentPackage = VerifyDesignDelegate.getPackageName(currentPackage);
-            result = (Package)packageNameToPackage.get(currentPackage);
+            result = packageNameToPackage.get(currentPackage);
         }
 
         //result must now be default package
@@ -105,17 +103,14 @@ public class Design {
     }
 
     public void addConfiguredPackage(Package p) {
-
-        String pack = p.getPackage();
-
         Depends[] depends = p.getDepends();
 
         if (depends != null && !isCircularDesign) {
             //make sure all depends are in Map first
             //circular references then are not a problem because they must
             //put the stuff in order
-            for(int i = 0; i < depends.length; i++) {
-                Package dependsPackage = (Package)nameToPackage.get(depends[i].getName());
+            for (Depends depend : depends) {
+                Package dependsPackage = nameToPackage.get(depend.getName());
 
                 if (dependsPackage == null) {
                     throw new RuntimeException("package name=" + p.getName() + " did not\n"
@@ -162,8 +157,7 @@ public class Design {
 
         //probably want to create a regular expression out of all the depends and just match on that
         //each time.  for now though, just get it working and do the basic(optimize later if needed)
-        for(int i = 0; i < depends.length; i++) {
-            Depends d = depends[i];
+        for (Depends d : depends) {
             String name = d.getName();
 
             Package temp = getPackage(name);
@@ -247,7 +241,7 @@ public class Design {
         //see if the name is a java.lang class....
         String tempTry = "java.lang." + dependsOn;
         try {
-            Class c = VerifyDesign.class.getClassLoader().loadClass(tempTry);
+            Class<?> c = VerifyDesign.class.getClassLoader().loadClass(tempTry);
             return;
         } catch (ClassNotFoundException e) {
             //not found, continue on...
@@ -281,14 +275,12 @@ public class Design {
     }
 
     /**
-     * @param designErrors Vector
+     * fillInUnusedPackages() method.
+     * @param designErrors List&lt;BuildException&gt;
      */
-    public void fillInUnusedPackages(Vector designErrors)
+    public void fillInUnusedPackages(List<BuildException> designErrors)
     {
-        Collection values = nameToPackage.values();
-        Iterator iterator = values.iterator();
-        while(iterator.hasNext()) {
-            Package pack = (Package)iterator.next();
+        for (Package pack : nameToPackage.values()) {
             if (!pack.isUsed()) {
                 String msg = "Package name=" + pack.getName() + " is unused.  Full package=" + pack.getPackage();
                 log.log(msg, Project.MSG_ERR);
@@ -300,14 +292,13 @@ public class Design {
     }
 
     /**
-     * @param designErrors Vector
+     * fillInUnusedDepends() method.
+     * @param designErrors List&lt;BuildException&gt;
      * @param pack Package
      */
-    private void fillInUnusedDepends(Vector designErrors, Package pack)
+    private void fillInUnusedDepends(List<BuildException> designErrors, Package pack)
     {
-        Iterator iterator = pack.getUnusedDepends().iterator();
-        while(iterator.hasNext()) {
-            Depends depends = (Depends)iterator.next();
+        for (Depends depends : pack.getUnusedDepends()) {
             String msg = "Package name=" + pack.getName() + " has a dependency declared that is not true anymore.  Please erase the dependency <depends>" + depends.getName() + "</depends> from package=" + pack.getName();
             log.log(msg, Project.MSG_ERR);
             designErrors.add(new BuildException(msg));

@@ -140,10 +140,8 @@ public class Package {
     public Path getClasspath(File baseDir, Project p) {
         Path path = new Path(p);
 
-            for(int i = 0; i < depends.length; i++) {
-                String buildSpace = depends[i];
-
         if (depends != null) {
+            for (String buildSpace : depends) {
                 File dependsDir = new File(baseDir, buildSpace);
                 path.setLocation(dependsDir);
             }

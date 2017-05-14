@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.httpclient.Header;
@@ -41,7 +40,7 @@ public abstract class AbstractMethodTask
 	private String responseDataProperty;
 	private String statusCodeProperty;
 	private HttpClient httpClient;
-	private final List responseHeaders = new ArrayList();
+	private final List<ResponseHeader> responseHeaders = new ArrayList<ResponseHeader>();
 
 	public static class ResponseHeader {
 		private String name;
@@ -153,12 +152,10 @@ public abstract class AbstractMethodTask
 				p.perform();
 			}
 
-			Iterator it = responseHeaders.iterator();
-			while (it.hasNext()) {
-				ResponseHeader header = (ResponseHeader)it.next();
-				Property p = (Property)getProject().createTask("property");
-				p.setName(header.getProperty());
-				Header h = method.getResponseHeader(header.getName());
+			for (ResponseHeader responseHeader : responseHeaders) {
+				Property p = (Property) getProject().createTask("property");
+				p.setName(responseHeader.getProperty());
+				Header h = method.getResponseHeader(responseHeader.getName());
 				if (h != null && h.getValue() != null) {
 					p.setValue(h.getValue());
 					p.perform();

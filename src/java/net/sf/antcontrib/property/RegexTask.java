@@ -138,6 +138,7 @@ public class RegexTask
         return output;
     }
 
+    @SuppressWarnings("unchecked")
     protected String doSelect()
         throws BuildException
     {
@@ -148,7 +149,7 @@ public class RegexTask
         Regexp sregex = regexp.getRegexp(getProject());
 
         String output = select;
-        Vector groups = sregex.getGroups(input, options);
+        Vector<String> groups = sregex.getGroups(input, options);
 
         if (groups != null && groups.size() > 0)
         {

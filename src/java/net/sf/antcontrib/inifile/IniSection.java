@@ -33,8 +33,8 @@ public class IniSection
         implements IniPart
 {
     private String name;
-    private final List properties;
-    private final Map propertyMap;
+    private final List<IniProperty> properties;
+    private final Map<String, IniProperty> propertyMap;
 
     /**
      * Default constructor, constructs an IniSection with no name.
@@ -42,8 +42,8 @@ public class IniSection
     public IniSection()
     {
         super();
-        this.propertyMap = new HashMap();
-        this.properties = new ArrayList();
+        this.propertyMap = new HashMap<String, IniProperty>();
+        this.properties = new ArrayList<IniProperty>();
     }
 
     /**
@@ -60,7 +60,7 @@ public class IniSection
      * Gets a list of all properties in this section.
      * @return A List of IniProperty objects
      */
-    public List getProperties()
+    public List<IniProperty> getProperties()
     {
         return properties;
     }
@@ -90,7 +90,7 @@ public class IniSection
      */
     public IniProperty getProperty(String name)
     {
-        return (IniProperty)propertyMap.get(name);
+        return propertyMap.get(name);
     }
 
     /**
@@ -99,7 +99,7 @@ public class IniSection
      */
     public void setProperty(IniProperty property)
     {
-        IniProperty prop = (IniProperty)propertyMap.get(property.getName());
+        IniProperty prop = propertyMap.get(property.getName());
         if (prop != null)
         {
             int idx = properties.indexOf(prop);
@@ -119,7 +119,7 @@ public class IniSection
      */
     public void removeProperty(String name)
     {
-        IniProperty prop = (IniProperty)propertyMap.get(name);
+        IniProperty prop = propertyMap.get(name);
         if (prop != null)
         {
             int idx = properties.indexOf(prop);
@@ -133,11 +133,11 @@ public class IniSection
     {
         writer.write("[" + name + "]");
         writer.write(System.getProperty("line.separator"));
-        Iterator it = properties.iterator();
+        Iterator<IniProperty> it = properties.iterator();
         IniProperty prop = null;
         while (it.hasNext())
         {
-            prop = (IniProperty)it.next();
+            prop = it.next();
             prop.write(writer);
             writer.write(System.getProperty("line.separator"));
         }
