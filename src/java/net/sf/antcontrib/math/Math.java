@@ -331,7 +331,7 @@ public class Math
                        new Object[0]);
     }
 
-    public static Class<? extends Number> getPrimitiveClass(String datatype)
+    private static Class<? extends Number> getPrimitiveClass(String datatype)
     {
         if (datatype == null)
             return Double.TYPE;

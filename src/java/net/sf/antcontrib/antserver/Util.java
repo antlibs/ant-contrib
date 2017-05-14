@@ -28,7 +28,7 @@ import java.io.OutputStream;
  */
 public class Util
 {
-    public static final int CHUNK = 10 * 1024;
+    private static final int CHUNK = 10 * 1024;
 
     public static final void transferBytes(InputStream input,
                                            long length,

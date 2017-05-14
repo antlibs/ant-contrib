@@ -45,7 +45,7 @@ public class Limit extends Task implements TaskContainer {
 
     // time units, default value is 3 minutes.
     private long maxwait = 180;
-    protected TimeUnit unit = TimeUnit.SECOND_UNIT;
+    private TimeUnit unit = TimeUnit.SECOND_UNIT;
 
     // property to set if time limit is reached
     private String timeoutProperty = null;

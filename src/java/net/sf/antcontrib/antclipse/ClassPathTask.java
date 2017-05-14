@@ -39,8 +39,6 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ClassPathTask extends Task
 {
-	@SuppressWarnings("unused")
-	private String project;
 	private String idContainer = "antclipse";
 	private boolean includeSource = false; //default, do not include source
 	private boolean includeOutput = false; //default, do not include output directory
@@ -48,8 +46,8 @@ public class ClassPathTask extends Task
 	private boolean verbose = false; //default quiet
 	private RegexpPatternMapper irpm = null;
 	private RegexpPatternMapper erpm = null;
-	public static final String TARGET_CLASSPATH = "classpath";
-	public static final String TARGET_FILESET = "fileset";
+	private static final String TARGET_CLASSPATH = "classpath";
+	private static final String TARGET_FILESET = "fileset";
 	private String produce = null; //classpath by default
 
 	/**
@@ -139,15 +137,6 @@ public class ClassPathTask extends Task
 	}
 
 	/**
-	 * Setter for task parameter.
-	 * @param project project name
-	 */
-	public void setProject(String project)
-	{
-		this.project = project;
-	}
-
-	/**
 	 * @see org.apache.tools.ant.Task#execute()
 	 */
 	public void execute() throws BuildException
@@ -159,18 +148,18 @@ public class ClassPathTask extends Task
 		AbstractCustomHandler handler;
 		if (TARGET_CLASSPATH.equalsIgnoreCase(this.produce))
 		{
-			Path path = new Path(this.getProject());
-			this.getProject().addReference(this.idContainer, path);
+			Path path = new Path(getProject());
+			getProject().addReference(idContainer, path);
 			handler = new PathCustomHandler(path);
 		}
 		else
 		{
 			FileSet fileSet = new FileSet();
-			this.getProject().addReference(this.idContainer, fileSet);
-			fileSet.setDir(new File(this.getProject().getBaseDir().getAbsolutePath()));
+			getProject().addReference(idContainer, fileSet);
+			fileSet.setDir(new File(getProject().getBaseDir().getAbsolutePath()));
 			handler = new FileSetCustomHandler(fileSet);
 		}
-		parser.parse(new File(this.getProject().getBaseDir().getAbsolutePath(), ".classpath"), handler);
+		parser.parse(new File(getProject().getBaseDir().getAbsolutePath(), ".classpath"), handler);
 	}
 
 	abstract class AbstractCustomHandler extends DefaultHandler
