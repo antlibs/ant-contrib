@@ -19,16 +19,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
-import org.xml.sax.HandlerBase;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Classic tool firing a SAX parser. Must feed the source file and a handler.
@@ -41,24 +40,21 @@ import org.xml.sax.SAXParseException;
  */
 public class ClassPathParser
 {
-	void parse(File file, HandlerBase handler) throws BuildException
+	void parse(File file, DefaultHandler handler) throws BuildException
 	{
 		String fName = file.getName();
 		FileInputStream fileInputStream = null;
 		InputSource inputSource = null;
 		try
 		{
-			SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
 			//go to UFS if we're on win
 			String uri = "file:" + fName.replace('\\', '/');
 			fileInputStream = new FileInputStream(file);
 			inputSource = new InputSource(fileInputStream);
 			inputSource.setSystemId(uri);
-			saxParser.parse(inputSource, handler);
-		}
-		catch (ParserConfigurationException pceException)
-		{
-			throw new BuildException("Parser configuration failed", pceException);
+			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+			xmlReader.setContentHandler(handler);
+			xmlReader.parse(inputSource);
 		}
 		catch (SAXParseException exc)
 		{

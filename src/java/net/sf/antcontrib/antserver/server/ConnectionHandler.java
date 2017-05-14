@@ -15,17 +15,23 @@
  */
 package net.sf.antcontrib.antserver.server;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.Socket;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.tools.ant.Project;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 
 import net.sf.antcontrib.antserver.Command;
 import net.sf.antcontrib.antserver.Response;
@@ -129,15 +135,14 @@ public class ConnectionHandler
                         task.getProject().removeBuildListener(cbl);
                 }
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                XMLSerializer serial = new XMLSerializer();
-                OutputFormat fmt = new OutputFormat();
-                fmt.setOmitDocumentType(true);
-                fmt.setOmitXMLDeclaration(false);
-                serial.setOutputFormat(fmt);
-                serial.setOutputByteStream(baos);
-                serial.serialize(cbl.getDocument());
-                response.setResultsXml(baos.toString());
+                StringWriter xmlWriter = new StringWriter();
+                Transformer idTransform = TransformerFactory.newInstance().newTransformer();
+                idTransform.setOutputProperty(OutputKeys.METHOD, "xml");
+                idTransform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "false");
+                Source input = new DOMSource(cbl.getDocument());
+                Result output = new StreamResult(xmlWriter);
+                idTransform.transform(input, output);
+                response.setResultsXml(xmlWriter.toString());
 
                 task.getProject().log("Executed command object: " + inputCommand,
                         Project.MSG_DEBUG);

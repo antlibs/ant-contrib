@@ -24,10 +24,10 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Path.PathElement;
 import org.apache.tools.ant.util.RegexpPatternMapper;
-import org.xml.sax.AttributeList;
-import org.xml.sax.HandlerBase;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Support class for the Antclipse task. Basically, it takes the .classpath Eclipse file
@@ -173,7 +173,7 @@ public class ClassPathTask extends Task
 		parser.parse(new File(this.getProject().getBaseDir().getAbsolutePath(), ".classpath"), handler);
 	}
 
-	abstract class AbstractCustomHandler extends HandlerBase
+	abstract class AbstractCustomHandler extends DefaultHandler
 	{
 		protected String projDir;
 		protected static final String ATTRNAME_PATH = "path";
@@ -208,7 +208,7 @@ public class ClassPathTask extends Task
 		}
 
 		/**
-		 * @see org.xml.sax.DocumentHandler#endDocument()
+		 * @see org.xml.sax.ContentHandler#endDocument()
 		 */
 		public void endDocument() throws SAXException
 		{
@@ -218,7 +218,7 @@ public class ClassPathTask extends Task
 			//exclude everything or we'll take all the project dirs
 		}
 
-		public void startElement(String tag, AttributeList attrs) throws SAXParseException
+		public void startElement(String tag, Attributes attrs) throws SAXParseException
 		{
 			if (tag.equalsIgnoreCase("classpathentry"))
 			{
@@ -356,7 +356,7 @@ public class ClassPathTask extends Task
 		{
 		}
 
-		public void startElement(String tag, AttributeList attrs) throws SAXParseException
+		public void startElement(String tag, Attributes attrs) throws SAXParseException
 		{
 			if (tag.equalsIgnoreCase("classpathentry"))
 			{

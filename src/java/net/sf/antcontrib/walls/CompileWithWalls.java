@@ -33,9 +33,10 @@ import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.util.JAXPUtils;
-import org.xml.sax.HandlerBase;
-import org.xml.sax.Parser;
+
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Created on Aug 24, 2003
@@ -66,9 +67,9 @@ public class CompileWithWalls extends Task {
     public void setWalls(File f) {
         this.wallsFile = f;
 
-        Parser parser = JAXPUtils.getParser();
-        HandlerBase hb = new WallsFileHandler(this, wallsFile);
-        parser.setDocumentHandler(hb);
+        XMLReader parser = JAXPUtils.getXMLReader();
+        DefaultHandler hb = new WallsFileHandler(this, wallsFile);
+        parser.setContentHandler(hb);
         parser.setEntityResolver(hb);
         parser.setErrorHandler(hb);
         parser.setDTDHandler(hb);

@@ -18,16 +18,17 @@ package net.sf.antcontrib.walls;
 import java.io.File;
 
 import org.apache.tools.ant.Project;
-import org.xml.sax.AttributeList;
-import org.xml.sax.HandlerBase;
+
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Handler for the root element. Its only child must be the "project" element.
  */
-class WallsFileHandler extends HandlerBase {
+class WallsFileHandler extends DefaultHandler {
 
     private final CompileWithWalls compilewithwalls;
     private File file = null;
@@ -72,7 +73,7 @@ class WallsFileHandler extends HandlerBase {
      * @exception SAXParseException if the tag given is not
      *                              <code>"project"</code>
      */
-    public void startElement(String name, AttributeList attrs) throws SAXParseException {
+    public void startElement(String name, Attributes attrs) throws SAXParseException {
         if (name.equals("walls")) {
             if (attrs.getLength() > 0)
                 throw new SAXParseException("Error in file=" + file.getAbsolutePath()
@@ -86,7 +87,7 @@ class WallsFileHandler extends HandlerBase {
         }
     }
 
-    private void handlePackage(AttributeList attrs) throws SAXParseException {
+    private void handlePackage(Attributes attrs) throws SAXParseException {
         if (walls == null)
             throw new SAXParseException("Error in file=" + file.getAbsolutePath()
                                 + ", package element must be nested in a walls element", locator);
