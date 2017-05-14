@@ -17,7 +17,7 @@ package net.sf.antcontrib.property;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.tools.ant.BuildFileTest;
+import net.sf.antcontrib.BuildFileTestBase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Testcase for &lt;propertyselector&gt;.
  */
-public class PropertySelectorTest extends BuildFileTest {
+public class PropertySelectorTest extends BuildFileTestBase {
 
     @Before
     public void setUp() {
