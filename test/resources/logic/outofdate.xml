@@ -99,18 +99,23 @@
     <touch file="${topdir}/outofdate/gen/1/done.h"/>
     <touch file="${topdir}/outofdate/gen/1/partial.c"/>
 
-      <!-- sources -->
-      <mkdir dir="${topdir}/outofdate/source/1/2/3"/>
-      <touch file="${topdir}/outofdate/source/newer.text"/>
-      <touch file="${topdir}/outofdate/source/1/2/file.notdone"/>
-      <touch file="${topdir}/outofdate/source/1/2/file.done"/>
-      <touch file="${topdir}/outofdate/source/1/done.y"/>
-      <touch file="${topdir}/outofdate/source/1/partial.y"/>
-
+    <!-- sources -->
+    <mkdir dir="${topdir}/outofdate/source/1/2/3"/>
+    <touch file="${topdir}/outofdate/source/newer.text"/>
+    <touch file="${topdir}/outofdate/source/1/2/file.notdone"/>
+    <touch file="${topdir}/outofdate/source/1/2/file.done"/>
+    <touch file="${topdir}/outofdate/source/1/done.y"/>
+    <touch file="${topdir}/outofdate/source/1/partial.y"/>
   </target>
 
   <target name="outofdate.test" depends="outofdate.init">
-    <outofdate
+    <!-- basedir is set to test-classes in JUnit tests -->
+    <!-- relative attribute requires Ant 1.8+ -->
+    <property name="topdir.rel" value="${topdir}" relative="true"/>
+    <condition property="reldir" value="${topdir.rel}/" else="">
+      <not><equals arg1="${topdir.rel}" arg2=""/></not>
+    </condition>
+    <outofdate verbose="true"
       outputsources="outofdate.sources"
       outputtargets="outofdate.targets"
       alltargets="outofdate.alltargets"
@@ -118,21 +123,20 @@
       outputtargetspath="outofdate.targets.path">
       <sourcefiles>
         <fileset dir="${topdir}/outofdate/source"/>
-	<!-- basedir is set to test-classes -->
         <pathelement path="${topdir}/outofdate.xml"/>
       </sourcefiles>
       <targetfiles path="${topdir}/outofdate/gen/index.done"/>
-      <mapper type="glob" from="outofdate/source/1/2/*"
-              to="outofdate/gen/1/2/*"/>
+      <mapper type="glob" from="${reldir}outofdate/source/1/2/*"
+              to="${reldir}outofdate/gen/1/2/*"/>
       <mapper type="glob"
-              from="outofdate/source/*.y"
-              to="outofdate/gen/*.c"/>
+              from="${reldir}outofdate/source/*.y"
+              to="${reldir}outofdate/gen/*.c"/>
       <mapper type="glob"
-              from="outofdate/source/*.y"
-              to="outofdate/gen/*.h"/>
+              from="${reldir}outofdate/source/*.y"
+              to="${reldir}outofdate/gen/*.h"/>
       <mapper type="glob"
-              from="outofdate/source/newer.text"
-              to="outofdate.xml"/>
+              from="${reldir}outofdate/source/newer.text"
+              to="${reldir}outofdate.xml"/>
       <sequential>
         <echo message="outofdate triggered"/>
       </sequential>
