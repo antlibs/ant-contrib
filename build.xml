@@ -102,7 +102,7 @@
     </target>
 
     <target name="test" description="o Run JUnit tests" depends="jar">
-        <junit fork="true" haltonerror="false" haltonfailure="false"
+        <junit fork="true" tempdir="${target.dir}" haltonerror="false" haltonfailure="false"
                errorproperty="junit.error" failureproperty="junit.failure">
             <formatter type="brief" usefile="false"/>
             <sysproperty key="basedir" value="${target.test-classes.dir}"/>
