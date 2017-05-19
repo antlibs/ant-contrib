@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="Ant Contrib"
+         xmlns="http://maven.apache.org/DECORATION/1.7.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.6</version>
+  </skin>
+  <bannerLeft>
+    <name>Ant Contrib</name>
+  </bannerLeft>
+  <publishDate/>
+  <version/>
+  <body>
+    <menu name="Ant Contrib">
+      <item name="Manual" href="manual.html"/>
+    </menu>
+  </body>
+</project>

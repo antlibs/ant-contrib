@@ -3,12 +3,11 @@
     <property file="build.properties"/>
 
     <property name="root.dir" location="."/>
-    <property name="src.dir" location="src"/>
-    <property name="src.java.dir" location="${src.dir}/java"/>
-    <property name="test.dir" location="test"/>
-    <property name="test.src.dir" location="${test.dir}/src"/>
-    <property name="test.resources.dir" location="${test.dir}/resources"/>
-    <property name="docs.dir" location="docs"/>
+    <property name="src.main.dir" location="src/main/java"/>
+    <property name="resources.main.dir" location="src/main/resources"/>
+    <property name="src.test.dir" location="src/test/java"/>
+    <property name="resources.test.dir" location="src/test/resources"/>
+    <property name="docs.dir" location="src/site/resources"/>
     <property name="target.dir" location="target"/>
     <property name="lib.dir" value="${target.dir}/lib"/>
     <property name="target.classes.dir" location="${target.dir}/classes"/>
@@ -16,7 +15,6 @@
     <property name="target.docs.dir" location="${target.dir}/docs"/>
     <property name="target.stage.dir" location="${target.dir}/stage"/>
     <property name="dist.dir" location="dist"/>
-    <path id="compile.classpath" path="${lib.dir}/compile"/>
 
     <!-- Ivy -->
     <property name="central.repo" value="http://repo1.maven.org/maven2"/>
@@ -51,7 +49,7 @@
 
     <target name="compile" description="o Compile Java classes and copy antlib" depends="classpath">
         <mkdir dir="${target.classes.dir}"/>
-        <javac srcdir="${src.java.dir}"
+        <javac srcdir="${src.main.dir}"
                destdir="${target.classes.dir}"
                debug="true"
                classpathref="compile.classpath"
@@ -60,14 +58,14 @@
                includeantruntime="false"/>
 
         <copy todir="${target.classes.dir}">
-            <fileset dir="${src.java.dir}"
+            <fileset dir="${resources.main.dir}"
                  includes="**/*.xml"/>
         </copy>
     </target>
 
     <target name="compile-tests" description="o Compile test Java classes" depends="compile">
         <mkdir dir="${target.test-classes.dir}"/>
-        <javac srcdir="${test.src.dir}"
+        <javac srcdir="${src.test.dir}"
                destdir="${target.test-classes.dir}"
                debug="true"
                source="${jdk.source}"
@@ -80,9 +78,7 @@
         </javac>
 
         <copy todir="${target.test-classes.dir}">
-            <fileset dir="${test.src.dir}"
-                 includes="**/*.properties,**/*.xml"/>
-            <fileset dir="${test.resources.dir}"
+            <fileset dir="${resources.test.dir}"
                  includes="**/*.java,**/*.properties,**/*.xml,**/*.txt,**/.classpath"/>
         </copy>
     </target>
@@ -126,7 +122,7 @@
     </target>
 
     <target name="javadoc" description="o Build javadoc" depends="classpath">
-        <javadoc sourcepath="${src.java.dir}"
+        <javadoc sourcepath="${src.main.dir}"
              destdir="${target.docs.dir}/api"
              packagenames="net.sf.antcontrib.*"
              author="true"
@@ -146,8 +142,8 @@
     </target>
 
     <target name="docs" description="o Add manual to javadoc for distribution" depends="javadoc">
-        <mkdir dir="${target.docs.dir}"/>
-        <copy todir="${target.docs.dir}">
+        <mkdir dir="${target.docs.dir}/manual"/>
+        <copy todir="${target.docs.dir}/manual">
             <fileset dir="${docs.dir}" includes="**/*"/>
         </copy>
     </target>
