@@ -19,16 +19,26 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 
 /**
- * Created on Aug 25, 2003
+ * Created on Aug 25, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class SilentCopy extends Copy {
-
+    /**
+     * Method log.
+     *
+     * @param msg String
+     */
     public void log(String msg) {
         log(msg, Project.MSG_INFO);
     }
 
+    /**
+     * Method log.
+     *
+     * @param msg   String
+     * @param level int
+     */
     public void log(String msg, int level) {
         if (level == Project.MSG_INFO)
             super.log(msg, Project.MSG_VERBOSE);

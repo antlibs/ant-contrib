@@ -22,29 +22,32 @@ import java.io.Writer;
  * A single property in an IniSection.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class IniProperty
-        implements IniPart
-{
+public class IniProperty implements IniPart {
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field value.
+     */
     private String value;
 
     /**
      * Default constructor.
      */
-    public IniProperty()
-    {
+    public IniProperty() {
         super();
     }
 
     /**
      * Construct an IniProperty with a certain name and value.
-     * @param name The name of the property
+     *
+     * @param name  The name of the property
      * @param value The property value
      */
-    public IniProperty(String name, String value)
-    {
+    public IniProperty(String name, String value) {
         this();
         this.name = name;
         this.value = value;
@@ -52,51 +55,50 @@ public class IniProperty
 
     /**
      * Gets the name of the property.
+     *
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * Sets the name of the property.
+     *
      * @param name The name of the property
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * Gets the value of the property.
+     *
      * @return String
      */
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
     /**
      * Sets the value of the property.
+     *
      * @param value the value of the property
      */
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
     /**
      * Write this property to a writer object.
+     *
      * @param writer Writer
      * @throws IOException on write error
+     * @see net.sf.antcontrib.inifile.IniPart#write(Writer)
      */
-    public void write(Writer writer)
-            throws IOException
-    {
+    public void write(Writer writer) throws IOException {
         writer.write(name);
-        if (! name.trim().startsWith(";"))
+        if (!name.trim().startsWith(";"))
             writer.write("=" + value);
     }
-
 }

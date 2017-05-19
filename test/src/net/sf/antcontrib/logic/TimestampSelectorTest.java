@@ -27,40 +27,62 @@ import org.junit.Test;
  * Testcase for &lt;foreach&gt;.
  */
 public class TimestampSelectorTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/timestampselector.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    /**
+     * Method testFileStampFL.
+     */
     @Test
     public void testFileStampFL() {
         simpleTest("filestamp.fl", "file2.txt");
     }
 
+    /**
+     * Method testFileStampPR.
+     */
     @Test
     public void testFileStampPR() {
         simpleTest("filestamp.pr", "file2.txt");
     }
 
+    /**
+     * Method testDirStampDL.
+     */
     @Test
     public void testDirStampDL() {
         simpleTest("dirstamp.dl", "dir2");
     }
 
+    /**
+     * Method testDirStampPR.
+     */
     @Test
     public void testDirStampPR() {
         simpleTest("dirstamp.pr", "dir2");
     }
 
-    private void simpleTest(String target, String expected)
-    {
+    /**
+     * Method simpleTest.
+     *
+     * @param target   String
+     * @param expected String
+     */
+    private void simpleTest(String target, String expected) {
         executeTarget(target);
         assertTrue(getLog().contains(expected));
-   }
+    }
 }

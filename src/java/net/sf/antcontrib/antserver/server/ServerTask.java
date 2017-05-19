@@ -19,40 +19,50 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class ServerTask
-        extends Task
-{
+public class ServerTask extends Task {
+    /**
+     * Field server.
+     */
     private Server server;
+
+    /**
+     * Field port.
+     */
     private int port = 17000;
 
-    public ServerTask()
-    {
+    /**
+     * Constructor for ServerTask.
+     */
+    public ServerTask() {
         super();
     }
 
-    public void setPort(int port)
-    {
+    /**
+     * Method setPort.
+     *
+     * @param port int
+     */
+    public void setPort(int port) {
         this.port = port;
     }
 
-    public void shutdown()
-    {
+    /**
+     * Method shutdown.
+     */
+    public void shutdown() {
         server.stop();
     }
 
-    public void execute()
-    {
-        try
-        {
+    /**
+     * Method execute.
+     */
+    public void execute() {
+        try {
             server = new Server(this, port);
             server.start();
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             throw new BuildException(e);
         }
     }

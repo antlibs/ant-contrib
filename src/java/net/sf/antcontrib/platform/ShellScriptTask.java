@@ -24,7 +24,7 @@ import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.util.FileUtils;
 
 /**
- *  A generic front-end for passing "shell lines" to any application which can
+ * A generic front-end for passing "shell lines" to any application which can
  * accept a filename containing script input (bash, perl, csh, tcsh, etc.).
  * see antcontrib doc for usage
  *
@@ -32,30 +32,47 @@ import org.apache.tools.ant.util.FileUtils;
  * @author Peter Reilly
  */
 public class ShellScriptTask extends ExecTask {
-
+    /**
+     * Field script.
+     */
     private final StringBuffer script = new StringBuffer();
+
+    /**
+     * Field shell.
+     */
     private String shell = null;
-    private File   tmpFile;
+
+    /**
+     * Field tmpFile.
+     */
+    private File tmpFile;
+
+    /**
+     * Field tmpSuffix.
+     */
     private String tmpSuffix = null;
 
     /**
-     *  Adds s to the lines of script code.
-     *  @param s String
+     * Adds s to the lines of script code.
+     *
+     * @param s String
      */
     public void addText(String s) {
         script.append(getProject().replaceProperties(s));
     }
 
     /**
-     *  Sets script code to s.
-     *  @param s String
+     * Sets script code to s.
+     *
+     * @param s String
      */
     public void setInputString(String s) {
         script.append(s);
     }
 
     /**
-     *  Sets the shell used to run the script.
+     * Sets the shell used to run the script.
+     *
      * @param shell the shell to use (bash is default)
      */
     public void setShell(String shell) {
@@ -63,7 +80,8 @@ public class ShellScriptTask extends ExecTask {
     }
 
     /**
-     *  Sets the shell used to run the script.
+     * Sets the shell used to run the script.
+     *
      * @param shell the shell to use (bash is default)
      */
     public void setExecutable(String shell) {
@@ -73,6 +91,7 @@ public class ShellScriptTask extends ExecTask {
     /**
      * Disallow the command attribute of parent class ExecTask.
      * ant.attribute ignore="true"
+     *
      * @param notUsed not used
      * @throws BuildException if called
      */
@@ -85,15 +104,17 @@ public class ShellScriptTask extends ExecTask {
      * contain the script.
      * This is useful for cmd.exe as one can
      * use cmd /c call x.bat
+     *
      * @param tmpSuffix the suffix to use
      */
-
     public void setTmpSuffix(String tmpSuffix) {
         this.tmpSuffix = tmpSuffix;
     }
 
     /**
      * execute the task.
+     *
+     * @throws BuildException if shell is not specified
      */
     public void execute() throws BuildException {
         // Remove per peter's comments.  Makes sense.
@@ -118,7 +139,8 @@ public class ShellScriptTask extends ExecTask {
             throw new BuildException("You must specify a shell to run.");
 
         try {
-            /* // The following may be used when ant 1.6 is used.
+            /*
+              // The following may be used when ant 1.6 is used.
               if (tmpSuffix == null)
               super.setInputString(script.toString());
               else
@@ -129,19 +151,20 @@ public class ShellScriptTask extends ExecTask {
             }
             super.setExecutable(shell);
             super.execute();
-        }
-        finally {
+        } finally {
             if (tmpFile != null) {
-                if (! tmpFile.delete()) {
+                if (!tmpFile.delete()) {
                     log("Non-fatal error: could not delete temporary file "
-                	+ tmpFile.getAbsolutePath());
+                            + tmpFile.getAbsolutePath());
                 }
             }
         }
     }
 
     /**
-     *  Writes the script lines to a temp file.
+     * Writes the script lines to a temp file.
+     *
+     * @throws BuildException if write fails
      */
     protected void writeScript() throws BuildException {
         FileOutputStream os = null;
@@ -153,17 +176,13 @@ public class ShellScriptTask extends ExecTask {
             String string = script.toString();
             os.write(string.getBytes(), 0, string.length());
             os.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BuildException(e);
-        }
-        finally {
+        } finally {
             try {
                 os.close();
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
             }
         }
     }
-
 }

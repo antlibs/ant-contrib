@@ -22,15 +22,13 @@ import java.io.Writer;
  * A part of an IniFile that might be written to disk.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public interface IniPart
-{
+public interface IniPart {
     /**
      * Write this part of the IniFile to a writer.
+     *
      * @param writer The writer to write to
      * @throws IOException when something goes wrong
      */
-    void write(Writer writer)
-        throws IOException;
+    void write(Writer writer) throws IOException;
 }

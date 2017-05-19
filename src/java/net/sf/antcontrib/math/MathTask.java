@@ -24,25 +24,46 @@ import org.apache.tools.ant.Task;
  *
  * @author Matthew Inger
  */
-public class MathTask
-        extends Task
-        implements DynamicConfigurator
-{
-    // storage for result
+public class MathTask extends Task implements DynamicConfigurator {
+    /**
+     * Field result.
+     * Storage for result
+     */
     private String result = null;
+
+    /**
+     * Field operation.
+     */
     private Operation operation = null;
+
+    /**
+     * Field locOperation.
+     */
     private Operation locOperation = null;
+
+    /**
+     * Field datatype.
+     */
     private String datatype = null;
+
+    /**
+     * Field strict.
+     */
     private boolean strict = false;
 
-    public MathTask()
-    {
+    /**
+     * Constructor for MathTask.
+     */
+    public MathTask() {
         super();
     }
 
-    public void execute()
-            throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
         Operation op = locOperation;
         if (op == null)
             op = operation;
@@ -54,38 +75,67 @@ public class MathTask
         getProject().setUserProperty(result, res.toString());
     }
 
-    public void setDynamicAttribute(String s, String s1)
-            throws BuildException {
+    /**
+     * Method setDynamicAttribute.
+     *
+     * @param s  String
+     * @param s1 String
+     * @throws BuildException no dynamic attributes allowed
+     * @see org.apache.tools.ant.DynamicAttribute#setDynamicAttribute(String, String)
+     */
+    public void setDynamicAttribute(String s, String s1) throws BuildException {
         throw new BuildException("No dynamic attributes for this task");
     }
 
-    public Object createDynamicElement(String name)
-            throws BuildException {
+    /**
+     * Method createDynamicElement.
+     *
+     * @param name String
+     * @return Object
+     * @throws BuildException if something goes wrong
+     * @see org.apache.tools.ant.DynamicElement#createDynamicElement(String)
+     */
+    public Object createDynamicElement(String name) throws BuildException {
         Operation op = new Operation();
         op.setOperation(name);
         operation = op;
         return op;
     }
 
-    public void setResult(String result)
-    {
+    /**
+     * Method setResult.
+     *
+     * @param result String
+     */
+    public void setResult(String result) {
         this.result = result;
     }
 
-    public void setDatatype(String datatype)
-    {
+    /**
+     * Method setDatatype.
+     *
+     * @param datatype String
+     */
+    public void setDatatype(String datatype) {
         this.datatype = datatype;
     }
 
-    public void setStrict(boolean strict)
-    {
+    /**
+     * Method setStrict.
+     *
+     * @param strict boolean
+     */
+    public void setStrict(boolean strict) {
         this.strict = strict;
     }
 
-    private Operation getLocalOperation()
-    {
-        if (locOperation == null)
-        {
+    /**
+     * Method getLocalOperation.
+     *
+     * @return Operation
+     */
+    private Operation getLocalOperation() {
+        if (locOperation == null) {
             locOperation = new Operation();
             locOperation.setDatatype(datatype);
             locOperation.setStrict(strict);
@@ -93,28 +143,48 @@ public class MathTask
         return locOperation;
     }
 
-    public void setOperation(String operation)
-    {
+    /**
+     * Method setOperation.
+     *
+     * @param operation String
+     */
+    public void setOperation(String operation) {
         getLocalOperation().setOperation(operation);
     }
 
-    public void setDataType(String dataType)
-    {
+    /**
+     * Method setDataType.
+     *
+     * @param dataType String
+     */
+    public void setDataType(String dataType) {
         getLocalOperation().setDatatype(dataType);
     }
 
-    public void setOperand1(String operand1)
-    {
+    /**
+     * Method setOperand1.
+     *
+     * @param operand1 String
+     */
+    public void setOperand1(String operand1) {
         getLocalOperation().setArg1(operand1);
     }
 
-    public void setOperand2(String operand2)
-    {
+    /**
+     * Method setOperand2.
+     *
+     * @param operand2 String
+     */
+    public void setOperand2(String operand2) {
         getLocalOperation().setArg2(operand2);
     }
 
-    public Operation createOperation()
-    {
+    /**
+     * Method createOperation.
+     *
+     * @return Operation
+     */
+    public Operation createOperation() {
         if (locOperation != null || operation != null)
             throw new BuildException("Only 1 operation can be specified");
         this.operation = new Operation();
@@ -124,8 +194,13 @@ public class MathTask
     }
 
     // conform to old task
-    public Operation createOp()
-    {
+
+    /**
+     * Method createOp.
+     *
+     * @return Operation
+     */
+    public Operation createOp() {
         return createOperation();
     }
 }

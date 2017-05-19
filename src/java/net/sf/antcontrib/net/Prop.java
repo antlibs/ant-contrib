@@ -19,25 +19,52 @@ package net.sf.antcontrib.net;
  * Simple bean to represent a name/value pair.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author    Dale Anson, danson@germane-software.com
- * @version   $Revision: 1.3 $
+ * @author Dale Anson, danson@germane-software.com
+ * @version $Revision: 1.3 $
  */
 public class Prop {
+    /**
+     * Field name.
+     */
     private String name = null;
+
+    /**
+     * Field value.
+     */
     private String value = null;
 
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method getName.
+     *
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method setValue.
+     *
+     * @param value String
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * Method getValue.
+     *
+     * @return String
+     */
     public String getValue() {
         return value;
     }

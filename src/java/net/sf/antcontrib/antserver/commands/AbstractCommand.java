@@ -23,35 +23,60 @@ import org.apache.tools.ant.Project;
 import net.sf.antcontrib.antserver.Command;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractCommand
-        implements Command
-{
-    public long getContentLength()
-    {
+public abstract class AbstractCommand implements Command {
+    /**
+     * Method getContentLength.
+     *
+     * @return long
+     * @see net.sf.antcontrib.antserver.Command#getContentLength()
+     */
+    public long getContentLength() {
         return 0;
     }
 
-    public InputStream getContentStream()
-        throws IOException
-    {
+    /**
+     * Method getContentStream.
+     *
+     * @return InputStream
+     * @throws IOException just in case
+     * @see net.sf.antcontrib.antserver.Command#getContentStream()
+     */
+    public InputStream getContentStream() throws IOException {
         return null;
     }
 
-    public long getResponseContentLength()
-    {
+    /**
+     * Method getResponseContentLength.
+     *
+     * @return long
+     * @see net.sf.antcontrib.antserver.Command#getResponseContentLength()
+     */
+    public long getResponseContentLength() {
         return 0;
     }
 
-    public InputStream getResponseContentStream()
-    {
+    /**
+     * Method getResponseContentStream.
+     *
+     * @return InputStream
+     * @see net.sf.antcontrib.antserver.Command#getResponseContentStream()
+     */
+    public InputStream getResponseContentStream() {
         return null;
     }
 
+    /**
+     * Method respond.
+     *
+     * @param project       Project
+     * @param contentLength long
+     * @param contentStream InputStream
+     * @return boolean
+     * @see net.sf.antcontrib.antserver.Command#respond(Project, long, InputStream)
+     */
     public boolean respond(Project project,
                            long contentLength,
                            InputStream contentStream) {

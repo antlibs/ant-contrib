@@ -31,23 +31,32 @@ package net.sf.antcontrib.perf;
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
  * @author Dale Anson
- * @version   $Revision: 1.4 $
+ * @version $Revision: 1.4 $
  */
 public class StopWatch {
-
-    /** an identifying name for this stopwatch. */
+    /**
+     * an identifying name for this stopwatch.
+     */
     private String name = "";
 
-    /** storage for start time. */
+    /**
+     * storage for start time.
+     */
     private long startTime = 0;
 
-    /** storage for stop time. */
+    /**
+     * storage for stop time.
+     */
     private long stopTime = 0;
 
-    /** cumulative elapsed time. */
+    /**
+     * cumulative elapsed time.
+     */
     private long totalTime = 0;
 
-    /** is the stopwatch running. */
+    /**
+     * is the stopwatch running.
+     */
     private boolean running = false;
 
     /**
@@ -59,6 +68,7 @@ public class StopWatch {
 
     /**
      * Starts the stopwatch.
+     *
      * @param name an identifying name for this StopWatch
      */
     public StopWatch(String name) {
@@ -70,7 +80,7 @@ public class StopWatch {
      * Starts/restarts the stopwatch. <code>stop</code> must be called prior
      * to restart.
      *
-     * @return   the start time, the long returned System.currentTimeMillis().
+     * @return the start time, the long returned System.currentTimeMillis().
      */
     public long start() {
         if (!running)
@@ -82,7 +92,7 @@ public class StopWatch {
     /**
      * Stops the stopwatch.
      *
-     * @return   the stop time, the long returned System.currentTimeMillis().
+     * @return the stop time, the long returned System.currentTimeMillis().
      */
     public long stop() {
         stopTime = System.currentTimeMillis();
@@ -97,7 +107,7 @@ public class StopWatch {
     /**
      * Total cumulative elapsed time.
      *
-     * @return   the total time
+     * @return the total time
      */
     public long total() {
         stop();
@@ -109,7 +119,7 @@ public class StopWatch {
     /**
      * Elapsed time, difference between the last start time and now.
      *
-     * @return   the elapsed time
+     * @return the elapsed time
      */
     public long elapsed() {
         return System.currentTimeMillis() - startTime;
@@ -117,6 +127,7 @@ public class StopWatch {
 
     /**
      * getName() method.
+     *
      * @return the name of this StopWatch
      */
     public String getName() {
@@ -125,6 +136,7 @@ public class StopWatch {
 
     /**
      * Formats the given time into decimal seconds.
+     *
      * @param ms long
      * @return the time formatted as mm:ss.ddd
      */
@@ -143,8 +155,7 @@ public class StopWatch {
             sec = min > 0 ? (int) ((ms - (min * 60000)) / 1000) : (int) (ms / 1000);
             if (min > 0) {
                 total = String.valueOf(min) + ":" + (sec < 10 ? "0" : "") + String.valueOf(sec) + "." + dec;
-            }
-            else {
+            } else {
                 total = String.valueOf(sec) + "." + dec;
             }
         }
@@ -153,6 +164,7 @@ public class StopWatch {
 
     /**
      * Returns the total elapsed time of the stopwatch formatted in decimal seconds.
+     *
      * @return [name: mm:ss.ddd]
      */
     public String toString() {
@@ -165,6 +177,11 @@ public class StopWatch {
         return sb.toString();
     }
 
+    /**
+     * Method main.
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
         StopWatch sw = new StopWatch("test");
 
@@ -187,8 +204,7 @@ public class StopWatch {
             sw.stop();
             System.out.println("elapsed: " + sw.format(sw.elapsed()));
             System.out.println("total: " + sw.format(sw.total()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

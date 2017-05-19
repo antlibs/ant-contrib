@@ -33,10 +33,16 @@ import org.apache.tools.ant.input.MultipleChoiceInputRequest;
  * @since Ant 1.5
  */
 public class GUIInputHandler implements InputHandler {
-
+    /**
+     * Field parent.
+     */
     private Component parent = null;
 
-    public GUIInputHandler() {}
+    /**
+     * Constructor for GUIInputHandler.
+     */
+    public GUIInputHandler() {
+    }
 
     /**
      * @param parent the parent component to display the input dialog.
@@ -48,9 +54,12 @@ public class GUIInputHandler implements InputHandler {
     /**
      * Prompts and requests input.  May loop until a valid input has
      * been entered.
+     *
+     * @param request InputRequest
+     * @throws BuildException if something goes wrong
+     * @see org.apache.tools.ant.input.InputHandler#handleInput(InputRequest)
      */
     public void handleInput(InputRequest request) throws BuildException {
-
         if (request instanceof MultipleChoiceInputRequest) {
             String prompt = request.getPrompt();
             String title = "Select Input";
@@ -62,19 +71,16 @@ public class GUIInputHandler implements InputHandler {
             Object initialChoice = null;
             do {
                 Object input = JOptionPane.showInputDialog(parent, prompt,
-                    title, optionType, icon, choices, initialChoice);
+                        title, optionType, icon, choices, initialChoice);
                 if (input == null)
-                   throw new BuildException("User cancelled.");
+                    throw new BuildException("User cancelled.");
                 request.setInput(input.toString());
             } while (!request.isInputValid());
-
-        }
-        else {
+        } else {
             do {
                 String input = JOptionPane.showInputDialog(parent, request.getPrompt());
                 request.setInput(input);
             } while (!request.isInputValid());
         }
     }
-
 }

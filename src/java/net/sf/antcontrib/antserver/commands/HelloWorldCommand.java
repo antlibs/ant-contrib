@@ -17,29 +17,39 @@ package net.sf.antcontrib.antserver.commands;
 
 import java.io.InputStream;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import net.sf.antcontrib.antserver.Command;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public class HelloWorldCommand
-        extends AbstractCommand
-        implements Command
-{
-    public void validate(Project project)
-    {
+public class HelloWorldCommand extends AbstractCommand implements Command {
+    /**
+     * Method validate.
+     *
+     * @param project Project
+     * @see net.sf.antcontrib.antserver.Command#validate(Project)
+     */
+    public void validate(Project project) {
     }
 
+    /**
+     * Method execute.
+     *
+     * @param project       Project
+     * @param contentLength long
+     * @param content       InputStream
+     * @return boolean
+     * @throws BuildException if something goes wrong
+     * @see net.sf.antcontrib.antserver.Command#execute(Project, long, InputStream)
+     */
     public boolean execute(Project project,
                            long contentLength,
                            InputStream content)
-            throws Throwable
-    {
+            throws BuildException {
         project.log("Hello World", Project.MSG_ERR);
         return false;
     }

@@ -28,13 +28,13 @@ import org.junit.Test;
 
 /**
  * BIG NOTE
- *
+ * <p>
  * <p>Always expect specific exceptions.  Most of these test cases when
  * first submitted were not and therefore were not testing what they said
  * they were testing.  Exceptions were being caused by other things and the
  * tests were still passing.  Now all tests expect a specific exception
  * so if any other is thrown we will fail the test case.</p>
- *
+ * <p>
  * <p>Testcase for &lt;propertycopy&gt;.</p>
  */
 public class CompileWithWallsTest extends BuildFileTestBase {
@@ -44,12 +44,18 @@ public class CompileWithWallsTest extends BuildFileTestBase {
      */
     private static String baseDir = "";
 
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("walls/compilewithwalls.xml");
         baseDir = getProject().getBaseDir().getAbsolutePath();
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("cleanup");
@@ -63,18 +69,27 @@ public class CompileWithWallsTest extends BuildFileTestBase {
 //        System.out.println("std.err. from ant build end----------------");
     }
 
+    /**
+     * Method testTooManyNestedWallElements.
+     */
     @Test
     public void testTooManyNestedWallElements() {
         expectSpecificBuildException("testTooManyNestedWallElements",
-        	"TooManyNestedWallElements",
-        	"compilewithwalls task only supports one nested walls element or one walls attribute");
+                "TooManyNestedWallElements",
+                "compilewithwalls task only supports one nested walls element or one walls attribute");
     }
 
+    /**
+     * Method testFakeTest.
+     */
     @Test
     public void testFakeTest() {
-    	//this is being deprecated, tests no longer really needed.
+        // this is being deprecated, tests no longer really needed.
     }
 
+    /**
+     * Method testTooManyNestedJavacElements.
+     */
     @Ignore
     public void testTooManyNestedJavacElements() {
         expectSpecificBuildException("testTooManyNestedJavacElements",
@@ -82,6 +97,9 @@ public class CompileWithWallsTest extends BuildFileTestBase {
                 "compilewithwalls task only supports one nested javac element");
     }
 
+    /**
+     * Method testNoWallElement.
+     */
     @Ignore
     public void testNoWallElement() {
         expectSpecificBuildException("testNoWallElement",
@@ -89,6 +107,9 @@ public class CompileWithWallsTest extends BuildFileTestBase {
                 "There must be a nested walls element");
     }
 
+    /**
+     * Method testNoJavacElement.
+     */
     @Ignore
     public void testNoJavacElement() {
         expectSpecificBuildException("testNoJavacElement",
@@ -96,11 +117,17 @@ public class CompileWithWallsTest extends BuildFileTestBase {
                 "There must be a nested javac element");
     }
 
+    /**
+     * Method testMoreThanOneSrcDirInJavac.
+     */
     @Ignore
     public void testMoreThanOneSrcDirInJavac() {
         executeTarget("testMoreThanOneSrcDirInJavac");
     }
 
+    /**
+     * Method testNoSrcDirInJavac.
+     */
     @Ignore
     public void testNoSrcDirInJavac() {
         expectSpecificBuildException("testNoSrcDirInJavac",
@@ -108,61 +135,82 @@ public class CompileWithWallsTest extends BuildFileTestBase {
                 "Javac inside compilewithwalls must have a srcdir specified");
     }
 
+    /**
+     * Method testIntermediaryDirAndDestDirSame.
+     */
     @Ignore
     public void testIntermediaryDirAndDestDirSame() {
         expectSpecificBuildException("testIntermediaryDirAndDestDirSame",
                 "IntermediaryDirAndDestDirSame",
                 "intermediaryBuildDir attribute cannot be specified\n"
-                  + "to be the same as destdir or inside desdir of the javac task.\n"
-                  + "This is an intermediary build directory only used by the\n"
-                  + "compilewithwalls task, not the class file output directory.\n"
-                  + "The class file output directory is specified in javac's destdir attribute");
+                        + "to be the same as destdir or inside desdir of the javac task.\n"
+                        + "This is an intermediary build directory only used by the\n"
+                        + "compilewithwalls task, not the class file output directory.\n"
+                        + "The class file output directory is specified in javac's destdir attribute");
     }
 
+    /**
+     * Method testIntermediaryDirInsideDestDir.
+     */
     @Ignore
     public void testIntermediaryDirInsideDestDir() {
         expectSpecificBuildException("testIntermediaryDirInsideDestDir",
                 "IntermediaryDirInsideDestDir",
                 "intermediaryBuildDir attribute cannot be specified\n"
-        + "to be the same as destdir or inside desdir of the javac task.\n"
-        + "This is an intermediary build directory only used by the\n"
-        + "compilewithwalls task, not the class file output directory.\n"
-        + "The class file output directory is specified in javac's destdir attribute");
+                        + "to be the same as destdir or inside desdir of the javac task.\n"
+                        + "This is an intermediary build directory only used by the\n"
+                        + "compilewithwalls task, not the class file output directory.\n"
+                        + "The class file output directory is specified in javac's destdir attribute");
     }
 
+    /**
+     * Method testPackageDoesntEndWithStar.
+     */
     @Ignore
     public void testPackageDoesntEndWithStar() {
         expectSpecificBuildException("testPackageDoesntEndWithStar",
                 "PackageDoesntEndWithStar",
                 "The package='biz.xsoftware' must end with "
-                    + ".* or .** such as biz.xsoftware.* or "
-                    + "biz.xsoftware.**");
+                        + ".* or .** such as biz.xsoftware.* or "
+                        + "biz.xsoftware.**");
     }
 
+    /**
+     * Method testPackageDoesntHaveSlash.
+     */
     @Ignore
     public void testPackageDoesntHaveSlash() {
         expectSpecificBuildException("testPackageDoesntHaveSlash",
                 "PackageDoesntHaveSlash",
                 "A package name cannot contain '\\' or '/' like package="
-                    + "biz/xsoftware.*\nIt must look like biz.xsoftware.* for example");
+                        + "biz/xsoftware.*\nIt must look like biz.xsoftware.* for example");
     }
 
+    /**
+     * Method testDependsOnNonExistPackage.
+     */
     @Ignore
     public void testDependsOnNonExistPackage() {
         expectSpecificBuildException("testDependsOnNonExistPackage",
                 "DependsOnNonExistPackage",
                 "package name=modA did not have modB"
-                    + " listed before it and cannot compile without it");
+                        + " listed before it and cannot compile without it");
     }
 
+    /**
+     * Method testDependsOnPackageAfter.
+     */
     @Ignore
     public void testDependsOnPackageAfter() {
         expectSpecificBuildException("testDependsOnPackageAfter",
                 "DependsOnPackageAfter",
                 "package name=modA did not have modB"
-                    + " listed before it and cannot compile without it");
+                        + " listed before it and cannot compile without it");
     }
 
+    /**
+     * Method testPackageABreakingWhenAIsCompiledFirst.
+     */
     @Ignore
     public void testPackageABreakingWhenAIsCompiledFirst() {
         expectSpecificBuildException("testPackageABreakingWhenAIsCompiledFirst",
@@ -189,6 +237,9 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         ensureClassFileExists("testB/mod/modB/ModuleB.class", false);
     }
 
+    /**
+     * Method testCompileOfAllUsingDepends.
+     */
     @Ignore
     public void testCompileOfAllUsingDepends() {
         ensureClassFileExists("testC/mod/Module.class", false);
@@ -212,12 +263,15 @@ public class CompileWithWallsTest extends BuildFileTestBase {
     //
     //---------------------------------------------------------
 
+    /**
+     * Method testDependsOnPackageAfterExternalWalls.
+     */
     @Ignore
     public void testDependsOnPackageAfterExternalWalls() {
         expectSpecificBuildException("testDependsOnPackageAfterExternalWalls",
-            "DependsOnPackageAfterExternalWalls",
-            "package name=modA did not have modB"
-            + " listed before it and cannot compile without it");
+                "DependsOnPackageAfterExternalWalls",
+                "package name=modA did not have modB"
+                        + " listed before it and cannot compile without it");
     }
 
     /**
@@ -242,6 +296,9 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         ensureClassFileExists("testB/mod/modB/ModuleB.class", false);
     }
 
+    /**
+     * Method testCompileOfAllUsingDependsExternalWalls.
+     */
     @Ignore
     public void testCompileOfAllUsingDependsExternalWalls() {
         ensureClassFileExists("testC/mod/Module.class", false);
@@ -253,26 +310,44 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         ensureClassFileExists("testC/mod/Module.class", true);
     }
 
+    /**
+     * Method ensureJavaFileExists.
+     *
+     * @param file        String
+     * @param shouldExist boolean
+     */
     private void ensureJavaFileExists(String file, boolean shouldExist) {
         //must test that it is testing the correct directory.
         //It wasn't before.
         File f1 = new File(baseDir, file);
         if (shouldExist)
-            assertTrue("The java file=" + f1.getAbsolutePath() + " didn't exist, we can't run this test.  It will pass with false results",
+            assertTrue("The java file=" + f1.getAbsolutePath()
+                            + " didn't exist, we can't run this test.  It will pass with false results",
                     f1.exists());
         else
-            assertTrue("The java file=" + f1.getAbsolutePath() + " exists and shouldn't, we can't run this test.  It will pass with false results",
+            assertTrue("The java file=" + f1.getAbsolutePath()
+                            + " exists and shouldn't, we can't run this test.  It will pass with false results",
                     !f1.exists());
     }
 
+    /**
+     * Method ensureClassFileExists.
+     *
+     * @param file        String
+     * @param shouldExist boolean
+     */
     private void ensureClassFileExists(String file, boolean shouldExist) {
         File f1 = new File(baseDir + "/compilewithwalls/classes", file);
         if (shouldExist)
-            assertTrue("The class file=" + f1.getAbsolutePath() + " didn't get created, No build exception\nwas thrown, but the build failed because a class\nfile should have been created",
+            assertTrue("The class file=" + f1.getAbsolutePath()
+                            + " didn't get created, No build exception\nwas thrown,"
+                            + " but the build failed because a class\nfile should have been created",
                     f1.exists());
         else
-            assertTrue("The class file=" + f1.getAbsolutePath() + " exists and shouldn't\nTest may be inaccurate if this file already exists...correct the test",
-                        !f1.exists());
+            assertTrue("The class file=" + f1.getAbsolutePath()
+                            + " exists and shouldn't\n"
+                            + "Test may be inaccurate if this file already exists...correct the test",
+                    !f1.exists());
     }
 
 }

@@ -18,39 +18,60 @@ package net.sf.antcontrib.antserver.commands;
 import java.io.Serializable;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public class PropertyContainer
-        implements Serializable
-{
+public class PropertyContainer implements Serializable {
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field value.
+     */
     private String value;
 
-    public PropertyContainer()
-    {
+    /**
+     * Constructor for PropertyContainer.
+     */
+    public PropertyContainer() {
         super();
     }
 
-    public String getName()
-    {
+    /**
+     * Method getName.
+     *
+     * @return String
+     */
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getValue()
-    {
+    /**
+     * Method getValue.
+     *
+     * @return String
+     */
+    public String getValue() {
         return value;
     }
 
-    public void setValue(String value)
-    {
+    /**
+     * Method setValue.
+     *
+     * @param value String
+     */
+    public void setValue(String value) {
         this.value = value;
     }
 }

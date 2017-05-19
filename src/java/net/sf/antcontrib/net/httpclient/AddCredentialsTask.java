@@ -21,36 +21,59 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 
-public class AddCredentialsTask
-	extends AbstractHttpStateTypeTask {
+/**
+ */
+public class AddCredentialsTask extends AbstractHttpStateTypeTask {
+    /**
+     * Field credentials.
+     */
+    private final List<Credentials> credentials = new ArrayList<Credentials>();
 
-	private final List<Credentials> credentials = new ArrayList<Credentials>();
-	private final List<Credentials> proxyCredentials = new ArrayList<Credentials>();
+    /**
+     * Field proxyCredentials.
+     */
+    private final List<Credentials> proxyCredentials = new ArrayList<Credentials>();
 
-	public void addConfiguredCredentials(Credentials credentials) {
-		this.credentials.add(credentials);
-	}
+    /**
+     * Method addConfiguredCredentials.
+     *
+     * @param credentials Credentials
+     */
+    public void addConfiguredCredentials(Credentials credentials) {
+        this.credentials.add(credentials);
+    }
 
-	public void addConfiguredProxyCredentials(Credentials credentials) {
-		this.proxyCredentials.add(credentials);
-	}
+    /**
+     * Method addConfiguredProxyCredentials.
+     *
+     * @param credentials Credentials
+     */
+    public void addConfiguredProxyCredentials(Credentials credentials) {
+        this.proxyCredentials.add(credentials);
+    }
 
-	protected void execute(HttpStateType stateType) throws BuildException {
-		if (credentials.isEmpty() && proxyCredentials.isEmpty()) {
-			throw new BuildException("Either regular or proxy credentials"
-						 + " must be supplied.");
-		}
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException when there are no credentials
+     */
+    protected void execute(HttpStateType stateType) throws BuildException {
+        if (credentials.isEmpty() && proxyCredentials.isEmpty()) {
+            throw new BuildException("Either regular or proxy credentials"
+                    + " must be supplied.");
+        }
 
-		Iterator<Credentials> it = credentials.iterator();
-		while (it.hasNext()) {
-			Credentials c = it.next();
-			stateType.addConfiguredCredentials(c);
-		}
+        Iterator<Credentials> it = credentials.iterator();
+        while (it.hasNext()) {
+            Credentials c = it.next();
+            stateType.addConfiguredCredentials(c);
+        }
 
-		it = proxyCredentials.iterator();
-		while (it.hasNext()) {
-			Credentials c = it.next();
-			stateType.addConfiguredProxyCredentials(c);
-		}
-	}
+        it = proxyCredentials.iterator();
+        while (it.hasNext()) {
+            Credentials c = it.next();
+            stateType.addConfiguredProxyCredentials(c);
+        }
+    }
 }

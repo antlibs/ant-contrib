@@ -33,6 +33,7 @@ import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.MethodGen;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
@@ -41,171 +42,240 @@ import org.apache.tools.ant.Project;
  * Created on Jan 9, 2005.
  */
 class VisitorImpl extends EmptyVisitor {
+    /**
+     * Field pool.
+     */
+    private final ConstantPool pool;
 
-	private final ConstantPool pool;
-	private final Log log;
-	private final Design design;
-	private final ConstantPoolGen poolGen;
-	private final InstructionVisitor visitor;
-	private final Location location;
+    /**
+     * Field log.
+     */
+    private final Log log;
 
-	public VisitorImpl(ConstantPool pool, Log log, Design d, Location loc) {
-		this.pool = pool;
-		this.log = log;
-		this.design = d;
-		this.location = loc;
-		this.poolGen = new ConstantPoolGen(pool);
-		visitor = new InstructionVisitor(poolGen, log, d);
-	}
+    /**
+     * Field design.
+     */
+    private final Design design;
 
-	private void log(String s, int level) {
-		log.log(s, level);
-	}
+    /**
+     * Field poolGen.
+     */
+    private final ConstantPoolGen poolGen;
 
-	public void visitJavaClass(JavaClass c) {
-		log("      super=" + c.getSuperclassName(), Project.MSG_VERBOSE);
-		String[] names = c.getInterfaceNames();
+    /**
+     * Field visitor.
+     */
+    private final InstructionVisitor visitor;
 
-		String superClass = c.getSuperclassName();
+    /**
+     * Field location.
+     */
+    private final Location location;
 
-		design.checkClass(superClass);
+    /**
+     * Constructor for VisitorImpl.
+     *
+     * @param pool ConstantPool
+     * @param log  Log
+     * @param d    Design
+     * @param loc  Location
+     */
+    public VisitorImpl(ConstantPool pool, Log log, Design d, Location loc) {
+        this.pool = pool;
+        this.log = log;
+        this.design = d;
+        this.location = loc;
+        this.poolGen = new ConstantPoolGen(pool);
+        visitor = new InstructionVisitor(poolGen, log, d);
+    }
 
-		for (String name : names) {
-			log("      interfaces=" + name, Project.MSG_VERBOSE);
-			design.checkClass(name);
-		}
-	}
+    /**
+     * Method log.
+     *
+     * @param s     String
+     * @param level int
+     */
+    private void log(String s, int level) {
+        log.log(s, level);
+    }
 
-	/**
-	 * @see org.apache.bcel.classfile.Visitor#visitField(org.apache.bcel.classfile.Field)
-	 */
-	public void visitField(Field f) {
-		String type = Utility.methodSignatureReturnType(f.getSignature());
-		log("      field type=" + type, Project.MSG_VERBOSE);
-		design.checkClass(type);
+    /**
+     * Method visitJavaClass.
+     *
+     * @param c JavaClass
+     * @see org.apache.bcel.classfile.Visitor#visitJavaClass(JavaClass)
+     */
+    public void visitJavaClass(JavaClass c) {
+        log("      super=" + c.getSuperclassName(), Project.MSG_VERBOSE);
+        String[] names = c.getInterfaceNames();
 
-	}
+        String superClass = c.getSuperclassName();
 
-	/**
-	 * @see org.apache.bcel.classfile.Visitor#visitLocalVariable(org.apache.bcel.classfile.LocalVariable)
-	 */
-	public void visitLocalVariable(LocalVariable v) {
-		String type = Utility.methodSignatureReturnType(v.getSignature());
-		log("         localVar type=" + type, Project.MSG_VERBOSE);
-		design.checkClass(type);
-	}
+        design.checkClass(superClass);
 
-	/**
-	 * @see org.apache.bcel.classfile.Visitor#visitMethod(org.apache.bcel.classfile.Method)
-	 */
-	public void visitMethod(Method m) {
-		log("      method=" + m.getName(), Project.MSG_VERBOSE);
-		String retType = Utility.methodSignatureReturnType(m.getSignature());
-		log("         method ret type=" + retType, Project.MSG_VERBOSE);
-		if (!"void".equals(retType))
-			design.checkClass(retType);
+        for (String name : names) {
+            log("      interfaces=" + name, Project.MSG_VERBOSE);
+            design.checkClass(name);
+        }
+    }
 
-		String[] types = Utility.methodSignatureArgumentTypes(m.getSignature());
-		for (int i = 0; i < types.length; i++) {
-			log("         method param[" + i + "]=" + types[i],
-					Project.MSG_VERBOSE);
-			design.checkClass(types[i]);
-		}
+    /**
+     * @param f Field
+     * @see org.apache.bcel.classfile.Visitor#visitField(org.apache.bcel.classfile.Field)
+     */
+    public void visitField(Field f) {
+        String type = Utility.methodSignatureReturnType(f.getSignature());
+        log("      field type=" + type, Project.MSG_VERBOSE);
+        design.checkClass(type);
 
-		ExceptionTable excs = m.getExceptionTable();
-		if (excs != null) {
-			types = excs.getExceptionNames();
-			for (String type : types) {
-				log("         exc=" + type, Project.MSG_VERBOSE);
-				design.checkClass(type);
-			}
-		}
+    }
 
-		processInstructions(m);
-	}
+    /**
+     * @param v LocalVariable
+     * @see org.apache.bcel.classfile.Visitor#visitLocalVariable(org.apache.bcel.classfile.LocalVariable)
+     */
+    public void visitLocalVariable(LocalVariable v) {
+        String type = Utility.methodSignatureReturnType(v.getSignature());
+        log("         localVar type=" + type, Project.MSG_VERBOSE);
+        design.checkClass(type);
+    }
 
-	private void processInstructions(Method m) {
-		MethodGen mg = new MethodGen(m, design.getCurrentClass(), poolGen);
+    /**
+     * @param m Method
+     * @see org.apache.bcel.classfile.Visitor#visitMethod(org.apache.bcel.classfile.Method)
+     */
+    public void visitMethod(Method m) {
+        log("      method=" + m.getName(), Project.MSG_VERBOSE);
+        String retType = Utility.methodSignatureReturnType(m.getSignature());
+        log("         method ret type=" + retType, Project.MSG_VERBOSE);
+        if (!"void".equals(retType))
+            design.checkClass(retType);
 
-		if (!mg.isAbstract() && !mg.isNative()) {
-			InstructionHandle ih = mg.getInstructionList().getStart();
-			for (; ih != null; ih = ih.getNext()) {
-				Instruction i = ih.getInstruction();
-				log("         instr=" + i, Project.MSG_DEBUG);
-				// if (i instanceof BranchInstruction) {
-				// branch_map.put(i, ih); // memorize container
-				// }
+        String[] types = Utility.methodSignatureArgumentTypes(m.getSignature());
+        for (int i = 0; i < types.length; i++) {
+            log("         method param[" + i + "]=" + types[i],
+                    Project.MSG_VERBOSE);
+            design.checkClass(types[i]);
+        }
 
-				// if (ih.hasTargeters()) {
-				// if (i instanceof BranchInstruction) {
-				// _out.println(" InstructionHandle ih_"
-				// + ih.getPosition() + ";");
-				// } else {
-				// _out.print(" InstructionHandle ih_"
-				// + ih.getPosition() + " = ");
-				// }
-				// } else {
-				// _out.print(" ");
-				// }
+        ExceptionTable excs = m.getExceptionTable();
+        if (excs != null) {
+            types = excs.getExceptionNames();
+            for (String type : types) {
+                log("         exc=" + type, Project.MSG_VERBOSE);
+                design.checkClass(type);
+            }
+        }
 
-				// if (!visitInstruction(i))
-				i.accept(visitor);
-			}
+        processInstructions(m);
+    }
 
-			// CodeExceptionGen[] handlers = mg.getExceptionHandlers();
-			//
-			// log("handlers len="+handlers.length, Project.MSG_DEBUG);
-			// for (int i = 0; i < handlers.length; i++) {
-			// CodeExceptionGen h = handlers[i];
-			// ObjectType t = h.getCatchType();
-			// log("type="+t, Project.MSG_DEBUG);
-			// if(t != null) {
-			// log("type="+t.getClassName(), Project.MSG_DEBUG);
-			// }
-			// }
-			// updateExceptionHandlers();
-		}
-	}
+    /**
+     * Method processInstructions.
+     *
+     * @param m Method
+     */
+    private void processInstructions(Method m) {
+        MethodGen mg = new MethodGen(m, design.getCurrentClass(), poolGen);
 
-	@SuppressWarnings("unused")
-	public void visitCodeException(CodeException c) {
-		String s = c.toString(pool, false);
+        if (!mg.isAbstract() && !mg.isNative()) {
+            InstructionHandle ih = mg.getInstructionList().getStart();
+            for (; ih != null; ih = ih.getNext()) {
+                Instruction i = ih.getInstruction();
+                log("         instr=" + i, Project.MSG_DEBUG);
+                // if (i instanceof BranchInstruction) {
+                // branch_map.put(i, ih); // memorize container
+                // }
 
-		int catch_type = c.getCatchType();
+                // if (ih.hasTargeters()) {
+                // if (i instanceof BranchInstruction) {
+                // _out.println(" InstructionHandle ih_"
+                // + ih.getPosition() + ";");
+                // } else {
+                // _out.print(" InstructionHandle ih_"
+                // + ih.getPosition() + " = ");
+                // }
+                // } else {
+                // _out.print(" ");
+                // }
 
-		if (catch_type == 0)
-			return;
+                // if (!visitInstruction(i))
+                i.accept(visitor);
+            }
 
-		String temp = pool.getConstantString(catch_type,
-				Constants.CONSTANT_Class);
-		String str = Utility.compactClassName(temp, false);
+            // CodeExceptionGen[] handlers = mg.getExceptionHandlers();
+            //
+            // log("handlers len="+handlers.length, Project.MSG_DEBUG);
+            // for (int i = 0; i < handlers.length; i++) {
+            // CodeExceptionGen h = handlers[i];
+            // ObjectType t = h.getCatchType();
+            // log("type="+t, Project.MSG_DEBUG);
+            // if(t != null) {
+            // log("type="+t.getClassName(), Project.MSG_DEBUG);
+            // }
+            // }
+            // updateExceptionHandlers();
+        }
+    }
 
-		log("         catch=" + str, Project.MSG_DEBUG);
-		design.checkClass(str);
-	}
+    /**
+     * Method visitCodeException.
+     *
+     * @param c CodeException
+     * @see org.apache.bcel.classfile.Visitor#visitCodeException(CodeException)
+     */
+    @SuppressWarnings("unused")
+    public void visitCodeException(CodeException c) {
+        String s = c.toString(pool, false);
 
-	//
-	public void visitCode(Code c) {
-		LineNumberTable table = c.getLineNumberTable();
-		// LocalVariableTable table = c.getLocalVariableTable();
-		if (table == null)
-			throw new BuildException(getNoDebugMsg(design.getCurrentClass()), location);
-	}
+        int catch_type = c.getCatchType();
 
-	public static String getNoDebugMsg(String className) {
-		return "Class=" + className + " was not compiled with the debug option(-g) and\n"
-			+ "therefore verifydesign cannot be used on this jar.  Please compile your code\n"
-			+ "with -g option in javac or debug=\"true\" in the ant build.xml file";
-	}
+        if (catch_type == 0)
+            return;
 
-	/**
-	 * getNoFileMsg() method.
-	 * @param jarName File
-	 * @return String
-	 */
-	public static String getNoFileMsg(File jarName) {
-		return "File you specified in your path(or jar attribute)='"
-			+ jarName.getAbsolutePath() + "' does not exist";
-	}
+        String temp = pool.getConstantString(catch_type,
+                Constants.CONSTANT_Class);
+        String str = Utility.compactClassName(temp, false);
 
+        log("         catch=" + str, Project.MSG_DEBUG);
+        design.checkClass(str);
+    }
+
+    //
+
+    /**
+     * Method visitCode.
+     *
+     * @param c Code
+     * @see org.apache.bcel.classfile.Visitor#visitCode(Code)
+     */
+    public void visitCode(Code c) {
+        LineNumberTable table = c.getLineNumberTable();
+        // LocalVariableTable table = c.getLocalVariableTable();
+        if (table == null)
+            throw new BuildException(getNoDebugMsg(design.getCurrentClass()), location);
+    }
+
+    /**
+     * Method getNoDebugMsg.
+     *
+     * @param className String
+     * @return String
+     */
+    public static String getNoDebugMsg(String className) {
+        return "Class=" + className + " was not compiled with the debug option(-g) and\n"
+                + "therefore verifydesign cannot be used on this jar.  Please compile your code\n"
+                + "with -g option in javac or debug=\"true\" in the ant build.xml file";
+    }
+
+    /**
+     * getNoFileMsg() method.
+     *
+     * @param jarName File
+     * @return String
+     */
+    public static String getNoFileMsg(File jarName) {
+        return "File you specified in your path(or jar attribute)='"
+                + jarName.getAbsolutePath() + "' does not exist";
+    }
 }

@@ -24,31 +24,68 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-public class PathToFileSet
-    extends Task
-{
+/**
+ */
+public class PathToFileSet extends Task {
+    /**
+     * Field dir.
+     */
     private File dir;
+
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field pathRefId.
+     */
     private String pathRefId;
+
+    /**
+     * Field ignoreNonRelative.
+     */
     private boolean ignoreNonRelative = false;
 
-
+    /**
+     * Method setDir.
+     *
+     * @param dir File
+     */
     public void setDir(File dir) {
         this.dir = dir;
     }
 
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method setPathRefId.
+     *
+     * @param pathRefId String
+     */
     public void setPathRefId(String pathRefId) {
         this.pathRefId = pathRefId;
     }
 
+    /**
+     * Method setIgnoreNonRelative.
+     *
+     * @param ignoreNonRelative boolean
+     */
     public void setIgnoreNonRelative(boolean ignoreNonRelative) {
         this.ignoreNonRelative = ignoreNonRelative;
     }
 
+    /**
+     * Method execute.
+     */
     public void execute() {
         if (dir == null)
             throw new BuildException("missing dir");
@@ -57,14 +94,14 @@ public class PathToFileSet
         if (pathRefId == null)
             throw new BuildException("missing pathrefid");
 
-        if (! dir.isDirectory())
+        if (!dir.isDirectory())
             throw new BuildException(
-                dir.toString() + " is not a directory");
+                    dir.toString() + " is not a directory");
 
-        Object path =  getProject().getReference(pathRefId);
+        Object path = getProject().getReference(pathRefId);
         if (path == null)
             throw new BuildException("Unknown reference " + pathRefId);
-        if (! (path instanceof Path))
+        if (!(path instanceof Path))
             throw new BuildException(pathRefId + " is not a path");
 
         FileSet fileSet = new FileSet();
@@ -92,13 +129,20 @@ public class PathToFileSet
             atLeastOne = true;
         }
 
-        if (! atLeastOne) {
+        if (!atLeastOne) {
             // need to make an empty fileset
             fileSet.createInclude().setName("a:b:c:d//THis si &&& not a file  !!! ");
         }
         getProject().addReference(name, fileSet);
     }
 
+    /**
+     * Method getRelativeName.
+     *
+     * @param dirNormal String
+     * @param file      File
+     * @return String
+     */
     private String getRelativeName(String dirNormal, File file) {
         String fileNormal =
                 getFileUtils().normalize(file.getAbsolutePath()).getAbsolutePath();

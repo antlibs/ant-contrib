@@ -21,42 +21,102 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created on Aug 24, 2003
+ * Created on Aug 24, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Package {
-
+    /**
+     * Field DEFAULT.
+     * (value is ""default package"")
+     */
     public static final String DEFAULT = "default package";
+
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field pack.
+     */
     private String pack;
 
-    //holds the name attribute of the package element of each
-    //package this package depends on.
+    /**
+     * Field depends.
+     * Holds the name attribute of the package element of each
+     * package this package depends on.
+     */
     private List<Depends> depends;
+
+    /**
+     * Field unusedDepends.
+     */
     private final Set<Depends> unusedDepends = new HashSet<Depends>();
+
+    /**
+     * Field isIncludeSubpackages.
+     */
     private boolean isIncludeSubpackages;
+
+    /**
+     * Field needDeclarations.
+     */
     private boolean needDeclarations;
+
+    /**
+     * Field needDepends.
+     */
     private boolean needDepends;
+
+    /**
+     * Field isUsed.
+     */
     private boolean isUsed = false;
 
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
         if ("".equals(name))
             name = DEFAULT;
         this.name = name;
     }
+
+    /**
+     * Method getName.
+     *
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method setPackage.
+     *
+     * @param pack String
+     */
     public void setPackage(String pack) {
         this.pack = pack;
     }
 
+    /**
+     * Method getPackage.
+     *
+     * @return String
+     */
     public String getPackage() {
         return pack;
     }
 
+    /**
+     * Method addDepends.
+     *
+     * @param d Depends
+     */
     public void addDepends(Depends d) {
         if (depends == null)
             depends = new ArrayList<Depends>();
@@ -64,6 +124,11 @@ public class Package {
         unusedDepends.add(d);
     }
 
+    /**
+     * Method getDepends.
+     *
+     * @return Depends[]
+     */
     public Depends[] getDepends() {
         Depends[] d = new Depends[0];
         if (depends == null)
@@ -73,6 +138,7 @@ public class Package {
 
     /**
      * setIncludeSubpackages() method.
+     *
      * @param b boolean
      */
     public void setIncludeSubpackages(boolean b) {
@@ -81,6 +147,7 @@ public class Package {
 
     /**
      * isIncludeSubpackages() method.
+     *
      * @return boolean
      */
     public boolean isIncludeSubpackages() {
@@ -89,6 +156,7 @@ public class Package {
 
     /**
      * setNeedDeclarations() method.
+     *
      * @param b boolean
      */
     public void setNeedDeclarations(boolean b) {
@@ -97,6 +165,7 @@ public class Package {
 
     /**
      * isNeedDeclarations() method.
+     *
      * @return boolean
      */
     public boolean isNeedDeclarations() {
@@ -105,41 +174,55 @@ public class Package {
 
     /**
      * setNeedDepends() method.
+     *
      * @param b boolean
      */
     public void setNeedDepends(boolean b) {
         needDepends = b;
     }
 
+    /**
+     * Method getNeedDepends.
+     *
+     * @return boolean
+     */
     public boolean getNeedDepends() {
         return needDepends;
     }
 
     /**
      * setUsed() method.
+     *
      * @param b boolean
      */
-    public void setUsed(boolean b)
-    {
-        isUsed  = b;
+    public void setUsed(boolean b) {
+        isUsed = b;
     }
 
-    public boolean isUsed()
-    {
+    /**
+     * Method isUsed.
+     *
+     * @return boolean
+     */
+    public boolean isUsed() {
         return isUsed;
     }
 
     /**
      * addUsedDependency() method.
+     *
      * @param d Depends
      */
-    public void addUsedDependency(Depends d)
-    {
+    public void addUsedDependency(Depends d) {
         unusedDepends.remove(d);
     }
 
+    /**
+     * Method getUnusedDepends.
+     *
+     * @return Set&lt;Depends&gt;
+     */
     public Set<Depends> getUnusedDepends() {
         return unusedDepends;
     }
-
 }

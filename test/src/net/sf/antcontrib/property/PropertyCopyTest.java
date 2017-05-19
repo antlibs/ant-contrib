@@ -24,7 +24,9 @@ import org.junit.Test;
  * Testcase for &lt;propertycopy&gt;.
  */
 public class PropertyCopyTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("property/propertycopy.xml");
@@ -36,27 +38,39 @@ public class PropertyCopyTest extends BuildFileTestBase {
     @Test
     public void testMissingName() {
         expectSpecificBuildException("missingName", "missing name",
-                                     "You must specify a property to set.");
+                "You must specify a property to set.");
     }
 
+    /**
+     * Method testMissingFrom.
+     */
     @Test
     public void testMissingFrom() {
         expectSpecificBuildException("missingFrom", "missing from",
-                                     "Missing the 'from' attribute.");
+                "Missing the 'from' attribute.");
     }
 
+    /**
+     * Method testNonSilent.
+     */
     @Test
     public void testNonSilent() {
         expectSpecificBuildException("nonSilent", "from doesn't exist",
-                                     "Property 'bar' is not defined.");
+                "Property 'bar' is not defined.");
     }
 
+    /**
+     * Method testSilent.
+     */
     @Test
     public void testSilent() {
         executeTarget("silent");
         assertPropertyEquals("foo", null);
     }
 
+    /**
+     * Method testNormal.
+     */
     @Test
     public void testNormal() {
         executeTarget("normal");

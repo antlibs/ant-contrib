@@ -27,10 +27,10 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  */
 public class BooleanConditionBase extends ConditionBase {
     /**
-     * Adds a feature to the IsPropertyTrue attribute of the BooleanConditionBase
-     * object.
+     * Adds a feature to the IsPropertyTrue attribute of the
+     * BooleanConditionBase object.
      *
-     * @param i  The feature to be added to the IsPropertyTrue attribute
+     * @param i The feature to be added to the IsPropertyTrue attribute
      */
     public void addIsPropertyTrue(IsPropertyTrue i) {
         super.add(i);
@@ -40,16 +40,26 @@ public class BooleanConditionBase extends ConditionBase {
      * Adds a feature to the IsPropertyFalse attribute of the
      * BooleanConditionBase object.
      *
-     * @param i  The feature to be added to the IsPropertyFalse attribute
+     * @param i The feature to be added to the IsPropertyFalse attribute
      */
     public void addIsPropertyFalse(IsPropertyFalse i) {
         super.add(i);
     }
 
+    /**
+     * Method addIsGreaterThan.
+     *
+     * @param i IsGreaterThan
+     */
     public void addIsGreaterThan(IsGreaterThan i) {
         super.add(i);
     }
 
+    /**
+     * Method addIsLessThan.
+     *
+     * @param i IsLessThan
+     */
     public void addIsLessThan(IsLessThan i) {
         super.add(i);
     }

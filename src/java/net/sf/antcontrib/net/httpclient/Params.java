@@ -15,81 +15,168 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
+/**
+ */
 public class Params {
-	public static class Param {
-		private String name;
+    /**
+     */
+    public static class Param {
+        /**
+         * Field name.
+         */
+        private String name;
 
-		public String getName() {
-			return name;
-		}
+        /**
+         * Method getName.
+         *
+         * @return String
+         */
+        public String getName() {
+            return name;
+        }
 
-		public void setName(String name) {
-			this.name = name;
-		}
-	}
+        /**
+         * Method setName.
+         *
+         * @param name String
+         */
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 
-	public static class DoubleParam extends Param {
-		private double value;
+    /**
+     */
+    public static class DoubleParam extends Param {
+        /**
+         * Field value.
+         */
+        private double value;
 
-		public double getValue() {
-			return value;
-		}
+        /**
+         * Method getValue.
+         *
+         * @return double
+         */
+        public double getValue() {
+            return value;
+        }
 
-		public void setValue(double value) {
-			this.value = value;
-		}
+        /**
+         * Method setValue.
+         *
+         * @param value double
+         */
+        public void setValue(double value) {
+            this.value = value;
+        }
+    }
 
-	}
+    /**
+     */
+    public static class BooleanParam extends Param {
+        /**
+         * Field value.
+         */
+        private boolean value;
 
-	public static class BooleanParam extends Param {
-		private boolean value;
+        /**
+         * Method getValue.
+         *
+         * @return boolean
+         */
+        public boolean getValue() {
+            return value;
+        }
 
-		public boolean getValue() {
-			return value;
-		}
+        /**
+         * Method setValue.
+         *
+         * @param value boolean
+         */
+        public void setValue(boolean value) {
+            this.value = value;
+        }
+    }
 
-		public void setValue(boolean value) {
-			this.value = value;
-		}
+    /**
+     */
+    public static class IntParam extends Param {
+        /**
+         * Field value.
+         */
+        private int value;
 
-	}
+        /**
+         * Method getValue.
+         *
+         * @return int
+         */
+        public int getValue() {
+            return value;
+        }
 
-	public static class IntParam extends Param {
-		private int value;
+        /**
+         * Method setValue.
+         *
+         * @param value int
+         */
+        public void setValue(int value) {
+            this.value = value;
+        }
+    }
 
-		public int getValue() {
-			return value;
-		}
+    /**
+     */
+    public static class LongParam extends Param {
+        /**
+         * Field value.
+         */
+        private long value;
 
-		public void setValue(int value) {
-			this.value = value;
-		}
+        /**
+         * Method getValue.
+         *
+         * @return long
+         */
+        public long getValue() {
+            return value;
+        }
 
-	}
+        /**
+         * Method setValue.
+         *
+         * @param value long
+         */
+        public void setValue(long value) {
+            this.value = value;
+        }
+    }
 
-	public static class LongParam extends Param {
-		private long value;
+    /**
+     */
+    public static class StringParam extends Param {
+        /**
+         * Field value.
+         */
+        private String value;
 
-		public long getValue() {
-			return value;
-		}
+        /**
+         * Method getValue.
+         *
+         * @return String
+         */
+        public String getValue() {
+            return value;
+        }
 
-		public void setValue(long value) {
-			this.value = value;
-		}
-
-	}
-
-	public static class StringParam extends Param {
-		private String value;
-
-		public String getValue() {
-			return value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
-
-	}
+        /**
+         * Method setValue.
+         *
+         * @param value String
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
 }

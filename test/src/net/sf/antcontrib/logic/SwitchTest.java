@@ -27,43 +27,63 @@ import org.junit.Test;
  * Testcase for &lt;switch&gt;.
  */
 public class SwitchTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/switch.xml");
     }
 
+    /**
+     * Method testNoValue.
+     */
     @Test
     public void testNoValue() {
         expectSpecificBuildException("noValue", "no value",
-                                     "Value is missing");
+                "Value is missing");
     }
 
+    /**
+     * Method testNoChildren.
+     */
     @Test
     public void testNoChildren() {
         expectSpecificBuildException("noChildren", "no children",
-                                     "No cases supplied");
+                "No cases supplied");
     }
 
+    /**
+     * Method testTwoDefaults.
+     */
     @Test
     public void testTwoDefaults() {
         expectSpecificBuildException("twoDefaults", "two defaults",
-                                     "Cannot specify multiple default cases");
+                "Cannot specify multiple default cases");
     }
 
+    /**
+     * Method testNoMatch.
+     */
     @Test
     public void testNoMatch() {
         expectSpecificBuildException("noMatch", "no match",
-                                     "No case matched the value foo"
-                                     + " and no default has been specified.");
+                "No case matched the value foo"
+                        + " and no default has been specified.");
     }
 
+    /**
+     * Method testCaseNoValue.
+     */
     @Test
     public void testCaseNoValue() {
         expectSpecificBuildException("caseNoValue", "<case> no value",
-                                     "Value is required for case.");
+                "Value is required for case.");
     }
 
+    /**
+     * Method testDefault.
+     */
     @Test
     public void testDefault() {
         executeTarget("testDefault");
@@ -73,6 +93,9 @@ public class SwitchTest extends BuildFileTestBase {
         assertEquals(-1, getLog().indexOf("In case"));
     }
 
+    /**
+     * Method testCase.
+     */
     @Test
     public void testCase() {
         executeTarget("testCase");
@@ -82,6 +105,9 @@ public class SwitchTest extends BuildFileTestBase {
         assertEquals(-1, getLog().indexOf("In default"));
     }
 
+    /**
+     * Method testCaseSensitive.
+     */
     @Test
     public void testCaseSensitive() {
         executeTarget("testCaseSensitive");
@@ -89,11 +115,13 @@ public class SwitchTest extends BuildFileTestBase {
         assertEquals(-1, getLog().indexOf("In case"));
     }
 
+    /**
+     * Method testCaseInSensitive.
+     */
     @Test
     public void testCaseInSensitive() {
         executeTarget("testCaseInSensitive");
         assertTrue(getLog().contains("In case"));
         assertEquals(-1, getLog().indexOf("In default"));
     }
-
 }

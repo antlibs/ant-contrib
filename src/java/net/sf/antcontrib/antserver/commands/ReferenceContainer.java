@@ -18,39 +18,60 @@ package net.sf.antcontrib.antserver.commands;
 import java.io.Serializable;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public class ReferenceContainer
-        implements Serializable
-{
+public class ReferenceContainer implements Serializable {
+    /**
+     * Field refId.
+     */
     private String refId;
+
+    /**
+     * Field toRefId.
+     */
     private String toRefId;
 
-    public ReferenceContainer()
-    {
+    /**
+     * Constructor for ReferenceContainer.
+     */
+    public ReferenceContainer() {
         super();
     }
 
-    public String getRefId()
-    {
+    /**
+     * Method getRefId.
+     *
+     * @return String
+     */
+    public String getRefId() {
         return refId;
     }
 
-    public void setRefid(String refId)
-    {
+    /**
+     * Method setRefid.
+     *
+     * @param refId String
+     */
+    public void setRefid(String refId) {
         this.refId = refId;
     }
 
-    public String getToRefId()
-    {
+    /**
+     * Method getToRefId.
+     *
+     * @return String
+     */
+    public String getToRefId() {
         return toRefId;
     }
 
-    public void setToRefId(String toRefId)
-    {
+    /**
+     * Method setToRefId.
+     *
+     * @param toRefId String
+     */
+    public void setToRefId(String toRefId) {
         this.toRefId = toRefId;
     }
 }

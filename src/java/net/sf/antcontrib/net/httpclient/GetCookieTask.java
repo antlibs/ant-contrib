@@ -22,98 +22,172 @@ import org.apache.commons.httpclient.cookie.CookieSpec;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Property;
 
-public class GetCookieTask
-	extends AbstractHttpStateTypeTask {
+/**
+ */
+public class GetCookieTask extends AbstractHttpStateTypeTask {
+    /**
+     * Field property.
+     */
+    private String property;
 
-	private String property;
-	private String prefix;
-	private String cookiePolicy = CookiePolicy.DEFAULT;
+    /**
+     * Field prefix.
+     */
+    private String prefix;
 
-	private String realm = null;
-	private int port = 80;
-	private String path = null;
-	private boolean secure = false;
-	private String name = null;
+    /**
+     * Field cookiePolicy.
+     */
+    private String cookiePolicy = CookiePolicy.DEFAULT;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Field realm.
+     */
+    private String realm = null;
 
-	public void setCookiePolicy(String cookiePolicy) {
-		this.cookiePolicy = cookiePolicy;
-	}
+    /**
+     * Field port.
+     */
+    private int port = 80;
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    /**
+     * Field path.
+     */
+    private String path = null;
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+    /**
+     * Field secure.
+     */
+    private boolean secure = false;
 
-	public void setRealm(String realm) {
-		this.realm = realm;
-	}
+    /**
+     * Field name.
+     */
+    private String name = null;
 
-	public void setSecure(boolean secure) {
-		this.secure = secure;
-	}
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setProperty(String property) {
-		this.property = property;
-	}
+    /**
+     * Method setCookiePolicy.
+     *
+     * @param cookiePolicy String
+     */
+    public void setCookiePolicy(String cookiePolicy) {
+        this.cookiePolicy = cookiePolicy;
+    }
 
-	private Cookie findCookie(Cookie[] cookies, String name) {
-		for (Cookie cooky : cookies) {
-			if (cooky.getName().equals(name)) {
-				return cooky;
-			}
-		}
-		return null;
-	}
-	protected void execute(HttpStateType stateType) throws BuildException {
+    /**
+     * Method setPath.
+     *
+     * @param path String
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-		if (realm == null || path == null) {
-			throw new BuildException("'realm' and 'path' attributes are required");
-		}
+    /**
+     * Method setPort.
+     *
+     * @param port int
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-		HttpState state = stateType.getState();
-		CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
-		Cookie[] cookies = state.getCookies();
-		Cookie[] matches = spec.match(realm, port, path, secure, cookies);
+    /**
+     * Method setRealm.
+     *
+     * @param realm String
+     */
+    public void setRealm(String realm) {
+        this.realm = realm;
+    }
 
-		if (name != null) {
-			Cookie c = findCookie(matches, name);
-			if (c != null) {
-				matches = new Cookie[] { c };
-			}
-			else {
-				matches = new Cookie[0];
-			}
-		}
+    /**
+     * Method setSecure.
+     *
+     * @param secure boolean
+     */
+    public void setSecure(boolean secure) {
+        this.secure = secure;
+    }
 
-		if (property != null) {
-			if (matches != null && matches.length > 0) {
-				Property p = (Property)getProject().createTask("property");
-				p.setName(property);
-				p.setValue(matches[0].getValue());
-				p.perform();
-			}
-		}
-		else if (prefix != null) {
-			if (matches != null && matches.length > 0) {
-				for (Cookie match : matches) {
-					String propName = prefix + match.getName();
-					Property p = (Property) getProject().createTask("property");
-					p.setName(propName);
-					p.setValue(match.getValue());
-					p.perform();
-				}
-			}
-		}
-		else {
-			throw new BuildException("Nothing to set");
-		}
-	}
+    /**
+     * Method setProperty.
+     *
+     * @param property String
+     */
+    public void setProperty(String property) {
+        this.property = property;
+    }
 
+    /**
+     * Method findCookie.
+     *
+     * @param cookies Cookie[]
+     * @param name    String
+     * @return Cookie
+     */
+    private Cookie findCookie(Cookie[] cookies, String name) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException if something goes wrong
+     */
+    protected void execute(HttpStateType stateType) throws BuildException {
+        if (realm == null || path == null) {
+            throw new BuildException("'realm' and 'path' attributes are required");
+        }
+
+        HttpState state = stateType.getState();
+        CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
+        Cookie[] cookies = state.getCookies();
+        Cookie[] matches = spec.match(realm, port, path, secure, cookies);
+
+        if (name != null) {
+            Cookie c = findCookie(matches, name);
+            if (c != null) {
+                matches = new Cookie[]{c};
+            } else {
+                matches = new Cookie[0];
+            }
+        }
+
+        if (property != null) {
+            if (matches != null && matches.length > 0) {
+                Property p = (Property) getProject().createTask("property");
+                p.setName(property);
+                p.setValue(matches[0].getValue());
+                p.perform();
+            }
+        } else if (prefix != null) {
+            if (matches != null && matches.length > 0) {
+                for (Cookie match : matches) {
+                    String propName = prefix + match.getName();
+                    Property p = (Property) getProject().createTask("property");
+                    p.setName(propName);
+                    p.setValue(match.getValue());
+                    p.perform();
+                }
+            }
+        } else {
+            throw new BuildException("Nothing to set");
+        }
+    }
 }

@@ -26,24 +26,63 @@ import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 
 /**
- * Created on Aug 24, 2003
+ * Created on Aug 24, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Design {
-
+    /**
+     * Field nameToPackage.
+     */
     private final Map<String, Package> nameToPackage = new HashMap<String, Package>();
+
+    /**
+     * Field packageNameToPackage.
+     */
     private final Map<String, Package> packageNameToPackage = new HashMap<String, Package>();
+
+    /**
+     * Field isCircularDesign.
+     */
     private final boolean isCircularDesign;
+
+    /**
+     * Field log.
+     */
     private final Log log;
+
+    /**
+     * Field location.
+     */
     private final Location location;
 
+    /**
+     * Field currentClass.
+     */
     private String currentClass = null;
+
+    /**
+     * Field currentPackageName.
+     */
     private String currentPackageName = null;
+
+    /**
+     * Field currentAliasPackage.
+     */
     private Package currentAliasPackage = null;
 
+    /**
+     * Field primitives.
+     */
     private final HashSet<String> primitives = new HashSet<String>();
 
+    /**
+     * Constructor for Design.
+     *
+     * @param isCircularDesign boolean
+     * @param log              Log
+     * @param loc              Location
+     */
     public Design(boolean isCircularDesign, Log log, Location loc) {
         //by default, add java as a configured package with the name java
         Package p = new Package();
@@ -72,10 +111,22 @@ public class Design {
         primitives.add("float");
     }
 
+    /**
+     * Method getPackage.
+     *
+     * @param nameAttribute String
+     * @return Package
+     */
     public Package getPackage(String nameAttribute) {
         return nameToPackage.get(nameAttribute);
     }
 
+    /**
+     * Method retrievePack.
+     *
+     * @param thePackage String
+     * @return Package
+     */
     private Package retrievePack(String thePackage) {
         if (thePackage == null)
             throw new IllegalArgumentException("Cannot retrieve null packages");
@@ -102,6 +153,11 @@ public class Design {
         return null;
     }
 
+    /**
+     * Method addConfiguredPackage.
+     *
+     * @param p Package
+     */
     public void addConfiguredPackage(Package p) {
         Depends[] depends = p.getDepends();
 
@@ -114,8 +170,8 @@ public class Design {
 
                 if (dependsPackage == null) {
                     throw new RuntimeException("package name=" + p.getName() + " did not\n"
-                	    + "have " + depend + " listed before it.  circularDesign is off\n"
-                	    + "so package=" + p.getName() + " must be moved up in the xml file");
+                            + "have " + depend + " listed before it.  circularDesign is off\n"
+                            + "so package=" + p.getName() + " must be moved up in the xml file");
                 }
             }
         }
@@ -135,8 +191,8 @@ public class Design {
         //get the classPackage our currentAliasPackage depends on....
         String classPackage = VerifyDesignDelegate.getPackageName(className);
 
-        //check if this is an needdeclarations="false" package, if so, the dependency is ok if it
-        //is not declared
+        //check if this is an needdeclarations="false" package,
+        //if so, the dependency is ok if it is not declared
         log.log("         classPackage=" + classPackage, Project.MSG_DEBUG);
         Package p = retrievePack(classPackage);
         if (p == null) {
@@ -155,8 +211,9 @@ public class Design {
 
         Depends[] depends = currentAliasPackage.getDepends();
 
-        //probably want to create a regular expression out of all the depends and just match on that
-        //each time.  for now though, just get it working and do the basic(optimize later if needed)
+        //probably want to create a regular expression out of all the depends
+        //and just match on that each time.  for now though, just get it
+        //working and do the basic (optimize later if needed)
         for (Depends d : depends) {
             String name = d.getName();
 
@@ -164,7 +221,9 @@ public class Design {
             log.log("         AllowedDepends=" + temp.getPackage(), Project.MSG_DEBUG);
             log.log("         CurrentDepends=" + className, Project.MSG_DEBUG);
             if (isClassInPackage(className, temp)) {
-                temp.setUsed(true); //set package to used since we are depending on it(could be external package like junit)
+                //set package to used since we are depending on it
+                // (could be external package like junit)
+                temp.setUsed(true);
                 currentAliasPackage.addUsedDependency(d);
                 return;
             }
@@ -176,6 +235,13 @@ public class Design {
         throw new BuildException(Design.getErrorMessage(currentClass, className), location);
     }
 
+    /**
+     * Method isClassInPackage.
+     *
+     * @param className String
+     * @param p         Package
+     * @return boolean
+     */
     public boolean isClassInPackage(String className, Package p) {
         String classPackage = VerifyDesignDelegate.getPackageName(className);
         if (p.isIncludeSubpackages()) {
@@ -187,6 +253,7 @@ public class Design {
         }
         return false;
     }
+
     /**
      * @param className String
      * @return whether or not this class needs to be checked. (ie. if the
@@ -200,7 +267,7 @@ public class Design {
             currentPackageName = packageName;
             log.log("\nEvaluating package=" + currentPackageName, Project.MSG_INFO);
             currentAliasPackage = retrievePack(packageName);
-            // TODO: test this scenario
+            // TODO test this scenario
             if (currentAliasPackage == null) {
                 log.log("   class=" + className, Project.MSG_VERBOSE);
                 throw new BuildException(getNoDefinitionError(className), location);
@@ -220,10 +287,20 @@ public class Design {
         return currentAliasPackage.getNeedDepends();
     }
 
+    /**
+     * Method getCurrentClass.
+     *
+     * @return String
+     */
     public String getCurrentClass() {
         return currentClass;
     }
 
+    /**
+     * Method checkClass.
+     *
+     * @param dependsOn String
+     */
     @SuppressWarnings("unused")
     void checkClass(String dependsOn) {
         log.log("         dependsOn1=" + dependsOn, Project.MSG_DEBUG);
@@ -255,31 +332,51 @@ public class Design {
 
     }
 
+    /**
+     * Method getErrorMessage.
+     *
+     * @param className      String
+     * @param dependsOnClass String
+     * @return String
+     */
     public static String getErrorMessage(String className, String dependsOnClass) {
         return "\nYou are violating your own design...."
-        	+ "\nClass = " + className + " depends on\nClass = " + dependsOnClass
+                + "\nClass = " + className + " depends on\nClass = " + dependsOnClass
                 + "\nThe dependency to allow this is not defined in your design"
-        	+ "\nPackage=" + VerifyDesignDelegate.getPackageName(className) + " is not defined to depend on"
+                + "\nPackage=" + VerifyDesignDelegate.getPackageName(className) + " is not defined to depend on"
                 + "\nPackage=" + VerifyDesignDelegate.getPackageName(dependsOnClass)
                 + "\nChange the code or the design";
     }
 
+    /**
+     * Method getNoDefinitionError.
+     *
+     * @param className String
+     * @return String
+     */
     public static String getNoDefinitionError(String className) {
         return "\nPackage=" + VerifyDesignDelegate.getPackageName(className) + " is not defined in the design.\n"
-        	+ "All packages with classes must be declared in the design file\n"
-        	+ "Class found in the offending package=" + className;
+                + "All packages with classes must be declared in the design file\n"
+                + "Class found in the offending package=" + className;
     }
 
+    /**
+     * Method getWrapperMsg.
+     *
+     * @param originalFile File
+     * @param message      String
+     * @return String
+     */
     public static String getWrapperMsg(File originalFile, String message) {
         return "\nThe file '" + originalFile.getAbsolutePath() + "' failed due to: " + message;
     }
 
     /**
      * fillInUnusedPackages() method.
+     *
      * @param designErrors List&lt;BuildException&gt;
      */
-    public void fillInUnusedPackages(List<BuildException> designErrors)
-    {
+    public void fillInUnusedPackages(List<BuildException> designErrors) {
         for (Package pack : nameToPackage.values()) {
             if (!pack.isUsed()) {
                 String msg = "Package name=" + pack.getName() + " is unused.  Full package=" + pack.getPackage();
@@ -293,13 +390,15 @@ public class Design {
 
     /**
      * fillInUnusedDepends() method.
+     *
      * @param designErrors List&lt;BuildException&gt;
-     * @param pack Package
+     * @param pack         Package
      */
-    private void fillInUnusedDepends(List<BuildException> designErrors, Package pack)
-    {
+    private void fillInUnusedDepends(List<BuildException> designErrors, Package pack) {
         for (Depends depends : pack.getUnusedDepends()) {
-            String msg = "Package name=" + pack.getName() + " has a dependency declared that is not true anymore.  Please erase the dependency <depends>" + depends.getName() + "</depends> from package=" + pack.getName();
+            String msg = "Package name=" + pack.getName()
+                    + " has a dependency declared that is not true anymore.  Please erase the dependency <depends>"
+                    + depends.getName() + "</depends> from package=" + pack.getName();
             log.log(msg, Project.MSG_ERR);
             designErrors.add(new BuildException(msg));
         }

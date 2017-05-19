@@ -21,23 +21,36 @@ import java.util.List;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.tools.ant.BuildException;
 
-public class AddCookieTask
-	extends AbstractHttpStateTypeTask {
+/**
+ */
+public class AddCookieTask extends AbstractHttpStateTypeTask {
+    /**
+     * Field cookies.
+     */
+    private final List<Cookie> cookies = new ArrayList<Cookie>();
 
-	private final List<Cookie> cookies = new ArrayList<Cookie>();
+    /**
+     * Method addConfiguredCookie.
+     *
+     * @param cookie Cookie
+     */
+    public void addConfiguredCookie(Cookie cookie) {
+        this.cookies.add(cookie);
+    }
 
-	public void addConfiguredCookie(Cookie cookie) {
-		this.cookies.add(cookie);
-	}
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException when there are no cookies
+     */
+    protected void execute(HttpStateType stateType) throws BuildException {
+        if (this.cookies.isEmpty()) {
+            throw new BuildException("At least one cookie must be specified.");
+        }
 
-	protected void execute(HttpStateType stateType) throws BuildException {
-		if (this.cookies.isEmpty()) {
-			throw new BuildException("At least one cookie must be specified.");
-		}
-
-		for (Cookie cooky : cookies) {
-			stateType.addConfiguredCookie(cooky);
-		}
-	}
-
+        for (Cookie cookie : cookies) {
+            stateType.addConfiguredCookie(cookie);
+        }
+    }
 }

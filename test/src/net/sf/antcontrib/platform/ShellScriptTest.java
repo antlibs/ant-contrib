@@ -28,128 +28,200 @@ import org.junit.Test;
  * @author Peter Reilly
  */
 public class ShellScriptTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("platform/shellscript.xml");
         staticInitialize();
     }
 
+    /**
+     * Method testShHello.
+     */
     @Test
     public void testShHello() {
-        if (! hasSh)
+        if (!hasSh)
             return;
         executeTarget("sh.hello");
         assertTrue(getLog().contains("hello world"));
-     }
+    }
 
+    /**
+     * Method testBashHello.
+     */
     @Test
     public void testBashHello() {
-        if (! hasBash)
+        if (!hasBash)
             return;
         executeTarget("bash.hello");
         assertTrue(getLog().contains("hello world"));
-     }
+    }
 
+    /**
+     * Method testShInputString.
+     */
     @Test
     public void testShInputString() {
-        if (! hasSh)
+        if (!hasSh)
             return;
         executeTarget("sh.inputstring");
         assertTrue(getLog().contains("hello world"));
-     }
+    }
 
+    /**
+     * Method testShProperty.
+     */
     @Test
     public void testShProperty() {
-        if (! hasSh)
+        if (!hasSh)
             return;
         executeTarget("sh.property");
         assertTrue(getLog().contains("this is a property"));
-     }
+    }
 
+    /**
+     * Method testPythonHello.
+     */
     @Test
     public void testPythonHello() {
-        if (! hasPython)
+        if (!hasPython)
             return;
         executeTarget("python.hello");
         assertTrue(getLog().contains("hello world"));
     }
 
+    /**
+     * Method testPerlHello.
+     */
     @Test
     public void testPerlHello() {
-        if (! hasPerl)
+        if (!hasPerl)
             return;
         executeTarget("perl.hello");
         assertTrue(getLog().contains("hello world"));
     }
 
+    /**
+     * Method testNoShell.
+     */
     @Test
     public void testNoShell() {
         expectBuildExceptionContaining(
-            "noshell", "Execute failed", "a shell that should not exist");
+                "noshell", "Execute failed", "a shell that should not exist");
     }
 
+    /**
+     * Method testSed.
+     */
     @Test
     public void testSed() {
-        if (! hasSed)
+        if (!hasSed)
             return;
         executeTarget("sed.test");
         assertTrue(getLog().contains("BAR bar bar bar BAR bar"));
     }
 
+    /**
+     * Method testSetProperty.
+     */
     @Test
     public void testSetProperty() {
-        if (! hasSh)
+        if (!hasSh)
             return;
         executeTarget("sh.set.property");
         assertPropertyEquals("sh.set.property", "hello world");
     }
 
+    /**
+     * Method testTmpSuffix.
+     */
     @Test
     public void testTmpSuffix() {
-        if (! hasSh)
+        if (!hasSh)
             return;
         executeTarget("sh.tmp.suffix");
         assertTrue(getLog().contains(".bat"));
     }
 
+    /**
+     * Method testCmd.
+     */
     @Test
     public void testCmd() {
-        if (! hasCmd)
+        if (!hasCmd)
             return;
         executeTarget("cmd.test");
         assertTrue(getLog().contains("hello world"));
     }
 
+    /**
+     * Method testDir.
+     */
     @Test
     public void testDir() {
-        if (! hasBash)
+        if (!hasBash)
             return;
         executeTarget("dir.test");
         assertTrue(
                 getProject().getProperty("dir.test.property").contains("subdir"));
     }
 
+    /**
+     * Method testCommand.
+     */
     @Test
     public void testCommand() {
         expectBuildExceptionContaining(
-            "command.test", "Attribute failed",
-            "Attribute command is not supported");
+                "command.test", "Attribute failed",
+                "Attribute command is not supported");
     }
 
+    /**
+     * Field initialized.
+     */
     private static boolean initialized = false;
-    private static boolean hasSh       = false;
-    private static boolean hasBash     = false;
-    private static boolean hasPython   = false;
-    private static boolean hasPerl     = false;
-    private static boolean hasSed      = false;
-    private static boolean hasCmd      = false;
+
+    /**
+     * Field hasSh.
+     */
+    private static boolean hasSh = false;
+
+    /**
+     * Field hasBash.
+     */
+    private static boolean hasBash = false;
+
+    /**
+     * Field hasPython.
+     */
+    private static boolean hasPython = false;
+
+    /**
+     * Field hasPerl.
+     */
+    private static boolean hasPerl = false;
+
+    /**
+     * Field hasSed.
+     */
+    private static boolean hasSed = false;
+
+    /**
+     * Field hasCmd.
+     */
+    private static boolean hasCmd = false;
+
+    /**
+     * Field staticMonitor.
+     */
     private static final Object staticMonitor = new Object();
 
     /**
      * check if the env contains the shells
-     *    sh, bash, python and perl
-     *    assume cmd.exe exists for windows
+     * sh, bash, python and perl;
+     * assume cmd.exe exists for windows.
      */
     private void staticInitialize() {
         synchronized (staticMonitor) {
@@ -166,14 +238,18 @@ public class ShellScriptTest extends BuildFileTestBase {
         }
     }
 
+    /**
+     * Method hasShell.
+     *
+     * @param target String
+     * @return boolean
+     */
     private boolean hasShell(String target) {
         try {
             executeTarget(target);
             return true;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             return false;
         }
     }
-
 }

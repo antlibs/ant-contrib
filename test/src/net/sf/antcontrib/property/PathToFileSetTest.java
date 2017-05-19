@@ -27,17 +27,25 @@ import org.junit.Test;
  * Testcase for &lt;pathtofileset&gt;.
  */
 public class PathToFileSetTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("property/pathtofileset.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("cleanup");
     }
 
+    /**
+     * Method testSimple.
+     */
     @Test
     public void testSimple() {
         executeTarget("simple");
@@ -51,22 +59,36 @@ public class PathToFileSetTest extends BuildFileTestBase {
         assertPropertyContains("simple.1.property", "3.java");
     }
 
+    /**
+     * Method testSimpleException.
+     */
     @Test
     public void testSimpleException() {
         expectBuildExceptionContaining("simple-exception", "expect not relative to",
-                                       "is not relative to");
+                "is not relative to");
     }
 
+    /**
+     * Method assertPropertyContains.
+     *
+     * @param property String
+     * @param expected String
+     */
     private void assertPropertyContains(String property, String expected) {
         String result = getProject().getProperty(property);
         assertTrue("property " + property + " contains " + expected,
                 result.contains(expected));
     }
 
+    /**
+     * Method assertPropertyNotContains.
+     *
+     * @param property String
+     * @param expected String
+     */
     private void assertPropertyNotContains(String property, String expected) {
         String result = getProject().getProperty(property);
         assertTrue("property " + property + " contains " + expected,
                 !result.contains(expected));
     }
-
 }

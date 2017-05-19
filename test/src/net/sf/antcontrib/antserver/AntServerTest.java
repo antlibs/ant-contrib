@@ -26,92 +26,104 @@ import org.junit.Test;
 /**
  * Place class description here.
  *
- * @author		inger
- *
+ * @author inger
  */
-public class AntServerTest extends BuildFileTestBase
-{
-
+public class AntServerTest extends BuildFileTestBase {
+    /**
+     * Method setUp.
+     */
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         configureProject("antserver/antservertest.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         executeTarget("cleanup");
     }
 
+    /**
+     * Method test1.
+     */
     @Test
-    public void test1()
-    {
+    public void test1() {
         String[] expected = new String[]
-        {
-            "Test1 Successfully Called",
-            "[test1_remote]"
-        };
+                {
+                        "Test1 Successfully Called",
+                        "[test1_remote]"
+                };
 
         expectLogContaining("test1", expected);
     }
 
+    /**
+     * Method test2.
+     */
     @Test
-    public void test2()
-    {
+    public void test2() {
         String[] expected = new String[]
-        {
-            "Test2 Successfully Called",
-            "[test2_remote]"
-        };
+                {
+                        "Test2 Successfully Called",
+                        "[test2_remote]"
+                };
 
         expectLogContaining("test2", expected);
     }
 
+    /**
+     * Method test3.
+     */
     @Test
-    public void test3()
-    {
+    public void test3() {
         String[] expected = new String[]
-        {
-            "Test3 Successfully Called",
-            "[test3_remote]"
-        };
+                {
+                        "Test3 Successfully Called",
+                        "[test3_remote]"
+                };
 
         expectLogContaining("test3", expected);
     }
 
+    /**
+     * Method test4.
+     */
     @Test
-    public void test4()
-    {
+    public void test4() {
         String[] expected = new String[]
-        {
-            "Test4 Successfully Called",
-            "[test4_remote]"
-        };
+                {
+                        "Test4 Successfully Called",
+                        "[test4_remote]"
+                };
 
         expectLogContaining("test4", expected);
     }
 
+    /**
+     * Method test5.
+     */
     @Test
-    public void test5()
-    {
+    public void test5() {
         this.executeTarget("test5");
     }
 
     /**
      * Assert that the given message has been logged with a priority
      * &gt;= INFO when running the given target.
+     *
+     * @param target String
+     * @param logs   String[]
      */
     protected void expectLogContaining(String target,
-                                       String[] logs)
-    {
+                                       String[] logs) {
         executeTarget(target);
         String realLog = getLog();
 
         int cnt = 0;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < logs.length; i++)
-        {
+        for (int i = 0; i < logs.length; i++) {
             if (realLog.contains(logs[i]))
                 cnt++;
             if (i != 0)
@@ -120,8 +132,7 @@ public class AntServerTest extends BuildFileTestBase
         }
 
         assertTrue("expecting log to contain " + sb.toString()
-                + " log was \"" + realLog + "\"",
+                        + " log was \"" + realLog + "\"",
                 cnt == logs.length);
     }
-
 }

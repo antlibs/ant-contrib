@@ -45,22 +45,36 @@ import org.apache.tools.ant.property.ResolvePropertyMap;
  * </p>
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author   Dale Anson, danson@germane-software.com
- * @since    Ant 1.5
- * @version  $Revision: 1.6 $
+ * @author Dale Anson, danson@germane-software.com
+ * @version $Revision: 1.6 $
+ * @since Ant 1.5
  */
 public class Variable extends Task {
-
     // attribute storage
+    /**
+     * Field value.
+     */
     private String value = "";
+
+    /**
+     * Field name.
+     */
     private String name = null;
+
+    /**
+     * Field file.
+     */
     private File file = null;
+
+    /**
+     * Field remove.
+     */
     private boolean remove = false;
 
     /**
      * Set the name of the property. Required unless 'file' is used.
      *
-     * @param name  the name of the property.
+     * @param name the name of the property.
      */
     public void setName(String name) {
         this.name = name;
@@ -69,7 +83,7 @@ public class Variable extends Task {
     /**
      * Set the value of the property. Optional, defaults to "".
      *
-     * @param value  the value of the property.
+     * @param value the value of the property.
      */
     public void setValue(String value) {
         this.value = value;
@@ -78,7 +92,7 @@ public class Variable extends Task {
     /**
      * Set the name of a file to read properties from. Optional.
      *
-     * @param file  the file to read properties from.
+     * @param file the file to read properties from.
      */
     public void setFile(File file) {
         this.file = file;
@@ -98,7 +112,7 @@ public class Variable extends Task {
     /**
      * Execute this task.
      *
-     * @exception BuildException  Description of the Exception
+     * @throws BuildException Description of the Exception
      */
     public void execute() throws BuildException {
         if (remove) {
@@ -125,8 +139,7 @@ public class Variable extends Task {
 
             // set the property
             forceProperty(name, value);
-        }
-        else {
+        } else {
             if (!file.exists()) {
                 throw new BuildException(file.getAbsolutePath() + " does not exists.");
             }
@@ -137,6 +150,8 @@ public class Variable extends Task {
     /**
      * Remove a property from the project's property table and the userProperty table.
      * Note that Ant 1.6 uses a helper for this.
+     *
+     * @param name String
      */
     @SuppressWarnings("unchecked")
     private void removeProperty(String name) {
@@ -147,8 +162,7 @@ public class Variable extends Task {
             if (properties != null) {
                 properties.remove(name);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore, could be Ant 1.6
         }
         try {
@@ -156,8 +170,7 @@ public class Variable extends Task {
             if (properties != null) {
                 properties.remove(name);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore, could be Ant 1.6
         }
 
@@ -171,8 +184,7 @@ public class Variable extends Task {
                     if (properties != null) {
                         properties.remove(name);
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     // ignore
                 }
                 try {
@@ -180,29 +192,31 @@ public class Variable extends Task {
                     if (properties != null) {
                         properties.remove(name);
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     // ignore
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore, could be Ant 1.5
         }
     }
 
+    /**
+     * Method forceProperty.
+     *
+     * @param name  String
+     * @param value String
+     */
     @SuppressWarnings("unchecked")
     private void forceProperty(String name, String value) {
         try {
             Map<String, String> properties = (HashMap<String, String>) getValue(getProject(), "properties");
             if (properties == null) {
                 getProject().setUserProperty(name, value);
-            }
-            else {
+            } else {
                 properties.put(name, value);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             getProject().setUserProperty(name, value);
         }
     }
@@ -211,10 +225,10 @@ public class Variable extends Task {
      * Object rape: fondle the private parts of an object without it's
      * permission.
      *
-     * @param thisClass                 The class to rape.
-     * @param fieldName                 The field to fondle
-     * @return                          The field value
-     * @exception NoSuchFieldException  Darn, nothing to fondle.
+     * @param thisClass The class to rape.
+     * @param fieldName The field to fondle
+     * @return The field value
+     * @throws NoSuchFieldException Darn, nothing to fondle.
      */
     private Field getField(Class<?> thisClass, String fieldName) throws NoSuchFieldException {
         if (thisClass == null) {
@@ -222,8 +236,7 @@ public class Variable extends Task {
         }
         try {
             return thisClass.getDeclaredField(fieldName);
-        }
-        catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             return getField(thisClass.getSuperclass(), fieldName);
         }
     }
@@ -232,15 +245,15 @@ public class Variable extends Task {
      * Object rape: fondle the private parts of an object without it's
      * permission.
      *
-     * @param instance                    the object instance
-     * @param fieldName                   the name of the field
-     * @return                            an object representing the value of the
-     *      field
-     * @exception IllegalAccessException  foiled by the security manager
-     * @exception NoSuchFieldException    Darn, nothing to fondle
+     * @param instance  the object instance
+     * @param fieldName the name of the field
+     * @return an object representing the value of the
+     * field
+     * @throws IllegalAccessException foiled by the security manager
+     * @throws NoSuchFieldException   Darn, nothing to fondle
      */
     private Object getValue(Object instance, String fieldName)
-        throws IllegalAccessException, NoSuchFieldException {
+            throws IllegalAccessException, NoSuchFieldException {
         Field field = getField(instance.getClass(), fieldName);
         field.setAccessible(true);
         return field.get(instance);
@@ -249,8 +262,8 @@ public class Variable extends Task {
     /**
      * load variables from a file.
      *
-     * @param file                file to load
-     * @exception BuildException  Description of the Exception
+     * @param file file to load
+     * @throws BuildException Description of the Exception
      */
     private void loadFile(File file) throws BuildException {
         Properties props = new Properties();
@@ -259,20 +272,17 @@ public class Variable extends Task {
                 FileInputStream fis = new FileInputStream(file);
                 try {
                     props.load(fis);
-                }
-                finally {
+                } finally {
                     if (fis != null) {
                         fis.close();
                     }
                 }
                 addProperties(props);
-            }
-            else {
+            } else {
                 log("Unable to find property file: " + file.getAbsolutePath(),
-                     Project.MSG_VERBOSE);
+                        Project.MSG_VERBOSE);
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new BuildException(ex, getLocation());
         }
     }
@@ -280,7 +290,7 @@ public class Variable extends Task {
     /**
      * iterate through a set of properties, resolve them, then assign them.
      *
-     * @param props  The feature to be added to the Properties attribute
+     * @param props The feature to be added to the Properties attribute
      */
     private void addProperties(Properties props) {
         resolveAllProperties(props);
@@ -295,8 +305,8 @@ public class Variable extends Task {
     /**
      * resolve properties inside a properties hashtable.
      *
-     * @param props               properties object to resolve
-     * @exception BuildException  Description of the Exception
+     * @param props properties object to resolve
+     * @throws BuildException Description of the Exception
      */
     private void resolveAllProperties(Properties props) throws BuildException {
         PropertyHelper propertyHelper
@@ -311,5 +321,4 @@ public class Variable extends Task {
                 propertyHelper.getExpanders())
                 .resolveAllProperties(properties, null, false);
     }
-
 }

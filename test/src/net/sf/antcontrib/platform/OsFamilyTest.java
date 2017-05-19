@@ -24,23 +24,30 @@ import org.junit.Test;
  * Testcase for &lt;osfamily&gt;.
  */
 public class OsFamilyTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("platform/osfamily.xml");
     }
 
+    /**
+     * Method testConsistency.
+     */
     @Test
     public void testConsistency() {
         executeTarget("consistency");
         assertPropertyEquals("consistent", "true");
     }
 
+    /**
+     * Method testMissingProperty.
+     */
     @Test
     public void testMissingProperty() {
         expectSpecificBuildException("missingProperty", "no attribute",
-                                     "The attribute 'property' is required "
-                                     + "for the OsFamily task.");
+                "The attribute 'property' is required "
+                        + "for the OsFamily task.");
     }
-
 }

@@ -27,20 +27,27 @@ import java.util.Map;
  * A section within an IniFile.
  *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class IniSection
-        implements IniPart
-{
+public class IniSection implements IniPart {
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field properties.
+     */
     private final List<IniProperty> properties;
+
+    /**
+     * Field propertyMap.
+     */
     private final Map<String, IniProperty> propertyMap;
 
     /**
      * Default constructor, constructs an IniSection with no name.
      */
-    public IniSection()
-    {
+    public IniSection() {
         super();
         this.propertyMap = new HashMap<String, IniProperty>();
         this.properties = new ArrayList<IniProperty>();
@@ -48,65 +55,62 @@ public class IniSection
 
     /**
      * Constructs an IniSection with the given name.
+     *
      * @param name The name of the section
      */
-    public IniSection(String name)
-    {
+    public IniSection(String name) {
         this();
         this.name = name;
     }
 
     /**
      * Gets a list of all properties in this section.
+     *
      * @return A List of IniProperty objects
      */
-    public List<IniProperty> getProperties()
-    {
+    public List<IniProperty> getProperties() {
         return properties;
     }
 
     /**
      * Gets the name of the section.
+     *
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * Sets the name of the section.
+     *
      * @param name The name of the section
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * Gets the property with the given name.
+     *
      * @param name The name of the property
      * @return IniProperty
      */
-    public IniProperty getProperty(String name)
-    {
+    public IniProperty getProperty(String name) {
         return propertyMap.get(name);
     }
 
     /**
      * Sets a property, replacing the old value, if necessary.
+     *
      * @param property The property to set
      */
-    public void setProperty(IniProperty property)
-    {
+    public void setProperty(IniProperty property) {
         IniProperty prop = propertyMap.get(property.getName());
-        if (prop != null)
-        {
+        if (prop != null) {
             int idx = properties.indexOf(prop);
             properties.set(idx, property);
-        }
-        else
-        {
+        } else {
             properties.add(property);
         }
 
@@ -115,28 +119,31 @@ public class IniSection
 
     /**
      * Removes a property from this section.
+     *
      * @param name The name of the property to remove
      */
-    public void removeProperty(String name)
-    {
+    public void removeProperty(String name) {
         IniProperty prop = propertyMap.get(name);
-        if (prop != null)
-        {
+        if (prop != null) {
             int idx = properties.indexOf(prop);
             properties.remove(idx);
             propertyMap.remove(name);
         }
     }
 
-    public void write(Writer writer)
-        throws IOException
-    {
+    /**
+     * Method write.
+     *
+     * @param writer Writer
+     * @throws IOException if write fails
+     * @see net.sf.antcontrib.inifile.IniPart#write(Writer)
+     */
+    public void write(Writer writer) throws IOException {
         writer.write("[" + name + "]");
         writer.write(System.getProperty("line.separator"));
         Iterator<IniProperty> it = properties.iterator();
         IniProperty prop = null;
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             prop = it.next();
             prop.write(writer);
             writer.write(System.getProperty("line.separator"));

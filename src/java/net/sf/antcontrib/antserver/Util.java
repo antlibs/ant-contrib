@@ -22,40 +22,44 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class Util
-{
+public class Util {
+    /**
+     * Field CHUNK.
+     */
     private static final int CHUNK = 10 * 1024;
 
+    /**
+     * Method transferBytes.
+     *
+     * @param input      InputStream
+     * @param length     long
+     * @param output     OutputStream
+     * @param closeInput boolean
+     * @throws IOException if read of write fails
+     */
     public static final void transferBytes(InputStream input,
                                            long length,
                                            OutputStream output,
                                            boolean closeInput)
-        throws IOException
-    {
+            throws IOException {
 
         byte[] b = new byte[CHUNK];
         int read = 0;
         int totalread = 0;
 
-        while (totalread < length)
-        {
+        while (totalread < length) {
             int toRead = (int) min(CHUNK, length - totalread);
             read = input.read(b, 0, toRead);
             output.write(b, 0, read);
             totalread += read;
         }
 
-        try
-        {
+        try {
             if (closeInput)
                 input.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             // gulp
         }
     }

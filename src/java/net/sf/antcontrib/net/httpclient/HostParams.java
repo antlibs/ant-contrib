@@ -15,24 +15,49 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
+/**
+ */
 public class HostParams
-	extends org.apache.commons.httpclient.params.HostParams {
-	private static final long serialVersionUID = -1;
+        extends org.apache.commons.httpclient.params.HostParams {
+    /**
+     * Field serialVersionUID.
+     * (value is -1)
+     */
+    private static final long serialVersionUID = -1;
 
-	public void addConfiguredDouble(Params.DoubleParam param) {
-		setDoubleParameter(param.getName(), param.getValue());
-	}
+    /**
+     * Method addConfiguredDouble.
+     *
+     * @param param Params.DoubleParam
+     */
+    public void addConfiguredDouble(Params.DoubleParam param) {
+        setDoubleParameter(param.getName(), param.getValue());
+    }
 
-	public void addConfiguredInt(Params.IntParam param) {
-		setIntParameter(param.getName(), param.getValue());
-	}
+    /**
+     * Method addConfiguredInt.
+     *
+     * @param param Params.IntParam
+     */
+    public void addConfiguredInt(Params.IntParam param) {
+        setIntParameter(param.getName(), param.getValue());
+    }
 
-	public void addConfiguredLong(Params.LongParam param) {
-		setLongParameter(param.getName(), param.getValue());
-	}
+    /**
+     * Method addConfiguredLong.
+     *
+     * @param param Params.LongParam
+     */
+    public void addConfiguredLong(Params.LongParam param) {
+        setLongParameter(param.getName(), param.getValue());
+    }
 
-	public void addConfiguredString(Params.StringParam param) {
-		setParameter(param.getName(), param.getValue());
-	}
-
+    /**
+     * Method addConfiguredString.
+     *
+     * @param param Params.StringParam
+     */
+    public void addConfiguredString(Params.StringParam param) {
+        setParameter(param.getName(), param.getValue());
+    }
 }

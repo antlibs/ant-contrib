@@ -21,29 +21,28 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Basic test for "antclipse" task. For the moment it just launches the test xml script.
+ * Basic test for "antclipse" task.
+ * For the moment it just launches the test xml script.
+ *
  * @author Adrian Spinei aspinei@myrealbox.com
  * @version $Revision: 1.2 $
  */
-public class AntclipseTest extends BuildFileTestBase
-{
+public class AntclipseTest extends BuildFileTestBase {
+    /**
+     * Method setUp.
+     *
+     * @see org.junit.Before
+     */
+    @Before
+    public void setUp() {
+        configureProject("antclipse/antclipsetest.xml");
+    }
 
-	/* (non-Javadoc)
-	 * @see org.junit.Before
-	 */
-	@Before
-	public void setUp()
-	{
-		configureProject("antclipse/antclipsetest.xml");
-	}
-
-	/**
-	 * Launches the "everything" task. Should not throw errors.
-	 */
-	@Test
-	public void testExecuteDefaultBuild()
-	{
-		executeTarget("everything");
-	}
-
+    /**
+     * Launches the "everything" task. Should not throw errors.
+     */
+    @Test
+    public void testExecuteDefaultBuild() {
+        executeTarget("everything");
+    }
 }

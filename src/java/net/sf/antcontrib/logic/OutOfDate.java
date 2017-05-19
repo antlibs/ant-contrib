@@ -35,73 +35,174 @@ import org.apache.tools.ant.util.FileNameMapper;
 import org.apache.tools.ant.util.FileUtils;
 
 /**
-* Task to help in calling tasks if generated files are older
-* than source files.
-* Sets a given property or runs an internal task.
-*
-* <p>Based on {@link
-*  org.apache.tools.ant.taskdefs.UpToDate UpToDate} task</p>
-*
-* @author Peter Reilly
-*/
+ * Task to help in calling tasks if generated files are older
+ * than source files.
+ * Sets a given property or runs an internal task.
+ * <p>Based on {@link
+ * org.apache.tools.ant.taskdefs.UpToDate UpToDate} task</p>
+ *
+ * @author Peter Reilly
+ */
 public class OutOfDate extends Task implements Condition {
-
     /**
      * Enumerated type for collection attribute.
      *
      * @see EnumeratedAttribute
      */
     public static class CollectionEnum extends EnumeratedAttribute {
-        /** Constants for the enumerations. */
+        /**
+         * Constants for the enumerations.
+         */
         public static final int SOURCES = 0;
+
+        /**
+         * Field TARGETS.
+         * (value is 1)
+         */
         public static final int TARGETS = 1;
+
+        /**
+         * Field ALLSOURCES.
+         * (value is 2)
+         */
         public static final int ALLSOURCES = 2;
+
+        /**
+         * Field ALLTARGETS.
+         * (value is 3)
+         */
         public static final int ALLTARGETS = 3;
 
         /**
-         * get the values
+         * get the values.
+         *
          * @return an array of the allowed values for this attribute.
          */
         public String[] getValues() {
-            return new String[] {"sources", "targets", "allsources", "alltargets"};
+            return new String[]{"sources", "targets", "allsources", "alltargets"};
         }
     }
 
     // attributes and nested elements
-    private Task   doTask = null;
+    /**
+     * Field doTask.
+     */
+    private Task doTask = null;
+
+    /**
+     * Field property.
+     */
     private String property;
-    private String value                = "true";
-    private boolean force               = false;
-    private int    verbosity            = Project.MSG_VERBOSE;
+
+    /**
+     * Field value.
+     */
+    private String value = "true";
+
+    /**
+     * Field force.
+     */
+    private boolean force = false;
+
+    /**
+     * Field verbosity.
+     */
+    private int verbosity = Project.MSG_VERBOSE;
+
+    /**
+     * Field mappers.
+     */
     private final List<MyMapper> mappers = new ArrayList<MyMapper>();
-    private Path   targetpaths          = null;
-    private Path   sourcepaths          = null;
-    private String outputSources        = null;
-    private String outputSourcesPath    = null;
-    private String outputTargets        = null;
-    private String outputTargetsPath    = null;
-    private String allTargets           = null;
-    private String allTargetsPath       = null;
-    private String separator            = " ";
+
+    /**
+     * Field targetpaths.
+     */
+    private Path targetpaths = null;
+
+    /**
+     * Field sourcepaths.
+     */
+    private Path sourcepaths = null;
+
+    /**
+     * Field outputSources.
+     */
+    private String outputSources = null;
+
+    /**
+     * Field outputSourcesPath.
+     */
+    private String outputSourcesPath = null;
+
+    /**
+     * Field outputTargets.
+     */
+    private String outputTargets = null;
+
+    /**
+     * Field outputTargetsPath.
+     */
+    private String outputTargetsPath = null;
+
+    /**
+     * Field allTargets.
+     */
+    private String allTargets = null;
+
+    /**
+     * Field allTargetsPath.
+     */
+    private String allTargetsPath = null;
+
+    /**
+     * Field separator.
+     */
+    private String separator = " ";
+
+    /**
+     * Field deleteTargets.
+     */
     private DeleteTargets deleteTargets = null;
-    private int    collection     = CollectionEnum.SOURCES;
+
+    /**
+     * Field collection.
+     */
+    private int collection = CollectionEnum.SOURCES;
 
     // variables
+    /**
+     * Field targetSet.
+     */
     private final Map<File, File> targetSet = new HashMap<File, File>();
+
+    /**
+     * Field sourceSet.
+     */
     private final Map<File, File> sourceSet = new HashMap<File, File>();
+
+    /**
+     * Field allTargetSet.
+     */
     private final Map<File, File> allTargetSet = new HashMap<File, File>();
+
+    /**
+     * Field allSourceSet.
+     */
     private final Map<File, File> allSourceSet = new HashMap<File, File>();
 
     /**
      * Set the collection attribute, controls what is
      * returned by the iterator method.
      * <dl>
-     * <dt>"sources"</dt><dd>the sources that are newer than the corresponding targets.</dd>
-     * <dt>"targets"</dt><dd>the targets that are older or not present than the corresponding
-     *               sources.</dd>
+     * <dt>"sources"</dt>
+     * <dd>the sources that are newer than the corresponding targets.</dd>
+     * <dt>"targets"</dt>
+     * <dd>the targets that are older or not present than the corresponding
+     * sources.</dd>
      * <dt>"allsources"</dt><dd>all the sources</dd>
      * <dt>"alltargets"</dt><dd>all the targets</dd>
      * </dl>
+     *
      * @param collection "sources" the changes
      */
     public void setCollection(CollectionEnum collection) {
@@ -110,6 +211,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * Defines the FileNameMapper to use (nested mapper element).
+     *
      * @return Mapper to be configured
      */
     public Mapper createMapper() {
@@ -130,7 +232,8 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * The separator to use to separate the files.
-     * @param separator separator used in outout properties
+     *
+     * @param separator separator used in output properties
      */
 
     public void setSeparator(String separator) {
@@ -149,6 +252,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * whether to always be outofdate.
+     *
      * @param force true means that outofdate is always set, default
      *              false
      */
@@ -158,6 +262,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * whether to have verbose output.
+     *
      * @param verbose true means that outofdate outputs debug info
      */
     public void setVerbose(boolean verbose) {
@@ -249,6 +354,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * optional nested delete element.
+     *
      * @return an element to be configured
      */
     public DeleteTargets createDeleteTargets() {
@@ -258,24 +364,26 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * Embedded do parallel.
+     *
      * @param doTask the parallel to embed
      */
     public void addParallel(Parallel doTask) {
         if (this.doTask != null) {
             throw new BuildException("You must not nest more that one <parallel> or <sequential>"
-                                     + " into <outofdate>");
+                    + " into <outofdate>");
         }
         this.doTask = doTask;
     }
 
     /**
      * Embedded do sequential.
+     *
      * @param doTask the sequential to embed
      */
     public void addSequential(Sequential doTask) {
         if (this.doTask != null) {
             throw new BuildException("You must not nest more that one <parallel> or <sequential>"
-                                     + " into <outofdate>");
+                    + " into <outofdate>");
         }
         this.doTask = doTask;
     }
@@ -283,7 +391,9 @@ public class OutOfDate extends Task implements Condition {
     /**
      * Evaluate (all) target and source file(s) to
      * see if the target(s) is/are outoutdate.
+     *
      * @return true if any of the targets are outofdate
+     * @see org.apache.tools.ant.taskdefs.condition.Condition#eval()
      */
     public boolean eval() {
         boolean ret = false;
@@ -303,7 +413,7 @@ public class OutOfDate extends Task implements Condition {
             File sourceFile = new File(spath);
             if (!sourceFile.exists()) {
                 throw new BuildException(sourceFile.getAbsolutePath()
-                                         + " not found.");
+                        + " not found.");
             }
         }
 
@@ -313,8 +423,7 @@ public class OutOfDate extends Task implements Condition {
             String[] paths = targetpaths.list();
             if (paths.length == 0) {
                 ret = true;
-            }
-            else {
+            } else {
                 for (String path : paths) {
                     if (targetNeedsGen(path, spaths)) {
                         ret = true;
@@ -353,32 +462,32 @@ public class OutOfDate extends Task implements Condition {
 
         if (allTargets != null) {
             this.getProject().setNewProperty(
-                allTargets, setToString(allTargetSet));
+                    allTargets, setToString(allTargetSet));
         }
 
         if (allTargetsPath != null) {
             this.getProject().addReference(
-                allTargetsPath, setToPath(allTargetSet));
+                    allTargetsPath, setToPath(allTargetSet));
         }
 
         if (outputSources != null) {
             this.getProject().setNewProperty(
-                outputSources, setToString(sourceSet));
+                    outputSources, setToString(sourceSet));
         }
 
         if (outputTargets != null) {
             this.getProject().setNewProperty(
-                outputTargets, setToString(targetSet));
+                    outputTargets, setToString(targetSet));
         }
 
         if (outputSourcesPath != null) {
             this.getProject().addReference(
-                outputSourcesPath, setToPath(sourceSet));
+                    outputSourcesPath, setToPath(sourceSet));
         }
 
         if (outputTargetsPath != null) {
             this.getProject().addReference(
-                outputTargetsPath, setToPath(targetSet));
+                    outputTargetsPath, setToPath(targetSet));
         }
 
         if (force) {
@@ -398,6 +507,13 @@ public class OutOfDate extends Task implements Condition {
         return ret;
     }
 
+    /**
+     * Method targetNeedsGen.
+     *
+     * @param target String
+     * @param spaths String[]
+     * @return boolean
+     */
     private boolean targetNeedsGen(String target, String[] spaths) {
         boolean ret = false;
         File targetFile = new File(target);
@@ -418,6 +534,7 @@ public class OutOfDate extends Task implements Condition {
 
     /**
      * Call evaluate and return an iterator over the result.
+     *
      * @return an iterator over the result
      */
     public Iterator<File> iterator() {
@@ -455,8 +572,15 @@ public class OutOfDate extends Task implements Condition {
 
     }
 
+    /**
+     * Method outOfDate.
+     *
+     * @param sourceFile File
+     * @param targetFile File
+     * @return boolean
+     */
     private boolean outOfDate(File sourceFile, File targetFile) {
-        boolean ret  = false;
+        boolean ret = false;
         if (sourceFile != null) {
             allSourceSet.put(sourceFile, sourceFile);
         }
@@ -464,14 +588,14 @@ public class OutOfDate extends Task implements Condition {
         if (!targetFile.exists()) {
             ret = true;
         }
-        if ((!ret)  && (sourceFile != null)) {
+        if ((!ret) && (sourceFile != null)) {
             ret = sourceFile.lastModified() > targetFile.lastModified();
         }
         if (ret) {
             if ((sourceFile != null && sourceSet.get(sourceFile) == null)
-                || targetSet.get(targetFile) == null) {
+                    || targetSet.get(targetFile) == null) {
                 log("SourceFile " + sourceFile + " outofdate "
-                    + "with regard to " + targetFile, verbosity);
+                        + "with regard to " + targetFile, verbosity);
             }
             if (sourceFile != null) {
                 sourceSet.put(sourceFile, sourceFile);
@@ -481,15 +605,21 @@ public class OutOfDate extends Task implements Condition {
         return ret;
     }
 
+    /**
+     * Method setToString.
+     *
+     * @param set Map&lt;File,File&gt;
+     * @return String
+     */
     private String setToString(Map<File, File> set) {
         StringBuilder b = new StringBuilder();
-        for (File v: set.keySet()) {
+        for (File v : set.keySet()) {
             if (b.length() != 0) {
                 b.append(separator);
             }
             String s = v.getAbsolutePath();
-            // TODO: The following needs more work!
-            // Handle paths contains sep
+            // TODO The following needs more work!
+            // Handle paths containing separators
             if (s.contains(separator)) {
                 if (s.contains("\"")) {
                     s = "'" + s + "'";
@@ -502,6 +632,12 @@ public class OutOfDate extends Task implements Condition {
         return b.toString();
     }
 
+    /**
+     * Method setToPath.
+     *
+     * @param set Map&lt;File,File&gt;
+     * @return Path
+     */
     private Path setToPath(Map<File, File> set) {
         Path ret = new Path(getProject());
         for (File v : set.keySet()) {
@@ -515,16 +651,31 @@ public class OutOfDate extends Task implements Condition {
      * nested delete targets.
      */
     public class DeleteTargets {
-        private boolean all         = false;
-        private boolean quiet       = false;
+        /**
+         * Field all.
+         */
+        private boolean all = false;
+
+        /**
+         * Field quiet.
+         */
+        private boolean quiet = false;
+
+        /**
+         * Field failOnError.
+         */
         private boolean failOnError = false;
 
-        private int     myLogging   = Project.MSG_INFO;
+        /**
+         * Field myLogging.
+         */
+        private int myLogging = Project.MSG_INFO;
 
         /**
          * whether to delete all the targets
          * or just those that are newer than the
          * corresponding sources.
+         *
          * @param all true to delete all, default false
          */
         public void setAll(boolean all) {
@@ -533,6 +684,7 @@ public class OutOfDate extends Task implements Condition {
 
         /**
          * setQuiet() method.
+         *
          * @param quiet if true suppress messages on deleting files
          */
         public void setQuiet(boolean quiet) {
@@ -542,12 +694,16 @@ public class OutOfDate extends Task implements Condition {
 
         /**
          * setFailOnError() method.
+         *
          * @param failOnError if true halt if there is a failure to delete
          */
         public void setFailOnError(boolean failOnError) {
             this.failOnError = failOnError;
         }
 
+        /**
+         * Method execute.
+         */
         private void execute() {
             if (myLogging != Project.MSG_INFO) {
                 myLogging = verbosity;
@@ -588,11 +744,19 @@ public class OutOfDate extends Task implements Condition {
             }
         }
 
+        /**
+         * Field DELETE_RETRY_SLEEP_MILLIS.
+         * (value is 10)
+         */
         private static final int DELETE_RETRY_SLEEP_MILLIS = 10;
+
         /**
          * Attempt to fix possible race condition when deleting
          * files on WinXP. If the delete does not work,
          * wait a little and try again.
+         *
+         * @param f File
+         * @return boolean
          */
         private boolean delete(File f) {
             if (!f.delete()) {
@@ -606,6 +770,11 @@ public class OutOfDate extends Task implements Condition {
             return true;
         }
 
+        /**
+         * Method removeDir.
+         *
+         * @param d File
+         */
         private void removeDir(File d) {
             String[] list = d.list();
             if (list == null) {
@@ -631,7 +800,7 @@ public class OutOfDate extends Task implements Condition {
             log("Deleting directory " + d.getAbsolutePath(), myLogging);
             if (!delete(d)) {
                 String message = "Unable to delete directory "
-                    + d.getAbsolutePath();
+                        + d.getAbsolutePath();
                 if (failOnError) {
                     throw new BuildException(message);
                 } else {
@@ -642,9 +811,12 @@ public class OutOfDate extends Task implements Condition {
     }
 
     /**
-     *  Wrapper for mapper - includes dir.
+     * Wrapper for mapper - includes dir.
      */
     public static class MyMapper extends Mapper {
+        /**
+         * Field dir.
+         */
         private File dir = null;
 
         /**
@@ -658,6 +830,7 @@ public class OutOfDate extends Task implements Condition {
 
         /**
          * setDir() method.
+         *
          * @param dir the directory that the from files are relative to
          */
         public void setDir(File dir) {
@@ -666,6 +839,7 @@ public class OutOfDate extends Task implements Condition {
 
         /**
          * getDir() method.
+         *
          * @return the directory that the from files are relative to
          */
         public File getDir() {

@@ -25,37 +25,57 @@ import org.junit.Test;
 
 /**
  * Testcase for &lt;relentless&gt;.
+ *
  * @author Christopher Heiny
  */
 public class RelentlessTaskTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/relentless.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    /**
+     * Method testSimpleTasks.
+     */
     @Test
     public void testSimpleTasks() {
         simpleTest("simpleTasks");
     }
 
+    /**
+     * Method testFailTask.
+     */
     @Test
     public void testFailTask() {
         expectSpecificBuildException("failTask", "2 failed tasks",
-                                     "Relentless execution: 2 of 4 tasks failed.");
+                "Relentless execution: 2 of 4 tasks failed.");
     }
 
+    /**
+     * Method testNoTasks.
+     */
     @Test
     public void testNoTasks() {
         expectSpecificBuildException("noTasks", "missing task list",
-                                     "No tasks specified for <relentless>.");
+                "No tasks specified for <relentless>.");
     }
 
+    /**
+     * Method simpleTest.
+     *
+     * @param target String
+     */
     private void simpleTest(String target) {
         executeTarget(target);
         int last = -1;
@@ -64,5 +84,5 @@ public class RelentlessTaskTest extends BuildFileTestBase {
             assertTrue(thisIdx > last);
             last = thisIdx;
         }
-   }
+    }
 }

@@ -29,15 +29,40 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
  */
 public class IsLessThan extends Equals {
 
+    /**
+     * Field arg1.
+     */
     private String arg1;
+
+    /**
+     * Field arg2.
+     */
     private String arg2;
+
+    /**
+     * Field trim.
+     */
     private boolean trim = false;
+
+    /**
+     * Field caseSensitive.
+     */
     private boolean caseSensitive = true;
 
+    /**
+     * Method setArg1.
+     *
+     * @param a1 String
+     */
     public void setArg1(String a1) {
         arg1 = a1;
     }
 
+    /**
+     * Method setArg2.
+     *
+     * @param a2 String
+     */
     public void setArg2(String a2) {
         arg2 = a2;
     }
@@ -45,6 +70,7 @@ public class IsLessThan extends Equals {
     /**
      * Should we want to trim the arguments before comparing them?
      *
+     * @param b boolean
      * @since Revision: 1.3, Ant 1.5
      */
     public void setTrim(boolean b) {
@@ -54,16 +80,24 @@ public class IsLessThan extends Equals {
     /**
      * Should the comparison be case sensitive?
      *
+     * @param b boolean
      * @since Revision: 1.3, Ant 1.5
      */
     public void setCasesensitive(boolean b) {
         caseSensitive = b;
     }
 
+    /**
+     * Method eval.
+     *
+     * @return boolean
+     * @throws BuildException if arguments are missing
+     * @see org.apache.tools.ant.taskdefs.condition.Condition#eval()
+     */
     public boolean eval() throws BuildException {
         if (arg1 == null || arg2 == null) {
             throw new BuildException("both arg1 and arg2 are required in "
-                                     + "less than");
+                    + "less than");
         }
 
         if (trim) {
@@ -76,8 +110,7 @@ public class IsLessThan extends Equals {
             double num1 = Double.parseDouble(arg1);
             double num2 = Double.parseDouble(arg2);
             return num1 < num2;
-        }
-        catch (NumberFormatException nfe) {
+        } catch (NumberFormatException nfe) {
             // ignored, fall thru to string comparision
         }
 

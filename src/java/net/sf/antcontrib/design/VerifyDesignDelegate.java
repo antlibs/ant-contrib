@@ -54,26 +54,74 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 /**
- *
  * @author Dean Hiller(dean@xsoftware.biz)
- *
  */
 public class VerifyDesignDelegate implements Log {
-
+    /**
+     * Field designFile.
+     */
     private File designFile;
+
+    /**
+     * Field paths.
+     */
     private final List<Path> paths = new ArrayList<Path>();
+
+    /**
+     * Field isCircularDesign.
+     */
     private boolean isCircularDesign = false;
+
+    /**
+     * Field deleteFiles.
+     */
     private boolean deleteFiles = false;
+
+    /**
+     * Field fillInBuildException.
+     */
     private boolean fillInBuildException = false;
+
+    /**
+     * Field needDeclarationsDefault.
+     */
     private boolean needDeclarationsDefault = true;
+
+    /**
+     * Field needDependsDefault.
+     */
     private boolean needDependsDefault = true;
 
+    /**
+     * Field task.
+     */
     private final Task task;
+
+    /**
+     * Field design.
+     */
     private Design design;
+
+    /**
+     * Field primitives.
+     */
     private final Set<String> primitives = new HashSet<String>();
+
+    /**
+     * Field designErrors.
+     */
     private final List<BuildException> designErrors = new ArrayList<BuildException>();
+
+    /**
+     * Field verifiedAtLeastOne.
+     */
     private boolean verifiedAtLeastOne = false;
 
+    /**
+     * Constructor for VerifyDesignDelegate.
+     *
+     * @param task Task
+     */
     public VerifyDesignDelegate(Task task) {
         this.task = task;
         primitives.add("B");
@@ -86,41 +134,86 @@ public class VerifyDesignDelegate implements Log {
         primitives.add("Z");
     }
 
+    /**
+     * Method addConfiguredPath.
+     *
+     * @param path Path
+     */
     public void addConfiguredPath(Path path) {
         paths.add(path);
     }
 
+    /**
+     * Method setJar.
+     *
+     * @param f File
+     */
     public void setJar(File f) {
-        Path p = (Path)task.getProject().createDataType("path");
+        Path p = (Path) task.getProject().createDataType("path");
         p.createPathElement().setLocation(f.getAbsoluteFile());
         addConfiguredPath(p);
     }
 
+    /**
+     * Method setDesign.
+     *
+     * @param f File
+     */
     public void setDesign(File f) {
         this.designFile = f;
     }
 
+    /**
+     * Method setCircularDesign.
+     *
+     * @param isCircularDesign boolean
+     */
     public void setCircularDesign(boolean isCircularDesign) {
         this.isCircularDesign = isCircularDesign;
     }
 
+    /**
+     * Method setDeleteFiles.
+     *
+     * @param deleteFiles boolean
+     */
     public void setDeleteFiles(boolean deleteFiles) {
         this.deleteFiles = deleteFiles;
     }
 
+    /**
+     * Method setFillInBuildException.
+     *
+     * @param b boolean
+     */
     public void setFillInBuildException(boolean b) {
         fillInBuildException = b;
     }
 
+    /**
+     * Method setNeedDeclarationsDefault.
+     *
+     * @param b boolean
+     */
     public void setNeedDeclarationsDefault(boolean b) {
         needDeclarationsDefault = b;
     }
 
+    /**
+     * Method setNeedDependsDefault.
+     *
+     * @param b boolean
+     */
     public void setNeedDependsDefault(boolean b) {
         needDependsDefault = b;
     }
 
-    public void execute() {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if parsing of design file fails
+     */
+    public void execute() throws BuildException {
         if (!designFile.exists() || designFile.isDirectory())
             throw new BuildException("design attribute in verifydesign element specified an invalid file=" + designFile);
 
@@ -128,7 +221,8 @@ public class VerifyDesignDelegate implements Log {
 
         try {
             XMLReader reader = JAXPUtils.getXMLReader();
-            DesignFileHandler ch = new DesignFileHandler(this, designFile, isCircularDesign, task.getLocation());
+            DesignFileHandler ch = new DesignFileHandler(this, designFile,
+                    isCircularDesign, task.getLocation());
             ch.setNeedDeclarationsDefault(needDeclarationsDefault);
             ch.setNeedDependsDefault(needDependsDefault);
             reader.setContentHandler(ch);
@@ -151,7 +245,7 @@ public class VerifyDesignDelegate implements Log {
             if (designErrors.isEmpty())
                 design.fillInUnusedPackages(designErrors);
 
-            if (! designErrors.isEmpty()) {
+            if (!designErrors.isEmpty()) {
                 log(designErrors.size() + " errors.", Project.MSG_WARN);
                 if (!fillInBuildException)
                     throw new BuildException("Design check failed due to previous errors");
@@ -181,17 +275,21 @@ public class VerifyDesignDelegate implements Log {
             maybeDeleteFiles();
             throw e;
         } finally {
-
         }
 
         if (!verifiedAtLeastOne)
             throw new BuildException("Did not find any class or jar files to verify");
     }
+
     //some auto builds like cruisecontrol can only report all the
     //standard ant task errors and the build exceptions so here
     //we need to fill in the buildexception so the errors are reported
     //correctly through those tools....though, you think ant has a hook
     //in that cruisecontrol is not using like LogListeners or something
+
+    /**
+     * Method throwAllErrors.
+     */
     private void throwAllErrors() {
         String result = "Design check failed due to following errors";
         for (BuildException be : designErrors) {
@@ -201,6 +299,9 @@ public class VerifyDesignDelegate implements Log {
         throw new BuildException(result);
     }
 
+    /**
+     * Method verifyJarFilesExist.
+     */
     private void verifyJarFilesExist() {
         for (Path p : paths) {
             for (String fileName : p.list()) {
@@ -212,11 +313,14 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
+    /**
+     * Method maybeDeleteFiles.
+     */
     private void maybeDeleteFiles() {
         if (deleteFiles) {
             log("Deleting all class and jar files so you do not get tempted to\n"
-        	+ "use a jar that doesn't abide by the design (This option can\n"
-        	+ "be turned off if you really want)", Project.MSG_INFO);
+                    + "use a jar that doesn't abide by the design (This option can\n"
+                    + "be turned off if you really want)", Project.MSG_INFO);
 
             for (Path p : paths) {
                 deleteFilesInPath(p);
@@ -224,6 +328,11 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
+    /**
+     * Method deleteFilesInPath.
+     *
+     * @param p Path
+     */
     private void deleteFilesInPath(Path p) {
         for (String fileName : p.list()) {
             File file = new File(fileName);
@@ -235,7 +344,16 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
-    private void verifyPathAdheresToDesign(Design d, Path p) throws ClassFormatException, IOException {
+    /**
+     * Method verifyPathAdheresToDesign.
+     *
+     * @param d Design
+     * @param p Path
+     * @throws ClassFormatException if ClassParser fails
+     * @throws IOException          if ClassParser fails
+     */
+    private void verifyPathAdheresToDesign(Design d, Path p)
+            throws ClassFormatException, IOException {
         for (String fileName : p.list()) {
             File file = new File(fileName);
             if (file.isDirectory()) {
@@ -259,74 +377,109 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
-    private void verifyPartOfPath(String fileName, File file, Design d) throws IOException {
+    /**
+     * Method verifyPartOfPath.
+     *
+     * @param fileName String
+     * @param file     File
+     * @param d        Design
+     * @throws BuildException       if a file that does not contain
+     *                              Java bytecode is supposed to be verified
+     * @throws ClassFormatException if ClassParser fails
+     * @throws IOException          if ClassParser fails
+     */
+    private void verifyPartOfPath(String fileName, File file, Design d)
+            throws BuildException, ClassFormatException, IOException {
         if (fileName.endsWith(".jar") || fileName.endsWith(".war")) {
             JarFile jarFile = new JarFile(file);
             verifyJarAdheresToDesign(d, jarFile, file);
         } else if (fileName.endsWith(".class")) {
             verifyClassAdheresToDesign(d, file);
         } else
-            throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file=" + file.getAbsolutePath());
+            throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file="
+                    + file.getAbsolutePath());
     }
 
+    /**
+     * Method verifyClassAdheresToDesign.
+     *
+     * @param d         Design
+     * @param classFile File
+     * @throws ClassFormatException if ClassParser fails
+     * @throws IOException          if ClassParser fails
+     */
     private void verifyClassAdheresToDesign(Design d, File classFile)
             throws ClassFormatException, IOException {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(classFile);
             verifyClassAdheresToDesign(d, fis, classFile.getAbsolutePath(), classFile);
-        }
-        finally {
+        } finally {
             try {
                 if (fis != null) {
                     fis.close();
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 //doh!!
             }
         }
 
     }
 
+    /**
+     * Method verifyJarAdheresToDesign.
+     *
+     * @param d        Design
+     * @param jarFile  JarFile
+     * @param original File
+     * @throws ClassFormatException if ClassParser fails
+     * @throws IOException          if ClassParser fails
+     */
     private void verifyJarAdheresToDesign(Design d, JarFile jarFile, File original)
             throws ClassFormatException, IOException {
 
         try {
-        Enumeration<JarEntry> en = jarFile.entries();
-        while (en.hasMoreElements()) {
-            ZipEntry entry = en.nextElement();
-            InputStream in = null;
-            if (entry.getName().endsWith(".class")) {
-                in = jarFile.getInputStream(entry);
-                try {
+            Enumeration<JarEntry> en = jarFile.entries();
+            while (en.hasMoreElements()) {
+                ZipEntry entry = en.nextElement();
+                InputStream in = null;
+                if (entry.getName().endsWith(".class")) {
                     in = jarFile.getInputStream(entry);
-                    verifyClassAdheresToDesign(d, in, entry.getName(), original);
-                }
-                finally {
                     try {
-                        if (in != null) {
-                            in.close();
+                        in = jarFile.getInputStream(entry);
+                        verifyClassAdheresToDesign(d, in, entry.getName(), original);
+                    } finally {
+                        try {
+                            if (in != null) {
+                                in.close();
+                            }
+                        } catch (IOException e) {
+                            // doh!!!
                         }
                     }
-                    catch (IOException e) {
-                        // doh!!!
-                    }
                 }
             }
-        }
-        }
-        finally {
+        } finally {
             try {
                 jarFile.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 //doh!!!
             }
         }
     }
 
-    private void verifyClassAdheresToDesign(Design d, InputStream in, String name, File originalClassOrJarFile) throws ClassFormatException, IOException {
+    /**
+     * Method verifyClassAdheresToDesign.
+     *
+     * @param d                      Design
+     * @param in                     InputStream
+     * @param name                   String
+     * @param originalClassOrJarFile File
+     * @throws ClassFormatException if ClassParser fails
+     * @throws IOException          if ClassParser fails
+     */
+    private void verifyClassAdheresToDesign(Design d, InputStream in, String name, File originalClassOrJarFile)
+            throws ClassFormatException, IOException {
         try {
             verifiedAtLeastOne = true;
             ClassParser parser = new ClassParser(in, name);
@@ -347,6 +500,11 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
+    /**
+     * Method processConstantPool.
+     *
+     * @param pool ConstantPool
+     */
     private void processConstantPool(ConstantPool pool) {
         Constant[] constants = pool.getConstantPool();
         if (constants == null) {
@@ -360,19 +518,26 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
+    /**
+     * Method processConstant.
+     *
+     * @param pool ConstantPool
+     * @param c    Constant
+     * @param i    int
+     */
     private void processConstant(ConstantPool pool, Constant c, int i) {
         if (c == null) //don't know why, but constant[0] seems to be always null.
             return;
 
         log("      const[" + i + "]=" + pool.constantToString(c) + " inst=" + c.getClass().getName(),
-        	Project.MSG_DEBUG);
+                Project.MSG_DEBUG);
         byte tag = c.getTag();
         switch (tag) {
             //reverse engineered from ConstantPool.constantToString..
             case Constants.CONSTANT_Class:
-                int ind = ((ConstantClass)c).getNameIndex();
+                int ind = ((ConstantClass) c).getNameIndex();
                 c = pool.getConstant(ind, Constants.CONSTANT_Utf8);
-                String className = Utility.compactClassName(((ConstantUtf8)c).getBytes(), false);
+                String className = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
                 log("      classNamePre=" + className, Project.MSG_DEBUG);
                 className = getRidOfArray(className);
                 String firstLetter = className.charAt(0) + "";
@@ -385,22 +550,41 @@ public class VerifyDesignDelegate implements Log {
         }
     }
 
+    /**
+     * Method getRidOfArray.
+     *
+     * @param className String
+     * @return String
+     */
     private static String getRidOfArray(String className) {
         while (className.startsWith("["))
             className = className.substring(1, className.length());
         return className;
     }
 
+    /**
+     * Method getPackageName.
+     *
+     * @param className String
+     * @return String
+     */
     public static String getPackageName(String className) {
         String packageName = Package.DEFAULT;
         int index = className.lastIndexOf(".");
         if (index > 0)
             packageName = className.substring(0, index);
-        // TODO: test the else scenario here (it is a corner case)...
+        // TODO test the else scenario here (it is a corner case)...
 
         return packageName;
     }
 
+    /**
+     * Method log.
+     *
+     * @param msg   String
+     * @param level int
+     * @see net.sf.antcontrib.design.Log#log(String, int)
+     */
     public void log(String msg, int level) {
         //if(level == Project.MSG_WARN || level == Project.MSG_INFO
         //      || level == Project.MSG_ERR || level == Project.MSG_VERBOSE)

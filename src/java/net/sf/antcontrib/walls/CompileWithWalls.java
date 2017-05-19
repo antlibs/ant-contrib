@@ -39,32 +39,80 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Created on Aug 24, 2003
+ * Created on Aug 24, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class CompileWithWalls extends Task {
+    /**
+     * Field setWallsTwice.
+     */
     private boolean setWallsTwice = false;
+
+    /**
+     * Field setJavacTwice.
+     */
     private boolean setJavacTwice = false;
+
+    /**
+     * Field walls.
+     */
     private Walls walls;
+
+    /**
+     * Field javac.
+     */
     private Javac javac;
+
+    /**
+     * Field wallsFile.
+     */
     private File wallsFile;
+
+    /**
+     * Field tempBuildDir.
+     */
     private File tempBuildDir;
 
+    /**
+     * Field packagesNeedingCompiling.
+     */
     @SuppressWarnings("unused")
     private Map<String, String> packagesNeedingCompiling = new HashMap<String, String>();
 
+    /**
+     * Field cachedSAXException.
+     */
     private SAXException cachedSAXException = null;
+
+    /**
+     * Field cachedIOException.
+     */
     private IOException cachedIOException = null;
 
+    /**
+     * Method setIntermediaryBuildDir.
+     *
+     * @param f File
+     */
     public void setIntermediaryBuildDir(File f) {
         tempBuildDir = f;
     }
 
+    /**
+     * Method getIntermediaryBuildDir.
+     *
+     * @return File
+     */
     public File getIntermediaryBuildDir() {
         return tempBuildDir;
     }
 
+    /**
+     * Method setWalls.
+     *
+     * @param f File
+     */
     public void setWalls(File f) {
         this.wallsFile = f;
 
@@ -86,10 +134,20 @@ public class CompileWithWalls extends Task {
         }
     }
 
+    /**
+     * Method getWalls.
+     *
+     * @return File
+     */
     public File getWalls() {
         return wallsFile;
     }
 
+    /**
+     * Method createWalls.
+     *
+     * @return Walls
+     */
     public Walls createWalls() {
         if (walls != null)
             setWallsTwice = true;
@@ -97,6 +155,11 @@ public class CompileWithWalls extends Task {
         return walls;
     }
 
+    /**
+     * Method createJavac.
+     *
+     * @return Javac
+     */
     public Javac createJavac() {
         if (javac != null)
             setJavacTwice = true;
@@ -104,6 +167,11 @@ public class CompileWithWalls extends Task {
         return javac;
     }
 
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if task definition is incorrect or something goes wrong
+     */
     public void execute() throws BuildException {
         if (cachedIOException != null)
             throw new BuildException(cachedIOException, getLocation());
@@ -111,29 +179,29 @@ public class CompileWithWalls extends Task {
             throw new BuildException(cachedSAXException, getLocation());
         else if (tempBuildDir == null)
             throw new BuildException(
-                "intermediaryBuildDir attribute must be specified on the compilewithwalls element",
-                getLocation());
+                    "intermediaryBuildDir attribute must be specified on the compilewithwalls element",
+                    getLocation());
         else if (javac == null)
             throw new BuildException(
-                "There must be a nested javac element",
-                getLocation());
+                    "There must be a nested javac element",
+                    getLocation());
         else if (walls == null)
             throw new BuildException(
-                "There must be a nested walls element",
-                getLocation());
+                    "There must be a nested walls element",
+                    getLocation());
         else if (setWallsTwice)
             throw new BuildException(
-                "compilewithwalls task only supports one nested walls element or one walls attribute",
-                getLocation());
+                    "compilewithwalls task only supports one nested walls element or one walls attribute",
+                    getLocation());
         else if (setJavacTwice)
             throw new BuildException(
-                "compilewithwalls task only supports one nested javac element",
-                getLocation());
+                    "compilewithwalls task only supports one nested javac element",
+                    getLocation());
 
         getProject().addTaskDefinition("SilentMove", SilentMove.class);
         getProject().addTaskDefinition("SilentCopy", SilentCopy.class);
 
-        Path src  = javac.getSrcdir();
+        Path src = javac.getSrcdir();
         if (src == null)
             throw new BuildException("Javac inside compilewithwalls must have a srcdir specified");
 
@@ -170,8 +238,8 @@ public class CompileWithWalls extends Task {
         File destDir = javac.getDestdir();
         if (destDir == null)
             throw new BuildException(
-                "destdir was not specified in nested javac task",
-                getLocation());
+                    "destdir was not specified in nested javac task",
+                    getLocation());
 
         //make sure tempBuildDir is not inside destDir or we are in trouble!!
         if (file1IsChildOfFile2(tempBuildDir, destDir))
@@ -198,25 +266,26 @@ public class CompileWithWalls extends Task {
             }
 
             FileSet javaIncludes2 =
-                toCompile.getJavaCopyFileSet(getProject(), getLocation());
+                    toCompile.getJavaCopyFileSet(getProject(), getLocation());
 
             for (int i = 0; i < srcDirs2.size(); i++) {
                 File srcDir = srcDirs2.get(i);
                 javaIncludes2.setDir(srcDir);
-                log(toCompile.getPackage() + ": sourceDir[" + i + "]=" + srcDir + " destDir=" + buildSpace, Project.MSG_VERBOSE);
+                log(toCompile.getPackage() + ": sourceDir[" + i + "]=" + srcDir
+                        + " destDir=" + buildSpace, Project.MSG_VERBOSE);
                 copyFiles(srcDir, buildSpace, javaIncludes2);
             }
 
-            Path srcDir2   = toCompile.getSrcPath(tempBuildDir, getProject());
+            Path srcDir2 = toCompile.getSrcPath(tempBuildDir, getProject());
             Path classPath = toCompile.getClasspath(tempBuildDir, getProject());
             if (javac.getClasspath() != null)
                 classPath.addExisting(javac.getClasspath());
 
-            //unfortunately, we cannot clear the SrcDir in Javac, so we have to clone
-            //instead of just reusing the other Javac....this means added params in
-            //future releases will be missed unless this task is kept up to date.
-            //need to convert to reflection later so we don't need to keep this up to
-            //date.
+            //unfortunately, we cannot clear the SrcDir in Javac, so we have to
+            //clone instead of just reusing the other Javac....this means added
+            //params in future releases will be missed unless this task is kept
+            //up to date. need to convert to reflection later so we don't need
+            //to keep this up to date.
             Javac buildSpaceJavac = new Javac();
             buildSpaceJavac.setProject(getProject());
             buildSpaceJavac.setOwningTarget(getOwningTarget());
@@ -269,14 +338,17 @@ public class CompileWithWalls extends Task {
             buildSpaceJavac.setProject(getProject());
             buildSpaceJavac.perform();
 
-            //copy class files to javac's destDir where the user wants the class files
+            //copy class files to javac's destDir where the user wants
+            //the class files
             copyFiles(buildSpace, destDir, toCompile.getClassCopyFileSet(getProject(), getLocation()));
         }
     }
+
     /**
      * file1IsChildOfFile2() method.
+     *
      * @param tempBuildDir File
-     * @param destDir File
+     * @param destDir      File
      * @return boolean
      */
     private boolean file1IsChildOfFile2(File tempBuildDir, File destDir) {
@@ -290,7 +362,7 @@ public class CompileWithWalls extends Task {
         }
 
         throw new RuntimeException("You either have more than 1000 directories in"
-            + "\nyour hierarchy or this is a bug, please report. parent=" + parent + "  destDir=" + destDir);
+                + "\nyour hierarchy or this is a bug, please report. parent=" + parent + "  destDir=" + destDir);
     }
 
     /**
@@ -300,27 +372,28 @@ public class CompileWithWalls extends Task {
      * on in the classpath destroying the compile time wall.  This way,
      * we can keep the wall up.
      *
-     * @param srcDir Directory to copy files from (Usually the java files dir or the class files dir)
+     * @param srcDir  Directory to copy files from
+     *                (Usually the java files dir or the class files dir)
      * @param destDir Directory to copy files to
      * @param fileset The fileset of files to include in the move.
      */
     private void copyFiles(
-        File srcDir,
-        File destDir,
-        FileSet fileset) {
+            File srcDir,
+            File destDir,
+            FileSet fileset) {
 
         fileset.setDir(srcDir);
         if (!srcDir.exists())
             throw new BuildException(
-                "Directory=" + srcDir + " does not exist",
-                getLocation());
+                    "Directory=" + srcDir + " does not exist",
+                    getLocation());
 
         //before we do this, we have to move all files not
         //in the above fileset to xxx.java.ant-tempfile
         //so that they don't get dragged into the compile
         //This way we don't miss anything and all the dependencies
         //are listed or the compile will break.
-        Copy move = (Copy)getProject().createTask("SilentCopy");
+        Copy move = (Copy) getProject().createTask("SilentCopy");
         move.setProject(getProject());
         move.setOwningTarget(getOwningTarget());
         move.setTaskName(getTaskName());
@@ -331,16 +404,33 @@ public class CompileWithWalls extends Task {
         move.perform();
     }
 
+    /**
+     * Method log.
+     *
+     * @param msg   String
+     * @param level int
+     */
     public void log(String msg, int level) {
         super.log(msg, level);
     }
 
     //until 1.3 is deprecated, this is a cheat to chain exceptions.
+
+    /**
+     */
     @SuppressWarnings("serial")
     private class ParsingWallsException extends RuntimeException {
-
+        /**
+         * Field message.
+         */
         private String message;
 
+        /**
+         * Constructor for ParsingWallsException.
+         *
+         * @param message String
+         * @param cause   Throwable
+         */
         public ParsingWallsException(String message, Throwable cause) {
             super(message);
 
@@ -353,10 +443,20 @@ public class CompileWithWalls extends Task {
             this.message += sw;
         }
 
+        /**
+         * Method getMessage.
+         *
+         * @return String
+         */
         public String getMessage() {
             return message;
         }
 
+        /**
+         * Method toString.
+         *
+         * @return String
+         */
         public String toString() {
             return getMessage();
         }

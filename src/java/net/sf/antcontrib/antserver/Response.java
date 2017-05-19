@@ -20,39 +20,67 @@ import java.io.PrintStream;
 import java.io.Serializable;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public class Response
-        implements Serializable
-{
+public class Response implements Serializable {
+    /**
+     * Field succeeded.
+     */
     private boolean succeeded;
+
+    /**
+     * Field errorStackTrace.
+     */
     private String errorStackTrace;
+
+    /**
+     * Field errorMessage.
+     */
     private String errorMessage;
+
+    /**
+     * Field resultsXml.
+     */
     private String resultsXml;
 
+    /**
+     * Field contentLength.
+     */
     private long contentLength;
 
-    public Response()
-    {
+    /**
+     * Constructor for Response.
+     */
+    public Response() {
         super();
         this.succeeded = true;
     }
 
-    public boolean isSucceeded()
-    {
+    /**
+     * Method isSucceeded.
+     *
+     * @return boolean
+     */
+    public boolean isSucceeded() {
         return succeeded;
     }
 
-    public void setSucceeded(boolean succeeded)
-    {
+    /**
+     * Method setSucceeded.
+     *
+     * @param succeeded boolean
+     */
+    public void setSucceeded(boolean succeeded) {
         this.succeeded = succeeded;
     }
 
-    public void setThrowable(Throwable t)
-    {
+    /**
+     * Method setThrowable.
+     *
+     * @param t Throwable
+     */
+    public void setThrowable(Throwable t) {
         errorMessage = t.getMessage();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -61,43 +89,75 @@ public class Response
         setErrorStackTrace(baos.toString());
     }
 
-    public String getErrorStackTrace()
-    {
+    /**
+     * Method getErrorStackTrace.
+     *
+     * @return String
+     */
+    public String getErrorStackTrace() {
         return errorStackTrace;
     }
 
-    public void setErrorStackTrace(String errorStackTrace)
-    {
+    /**
+     * Method setErrorStackTrace.
+     *
+     * @param errorStackTrace String
+     */
+    public void setErrorStackTrace(String errorStackTrace) {
         this.errorStackTrace = errorStackTrace;
     }
 
-    public String getErrorMessage()
-    {
+    /**
+     * Method getErrorMessage.
+     *
+     * @return String
+     */
+    public String getErrorMessage() {
         return errorMessage;
     }
 
-    public void setErrorMessage(String errorMessage)
-    {
+    /**
+     * Method setErrorMessage.
+     *
+     * @param errorMessage String
+     */
+    public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public String getResultsXml()
-    {
+    /**
+     * Method getResultsXml.
+     *
+     * @return String
+     */
+    public String getResultsXml() {
         return resultsXml;
     }
 
-    public void setResultsXml(String resultsXml)
-    {
+    /**
+     * Method setResultsXml.
+     *
+     * @param resultsXml String
+     */
+    public void setResultsXml(String resultsXml) {
         this.resultsXml = resultsXml;
     }
 
-    public long getContentLength()
-    {
+    /**
+     * Method getContentLength.
+     *
+     * @return long
+     */
+    public long getContentLength() {
         return contentLength;
     }
 
-    public void setContentLength(long contentLength)
-    {
+    /**
+     * Method setContentLength.
+     *
+     * @param contentLength long
+     */
+    public void setContentLength(long contentLength) {
         this.contentLength = contentLength;
     }
 }

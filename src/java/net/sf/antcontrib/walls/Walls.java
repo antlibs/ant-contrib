@@ -22,26 +22,42 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created on Aug 24, 2003
+ * Created on Aug 24, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Walls {
-
+    /**
+     * Field packages.
+     */
     private final List<Package> packages = new LinkedList<Package>();
+    /**
+     * Field nameToPackage.
+     */
     private final Map<String, Package> nameToPackage = new HashMap<String, Package>();
 
+    /**
+     * Method getPackage.
+     *
+     * @param name String
+     * @return Package
+     */
     public Package getPackage(String name) {
         return nameToPackage.get(name);
     }
 
+    /**
+     * Method addConfiguredPackage.
+     *
+     * @param p Package
+     */
     public void addConfiguredPackage(Package p) {
 
         String pack = p.getPackage();
         if (!pack.endsWith(".*") && !pack.endsWith(".**"))
             p.setFaultReason("The package='" + pack + "' must end with "
-                        + ".* or .** such as biz.xsoftware.* or "
-                        + "biz.xsoftware.**");
+                    + ".* or .** such as biz.xsoftware.* or "
+                    + "biz.xsoftware.**");
 
         String[] depends = p.getDepends();
         if (depends == null) {
@@ -66,6 +82,11 @@ public class Walls {
         packages.add(p);
     }
 
+    /**
+     * Method getPackagesToCompile.
+     *
+     * @return Iterator&lt;Package&gt;
+     */
     public Iterator<Package> getPackagesToCompile() {
         //must return the list, as we need to process in order, so unfortunately
         //we cannot pass back an iterator from the hashtable because that would

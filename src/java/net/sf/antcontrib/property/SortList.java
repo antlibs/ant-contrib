@@ -28,61 +28,124 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class SortList
-        extends AbstractPropertySetterTask
-{
+public class SortList extends AbstractPropertySetterTask {
+    /**
+     * Field value.
+     */
     private String value;
+
+    /**
+     * Field ref.
+     */
     private Reference ref;
+
+    /**
+     * Field casesensitive.
+     */
     private boolean casesensitive = true;
+
+    /**
+     * Field numeric.
+     */
     private boolean numeric = false;
+
+    /**
+     * Field delimiter.
+     */
     private String delimiter = ",";
+
+    /**
+     * Field orderPropertyFile.
+     */
     private File orderPropertyFile;
+
+    /**
+     * Field orderPropertyFilePrefix.
+     */
     private String orderPropertyFilePrefix;
 
-    public SortList()
-    {
+    /**
+     * Constructor for SortList.
+     */
+    public SortList() {
         super();
     }
 
-    public void setNumeric(boolean numeric)
-    {
+    /**
+     * Method setNumeric.
+     *
+     * @param numeric boolean
+     */
+    public void setNumeric(boolean numeric) {
         this.numeric = numeric;
     }
 
-    public void setValue(String value)
-    {
+    /**
+     * Method setValue.
+     *
+     * @param value String
+     */
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public void setRefid(Reference ref)
-    {
+    /**
+     * Method setRefid.
+     *
+     * @param ref Reference
+     */
+    public void setRefid(Reference ref) {
         this.ref = ref;
     }
 
-    public void setCasesensitive(boolean casesenstive)
-    {
+    /**
+     * Method setCasesensitive.
+     *
+     * @param casesenstive boolean
+     */
+    public void setCasesensitive(boolean casesenstive) {
         this.casesensitive = casesenstive;
     }
 
-    public void setDelimiter(String delimiter)
-    {
+    /**
+     * Method setDelimiter.
+     *
+     * @param delimiter String
+     */
+    public void setDelimiter(String delimiter) {
         this.delimiter = delimiter;
     }
 
-    public void setOrderPropertyFile(File orderPropertyFile)
-    {
+    /**
+     * Method setOrderPropertyFile.
+     *
+     * @param orderPropertyFile File
+     */
+    public void setOrderPropertyFile(File orderPropertyFile) {
         this.orderPropertyFile = orderPropertyFile;
     }
 
-    public void setOrderPropertyFilePrefix(String orderPropertyFilePrefix)
-    {
+    /**
+     * Method setOrderPropertyFilePrefix.
+     *
+     * @param orderPropertyFilePrefix String
+     */
+    public void setOrderPropertyFilePrefix(String orderPropertyFilePrefix) {
         this.orderPropertyFilePrefix = orderPropertyFilePrefix;
     }
 
+    /**
+     * Method mergeSort.
+     *
+     * @param src           String[]
+     * @param dest          String[]
+     * @param low           int
+     * @param high          int
+     * @param caseSensitive boolean
+     * @param numeric       boolean
+     */
     private static void mergeSort(String[] src,
                                   String[] dest,
                                   int low,
@@ -95,7 +158,7 @@ public class SortList
         if (length < 7) {
             for (int i = low; i < high; i++)
                 for (int j = i; j > low
-                     && compare(dest[j - 1],dest[j], caseSensitive, numeric) > 0; j--)
+                        && compare(dest[j - 1], dest[j], caseSensitive, numeric) > 0; j--)
                     swap(dest, j, j - 1);
             return;
         }
@@ -121,15 +184,22 @@ public class SortList
         }
     }
 
+    /**
+     * Method compare.
+     *
+     * @param s1            String
+     * @param s2            String
+     * @param casesensitive boolean
+     * @param numeric       boolean
+     * @return int
+     */
     private static int compare(String s1,
                                String s2,
                                boolean casesensitive,
-                               boolean numeric)
-    {
+                               boolean numeric) {
         int res = 0;
 
-        if (numeric)
-        {
+        if (numeric) {
             double d1 = Double.parseDouble(s1);
             double d2 = Double.parseDouble(s2);
             if (d1 < d2)
@@ -138,13 +208,9 @@ public class SortList
                 res = 0;
             else
                 res = 1;
-        }
-        else if (casesensitive)
-        {
+        } else if (casesensitive) {
             res = s1.compareTo(s2);
-        }
-        else
-        {
+        } else {
             Locale l = Locale.getDefault();
             res = s1.toLowerCase(l).compareTo(s2.toLowerCase(l));
         }
@@ -154,6 +220,10 @@ public class SortList
 
     /**
      * Swaps x[a] with x[b].
+     *
+     * @param x Object[]
+     * @param a int
+     * @param b int
      */
     private static void swap(Object[] x, int a, int b) {
         Object t = x[a];
@@ -161,30 +231,33 @@ public class SortList
         x[b] = t;
     }
 
+    /**
+     * Method sortByOrderPropertyFile.
+     *
+     * @param props Lis&lt;String&gt;
+     * @return List&lt;String&gt;
+     * @throws IOException if readline fails
+     */
     private List<String> sortByOrderPropertyFile(List<String> props)
-        throws IOException
-    {
+            throws IOException {
         FileReader fr = null;
         List<String> orderedProps = new ArrayList<String>();
 
-        try
-        {
+        try {
             fr = new FileReader(orderPropertyFile);
             BufferedReader br = new BufferedReader(fr);
             String line = "";
             String pname = "";
             int pos = 0;
-            while ((line = br.readLine()) != null)
-            {
+            while ((line = br.readLine()) != null) {
                 pos = line.indexOf('#');
                 if (pos != -1)
                     line = line.substring(0, pos).trim();
 
-                if (line.length() > 0)
-                {
+                if (line.length() > 0) {
                     pos = line.indexOf('=');
                     if (pos != -1)
-                        pname = line.substring(0,pos).trim();
+                        pname = line.substring(0, pos).trim();
                     else
                         pname = line.trim();
 
@@ -193,42 +266,41 @@ public class SortList
                         prefPname = orderPropertyFilePrefix + "." + prefPname;
 
                     if (props.contains(prefPname)
-                	&& ! orderedProps.contains(prefPname))
-                    {
+                            && !orderedProps.contains(prefPname)) {
                         orderedProps.add(prefPname);
                     }
                 }
             }
 
-            for (String prop : props)
-            {
-                if (! orderedProps.contains(prop))
+            fr.close();
+
+            for (String prop : props) {
+                if (!orderedProps.contains(prop))
                     orderedProps.add(prop);
             }
 
             return orderedProps;
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 if (fr != null)
                     fr.close();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 // gulp
             }
         }
     }
 
-    protected void validate()
-    {
+    /**
+     * Method validate.
+     */
+    protected void validate() {
         super.validate();
     }
 
-    public void execute()
-    {
+    /**
+     * Method execute.
+     */
+    public void execute() {
         validate();
 
         String val = value;
@@ -245,20 +317,14 @@ public class SortList
 
         String[] propList = null;
 
-        if (orderPropertyFile != null)
-        {
-            try
-            {
+        if (orderPropertyFile != null) {
+            try {
                 List<String> sorted = sortByOrderPropertyFile(vec);
                 propList = sorted.toArray(new String[sorted.size()]);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new BuildException(e);
             }
-        }
-        else
-        {
+        } else {
             String[] s = vec.toArray(new String[vec.size()]);
             propList = new String[s.length];
             System.arraycopy(s, 0, propList, 0, s.length);
@@ -266,8 +332,7 @@ public class SortList
         }
 
         StringBuilder sb = new StringBuilder();
-        for (String prop : propList)
-        {
+        for (String prop : propList) {
             if (sb.length() != 0) sb.append(delimiter);
             sb.append(prop);
         }

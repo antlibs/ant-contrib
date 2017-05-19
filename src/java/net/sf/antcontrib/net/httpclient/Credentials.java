@@ -15,49 +15,144 @@
  */
 package net.sf.antcontrib.net.httpclient;
 
+/**
+ */
 public class Credentials {
-	private String host;
-	private int port = -1;
-	private String realm;
-	private String scheme;
-	private String username;
-	private String password;
+    /**
+     * Field host.
+     */
+    private String host;
 
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getHost() {
-		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
-	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
-	public String getRealm() {
-		return realm;
-	}
-	public void setRealm(String realm) {
-		this.realm = realm;
-	}
-	public String getScheme() {
-		return scheme;
-	}
-	public void setScheme(String scheme) {
-		this.scheme = scheme;
-	}
+    /**
+     * Field port.
+     */
+    private int port = -1;
 
+    /**
+     * Field realm.
+     */
+    private String realm;
+
+    /**
+     * Field scheme.
+     */
+    private String scheme;
+
+    /**
+     * Field username.
+     */
+    private String username;
+
+    /**
+     * Field password.
+     */
+    private String password;
+
+    /**
+     * Method getPassword.
+     *
+     * @return String
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Method setPassword.
+     *
+     * @param password String
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Method getUsername.
+     *
+     * @return String
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Method setUsername.
+     *
+     * @param username String
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Method getHost.
+     *
+     * @return String
+     */
+    public String getHost() {
+        return host;
+    }
+
+    /**
+     * Method setHost.
+     *
+     * @param host String
+     */
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    /**
+     * Method getPort.
+     *
+     * @return int
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Method setPort.
+     *
+     * @param port int
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    /**
+     * Method getRealm.
+     *
+     * @return String
+     */
+    public String getRealm() {
+        return realm;
+    }
+
+    /**
+     * Method setRealm.
+     *
+     * @param realm String
+     */
+    public void setRealm(String realm) {
+        this.realm = realm;
+    }
+
+    /**
+     * Method getScheme.
+     *
+     * @return String
+     */
+    public String getScheme() {
+        return scheme;
+    }
+
+    /**
+     * Method setScheme.
+     *
+     * @param scheme String
+     */
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
 }

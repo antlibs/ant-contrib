@@ -29,14 +29,13 @@ import org.apache.tools.ant.BuildFileTest;
 /**
  * More methods for BuildFileTest.
  *
- * @author   Dale Anson
+ * @author Dale Anson
  */
 public abstract class BuildFileTestBase extends BuildFileTest {
-
     /**
      * run a target, expect a build exception.
      *
-     * @param target  target to run
+     * @param target target to run
      */
     protected void expectBuildException(String target) {
         expectSpecificBuildException(target, "no specific reason", null);
@@ -46,28 +45,28 @@ public abstract class BuildFileTestBase extends BuildFileTest {
      * Assert that the given message has NOT been logged with a priority &gt;= INFO
      * when running the given target.
      *
-     * @param target  Description of the Parameter
-     * @param log     Description of the Parameter
+     * @param target Description of the Parameter
+     * @param log    Description of the Parameter
      */
     protected void expectLogNotContaining(String target, String log) {
         executeTarget(target);
         String realLog = getLog();
         assertTrue("expecting log to NOT contain \"" + log + "\" log was \""
-                   + realLog + "\"",
+                        + realLog + "\"",
                 !realLog.contains(log));
     }
 
     /**
      * set up to run the named project
-     *
+     * <p>
      * <p>Overrides BuildFileTest.configureProject to first
      * attempt to make a File out of the filename parameter, if the resulting
      * file does not exists, then attempt to locate the file in the classpath.
      * This way, test xml files can be placed alongside of their corresponding
      * class file and can be easily found.</p>
      *
-     * @param filename            name of project file to run
-     * @exception BuildException  Description of the Exception
+     * @param filename name of project file to run
+     * @throws BuildException Description of the Exception
      */
     protected void configureProject(String filename) throws BuildException {
         // find the build file
@@ -87,22 +86,22 @@ public abstract class BuildFileTestBase extends BuildFileTest {
      * run a target, expect an exception string containing the substring we look
      * for (case sensitive match).
      *
-     * @param target    target to run
-     * @param cause     information string to reader of report
-     * @param contains  substring of the build exception to look for
+     * @param target   target to run
+     * @param cause    information string to reader of report
+     * @param contains substring of the build exception to look for
      */
     protected void expectBuildExceptionStackTraceContaining(String target, String cause, String contains) {
         try {
             executeTarget(target);
-        }
-        catch (org.apache.tools.ant.BuildException ex) {
+        } catch (BuildException ex) {
             //buildException = ex;  // buildException has private access in super
             StringWriter stacktrace = new StringWriter();
             PrintWriter writer = new PrintWriter(stacktrace, true);
             ex.printStackTrace(writer);
             String trace = stacktrace.toString();
             if ((null != contains) && (!trace.contains(contains))) {
-                fail("Should throw BuildException because '" + cause + "' with message containing '" + contains + "' (actual message '" + trace + "' instead)");
+                fail("Should throw BuildException because '" + cause + "' with message containing '"
+                     + contains + "' (actual message '" + trace + "' instead)");
             }
             return;
         }

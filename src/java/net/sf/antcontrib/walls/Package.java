@@ -25,38 +25,81 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 /**
- * Created on Aug 24, 2003
+ * Created on Aug 24, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class Package {
-
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field pack.
+     */
     private String pack;
 
-    //signifies the package did not end with .* or .**
+    /**
+     * Field badPackage.
+     * signifies the package did not end with .* or .**
+     */
     @SuppressWarnings("unused")
     private boolean badPackage = false;
+
+    /**
+     * Field failureReason.
+     */
     private String failureReason = null;
 
-    //holds the name attribute of the package element of each
-    //package this package depends on.
+    /**
+     * Field depends.
+     * holds the name attribute of the package element of each
+     * package this package depends on.
+     */
     private String[] depends;
 
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Method getName.
+     *
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method setPackage.
+     *
+     * @param pack String
+     */
     public void setPackage(String pack) {
         this.pack = pack;
     }
+
+    /**
+     * Method getPackage.
+     *
+     * @return String
+     */
     public String getPackage() {
         return pack;
     }
 
+    /**
+     * Method setDepends.
+     *
+     * @param d String
+     */
     public void setDepends(String d) {
         if (d == null) {
             throw new RuntimeException("depends cannot be set to null");
@@ -72,12 +115,18 @@ public class Package {
         }
     }
 
+    /**
+     * Method getDepends.
+     *
+     * @return String[]
+     */
     public String[] getDepends() {
         return depends;
     }
 
     /**
      * getJavaCopyFileSet() method.
+     *
      * @param p Project
      * @param l Location
      * @return FileSet
@@ -89,7 +138,7 @@ public class Package {
             throw new BuildException(failureReason, l);
         else if (pack.contains("/") || pack.contains("\\"))
             throw new BuildException("A package name cannot contain '\\' or '/' like package="
-        	    		+ pack + "\nIt must look like biz.xsoftware.* for example", l);
+                    + pack + "\nIt must look like biz.xsoftware.* for example", l);
         FileSet set = new FileSet();
 
         String match = getMatch(p, pack, ".java");
@@ -103,6 +152,7 @@ public class Package {
 
     /**
      * getClassCopyFileSet() method.
+     *
      * @param p Project
      * @param l Location
      * @return FileSet
@@ -114,14 +164,21 @@ public class Package {
         return set;
     }
 
+    /**
+     * Method getBuildSpace.
+     *
+     * @param baseDir File
+     * @return File
+     */
     public File getBuildSpace(File baseDir) {
         return new File(baseDir, name);
     }
 
     /**
      * getSrcPath() method.
+     *
      * @param baseDir File
-     * @param p Project
+     * @param p       Project
      * @return the source path
      */
     public Path getSrcPath(File baseDir, Project p) {
@@ -133,8 +190,9 @@ public class Package {
 
     /**
      * getClasspath() method.
+     *
      * @param baseDir File
-     * @param p Project
+     * @param p       Project
      * @return the classpath
      */
     public Path getClasspath(File baseDir, Project p) {
@@ -149,6 +207,14 @@ public class Package {
         return path;
     }
 
+    /**
+     * Method getMatch.
+     *
+     * @param p       Project
+     * @param pack    String
+     * @param postFix String
+     * @return String
+     */
     private String getMatch(Project p, String pack, String postFix) {
         pack = p.replaceProperties(pack);
 
@@ -158,12 +224,10 @@ public class Package {
         @SuppressWarnings("unused")
         String classMatch;
         if (pack.endsWith("**")) {
-            match  = pack + File.separatorChar + "*" + postFix;
-        }
-        else if (pack.endsWith("*")) {
-            match  = pack + postFix;
-        }
-        else
+            match = pack + File.separatorChar + "*" + postFix;
+        } else if (pack.endsWith("*")) {
+            match = pack + postFix;
+        } else
             throw new RuntimeException("Please report this bug");
 
         return match;
@@ -171,6 +235,7 @@ public class Package {
 
     /**
      * setFaultReason() method.
+     *
      * @param r a fault reason string
      */
     public void setFaultReason(String r) {

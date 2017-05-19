@@ -24,23 +24,34 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class URLEncodeTask
-        extends AbstractPropertySetterTask
-{
+public class URLEncodeTask extends AbstractPropertySetterTask {
+    /**
+     * Field value.
+     */
     private String value;
+
+    /**
+     * Field ref.
+     */
     private Reference ref;
 
-    public void setName(String name)
-    {
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
+    public void setName(String name) {
         setProperty(name);
     }
 
-    public void setValue(String value)
-    {
+    /**
+     * Method setValue.
+     *
+     * @param value String
+     */
+    public void setValue(String value) {
         try {
             this.value = URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -48,8 +59,13 @@ public class URLEncodeTask
         }
     }
 
-    public String getValue(Project p)
-    {
+    /**
+     * Method getValue.
+     *
+     * @param p Project
+     * @return String
+     */
+    public String getValue(Project p) {
         String val = value;
 
         if (ref != null)
@@ -58,34 +74,51 @@ public class URLEncodeTask
         return val;
     }
 
+    /**
+     * Method setLocation.
+     *
+     * @param location File
+     */
     public void setLocation(File location) {
         setValue(location.getAbsolutePath());
     }
 
+    /**
+     * Method setRefid.
+     *
+     * @param ref Reference
+     */
     public void setRefid(Reference ref) {
         this.ref = ref;
     }
 
+    /**
+     * Method toString.
+     *
+     * @return String
+     */
     public String toString() {
         return value == null ? "" : value;
     }
 
-    protected void validate()
-    {
+    /**
+     * Method validate.
+     */
+    protected void validate() {
         super.validate();
-        if (value == null && ref == null)
-        {
+        if (value == null && ref == null) {
             throw new BuildException("You must specify value, location or "
-                                     + "refid with the name attribute",
-                                     getLocation());
+                    + "refid with the name attribute",
+                    getLocation());
         }
     }
 
-    public void execute()
-    {
+    /**
+     * Method execute.
+     */
+    public void execute() {
         validate();
         String val = getValue(getProject());
         setPropertyValue(val);
     }
-
 }

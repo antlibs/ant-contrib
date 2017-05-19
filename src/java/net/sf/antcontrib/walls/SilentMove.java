@@ -19,16 +19,26 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Move;
 
 /**
- * Created on Aug 25, 2003
+ * Created on Aug 25, 2003.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public class SilentMove extends Move {
-
+    /**
+     * Method log.
+     *
+     * @param msg String
+     */
     public void log(String msg) {
         log(msg, Project.MSG_INFO);
     }
 
+    /**
+     * Method log.
+     *
+     * @param msg   String
+     * @param level int
+     */
     public void log(String msg, int level) {
         if (level == Project.MSG_INFO)
             super.log(msg, Project.MSG_VERBOSE);

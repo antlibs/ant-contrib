@@ -20,7 +20,11 @@ package net.sf.antcontrib.math;
  *
  * @author Matthew Inger
  */
-public interface Evaluateable
-{
+public interface Evaluateable {
+    /**
+     * Method evaluate.
+     *
+     * @return Number
+     */
     Number evaluate();
 }

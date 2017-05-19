@@ -24,43 +24,83 @@ import org.apache.tools.ant.Task;
 /**
  * Assists in timing tasks and/or targets.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
+ *
  * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.5 $
  */
 public class StopWatchTask extends Task {
-
-    // storage for stopwatch name
+    /**
+     * Field name.
+     * Storage for stopwatch name
+     */
     private String name = null;
 
-    // storage for action
+    /**
+     * Field action.
+     * Storage for action
+     */
     private String action = null;
 
-    // storage for watches
+    /**
+     * Field watches.
+     * Storage for watches
+     */
     private static Map<String, StopWatch> watches = null;
 
     // action definitions
+    /**
+     * Field STOP.
+     * (value is ""stop"")
+     */
     private static final String STOP = "stop";
+
+    /**
+     * Field START.
+     * (value is ""start"")
+     */
     private static final String START = "start";
+
+    /**
+     * Field ELAPSED.
+     * (value is ""elapsed"")
+     */
     private static final String ELAPSED = "elapsed";
+
+    /**
+     * Field TOTAL.
+     * (value is ""total"")
+     */
     private static final String TOTAL = "total";
 
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method setAction.
+     *
+     * @param action String
+     */
     public void setAction(String action) {
         action = action.toLowerCase();
         if (action.equals(STOP)
-           || action.equals(START)
-           || action.equals(ELAPSED)
-           || action.equals(TOTAL)) {
+                || action.equals(START)
+                || action.equals(ELAPSED)
+                || action.equals(TOTAL)) {
             this.action = action;
-        }
-        else {
+        } else {
             throw new BuildException("invalid action: " + action);
         }
     }
 
+    /**
+     * Method execute.
+     */
     public void execute() {
         if (name == null)
             throw new BuildException("name is null");

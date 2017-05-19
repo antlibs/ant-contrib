@@ -23,40 +23,75 @@ import org.apache.tools.ant.types.Substitution;
 import org.apache.tools.ant.util.regexp.Regexp;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class RegexTask
-        extends AbstractPropertySetterTask
-{
+public class RegexTask extends AbstractPropertySetterTask {
+    /**
+     * Field input.
+     */
     private String input;
 
+    /**
+     * Field regexp.
+     */
     private RegularExpression regexp;
+
+    /**
+     * Field select.
+     */
     private String select;
+
+    /**
+     * Field replace.
+     */
     private Substitution replace;
+
+    /**
+     * Field defaultValue.
+     */
     private String defaultValue;
 
+    /**
+     * Field caseSensitive.
+     */
     private boolean caseSensitive = true;
+
+    /**
+     * Field global.
+     */
     private boolean global = true;
 
-    public RegexTask()
-    {
+    /**
+     * Constructor for RegexTask.
+     */
+    public RegexTask() {
         super();
     }
 
-    public void setInput(String input)
-    {
+    /**
+     * Method setInput.
+     *
+     * @param input String
+     */
+    public void setInput(String input) {
         this.input = input;
     }
 
-    public void setDefaultValue(String defaultValue)
-    {
+    /**
+     * Method setDefaultValue.
+     *
+     * @param defaultValue String
+     */
+    public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
-    public void setRegexp(String regex)
-    {
+    /**
+     * Method setRegexp.
+     *
+     * @param regex String
+     */
+    public void setRegexp(String regex) {
         if (this.regexp != null)
             throw new BuildException("Cannot specify more than one regular expression");
 
@@ -64,16 +99,24 @@ public class RegexTask
         this.regexp.setPattern(regex);
     }
 
-    public RegularExpression createRegexp()
-    {
+    /**
+     * Method createRegexp.
+     *
+     * @return RegularExpression
+     */
+    public RegularExpression createRegexp() {
         if (this.regexp != null)
             throw new BuildException("Cannot specify more than one regular expression");
         regexp = new RegularExpression();
         return regexp;
     }
 
-    public void setReplace(String replace)
-    {
+    /**
+     * Method setReplace.
+     *
+     * @param replace String
+     */
+    public void setReplace(String replace) {
         if (this.replace != null)
             throw new BuildException("Cannot specify more than one replace expression");
         if (select != null)
@@ -82,8 +125,12 @@ public class RegexTask
         this.replace.setExpression(replace);
     }
 
-    public Substitution createReplace()
-    {
+    /**
+     * Method createReplace.
+     *
+     * @return Substitution
+     */
+    public Substitution createReplace() {
         if (replace != null)
             throw new BuildException("Cannot specify more than one replace expression");
         if (select != null)
@@ -92,31 +139,47 @@ public class RegexTask
         return replace;
     }
 
-    public void setSelect(String select)
-    {
+    /**
+     * Method setSelect.
+     *
+     * @param select String
+     */
+    public void setSelect(String select) {
         if (replace != null)
             throw new BuildException("You cannot specify both a select and replace expression");
         this.select = select;
     }
 
-    public void setCaseSensitive(boolean caseSensitive)
-    {
+    /**
+     * Method setCaseSensitive.
+     *
+     * @param caseSensitive boolean
+     */
+    public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
     }
 
-    public void setGlobal(boolean global)
-    {
+    /**
+     * Method setGlobal.
+     *
+     * @param global boolean
+     */
+    public void setGlobal(boolean global) {
         this.global = global;
     }
 
-    protected String doReplace()
-        throws BuildException
-    {
+    /**
+     * Method doReplace.
+     *
+     * @return String
+     * @throws BuildException if no regex is specified
+     */
+    protected String doReplace() throws BuildException {
         if (replace == null)
             throw new BuildException("No replace expression specified.");
 
         int options = 0;
-        if (! caseSensitive)
+        if (!caseSensitive)
             options |= Regexp.MATCH_CASE_INSENSITIVE;
         if (global)
             options |= Regexp.REPLACE_ALL;
@@ -128,8 +191,8 @@ public class RegexTask
         if (sregex.matches(input, options)) {
             String expression = replace.getExpression(getProject());
             output = sregex.substitute(input,
-                                       expression,
-                                       options);
+                    expression,
+                    options);
         }
 
         if (output == null)
@@ -138,12 +201,16 @@ public class RegexTask
         return output;
     }
 
+    /**
+     * Method doSelect.
+     *
+     * @return String
+     * @throws BuildException if no match groups are found
+     */
     @SuppressWarnings("unchecked")
-    protected String doSelect()
-        throws BuildException
-    {
+    protected String doSelect() throws BuildException {
         int options = 0;
-        if (! caseSensitive)
+        if (!caseSensitive)
             options |= Regexp.MATCH_CASE_INSENSITIVE;
 
         Regexp sregex = regexp.getRegexp(getProject());
@@ -151,12 +218,9 @@ public class RegexTask
         String output = select;
         Vector<String> groups = sregex.getGroups(input, options);
 
-        if (groups != null && groups.size() > 0)
-        {
+        if (groups != null && groups.size() > 0) {
             output = RegexUtil.select(select, groups);
-        }
-        else
-        {
+        } else {
             output = null;
         }
 
@@ -166,8 +230,10 @@ public class RegexTask
         return output;
     }
 
-    protected void validate()
-    {
+    /**
+     * Method validate.
+     */
+    protected void validate() {
         super.validate();
         if (regexp == null)
             throw new BuildException("No match expression specified.");
@@ -175,9 +241,12 @@ public class RegexTask
             throw new BuildException("You must specify either a replace or select expression");
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if no regex is specified or no match groups are found
+     */
+    public void execute() throws BuildException {
         validate();
 
         String output = input;

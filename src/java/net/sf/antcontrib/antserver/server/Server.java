@@ -24,94 +24,96 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class Server
-        implements Runnable
-{
+public class Server implements Runnable {
+    /**
+     * Field task.
+     */
     private final ServerTask task;
+
+    /**
+     * Field port.
+     */
     private int port = 17000;
+
+    /**
+     * Field running.
+     */
     private boolean running = false;
 
-    public Server(ServerTask task, int port)
-    {
+    /**
+     * Constructor for Server.
+     *
+     * @param task ServerTask
+     * @param port int
+     */
+    public Server(ServerTask task, int port) {
         super();
         this.task = task;
         this.port = port;
     }
 
-    public void start()
-        throws InterruptedException
-    {
+    /**
+     * Method start.
+     *
+     * @throws InterruptedException if thread is interrupted
+     */
+    public void start() throws InterruptedException {
         Thread thread = new Thread(this);
         thread.start();
         thread.join();
     }
 
-    public void stop()
-    {
+    /**
+     * Method stop.
+     */
+    public void stop() {
         running = false;
     }
 
-    public void run()
-    {
+    /**
+     * Method run.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
         ServerSocket server = null;
         running = true;
-        try
-        {
+        try {
             task.getProject().log("Starting server on port: " + port,
                     Project.MSG_DEBUG);
-            try
-            {
+            try {
                 server = new ServerSocket(port);
                 server.setSoTimeout(500);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new BuildException(e);
             }
 
-            while (running)
-            {
-                try
-                {
+            while (running) {
+                try {
                     Socket clientSocket = server.accept();
                     task.getProject().log("Got a client connection. Starting Handler.",
                             Project.MSG_DEBUG);
                     ConnectionHandler handler = new ConnectionHandler(task,
                             clientSocket);
                     handler.start();
-                }
-                catch (InterruptedIOException e)
-                {
+                } catch (InterruptedIOException e) {
                     // gulp, no socket connection
-                }
-                catch (IOException e)
-                {
-                    task.getProject().log(e.getMessage(),
-                            Project.MSG_ERR);
+                } catch (IOException e) {
+                    task.getProject().log(e.getMessage(), Project.MSG_ERR);
                 }
             }
-        }
-        finally
-        {
-            if (server != null)
-            {
-                try
-                {
+        } finally {
+            if (server != null) {
+                try {
                     server.close();
                     server = null;
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     // gulp
                 }
             }
         }
         running = false;
-
     }
-
 }

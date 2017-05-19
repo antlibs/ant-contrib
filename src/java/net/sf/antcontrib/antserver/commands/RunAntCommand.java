@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Property;
@@ -27,121 +28,222 @@ import org.apache.tools.ant.taskdefs.Property;
 import net.sf.antcontrib.antserver.Command;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
 @SuppressWarnings("serial")
-public class RunAntCommand
-        extends AbstractCommand
-        implements Command
-{
-
+public class RunAntCommand extends AbstractCommand implements Command {
+    /**
+     * Field antFile.
+     */
     private String antFile;
+
+    /**
+     * Field dir.
+     */
     private String dir;
+
+    /**
+     * Field target.
+     */
     private String target;
+
+    /**
+     * Field properties.
+     */
     private List<PropertyContainer> properties;
+
+    /**
+     * Field references.
+     */
     private List<ReferenceContainer> references;
+
+    /**
+     * Field inheritall.
+     */
     private boolean inheritall = false;
+
+    /**
+     * Field interitrefs.
+     */
     private boolean interitrefs = false;
 
-    public RunAntCommand()
-    {
+    /**
+     * Constructor for RunAntCommand.
+     */
+    public RunAntCommand() {
         super();
         this.properties = new ArrayList<PropertyContainer>();
         this.references = new ArrayList<ReferenceContainer>();
     }
 
-    public String getTarget()
-    {
+    /**
+     * Method getTarget.
+     *
+     * @return String
+     */
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(String target)
-    {
+    /**
+     * Method setTarget.
+     *
+     * @param target String
+     */
+    public void setTarget(String target) {
         this.target = target;
     }
 
-    public List<PropertyContainer> getProperties()
-    {
+    /**
+     * Method getProperties.
+     *
+     * @return List&lt;PropertyContainer&gt;
+     */
+    public List<PropertyContainer> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<PropertyContainer> properties)
-    {
+    /**
+     * Method setProperties.
+     *
+     * @param properties List&lt;PropertyContainer&gt;
+     */
+    public void setProperties(List<PropertyContainer> properties) {
         this.properties = properties;
     }
 
-    public List<ReferenceContainer> getReferences()
-    {
+    /**
+     * Method getReferences.
+     *
+     * @return List&lt;ReferenceContainer&gt;
+     */
+    public List<ReferenceContainer> getReferences() {
         return references;
     }
 
-    public void setReference(List<ReferenceContainer> references)
-    {
+    /**
+     * Method setReference.
+     *
+     * @param references List&lt;ReferenceContainer&gt;
+     */
+    public void setReference(List<ReferenceContainer> references) {
         this.references = references;
     }
 
-    public boolean isInheritall()
-    {
+    /**
+     * Method isInheritall.
+     *
+     * @return boolean
+     */
+    public boolean isInheritall() {
         return inheritall;
     }
 
-    public void setInheritall(boolean inheritall)
-    {
+    /**
+     * Method setInheritall.
+     *
+     * @param inheritall boolean
+     */
+    public void setInheritall(boolean inheritall) {
         this.inheritall = inheritall;
     }
 
-    public boolean isInteritrefs()
-    {
+    /**
+     * Method isInteritrefs.
+     *
+     * @return boolean
+     */
+    public boolean isInteritrefs() {
         return interitrefs;
     }
 
-    public void setInteritrefs(boolean interitrefs)
-    {
+    /**
+     * Method setInteritrefs.
+     *
+     * @param interitrefs boolean
+     */
+    public void setInteritrefs(boolean interitrefs) {
         this.interitrefs = interitrefs;
     }
 
-    public String getAntFile()
-    {
+    /**
+     * Method getAntFile.
+     *
+     * @return String
+     */
+    public String getAntFile() {
         return antFile;
     }
 
-    public void setAntFile(String antFile)
-    {
+    /**
+     * Method setAntFile.
+     *
+     * @param antFile String
+     */
+    public void setAntFile(String antFile) {
         this.antFile = antFile;
     }
 
-    public String getDir()
-    {
+    /**
+     * Method getDir.
+     *
+     * @return String
+     */
+    public String getDir() {
         return dir;
     }
 
-    public void setDir(String dir)
-    {
+    /**
+     * Method setDir.
+     *
+     * @param dir String
+     */
+    public void setDir(String dir) {
         this.dir = dir;
     }
 
-    public void addConfiguredProperty(PropertyContainer property)
-    {
+    /**
+     * Method addConfiguredProperty.
+     *
+     * @param property PropertyContainer
+     */
+    public void addConfiguredProperty(PropertyContainer property) {
         properties.add(property);
     }
 
-    public void addConfiguredReference(ReferenceContainer reference)
-    {
+    /**
+     * Method addConfiguredReference.
+     *
+     * @param reference ReferenceContainer
+     */
+    public void addConfiguredReference(ReferenceContainer reference) {
         references.add(reference);
     }
 
-    public void validate(Project project)
-    {
+    /**
+     * Method validate.
+     *
+     * @param project Project
+     * @see net.sf.antcontrib.antserver.Command#validate(Project)
+     */
+    public void validate(Project project) {
     }
 
+    /**
+     * Method execute.
+     *
+     * @param project       Project
+     * @param contentLength long
+     * @param content       InputStream
+     * @return boolean
+     * @throws BuildException if something goes wrong
+     * @see net.sf.antcontrib.antserver.Command#execute(Project, long, InputStream)
+     */
     public boolean execute(Project project,
                            long contentLength,
                            InputStream content)
-            throws Throwable
-    {
-        Ant ant = (Ant)project.createTask("ant");
+            throws BuildException {
+        Ant ant = (Ant) project.createTask("ant");
         File baseDir = project.getBaseDir();
         if (dir != null)
             baseDir = new File(dir);
@@ -155,16 +257,13 @@ public class RunAntCommand
         if (antFile != null)
             ant.setAntfile(antFile);
 
-
-        for (PropertyContainer pc : properties)
-        {
+        for (PropertyContainer pc : properties) {
             Property p = ant.createProperty();
             p.setName(pc.getName());
             p.setValue(pc.getValue());
         }
 
-        for (ReferenceContainer rc : references)
-        {
+        for (ReferenceContainer rc : references) {
             Ant.Reference ref = new Ant.Reference();
             ref.setRefId(rc.getRefId());
             ref.setToRefid(rc.getToRefId());

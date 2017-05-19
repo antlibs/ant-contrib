@@ -29,132 +29,202 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class IniFileTask
-        extends Task
-{
-    public abstract static class IniOperation
-    {
+public class IniFileTask extends Task {
+    /**
+     */
+    public abstract static class IniOperation {
+        /**
+         * Field section.
+         */
         private String section;
+
+        /**
+         * Field property.
+         */
         private String property;
 
-        public IniOperation()
-        {
+        /**
+         * Constructor for IniOperation.
+         */
+        public IniOperation() {
             super();
         }
 
-        public String getSection()
-        {
+        /**
+         * Method getSection.
+         *
+         * @return String
+         */
+        public String getSection() {
             return section;
         }
 
-        public void setSection(String section)
-        {
+        /**
+         * Method setSection.
+         *
+         * @param section String
+         */
+        public void setSection(String section) {
             this.section = section;
         }
 
-        public String getProperty()
-        {
+        /**
+         * Method getProperty.
+         *
+         * @return String
+         */
+        public String getProperty() {
             return property;
         }
 
-        public void setProperty(String property)
-        {
+        /**
+         * Method setProperty.
+         *
+         * @param property String
+         */
+        public void setProperty(String property) {
             this.property = property;
         }
 
-        public void execute(Project project, IniFile iniFile)
-        {
-                operate(iniFile);
+        /**
+         * Method execute.
+         *
+         * @param project Project
+         * @param iniFile IniFile
+         */
+        public void execute(Project project, IniFile iniFile) {
+            operate(iniFile);
         }
 
+        /**
+         * Method operate.
+         *
+         * @param file IniFile
+         */
         protected abstract void operate(IniFile file);
     }
 
-    public abstract static class IniOperationConditional extends IniOperation
-    {
+    /**
+     */
+    public abstract static class IniOperationConditional extends IniOperation {
+        /**
+         * Field ifCond.
+         */
         private String ifCond;
+        /**
+         * Field unlessCond.
+         */
         private String unlessCond;
 
-        public IniOperationConditional()
-        {
+        /**
+         * Constructor for IniOperationConditional.
+         */
+        public IniOperationConditional() {
             super();
         }
 
-        public void setIf(String ifCond)
-        {
+        /**
+         * Method setIf.
+         *
+         * @param ifCond String
+         */
+        public void setIf(String ifCond) {
             this.ifCond = ifCond;
         }
 
-        public void setUnless(String unlessCond)
-        {
+        /**
+         * Method setUnless.
+         *
+         * @param unlessCond String
+         */
+        public void setUnless(String unlessCond) {
             this.unlessCond = unlessCond;
         }
 
         /**
          * Returns true if the define's if and unless conditions
          * (if any) are satisfied.
+         *
          * @param p Project
          * @return boolean
          */
-        public boolean isActive(Project p)
-        {
-            if (ifCond != null && p.getProperty(ifCond) == null)
-            {
+        public boolean isActive(Project p) {
+            if (ifCond != null && p.getProperty(ifCond) == null) {
                 return false;
-            }
-            else if (unlessCond != null && p.getProperty(unlessCond) != null)
-            {
+            } else if (unlessCond != null && p.getProperty(unlessCond) != null) {
                 return false;
             }
 
             return true;
         }
 
-        public void execute(Project project, IniFile iniFile)
-        {
+        /**
+         * Method execute.
+         *
+         * @param project Project
+         * @param iniFile IniFile
+         */
+        public void execute(Project project, IniFile iniFile) {
             if (isActive(project))
                 operate(iniFile);
         }
     }
 
-    public abstract static class IniOperationPropertySetter extends IniOperation
-    {
+    /**
+     */
+    public abstract static class IniOperationPropertySetter extends IniOperation {
+        /**
+         * Field override.
+         */
         private boolean override;
+
+        /**
+         * Field resultproperty.
+         */
         private String resultproperty;
 
-        public IniOperationPropertySetter()
-        {
+        /**
+         * Constructor for IniOperationPropertySetter.
+         */
+        public IniOperationPropertySetter() {
             super();
         }
 
-        public void setOverride(boolean override)
-        {
+        /**
+         * Method setOverride.
+         *
+         * @param override boolean
+         */
+        public void setOverride(boolean override) {
             this.override = override;
         }
 
-        public void setResultProperty(String resultproperty)
-        {
+        /**
+         * Method setResultProperty.
+         *
+         * @param resultproperty String
+         */
+        public void setResultProperty(String resultproperty) {
             this.resultproperty = resultproperty;
         }
 
-        protected final void setResultPropertyValue(Project project, String value)
-        {
-            if (value != null)
-            {
-                if (override)
-                {
+        /**
+         * Method setResultPropertyValue.
+         *
+         * @param project Project
+         * @param value   String
+         */
+        protected final void setResultPropertyValue(Project project, String value) {
+            if (value != null) {
+                if (override) {
                     if (project.getUserProperty(resultproperty) == null)
                         project.setProperty(resultproperty, value);
                     else
                         project.setUserProperty(resultproperty, value);
-                }
-                else
-                {
-                    Property p = (Property)project.createTask("property");
+                } else {
+                    Property p = (Property) project.createTask("property");
                     p.setName(resultproperty);
                     p.setValue(value);
                     p.execute();
@@ -163,25 +233,28 @@ public class IniFileTask
         }
     }
 
-    public static final class Remove
-            extends IniOperationConditional
-    {
-        public Remove()
-        {
+    /**
+     */
+    public static final class Remove extends IniOperationConditional {
+        /**
+         * Constructor for Remove.
+         */
+        public Remove() {
             super();
         }
 
-        protected void operate(IniFile file)
-        {
+        /**
+         * Method operate.
+         *
+         * @param file IniFile
+         */
+        protected void operate(IniFile file) {
             String secName = getSection();
             String propName = getProperty();
 
-            if (propName == null)
-            {
+            if (propName == null) {
                 file.removeSection(secName);
-            }
-            else
-            {
+            } else {
                 IniSection section = file.getSection(secName);
                 if (section != null)
                     section.removeProperty(propName);
@@ -189,52 +262,67 @@ public class IniFileTask
         }
     }
 
-    public final class Set
-            extends IniOperationConditional
-    {
+    /**
+     */
+    public final class Set extends IniOperationConditional {
+        /**
+         * Field value.
+         */
         private String value;
+
+        /**
+         * Field operation.
+         */
         private String operation;
 
-        public Set()
-        {
+        /**
+         * Constructor for Set.
+         */
+        public Set() {
             super();
         }
 
-        public void setValue(String value)
-        {
+        /**
+         * Method setValue.
+         *
+         * @param value String
+         */
+        public void setValue(String value) {
             this.value = value;
         }
 
-        public void setOperation(String operation)
-        {
+        /**
+         * Method setOperation.
+         *
+         * @param operation String
+         */
+        public void setOperation(String operation) {
             this.operation = operation;
         }
 
-        protected void operate(IniFile file)
-        {
+        /**
+         * Method operate.
+         *
+         * @param file IniFile
+         */
+        protected void operate(IniFile file) {
             String secName = getSection();
             String propName = getProperty();
 
             IniSection section = file.getSection(secName);
-            if (section == null)
-            {
+            if (section == null) {
                 section = new IniSection(secName);
                 file.setSection(section);
             }
 
-            if (propName != null)
-            {
-                if (operation != null)
-                {
-                    if ("+".equals(operation))
-                    {
+            if (propName != null) {
+                if (operation != null) {
+                    if ("+".equals(operation)) {
                         IniProperty prop = section.getProperty(propName);
                         value = prop.getValue();
                         int intVal = Integer.parseInt(value) + 1;
                         value = String.valueOf(intVal);
-                    }
-                    else if ("-".equals(operation))
-                    {
+                    } else if ("-".equals(operation)) {
                         IniProperty prop = section.getProperty(propName);
                         value = prop.getValue();
                         int intVal = Integer.parseInt(value) - 1;
@@ -246,16 +334,22 @@ public class IniFileTask
         }
     }
 
-    public final class Exists
-        extends IniOperationPropertySetter
-    {
-        public Exists()
-        {
+    /**
+     */
+    public final class Exists extends IniOperationPropertySetter {
+        /**
+         * Constructor for Exists.
+         */
+        public Exists() {
             super();
         }
 
-        protected void operate(IniFile file)
-        {
+        /**
+         * Method operate.
+         *
+         * @param file IniFile
+         */
+        protected void operate(IniFile file) {
             boolean exists = false;
             String secName = getSection();
             String propName = getProperty();
@@ -272,16 +366,22 @@ public class IniFileTask
         }
     }
 
-    public final class Get
-        extends IniOperationPropertySetter
-    {
-        public Get()
-        {
+    /**
+     */
+    public final class Get extends IniOperationPropertySetter {
+        /**
+         * Constructor for Get.
+         */
+        public Get() {
             super();
         }
 
-        protected void operate(IniFile file)
-        {
+        /**
+         * Method operate.
+         *
+         * @param file IniFile
+         */
+        protected void operate(IniFile file) {
             String secName = getSection();
             String propName = getProperty();
 
@@ -295,131 +395,157 @@ public class IniFileTask
         }
     }
 
+    /**
+     * Field source.
+     */
     private File source;
+
+    /**
+     * Field dest.
+     */
     private File dest;
+
+    /**
+     * Field operations.
+     */
     private final List<IniOperation> operations;
 
-    public IniFileTask()
-    {
+    /**
+     * Constructor for IniFileTask.
+     */
+    public IniFileTask() {
         super();
         this.operations = new ArrayList<IniOperation>();
     }
 
-    public Set createSet()
-    {
+    /**
+     * Method createSet.
+     *
+     * @return Set
+     */
+    public Set createSet() {
         Set set = new Set();
         operations.add(set);
         return set;
     }
 
-    public Remove createRemove()
-    {
+    /**
+     * Method createRemove.
+     *
+     * @return Remove
+     */
+    public Remove createRemove() {
         Remove remove = new Remove();
         operations.add(remove);
         return remove;
     }
 
-    public Exists createExists()
-    {
+    /**
+     * Method createExists.
+     *
+     * @return Exists
+     */
+    public Exists createExists() {
         Exists exists = new Exists();
         operations.add(exists);
         return exists;
     }
 
-    public Get createGet()
-    {
+    /**
+     * Method createGet.
+     *
+     * @return Get
+     */
+    public Get createGet() {
         Get get = new Get();
         operations.add(get);
         return get;
     }
 
-    public void setSource(File source)
-    {
+    /**
+     * Method setSource.
+     *
+     * @param source File
+     */
+    public void setSource(File source) {
         this.source = source;
     }
 
-    public void setDest(File dest)
-    {
+    /**
+     * Method setDest.
+     *
+     * @param dest File
+     */
+    public void setDest(File dest) {
         this.dest = dest;
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
         if (dest == null)
             throw new BuildException("You must supply a dest file to write to.");
 
         IniFile iniFile = null;
 
-        try
-        {
+        try {
             iniFile = readIniFile(source);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new BuildException(e);
         }
 
         Iterator<IniOperation> it = operations.iterator();
         IniOperation operation = null;
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             operation = it.next();
             operation.execute(getProject(), iniFile);
         }
 
         FileWriter writer = null;
 
-        try
-        {
-            try
-            {
+        try {
+            try {
                 writer = new FileWriter(dest);
                 iniFile.write(writer);
-            }
-            finally
-            {
-                try
-                {
+            } finally {
+                try {
                     if (writer != null)
                         writer.close();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     // gulp
                 }
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new BuildException(e);
         }
 
     }
 
-    private IniFile readIniFile(File source)
-        throws IOException
-    {
+    /**
+     * Method readIniFile.
+     *
+     * @param source File
+     * @return IniFile
+     * @throws IOException if read fails
+     */
+    private IniFile readIniFile(File source) throws IOException {
         FileReader reader = null;
         IniFile iniFile = new IniFile();
 
         if (source == null)
             return iniFile;
 
-        try
-        {
+        try {
             reader = new FileReader(source);
             iniFile.read(reader);
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 if (reader != null)
                     reader.close();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 // gulp
             }
         }

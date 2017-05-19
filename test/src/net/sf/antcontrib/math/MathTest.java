@@ -22,17 +22,21 @@ import net.sf.antcontrib.BuildFileTestBase;
 
 /**
  * MathTest class.
- * @author   danson
+ *
+ * @author danson
  */
 public class MathTest extends BuildFileTestBase {
-
-    /** The JUnit setup method. */
+    /**
+     * The JUnit setup method.
+     */
     @Before
     public void setUp() {
         configureProject("math/mathtest.xml");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test1() {
         expectPropertySet("test1", "result", "18");

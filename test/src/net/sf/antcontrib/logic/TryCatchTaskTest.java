@@ -31,12 +31,17 @@ import org.junit.Test;
  * Testcase for &lt;trycatch&gt;.
  */
 public class TryCatchTaskTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/trycatch.xml");
     }
 
+    /**
+     * Method testFullTest.
+     */
     @Test
     public void testFullTest() {
         executeTarget("fullTest");
@@ -47,30 +52,45 @@ public class TryCatchTaskTest extends BuildFileTestBase {
         assertEquals("Tada!", ((BuildException) e).getMessage());
     }
 
+    /**
+     * Method testTwoCatches.
+     */
     @Test
     public void testTwoCatches() {
         //  two catch blocks were not supported prior to TryCatchTask.java v 1.4.
         executeTarget("twoCatches");
     }
 
+    /**
+     * Method testTwoFinallys.
+     */
     @Test
     public void testTwoFinallys() {
         expectSpecificBuildException("twoFinallys", "two finally children",
-                                     "You must not specify more than one <finally>");
+                "You must not specify more than one <finally>");
     }
 
+    /**
+     * Method testTwoTrys.
+     */
     @Test
     public void testTwoTrys() {
         expectSpecificBuildException("twoTrys", "two try children",
-                                     "You must not specify more than one <try>");
+                "You must not specify more than one <try>");
     }
 
+    /**
+     * Method testNoTry.
+     */
     @Test
     public void testNoTry() {
         expectSpecificBuildException("noTry", "no try child",
-                                     "A nested <try> element is required");
+                "A nested <try> element is required");
     }
 
+    /**
+     * Method testNoException.
+     */
     @Test
     public void testNoException() {
         executeTarget("noException");
@@ -82,5 +102,5 @@ public class TryCatchTaskTest extends BuildFileTestBase {
         assertTrue(finallyBlock > message);
         assertNull(getProject().getProperty("foo"));
         assertNull(getProject().getReference("bar"));
-   }
+    }
 }

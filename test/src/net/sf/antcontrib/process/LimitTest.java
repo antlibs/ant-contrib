@@ -20,20 +20,30 @@ import net.sf.antcontrib.BuildFileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ */
 public class LimitTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/limittest.xml");
     }
 
+    /**
+     * Method test1.
+     */
     @Test
     public void test1() {
-       expectLogNotContaining("test1", "_failed_");
+        expectLogNotContaining("test1", "_failed_");
     }
 
+    /**
+     * Method test2.
+     */
     @Test
     public void test2() {
-       expectLogContaining("test2", "_passed_");
+        expectLogContaining("test2", "_passed_");
     }
 }

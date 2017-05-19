@@ -31,72 +31,62 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Classic tool firing a SAX parser. Must feed the source file and a handler.
- * Nothing really special about it, only probably some special file handling in nasty cases
- * (Windows files containing strange chars, internationalized filenames,
- * but you shouldn't be doing this, anyway :)).
+ * Nothing really special about it, only probably some special file handling
+ * in nasty cases (Windows files containing strange chars, internationalized
+ * filenames, but you shouldn't be doing this, anyway :)).
+ *
  * @author Adrian Spinei aspinei@myrealbox.com
  * @version $Revision: 1.2 $
  * @since Ant 1.5
  */
-public class ClassPathParser
-{
-	void parse(File file, DefaultHandler handler) throws BuildException
-	{
-		String fName = file.getName();
-		FileInputStream fileInputStream = null;
-		InputSource inputSource = null;
-		try
-		{
-			//go to UFS if we're on win
-			String uri = "file:" + fName.replace('\\', '/');
-			fileInputStream = new FileInputStream(file);
-			inputSource = new InputSource(fileInputStream);
-			inputSource.setSystemId(uri);
-			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-			xmlReader.setContentHandler(handler);
-			xmlReader.parse(inputSource);
-		}
-		catch (SAXParseException exc)
-		{
-			Location location = new Location(fName, exc.getLineNumber(), exc.getColumnNumber());
-			Throwable throwable = exc.getException();
-			if (throwable instanceof BuildException)
-			{
-				BuildException be = (BuildException) throwable;
-				if (be.getLocation() == Location.UNKNOWN_LOCATION)
-					be.setLocation(location);
-				throw be;
-			}
-			throw new BuildException(exc.getMessage(), throwable, location);
-		}
-		catch (SAXException exc)
-		{
-			Throwable throwable = exc.getException();
-			if (throwable instanceof BuildException)
-				throw (BuildException) throwable;
-			throw new BuildException(exc.getMessage(), throwable);
-		}
-		catch (FileNotFoundException exc)
-		{
-			throw new BuildException(exc);
-		}
-		catch (IOException exc)
-		{
-			throw new BuildException("Error reading file", exc);
-		}
-		finally
-		{
-			if (fileInputStream != null)
-			{
-				try
-				{
-					fileInputStream.close();
-				}
-				catch (IOException ioexception)
-				{
-					//do nothing, should not appear
-				}
-			}
-		}
-	}
+public class ClassPathParser {
+    /**
+     * Method parse.
+     *
+     * @param file    File
+     * @param handler DefaultHandler
+     * @throws BuildException when parser fails
+     */
+    void parse(File file, DefaultHandler handler) throws BuildException {
+        String fName = file.getName();
+        FileInputStream fileInputStream = null;
+        InputSource inputSource = null;
+        try {
+            //go to UFS if we're on win
+            String uri = "file:" + fName.replace('\\', '/');
+            fileInputStream = new FileInputStream(file);
+            inputSource = new InputSource(fileInputStream);
+            inputSource.setSystemId(uri);
+            XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+            xmlReader.setContentHandler(handler);
+            xmlReader.parse(inputSource);
+        } catch (SAXParseException exc) {
+            Location location = new Location(fName, exc.getLineNumber(), exc.getColumnNumber());
+            Throwable throwable = exc.getException();
+            if (throwable instanceof BuildException) {
+                BuildException be = (BuildException) throwable;
+                if (be.getLocation() == Location.UNKNOWN_LOCATION)
+                    be.setLocation(location);
+                throw be;
+            }
+            throw new BuildException(exc.getMessage(), throwable, location);
+        } catch (SAXException exc) {
+            Throwable throwable = exc.getException();
+            if (throwable instanceof BuildException)
+                throw (BuildException) throwable;
+            throw new BuildException(exc.getMessage(), throwable);
+        } catch (FileNotFoundException exc) {
+            throw new BuildException(exc);
+        } catch (IOException exc) {
+            throw new BuildException("Error reading file", exc);
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException ioexception) {
+                    //do nothing, should not appear
+                }
+            }
+        }
+    }
 }

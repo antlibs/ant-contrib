@@ -26,18 +26,22 @@ import org.junit.Test;
  * Testcase for &lt;throw&gt;.
  */
 public class ThrowTaskTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/throw.xml");
     }
 
+    /**
+     * Method testRefid.
+     */
     @Test
     public void testRefid() {
         String message = "exception created by testcase";
         getProject().addReference("testref", new BuildException(message));
         expectSpecificBuildException("useRefid", "this is what we've put in",
-                                     message);
+                message);
     }
-
 }

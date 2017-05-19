@@ -30,33 +30,49 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
- * This BuildListener keeps track of the total time it takes for each target and
- * task to execute, then prints out the totals when the build is finished. This
- * can help pinpoint the areas where a build is taking a lot of time so
- * optimization efforts can focus where they'll do the most good. Execution times
- * are grouped by targets and tasks, and are sorted from fastest running to
- * slowest running.
- *
+ * This BuildListener keeps track of the total time it takes for each target
+ * and task to execute, then prints out the totals when the build is finished.
+ * This can help pinpoint the areas where a build is taking a lot of time so
+ * optimization efforts can focus where they'll do the most good. Execution
+ * times are grouped by targets and tasks, and are sorted from fastest running
+ * to slowest running.
  * <p>Output can be saved to a file by setting a property in Ant. Set
- * "performance.log" to the name of a file. This can be set either on the
- * command line with the -D option (<code>-Dperformance.log=/tmp/performance.log</code>)
+ * "<code>performance.log</code>" to the name of a file. This can be set either
+ * on the command line with the <code>-D</code> option
+ * (<code>-Dperformance.log=/tmp/performance.log</code>)
  * or in the build file itself (<code>&lt;property name="performance.log"
  * location="/tmp/performance.log"/&gt;</code>).</p>
- *
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
  * @author Dale Anson, danson@germane-software.com
  * @version $Revision: 1.5 $
  */
 public class AntPerformanceListener implements BuildListener {
-
+    /**
+     * Field targetStats.
+     */
     private HashMap<Target, StopWatch> targetStats = new HashMap<Target, StopWatch>();
+
+    /**
+     * Field taskStats.
+     */
     private HashMap<Task, StopWatch> taskStats = new HashMap<Task, StopWatch>();
+
+    /**
+     * Field master.
+     */
     private StopWatch master = null;
+
+    /**
+     * Field start_time.
+     */
     private long start_time = 0;
 
     /**
      * Starts a 'running total' stopwatch.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#buildStarted(BuildEvent)
      */
     public void buildStarted(BuildEvent be) {
         master = new StopWatch();
@@ -65,6 +81,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * Sorts and prints the results.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#buildFinished(BuildEvent)
      */
     public void buildFinished(BuildEvent be) {
         long stop_time = master.stop();
@@ -112,7 +131,7 @@ public class AntPerformanceListener implements BuildListener {
             if (target != null) {
                 Project p = target.getProject();
                 if (p != null && p.getName() != null)
-                   sb.append(p.getName()).append(".");
+                    sb.append(p.getName()).append(".");
                 String target_name = target.getName();
                 if (target_name == null || target_name.length() == 0)
                     target_name = "<implicit>";
@@ -145,8 +164,7 @@ public class AntPerformanceListener implements BuildListener {
                 fw.flush();
                 fw.close();
                 System.out.println("Wrote stats to: " + outfile.getAbsolutePath() + lSep);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // ignored
             }
         }
@@ -159,6 +177,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * Formats the milliseconds from a StopWatch into decimal seconds.
+     *
+     * @param ms long
+     * @return String
      */
     private String format(long ms) {
         String total = String.valueOf(ms);
@@ -167,13 +188,17 @@ public class AntPerformanceListener implements BuildListener {
         if (pad_length >= 0)
             total = "0." + frontpad.substring(0, pad_length) + total;
         else {
-            total = total.substring(0, total.length() - 3) + "." + total.substring(total.length() - 3);
+            total = total.substring(0, total.length() - 3) + "."
+                    + total.substring(total.length() - 3);
         }
         return total + " sec";
     }
 
     /**
      * Start timing the given target.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#targetStarted(BuildEvent)
      */
     public void targetStarted(BuildEvent be) {
         StopWatch sw = new StopWatch();
@@ -183,6 +208,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * Stop timing the given target.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#targetFinished(BuildEvent)
      */
     public void targetFinished(BuildEvent be) {
         StopWatch sw = targetStats.get(be.getTarget());
@@ -191,6 +219,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * Start timing the given task.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#taskStarted(BuildEvent)
      */
     public void taskStarted(BuildEvent be) {
         StopWatch sw = new StopWatch();
@@ -200,6 +231,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * Stop timing the given task.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#taskFinished(BuildEvent)
      */
     public void taskFinished(BuildEvent be) {
         StopWatch sw = taskStats.get(be.getTask());
@@ -209,6 +243,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * no-op.
+     *
+     * @param be BuildEvent
+     * @see org.apache.tools.ant.BuildListener#messageLogged(BuildEvent)
      */
     public void messageLogged(BuildEvent be) {
         // does nothing
@@ -220,6 +257,10 @@ public class AntPerformanceListener implements BuildListener {
     public class StopWatchComparator implements Comparator<StopWatch> {
         /**
          * Compares the total times for two StopWatches.
+         *
+         * @param a StopWatch
+         * @param b StopWatch
+         * @return int
          */
         public int compare(StopWatch a, StopWatch b) {
             if (a.total() < b.total())
@@ -233,8 +274,9 @@ public class AntPerformanceListener implements BuildListener {
 
     /**
      * A stopwatch, useful for 'quick and dirty' performance testing.
+     *
      * @author Dale Anson
-     * @version   $Revision: 1.5 $
+     * @version $Revision: 1.5 $
      */
     public class StopWatch {
 
@@ -264,7 +306,7 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * Starts/restarts the stopwatch.
          *
-         * @return   the start time, the long returned System.currentTimeMillis().
+         * @return the start time, the long returned System.currentTimeMillis().
          */
         public long start() {
             _start_time = System.currentTimeMillis();
@@ -274,7 +316,7 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * Stops the stopwatch.
          *
-         * @return   the stop time, the long returned System.currentTimeMillis().
+         * @return the stop time, the long returned System.currentTimeMillis().
          */
         public long stop() {
             long stop_time = System.currentTimeMillis();
@@ -287,7 +329,7 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * Total cumulative elapsed time.
          *
-         * @return   the total time
+         * @return the total time
          */
         public long total() {
             return _total_time;
@@ -296,7 +338,7 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * Elapsed time, difference between the last start time and now.
          *
-         * @return   the elapsed time
+         * @return the elapsed time
          */
         public long elapsed() {
             return System.currentTimeMillis() - _start_time;
@@ -304,6 +346,12 @@ public class AntPerformanceListener implements BuildListener {
     }
 
     // quick test for the formatter
+
+    /**
+     * Method main.
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
         AntPerformanceListener apl = new AntPerformanceListener();
 

@@ -31,38 +31,58 @@ import org.junit.Test;
  * @author Peter Reilly
  */
 public class OutOfDateTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/outofdate.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("cleanup");
     }
 
+    /**
+     * Method testSimple.
+     */
     @Test
     public void testSimple() {
         executeTarget("simple");
     }
 
+    /**
+     * Method testVerbose.
+     */
     @Test
     public void testVerbose() {
         executeTarget("verbose");
         assertTrue(getLog().contains("outofdate with regard to"));
     }
 
+    /**
+     * Method testDelete.
+     */
     @Test
     public void testDelete() {
         executeTarget("delete");
     }
 
+    /**
+     * Method testDeleteAll.
+     */
     @Test
     public void testDeleteAll() {
         executeTarget("delete-all");
     }
 
+    /**
+     * Method testDeleteQuiet.
+     */
     @Test
     public void testDeleteQuiet() {
         executeTarget("init");
@@ -70,13 +90,16 @@ public class OutOfDateTest extends BuildFileTestBase {
         assertTrue("No deleting message", !getLog().contains("Deleting"));
     }
 
+    /**
+     * Method testFileset.
+     */
     @Test
     public void testFileset() {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
         assertTrue(getLog().contains("outofdate triggered"));
         String outofdateSources =
-            getProject().getProperty("outofdate.sources");
+                getProject().getProperty("outofdate.sources");
         // switch \ to / if present
         outofdateSources.replace('\\', '/');
         assertTrue("newer.text empty", outofdateSources.contains("newer.text"));
@@ -85,7 +108,7 @@ public class OutOfDateTest extends BuildFileTestBase {
         assertTrue("done.y", !outofdateSources.contains("outofdate/source/1/done.y"));
         assertTrue("partial.y", outofdateSources.contains("outofdate/source/1/partial.y"));
         String outofdateTargets =
-            getProject().getProperty("outofdate.targets");
+                getProject().getProperty("outofdate.targets");
         assertTrue(outofdateTargets.contains("outofdate.xml"));
         assertTrue(outofdateTargets.contains("outofdate/gen/1/2/file.notdone"));
         assertTrue(outofdateTargets.contains("outofdate/gen/1/partial.h"));
@@ -102,9 +125,11 @@ public class OutOfDateTest extends BuildFileTestBase {
         assertTrue(targets.length == 3);
     }
 
+    /**
+     * Method testEmptySources.
+     */
     @Test
     public void testEmptySources() {
         executeTarget("empty-sources");
     }
-
 }

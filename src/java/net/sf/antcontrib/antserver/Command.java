@@ -22,16 +22,13 @@ import java.io.Serializable;
 import org.apache.tools.ant.Project;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public interface Command
-        extends Serializable
-{
+public interface Command extends Serializable {
     /**
      * This should throw a build exception if the parameters
      * are invalid.
+     *
      * @param project Project
      */
     void validate(Project project);
@@ -39,6 +36,7 @@ public interface Command
     /**
      * Is there additional content being sent from the local
      * machine to the remote server.
+     *
      * @return long
      */
     long getContentLength();
@@ -46,18 +44,30 @@ public interface Command
     /**
      * Gets the content's input stream.  Should be called only on the
      * client side for sending the content over the connection
+     *
      * @return the content's input stream.
      * @throws IOException when something goes wrong
      */
     InputStream getContentStream() throws IOException;
 
+    /**
+     * Method getResponseContentLength.
+     *
+     * @return long
+     */
     long getResponseContentLength();
 
+    /**
+     * Method getResponseContentStream.
+     *
+     * @return InputStream
+     */
     InputStream getResponseContentStream();
 
     /**
      * Execute the command.
-     * @param project The project which is being executed
+     *
+     * @param project       The project which is being executed
      * @param contentLength long
      * @param contentStream InputStream
      * @return If true, the connection will be closed
@@ -66,11 +76,12 @@ public interface Command
     boolean execute(Project project,
                     long contentLength,
                     InputStream contentStream)
-        throws Throwable;
+            throws Throwable;
 
     /**
      * Process any additional data from a response.
-     * @param project The project which is being executed
+     *
+     * @param project       The project which is being executed
      * @param contentLength long
      * @param contentStream InputStream
      * @return boolean

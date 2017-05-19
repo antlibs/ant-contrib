@@ -20,54 +20,66 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public abstract class AbstractPropertySetterTask
-        extends Task
-{
+public abstract class AbstractPropertySetterTask extends Task {
+    /**
+     * Field override.
+     */
     private boolean override;
+
+    /**
+     * Field property.
+     */
     private String property;
 
-    public AbstractPropertySetterTask()
-    {
+    /**
+     * Constructor for AbstractPropertySetterTask.
+     */
+    public AbstractPropertySetterTask() {
         super();
     }
 
-
-    public void setOverride(boolean override)
-    {
+    /**
+     * Method setOverride.
+     *
+     * @param override boolean
+     */
+    public void setOverride(boolean override) {
         this.override = override;
     }
 
-
-    public void setProperty(String property)
-    {
+    /**
+     * Method setProperty.
+     *
+     * @param property String
+     */
+    public void setProperty(String property) {
         this.property = property;
     }
 
-    protected void validate()
-    {
+    /**
+     * Method validate.
+     */
+    protected void validate() {
         if (property == null)
             throw new BuildException("You must specify a property to set.");
     }
 
-
-    protected final void setPropertyValue(String value)
-    {
-        if (value != null)
-        {
-            if (override)
-            {
+    /**
+     * Method setPropertyValue.
+     *
+     * @param value String
+     */
+    protected final void setPropertyValue(String value) {
+        if (value != null) {
+            if (override) {
                 if (getProject().getUserProperty(property) == null)
                     getProject().setProperty(property, value);
                 else
                     getProject().setUserProperty(property, value);
-            }
-            else
-            {
-                Property p = (Property)getProject().createTask("property");
+            } else {
+                Property p = (Property) getProject().createTask("property");
                 p.setName(property);
                 p.setValue(value);
                 p.execute();

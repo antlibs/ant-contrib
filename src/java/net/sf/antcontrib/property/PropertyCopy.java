@@ -22,7 +22,6 @@ import org.apache.tools.ant.BuildException;
  * named property to another property.  This is useful when you need to
  * plug in the value of another property in order to get a property name
  * and then want to get the value of that property name.
- *
  * <pre>
  * Usage:
  *
@@ -52,56 +51,78 @@ import org.apache.tools.ant.BuildException;
  *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class PropertyCopy
-        extends AbstractPropertySetterTask
-{
+public class PropertyCopy extends AbstractPropertySetterTask {
+    /**
+     * Field from.
+     */
     private String from;
+
+    /**
+     * Field silent.
+     */
     private boolean silent;
 
     /**
      * Default constructor.
      */
-    public PropertyCopy()
-    {
+    public PropertyCopy() {
         super();
         this.from = null;
         this.silent = false;
     }
 
-    public void setName(String name)
-    {
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
+    public void setName(String name) {
         setProperty(name);
     }
 
-    public void setFrom(String from)
-    {
+    /**
+     * Method setFrom.
+     *
+     * @param from String
+     */
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public void setSilent(boolean silent)
-    {
+    /**
+     * Method setSilent.
+     *
+     * @param silent boolean
+     */
+    public void setSilent(boolean silent) {
         this.silent = silent;
     }
 
-    protected void validate()
-    {
+    /**
+     * Method validate.
+     *
+     * @throws BuildException when from attribute is missing
+     */
+    protected void validate() throws BuildException {
         super.validate();
         if (from == null)
             throw new BuildException("Missing the 'from' attribute.");
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException when property is not found in verbose mode
+     */
+    public void execute() throws BuildException {
         validate();
 
         String value = getProject().getProperty(from);
 
-        if (value == null && ! silent)
+        if (value == null && !silent)
             throw new BuildException("Property '" + from + "' is not defined.");
 
         if (value != null)
             setPropertyValue(value);
     }
-
 }

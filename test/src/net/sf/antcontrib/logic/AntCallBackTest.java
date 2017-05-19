@@ -27,23 +27,28 @@ import net.sf.antcontrib.BuildFileTestBase;
  * has it's own unit tests (which turns out to have been a bad assumption,
  * I can't find any unit tests for antcall).
  *
- * @author   danson
+ * @author danson
  */
 public class AntCallBackTest extends BuildFileTestBase {
-
-    /** The JUnit setup method. */
+    /**
+     * The JUnit setup method.
+     */
     @Before
     public void setUp() {
         configureProject("logic/antcallbacktest.xml");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test1() {
         expectPropertySet("test1", "prop1", "prop1");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test2() {
         expectPropertySet("test2", "prop1", "prop1");
@@ -51,7 +56,9 @@ public class AntCallBackTest extends BuildFileTestBase {
         expectPropertySet("test2", "prop3", "prop3");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test3() {
         expectPropertySet("test3", "prop1", "prop1");
@@ -59,7 +66,9 @@ public class AntCallBackTest extends BuildFileTestBase {
         expectPropertySet("test3", "prop3", "prop3");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test4() {
         expectPropertyUnset("test4", "prop1");
@@ -67,7 +76,9 @@ public class AntCallBackTest extends BuildFileTestBase {
         expectPropertySet("test4", "prop3", "prop3");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test5() {
         expectPropertySet("test5", "prop1", "blah");

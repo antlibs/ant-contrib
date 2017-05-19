@@ -19,42 +19,72 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-public abstract class AbstractHttpStateTypeTask
-	extends Task {
+/**
+ */
+public abstract class AbstractHttpStateTypeTask extends Task {
+    /**
+     * Field stateRefId.
+     */
+    private String stateRefId;
 
-	private String stateRefId;
+    /**
+     * Method setStateRefId.
+     *
+     * @param stateRefId String
+     */
+    public void setStateRefId(String stateRefId) {
+        this.stateRefId = stateRefId;
+    }
 
-	public void setStateRefId(String stateRefId) {
-		this.stateRefId = stateRefId;
-	}
+    /**
+     * Method createCredentials.
+     *
+     * @return Credentials
+     */
+    public Credentials createCredentials() {
+        return new Credentials();
+    }
 
-	public Credentials createCredentials() {
-		return new Credentials();
-	}
+    /**
+     * Method getStateType.
+     *
+     * @param project    Project
+     * @param stateRefId String
+     * @return HttpStateType
+     */
+    static HttpStateType getStateType(Project project, String stateRefId) {
+        if (stateRefId == null) {
+            throw new BuildException("Missing 'stateRefId'.");
+        }
 
-	static HttpStateType getStateType(Project project, String stateRefId) {
-		if (stateRefId == null) {
-			throw new BuildException("Missing 'stateRefId'.");
-		}
+        Object stateRef = project.getReference(stateRefId);
+        if (stateRef == null) {
+            throw new BuildException("Reference '" + stateRefId
+                    + "' is not defined.");
+        }
+        if (!(stateRef instanceof HttpStateType)) {
+            throw new BuildException("Reference '" + stateRefId
+                    + "' is not of the correct type.");
+        }
 
-		Object stateRef = project.getReference(stateRefId);
-		if (stateRef == null) {
-			throw new BuildException("Reference '" + stateRefId
-						 + "' is not defined.");
-		}
-		if (! (stateRef instanceof HttpStateType)) {
-			throw new BuildException("Reference '" + stateRefId
-						 + "' is not of the correct type.");
-		}
+        return (HttpStateType) stateRef;
+    }
 
-		return (HttpStateType) stateRef;
-	}
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
+        execute(getStateType(getProject(), stateRefId));
+    }
 
-	public void execute()
-		throws BuildException {
-		execute(getStateType(getProject(), stateRefId));
-	}
-
-	protected abstract void execute(HttpStateType stateType)
-		throws BuildException;
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException if something goes wrong
+     */
+    protected abstract void execute(HttpStateType stateType)
+            throws BuildException;
 }

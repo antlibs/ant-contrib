@@ -30,43 +30,71 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * for tasks that may "hang" or otherwise not complete in a timely fashion. This
  * task is done when either the maxwait time has expired or all nested tasks are
  * complete, whichever is first.
- *
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author    Dale Anson
- * @author    Robert D. Rice
- * @version   $Revision: 1.6 $
+ * @author Dale Anson
+ * @author Robert D. Rice
+ * @version $Revision: 1.6 $
  * @since Ant 1.5
  */
 public class Limit extends Task implements TaskContainer {
-
-    // storage for nested tasks
+    /**
+     * Field tasks.
+     * Storage for nested tasks
+     */
     private final Vector<Task> tasks = new Vector<Task>();
 
-    // time units, default value is 3 minutes.
+    /**
+     * Field maxwait.
+     * Time unit, default value is 3 minutes.
+     */
     private long maxwait = 180;
+
+    /**
+     * Field unit.
+     */
     private TimeUnit unit = TimeUnit.SECOND_UNIT;
 
-    // property to set if time limit is reached
+    /**
+     * Field timeoutProperty.
+     * Property to set if time limit is reached
+     */
     private String timeoutProperty = null;
+
+    /**
+     * Field timeoutValue.
+     */
     private String timeoutValue = "true";
 
-    // storage for task currently executing
+    /**
+     * Field currentTask.
+     * Storage for currently executing task
+     */
     private Task currentTask = null;
 
-    // used to control thread stoppage
+    /**
+     * Field taskRunner.
+     * Used to control thread stoppage
+     */
     private Thread taskRunner = null;
 
-    // should the build fail if the time limit has expired? Default is no.
+    /**
+     * Field failOnError.
+     * Should the build fail if the time limit has expired? Default is no.
+     */
     private boolean failOnError = false;
 
+    /**
+     * Field exception.
+     */
     private Exception exception = null;
 
     /**
      * Add a task to wait on.
      *
      * @param task A task to execute
-     * @exception BuildException won't happen
+     * @throws BuildException won't happen
+     * @see org.apache.tools.ant.TaskContainer#addTask(Task)
      */
     public void addTask(Task task) throws BuildException {
         tasks.addElement(task);
@@ -76,7 +104,7 @@ public class Limit extends Task implements TaskContainer {
      * How long to wait for all nested tasks to complete, in units.
      * Default is to wait 3 minutes.
      *
-     * @param wait  time to wait, set to 0 to wait forever.
+     * @param wait time to wait, set to 0 to wait forever.
      */
     public void setMaxwait(int wait) {
         maxwait = wait;
@@ -85,7 +113,8 @@ public class Limit extends Task implements TaskContainer {
     /**
      * Sets the unit for the max wait. Default is minutes.
      *
-     * @param unit valid values are "millisecond", "second", "minute", "hour", "day", and "week".
+     * @param unit valid values are "millisecond", "second",
+     *             "minute", "hour", "day", and "week".
      */
     public void setUnit(String unit) {
         if (unit == null)
@@ -119,6 +148,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set a millisecond wait value.
+     *
      * @param value the number of milliseconds to wait.
      */
     public void setMilliseconds(int value) {
@@ -128,6 +158,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set a second wait value.
+     *
      * @param value the number of seconds to wait.
      */
     public void setSeconds(int value) {
@@ -137,6 +168,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set a minute wait value.
+     *
      * @param value the number of milliseconds to wait.
      */
     public void setMinutes(int value) {
@@ -146,6 +178,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set an hours wait value.
+     *
      * @param value the number of hours to wait.
      */
     public void setHours(int value) {
@@ -155,6 +188,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set a day wait value.
+     *
      * @param value the number of days to wait.
      */
     public void setDays(int value) {
@@ -164,6 +198,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set a week wait value.
+     *
      * @param value the number of weeks to wait.
      */
     public void setWeeks(int value) {
@@ -173,6 +208,7 @@ public class Limit extends Task implements TaskContainer {
 
     /**
      * Set the max wait time unit, default is minutes.
+     *
      * @param unit TimeUnit
      */
     public void setMaxWaitUnit(TimeUnit unit) {
@@ -184,7 +220,7 @@ public class Limit extends Task implements TaskContainer {
      * expired on this task.
      * Default is no.
      *
-     * @param fail  if true, fail the build if the time limit has been reached.
+     * @param fail if true, fail the build if the time limit has been reached.
      */
     public void setFailonerror(boolean fail) {
         failOnError = fail;
@@ -212,34 +248,32 @@ public class Limit extends Task implements TaskContainer {
      * Execute all nested tasks, but stopping execution of nested tasks after
      * maxwait or when all tasks are done, whichever is first.
      *
-     * @exception BuildException  Description of the Exception
+     * @throws BuildException Description of the Exception
      */
     public void execute() throws BuildException {
         try {
             // start executing nested tasks
             final Thread runner = new Thread() {
-                    public void run() {
-                        Enumeration<Task> e = tasks.elements();
-                        while (e.hasMoreElements()) {
-                            if (taskRunner != this) {
-                                break;
-                            }
-                            currentTask = e.nextElement();
-                            try {
-                                currentTask.perform();
-                            }
-                            catch (Exception ex) {
-                                if (failOnError) {
-                                    exception = ex;
-                                    return;
-                                }
-                                else {
-                                    exception = ex;
-                                }
+                public void run() {
+                    Enumeration<Task> e = tasks.elements();
+                    while (e.hasMoreElements()) {
+                        if (taskRunner != this) {
+                            break;
+                        }
+                        currentTask = e.nextElement();
+                        try {
+                            currentTask.perform();
+                        } catch (Exception ex) {
+                            if (failOnError) {
+                                exception = ex;
+                                return;
+                            } else {
+                                exception = ex;
                             }
                         }
                     }
-                };
+                }
+            };
             taskRunner = runner;
             runner.start();
             runner.join(unit.toMillis(maxwait));
@@ -265,27 +299,24 @@ public class Limit extends Task implements TaskContainer {
                 // create output message
                 StringBuilder msg = new StringBuilder();
                 msg.append("Interrupted task <")
-                    .append(currentTask.getTaskName())
-                    .append(">. Waited ")
-                    .append((maxwait)).append(" ").append(unit.getValue())
-                    .append(", but this task did not complete.")
-                    .append((not_ran.length() > 0
-                        ? " The following tasks did not execute: " + not_ran.toString() + "."
-                        : ""));
+                        .append(currentTask.getTaskName())
+                        .append(">. Waited ")
+                        .append((maxwait)).append(" ").append(unit.getValue())
+                        .append(", but this task did not complete.")
+                        .append((not_ran.length() > 0
+                                ? " The following tasks did not execute: " + not_ran.toString() + "."
+                                : ""));
 
                 // deal with it
                 if (failOnError) {
                     throw new BuildException(msg.toString());
-                }
-                else {
+                } else {
                     log(msg.toString());
                 }
-            }
-            else if (failOnError && exception != null) {
+            } else if (failOnError && exception != null) {
                 throw new BuildException(exception);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BuildException(e);
         }
     }
@@ -293,37 +324,87 @@ public class Limit extends Task implements TaskContainer {
     /**
      * The enumeration of units:
      * millisecond, second, minute, hour, day, week.
-     * Todo: we use timestamps in many places, why not factor this out.
+     * TODO we use timestamps in many places, why not factor this out.
      */
     public static class TimeUnit extends EnumeratedAttribute {
 
+        /**
+         * Field MILLISECOND.
+         * (value is ""millisecond"")
+         */
         public static final String MILLISECOND = "millisecond";
+        /**
+         * Field SECOND.
+         * (value is ""second"")
+         */
         public static final String SECOND = "second";
+        /**
+         * Field MINUTE.
+         * (value is ""minute"")
+         */
         public static final String MINUTE = "minute";
+        /**
+         * Field HOUR.
+         * (value is ""hour"")
+         */
         public static final String HOUR = "hour";
+        /**
+         * Field DAY.
+         * (value is ""day"")
+         */
         public static final String DAY = "day";
+        /**
+         * Field WEEK.
+         * (value is ""week"")
+         */
         public static final String WEEK = "week";
 
-        /** static unit objects, for use as sensible defaults. */
+        /**
+         * static unit objects, for use as sensible defaults.
+         */
         public static final TimeUnit MILLISECOND_UNIT =
-            new TimeUnit(MILLISECOND);
+                new TimeUnit(MILLISECOND);
+        /**
+         * Field SECOND_UNIT.
+         */
         public static final TimeUnit SECOND_UNIT =
-            new TimeUnit(SECOND);
+                new TimeUnit(SECOND);
+        /**
+         * Field MINUTE_UNIT.
+         */
         public static final TimeUnit MINUTE_UNIT =
-            new TimeUnit(MINUTE);
+                new TimeUnit(MINUTE);
+        /**
+         * Field HOUR_UNIT.
+         */
         public static final TimeUnit HOUR_UNIT =
-            new TimeUnit(HOUR);
+                new TimeUnit(HOUR);
+        /**
+         * Field DAY_UNIT.
+         */
         public static final TimeUnit DAY_UNIT =
-            new TimeUnit(DAY);
+                new TimeUnit(DAY);
+        /**
+         * Field WEEK_UNIT.
+         */
         public static final TimeUnit WEEK_UNIT =
-            new TimeUnit(WEEK);
+                new TimeUnit(WEEK);
 
+        /**
+         * Field units.
+         */
         private static final String[] units = {
-                    MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK
-                };
+                MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK
+        };
 
+        /**
+         * Field timeTable.
+         */
         private final Map<String, Long> timeTable = new HashMap<String, Long>();
 
+        /**
+         * Constructor for TimeUnit.
+         */
         public TimeUnit() {
             timeTable.put(MILLISECOND, 1L);
             timeTable.put(SECOND, 1000L);
@@ -336,6 +417,7 @@ public class Limit extends Task implements TaskContainer {
         /**
          * private constructor
          * used for static construction of TimeUnit objects.
+         *
          * @param value String representing the value.
          */
         private TimeUnit(String value) {
@@ -345,23 +427,35 @@ public class Limit extends Task implements TaskContainer {
 
         /**
          * set the inner value programmatically.
+         *
          * @param value to set
          */
         protected void setValueProgrammatically(String value) {
             this.value = value;
         }
 
+        /**
+         * Method getMultiplier.
+         *
+         * @return long
+         */
         public long getMultiplier() {
             String key = getValue().toLowerCase();
             return timeTable.get(key);
         }
 
+        /**
+         * Method getValues.
+         *
+         * @return String[]
+         */
         public String[] getValues() {
             return units;
         }
 
         /**
          * convert the time in the current unit, to millis.
+         *
          * @param numberOfUnits long expressed in the current objects units
          * @return long representing the value in millis
          */

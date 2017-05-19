@@ -16,10 +16,16 @@
 package net.sf.antcontrib.design;
 
 /**
- * Created on Dec 24, 2004
+ * Created on Dec 24, 2004.
  *
  * @author Dean Hiller (dean@xsoftware.biz)
  */
 public interface Log {
-	void log(String s, int level);
+    /**
+     * Method log.
+     *
+     * @param s     String
+     * @param level int
+     */
+    void log(String s, int level);
 }

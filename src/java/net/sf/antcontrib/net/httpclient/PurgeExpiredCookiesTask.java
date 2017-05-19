@@ -19,22 +19,34 @@ import java.util.Date;
 
 import org.apache.tools.ant.BuildException;
 
-public class PurgeExpiredCookiesTask
-	extends AbstractHttpStateTypeTask {
+/**
+ */
+public class PurgeExpiredCookiesTask extends AbstractHttpStateTypeTask {
+    /**
+     * Field expiredDate.
+     */
+    private Date expiredDate;
 
-	private Date expiredDate;
+    /**
+     * Method setExpiredDate.
+     *
+     * @param expiredDate Date
+     */
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
+    }
 
-	public void setExpiredDate(Date expiredDate) {
-		this.expiredDate = expiredDate;
-	}
-
-	protected void execute(HttpStateType stateType) throws BuildException {
-		if (expiredDate != null) {
-			stateType.getState().purgeExpiredCookies(expiredDate);
-		}
-		else {
-			stateType.getState().purgeExpiredCookies();
-		}
-	}
-
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException if something goes wrong
+     */
+    protected void execute(HttpStateType stateType) throws BuildException {
+        if (expiredDate != null) {
+            stateType.getState().purgeExpiredCookies(expiredDate);
+        } else {
+            stateType.getState().purgeExpiredCookies();
+        }
+    }
 }

@@ -21,62 +21,97 @@ import org.junit.Test;
 
 import net.sf.antcontrib.BuildFileTestBase;
 
+/**
+ */
 public class VariableTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("property/variabletest.xml");
     }
 
+    /**
+     * Method test1.
+     */
     @Test
     public void test1() {
-       expectPropertySet("test1", "x", "6");
+        expectPropertySet("test1", "x", "6");
     }
 
+    /**
+     * Method test2.
+     */
     @Test
     public void test2() {
-       expectPropertySet("test2", "x", "12");
+        expectPropertySet("test2", "x", "12");
     }
 
+    /**
+     * Method test3.
+     */
     @Test
     public void test3() {
-       expectPropertySet("test3", "x", "6 + 12");
+        expectPropertySet("test3", "x", "6 + 12");
     }
 
+    /**
+     * Method test4.
+     */
     @Test
     public void test4() {
-       expectPropertySet("test4", "x", "6");
+        expectPropertySet("test4", "x", "6");
     }
 
+    /**
+     * Method test5.
+     */
     @Test
     public void test5() {
-       expectPropertySet("test5", "str", "I am a string.");
+        expectPropertySet("test5", "str", "I am a string.");
     }
 
+    /**
+     * Method test6.
+     */
     @Test
     public void test6() {
-       expectPropertySet("test6", "x", "Today is blue.");
+        expectPropertySet("test6", "x", "Today is blue.");
     }
 
+    /**
+     * Method test7.
+     */
     @Test
     public void test7() {
-       expectPropertySet("test7", "x", "6");
+        expectPropertySet("test7", "x", "6");
     }
 
-    /* TODO: depends on the Antelope <if>, need to adjust to use the ant-contrib <if> */
+    /* TODO depends on the Antelope <if>, need to adjust to use the ant-contrib <if> */
+
+    /**
+     * Method test8.
+     */
     @Ignore
     public void test8() {
-       expectPropertySet("test8", "x", "12");
-       expectLogContaining("test8", "12");
+        expectPropertySet("test8", "x", "12");
+        expectLogContaining("test8", "12");
     }
 
+    /**
+     * Method test9.
+     */
     @Test
     public void test9() {
-      expectPropertyUnset("test9", "i");
+        expectPropertyUnset("test9", "i");
     }
 
+    /**
+     * Method test10.
+     */
     @Test
     public void test10() {
-      expectPropertySet("test10", "x", "xxx");
+        expectPropertySet("test10", "x", "xxx");
     }
 }

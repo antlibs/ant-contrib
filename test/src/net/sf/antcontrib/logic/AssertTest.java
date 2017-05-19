@@ -27,52 +27,76 @@ import net.sf.antcontrib.BuildFileTestBase;
  * has it's own unit tests (which turns out to have been a bad assumption,
  * I can't find any unit tests for antcall).
  *
- * @author   danson
+ * @author danson
  */
 public class AssertTest extends BuildFileTestBase {
-
-    /** The JUnit setup method. */
+    /**
+     * The JUnit setup method.
+     */
     @Before
     public void setUp() {
         configureProject("logic/asserttest.xml");
     }
 
-    /** A unit test for JUnit. */
+    /**
+     * A unit test for JUnit.
+     */
     @Test
     public void test1() {
         executeTarget("test1");
     }
 
+    /**
+     * Method test3.
+     */
     @Test
     public void test3() {
         expectBuildException("test3");
     }
 
+    /**
+     * Method test4.
+     */
     @Test
     public void test4() {
         executeTarget("test4");
     }
 
+    /**
+     * Method test5.
+     */
     @Test
     public void test5() {
         executeTarget("test5");
     }
 
+    /**
+     * Method test6.
+     */
     @Test
     public void test6() {
         executeTarget("test6");
     }
 
+    /**
+     * Method test7.
+     */
     @Test
     public void test7() {
         expectBuildException("test7");
     }
 
+    /**
+     * Method test8.
+     */
     @Test
     public void test8() {
         executeTarget("test8");
     }
 
+    /**
+     * Method test9.
+     */
     @Test
     public void test9() {
         expectBuildException("test9");

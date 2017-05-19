@@ -22,26 +22,34 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 
-/** Relentless is an Ant task that will relentlessly execute other tasks,
+/**
+ * Relentless is an Ant task that will relentlessly execute other tasks,
  * ignoring any failures until all tasks have completed.  If any of the
  * executed tasks fail, then Relentless will fail; otherwise it will succeed.
  *
- * @author  Christopher Heiny
+ * @author Christopher Heiny
  */
 public class Relentless extends Task implements TaskContainer {
-    /** We keep the list of tasks we will execute here.
+    /**
+     * We keep the list of tasks we will execute here.
      */
     private final List<Task> taskList = new ArrayList<Task>();
 
-    /** Flag indicating how much output to generate.
+    /**
+     * Flag indicating how much output to generate.
      */
     private boolean terse = false;
 
-    /** Creates a new Relentless task. */
+    /**
+     * Creates a new Relentless task.
+     */
     public Relentless() {
     }
 
-    /** This method will be called when it is time to execute the task.
+    /**
+     * This method will be called when it is time to execute the task.
+     *
+     * @throws BuildException if something goes wrong
      */
     public void execute() throws BuildException {
         int failCount = 0;
@@ -65,15 +73,16 @@ public class Relentless extends Task implements TaskContainer {
             }
         }
         if (failCount > 0) {
-            throw new BuildException("Relentless execution: " + failCount + " of " + taskList.size() + " tasks failed.");
-        }
-        else {
+            throw new BuildException("Relentless execution: "
+                    + failCount + " of " + taskList.size() + " tasks failed.");
+        } else {
             log("All tasks completed successfully.");
         }
     }
 
     /**
      * Ant will call this to inform us of nested tasks.
+     *
      * @param task Task
      */
     public void addTask(Task task) {
@@ -82,6 +91,7 @@ public class Relentless extends Task implements TaskContainer {
 
     /**
      * Set this to true to reduce the amount of output generated.
+     *
      * @param terse boolean
      */
     public void setTerse(boolean terse) {
@@ -90,10 +100,10 @@ public class Relentless extends Task implements TaskContainer {
 
     /**
      * Retrieve the terse property, indicating how much output we will generate.
+     *
      * @return boolean
      */
     public boolean isTerse() {
         return terse;
     }
-
 }

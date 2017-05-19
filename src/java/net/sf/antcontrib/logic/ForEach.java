@@ -39,7 +39,6 @@ import net.sf.antcontrib.util.ThreadPoolThread;
 /**
  * Task definition for the foreach task.  The foreach task iterates
  * over a list, a list of filesets, or both.
- *
  * <pre>
  *
  * Usage:
@@ -69,29 +68,78 @@ import net.sf.antcontrib.util.ThreadPoolThread;
  *         trim      --&gt; Should we trim the list item before calling the target?
  *
  * </pre>
+ *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class ForEach extends Task
-{
+public class ForEach extends Task {
+    /**
+     * Field list.
+     */
     private String list;
+
+    /**
+     * Field param.
+     */
     private String param;
+
+    /**
+     * Field delimiter.
+     */
     private String delimiter;
+
+    /**
+     * Field target.
+     */
     private String target;
+
+    /**
+     * Field inheritAll.
+     */
     private boolean inheritAll;
+    /**
+     * Field inheritRefs.
+     */
     private boolean inheritRefs;
+
+    /**
+     * Field params.
+     */
     private final List<Property> params;
+
+    /**
+     * Field references.
+     */
     private final List<Ant.Reference> references;
+
+    /**
+     * Field currPath.
+     */
     private Path currPath;
+
+    /**
+     * Field parallel.
+     */
     private boolean parallel;
+
+    /**
+     * Field trim.
+     */
     private boolean trim;
+
+    /**
+     * Field maxThreads.
+     */
     private int maxThreads;
+
+    /**
+     * Field mapper.
+     */
     private Mapper mapper;
 
     /**
      * Constructor.
      */
-    public ForEach()
-    {
+    public ForEach() {
         super();
         this.list = null;
         this.param = null;
@@ -105,8 +153,12 @@ public class ForEach extends Task
         this.maxThreads = 5;
     }
 
-    private void executeParallel(List<CallTarget> tasks)
-    {
+    /**
+     * Method executeParallel.
+     *
+     * @param tasks List&lt;CallTarget&gt;
+     */
+    private void executeParallel(List<CallTarget> tasks) {
         ThreadPool pool = new ThreadPool(maxThreads);
         Runnable r = null;
         List<ThreadPoolThread> threads = new ArrayList<ThreadPoolThread>();
@@ -114,13 +166,10 @@ public class ForEach extends Task
         // start each task in it's own thread, using the
         // pool to ensure that we don't exceed the maximum
         // amount of threads
-        for (final Task task : tasks)
-        {
+        for (final Task task : tasks) {
             // Create the Runnable object
-            r = new Runnable()
-            {
-                public void run()
-                {
+            r = new Runnable() {
+                public void run() {
                     task.execute();
                 }
             };
@@ -128,15 +177,12 @@ public class ForEach extends Task
             // Get a thread, and start the task.
             // If there is no thread available, this will
             // block until one becomes available
-            try
-            {
+            try {
                 ThreadPoolThread tpt = pool.borrowThread();
                 tpt.setRunnable(r);
                 tpt.start();
                 threads.add(tpt);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new BuildException(ex);
             }
 
@@ -144,36 +190,37 @@ public class ForEach extends Task
 
         // Wait for all threads to finish before we
         // are allowed to return.
-        for (Thread t : threads)
-        {
-            if (t.isAlive())
-            {
-                try
-                {
+        for (Thread t : threads) {
+            if (t.isAlive()) {
+                try {
                     t.join();
-                }
-                catch (InterruptedException ex)
-                {
+                } catch (InterruptedException ex) {
                     throw new BuildException(ex);
                 }
             }
         }
     }
 
-    private void executeSequential(List<CallTarget> tasks)
-    {
+    /**
+     * Method executeSequential.
+     *
+     * @param tasks List&lt;CallTarget&gt;
+     */
+    private void executeSequential(List<CallTarget> tasks) {
         TaskContainer tc = (TaskContainer) getProject().createTask("sequential");
-        for (Task t : tasks)
-        {
+        for (Task t : tasks) {
             tc.addTask(t);
         }
 
-        ((Task)tc).execute();
+        ((Task) tc).execute();
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
         if (list == null && currPath == null) {
             throw new BuildException("You must have a list or path to iterate through");
         }
@@ -185,12 +232,10 @@ public class ForEach extends Task
         List<Object> values = new ArrayList<Object>();
 
         // Take Care of the list attribute
-        if (list != null)
-        {
+        if (list != null) {
             StringTokenizer st = new StringTokenizer(list, delimiter);
 
-            while (st.hasMoreTokens())
-            {
+            while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if (trim) tok = tok.trim();
                 values.add(tok);
@@ -199,13 +244,13 @@ public class ForEach extends Task
 
         if (currPath != null) {
             for (String pathElement : currPath.list()) {
-        	    if (mapper != null) {
-        	        FileNameMapper m = mapper.getImplementation();
-        	        String[] mapped = m.mapFileName(pathElement);
+                if (mapper != null) {
+                    FileNameMapper m = mapper.getImplementation();
+                    String[] mapped = m.mapFileName(pathElement);
                     Collections.addAll(values, mapped);
-        	    } else {
-        	        values.add(new File(pathElement));
-        	    }
+                } else {
+                    values.add(new File(pathElement));
+                }
             }
         }
 
@@ -217,56 +262,78 @@ public class ForEach extends Task
             p.setName(param);
 
             if (val instanceof File)
-                p.setLocation((File)val);
+                p.setLocation((File) val);
             else
-                p.setValue((String)val);
+                p.setValue((String) val);
 
             tasks.add(ct);
         }
 
-        if (parallel && maxThreads > 1)
-        {
+        if (parallel && maxThreads > 1) {
             executeParallel(tasks);
-        }
-        else
-        {
+        } else {
             executeSequential(tasks);
         }
     }
 
-    public void setTrim(boolean trim)
-    {
+    /**
+     * Method setTrim.
+     *
+     * @param trim boolean
+     */
+    public void setTrim(boolean trim) {
         this.trim = trim;
     }
 
-    public void setList(String list)
-    {
+    /**
+     * Method setList.
+     *
+     * @param list String
+     */
+    public void setList(String list) {
         this.list = list;
     }
 
-    public void setDelimiter(String delimiter)
-    {
+    /**
+     * Method setDelimiter.
+     *
+     * @param delimiter String
+     */
+    public void setDelimiter(String delimiter) {
         this.delimiter = delimiter;
     }
 
-    public void setParam(String param)
-    {
+    /**
+     * Method setParam.
+     *
+     * @param param String
+     */
+    public void setParam(String param) {
         this.param = param;
     }
 
-    public void setTarget(String target)
-    {
+    /**
+     * Method setTarget.
+     *
+     * @param target String
+     */
+    public void setTarget(String target) {
         this.target = target;
     }
 
-    public void setParallel(boolean parallel)
-    {
-            this.parallel = parallel;
+    /**
+     * Method setParallel.
+     *
+     * @param parallel boolean
+     */
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
     }
 
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritall</code>
      * attribute.
+     *
      * @param b boolean
      */
     public void setInheritall(boolean b) {
@@ -276,6 +343,7 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritrefs</code>
      * attribute.
+     *
      * @param b boolean
      */
     public void setInheritrefs(boolean b) {
@@ -285,16 +353,17 @@ public class ForEach extends Task
     /**
      * Set the maximum amount of threads we're going to allow
      * at once to execute.
+     *
      * @param maxThreads int
      */
-    public void setMaxThreads(int maxThreads)
-    {
+    public void setMaxThreads(int maxThreads) {
         this.maxThreads = maxThreads;
     }
 
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;param&gt;</code> element.
+     *
      * @param p Property
      */
     public void addParam(Property p) {
@@ -304,6 +373,7 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;reference&gt;</code> element.
+     *
      * @param r Ant.Reference
      */
     public void addReference(Ant.Reference r) {
@@ -314,14 +384,18 @@ public class ForEach extends Task
      * @param set FileSet
      * @deprecated Use createPath instead.
      */
-    public void addFileset(FileSet set)
-    {
+    public void addFileset(FileSet set) {
         log("The nested fileset element is deprecated, use a nested path "
-            + "instead",
-            Project.MSG_WARN);
+                        + "instead",
+                Project.MSG_WARN);
         createPath().addFileset(set);
     }
 
+    /**
+     * Method createPath.
+     *
+     * @return Path
+     */
     public Path createPath() {
         if (currPath == null) {
             currPath = new Path(getProject());
@@ -329,12 +403,21 @@ public class ForEach extends Task
         return currPath;
     }
 
-    public Mapper createMapper()
-    {
+    /**
+     * Method createMapper.
+     *
+     * @return Mapper
+     */
+    public Mapper createMapper() {
         mapper = new Mapper(getProject());
         return mapper;
     }
 
+    /**
+     * Method createCallTarget.
+     *
+     * @return CallTarget
+     */
     private CallTarget createCallTarget() {
         CallTarget ct = (CallTarget) getProject().createTask("antcall");
         ct.setOwningTarget(getOwningTarget());
@@ -375,24 +458,30 @@ public class ForEach extends Task
         return ct;
     }
 
-    protected void handleOutput(String line)
-    {
+    /**
+     * Method handleOutput.
+     *
+     * @param line String
+     */
+    protected void handleOutput(String line) {
         try {
-                super.handleOutput(line);
-        }
-        // This is needed so we can run with 1.5 and 1.5.1
-        catch (IllegalAccessError e) {
+            super.handleOutput(line);
+        } catch (IllegalAccessError e) {
+            // This is needed so we can run with 1.5 and 1.5.1
             super.handleOutput(line);
         }
     }
 
-    protected void handleErrorOutput(String line)
-    {
+    /**
+     * Method handleErrorOutput.
+     *
+     * @param line String
+     */
+    protected void handleErrorOutput(String line) {
         try {
-                super.handleErrorOutput(line);
-        }
-        // This is needed so we can run with 1.5 and 1.5.1
-        catch (IllegalAccessError e) {
+            super.handleErrorOutput(line);
+        } catch (IllegalAccessError e) {
+            // This is needed so we can run with 1.5 and 1.5.1
             super.handleErrorOutput(line);
         }
     }

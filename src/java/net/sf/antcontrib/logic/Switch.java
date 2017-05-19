@@ -24,7 +24,6 @@ import org.apache.tools.ant.taskdefs.Sequential;
 
 /**
  * Task definition for the ANT task to switch on a particular value.
- *
  * <pre>
  *
  * Usage:
@@ -86,24 +85,40 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
  */
-public class Switch extends Task
-{
+public class Switch extends Task {
+    /**
+     * Field value.
+     */
     private String value;
+
+    /**
+     * Field cases.
+     */
     private final List<Case> cases;
+
+    /**
+     * Field defaultCase.
+     */
     private Sequential defaultCase;
+
+    /**
+     * Field caseInsensitive.
+     */
     private boolean caseInsensitive;
 
     /**
      * Constructor.
      */
-    public Switch()
-    {
+    public Switch() {
         cases = new ArrayList<Case>();
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if no cases are supplied or values are missing
+     */
+    public void execute() throws BuildException {
         if (value == null)
             throw new BuildException("Value is missing");
         if (cases.size() == 0 && defaultCase == null)
@@ -111,16 +126,14 @@ public class Switch extends Task
 
         Sequential selectedCase = defaultCase;
 
-        for (Case c : cases)
-        {
+        for (Case c : cases) {
             String cvalue = c.value;
             if (cvalue == null) {
                 throw new BuildException("Value is required for case.");
             }
             String mvalue = value;
 
-            if (caseInsensitive)
-            {
+            if (caseInsensitive) {
                 cvalue = cvalue.toUpperCase();
                 mvalue = mvalue.toUpperCase();
             }
@@ -131,47 +144,69 @@ public class Switch extends Task
 
         if (selectedCase == null) {
             throw new BuildException("No case matched the value " + value
-                                     + " and no default has been specified.");
+                    + " and no default has been specified.");
         }
         selectedCase.perform();
     }
 
     /**
      * Sets the value being switched on.
+     *
      * @param value String
      */
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public void setCaseInsensitive(boolean c)
-    {
+    /**
+     * Method setCaseInsensitive.
+     *
+     * @param c boolean
+     */
+    public void setCaseInsensitive(boolean c) {
         caseInsensitive = c;
     }
 
-    public final class Case extends Sequential
-    {
+    /**
+     */
+    public final class Case extends Sequential {
+        /**
+         * Field value.
+         */
         private String value;
 
-        public Case()
-        {
+        /**
+         * Constructor for Case.
+         */
+        public Case() {
             super();
         }
 
-        public void setValue(String value)
-        {
+        /**
+         * Method setValue.
+         *
+         * @param value String
+         */
+        public void setValue(String value) {
             this.value = value;
         }
 
-        public void execute()
-            throws BuildException
-        {
+        /**
+         * Method execute.
+         *
+         * @throws BuildException if something goes wrong
+         */
+        public void execute() throws BuildException {
             super.execute();
         }
 
-        public boolean equals(Object o)
-        {
+        /**
+         * Method equals.
+         *
+         * @param o Object
+         * @return boolean
+         */
+        public boolean equals(Object o) {
             boolean res = false;
             Case c = (Case) o;
             if (c.value.equals(value))
@@ -181,12 +216,12 @@ public class Switch extends Task
     }
 
     /**
-     * Creates the &lt;case&gt; tag
+     * Creates the &lt;case&gt; tag.
+     *
      * @return Switch.Case
+     * @throws BuildException if something goes wrong
      */
-    public Case createCase()
-        throws BuildException
-    {
+    public Case createCase() throws BuildException {
         Case res = new Case();
         cases.add(res);
         return res;
@@ -194,15 +229,14 @@ public class Switch extends Task
 
     /**
      * Creates the &lt;default&gt; tag.
+     *
      * @param res Sequential
+     * @throws BuildException if multiple default cases are specified
      */
-    public void addDefault(Sequential res)
-        throws BuildException
-    {
+    public void addDefault(Sequential res) throws BuildException {
         if (defaultCase != null)
             throw new BuildException("Cannot specify multiple default cases");
 
         defaultCase = res;
     }
-
 }

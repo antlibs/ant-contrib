@@ -29,7 +29,6 @@ import org.apache.tools.ant.types.Reference;
 /**
  * Task definition for the foreach task.  The foreach task iterates
  * over a list, a list of filesets, or both.
- *
  * <pre>
  *
  * Usage:
@@ -65,62 +64,118 @@ import org.apache.tools.ant.types.Reference;
  *         pathref      --&gt; The reference of the path which is the input set of files.
  *
  * </pre>
+ *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class TimestampSelector extends Task
-{
+public class TimestampSelector extends Task {
+    /**
+     * Field AGE_ELDEST.
+     * (value is ""eldest"")
+     */
     private static final String AGE_ELDEST = "eldest";
+
+    /**
+     * Field AGE_YOUNGEST.
+     * (value is ""youngest"")
+     */
     private static final String AGE_YOUNGEST = "youngest";
 
+    /**
+     * Field property.
+     */
     private String property;
+
+    /**
+     * Field path.
+     */
     private Path path;
+
+    /**
+     * Field outputSetId.
+     */
     private String outputSetId;
+
+    /**
+     * Field count.
+     */
     private int count = 1;
+
+    /**
+     * Field pathSep.
+     */
     private char pathSep = ',';
+
+    /**
+     * Field age.
+     */
     private String age = AGE_YOUNGEST;
 
     /**
      * Constructor.
      */
-    public TimestampSelector()
-    {
+    public TimestampSelector() {
         super();
     }
 
-    public void doFileSetExecute(String[] paths)
-        throws BuildException
-    {
-
+    /**
+     * Method doFileSetExecute.
+     *
+     * @param paths String[]
+     * @throws BuildException if something goes wrong
+     */
+    public void doFileSetExecute(String[] paths) throws BuildException {
     }
 
-    // Sorts entire array
-    public void sort(List<File> array)
-    {
+    /**
+     * Method sort.
+     * Sorts entire array
+     *
+     * @param array List&lt;File&gt;
+     */
+    public void sort(List<File> array) {
         sort(array, 0, array.size() - 1);
     }
 
-    // Sorts partial array
-    protected void sort(List<File> array, int start, int end)
-    {
+    /**
+     * Method sort.
+     * Sorts partial array
+     *
+     * @param array List&lt;File&gt;
+     * @param start int
+     * @param end   int
+     */
+    protected void sort(List<File> array, int start, int end) {
         int p;
-        if (end > start)
-        {
+        if (end > start) {
             p = partition(array, start, end);
             sort(array, start, p - 1);
             sort(array, p + 1, end);
         }
     }
 
-    protected int compare(File a, File b)
-    {
+    /**
+     * Method compare.
+     *
+     * @param a File
+     * @param b File
+     * @return int
+     */
+    protected int compare(File a, File b) {
         if (age.equalsIgnoreCase(AGE_ELDEST))
             return new Long(a.lastModified()).compareTo(new Long(b.lastModified()));
         else
             return new Long(b.lastModified()).compareTo(new Long(a.lastModified()));
     }
 
-    protected int partition(List<File> array, int start, int end)
-    {
+    /**
+     * Method partition.
+     *
+     * @param array List&lt;File&gt;
+     * @param start int
+     * @param end   int
+     * @return int
+     */
+    protected int partition(List<File> array, int start, int end) {
         int left;
         int right;
         File partitionElement;
@@ -129,14 +184,11 @@ public class TimestampSelector extends Task
 
         left = start - 1;
         right = end;
-        for (;;)
-        {
-            while (compare(partitionElement, array.get(++left)) == 1)
-            {
+        for (;;) {
+            while (compare(partitionElement, array.get(++left)) == 1) {
                 if (left == end) break;
             }
-            while (compare(partitionElement, array.get(--right)) == -1)
-            {
+            while (compare(partitionElement, array.get(--right)) == -1) {
                 if (right == start) break;
             }
             if (left >= right) break;
@@ -147,8 +199,14 @@ public class TimestampSelector extends Task
         return left;
     }
 
-    protected void swap(List<File> array, int i, int j)
-    {
+    /**
+     * Method swap.
+     *
+     * @param array List&lt;File&gt;
+     * @param i     int
+     * @param j     int
+     */
+    protected void swap(List<File> array, int i, int j) {
         File temp;
 
         temp = array.get(i);
@@ -156,9 +214,12 @@ public class TimestampSelector extends Task
         array.set(j, temp);
     }
 
-    public void execute()
-            throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if attributes or elements are missing
+     */
+    public void execute() throws BuildException {
         if (property == null && outputSetId == null)
             throw new BuildException("Property or OutputSetId must be specified.");
         if (path == null)
@@ -181,25 +242,20 @@ public class TimestampSelector extends Task
 
         // Build the resulting Path object
         Path path = new Path(getProject());
-        for (File f : v2)
-        {
+        for (File f : v2) {
             Path p = new Path(getProject(), f.getAbsolutePath());
             path.addExisting(p);
         }
 
-        if (outputSetId != null)
-        {
+        if (outputSetId != null) {
             // Add the reference to the project
             getProject().addReference(outputSetId, path);
-        }
-        else
-        {
+        } else {
             // Concat the paths, and put them in a property
             // which is separated list of the files, using the
             // "pathSep" attribute as the separator
             StringBuilder sb = new StringBuilder();
-            for (String paths : path.list())
-            {
+            for (String paths : path.list()) {
                 if (sb.length() != 0) sb.append(pathSep);
                 sb.append(paths);
             }
@@ -209,62 +265,86 @@ public class TimestampSelector extends Task
         }
     }
 
-    public void setProperty(String property)
-    {
+    /**
+     * Method setProperty.
+     *
+     * @param property String
+     */
+    public void setProperty(String property) {
         if (outputSetId != null)
             throw new BuildException("Cannot set both Property and OutputSetId.");
 
         this.property = property;
     }
 
-    public void setCount(int count)
-    {
+    /**
+     * Method setCount.
+     *
+     * @param count int
+     */
+    public void setCount(int count) {
         this.count = count;
     }
 
-    public void setAge(String age)
-    {
+    /**
+     * Method setAge.
+     *
+     * @param age String
+     */
+    public void setAge(String age) {
         if (age.equalsIgnoreCase(AGE_ELDEST)
-            || age.equalsIgnoreCase(AGE_YOUNGEST))
+                || age.equalsIgnoreCase(AGE_YOUNGEST))
             this.age = age;
         else
             throw new BuildException("Invalid age: " + age);
     }
 
-    public void setPathSep(char pathSep)
-    {
+    /**
+     * Method setPathSep.
+     *
+     * @param pathSep char
+     */
+    public void setPathSep(char pathSep) {
         this.pathSep = pathSep;
     }
 
-    public void setOutputSetId(String outputSetId)
-    {
+    /**
+     * Method setOutputSetId.
+     *
+     * @param outputSetId String
+     */
+    public void setOutputSetId(String outputSetId) {
         if (property != null)
             throw new BuildException("Cannot set both Property and OutputSetId.");
         this.outputSetId = outputSetId;
     }
 
-    public void setPathRef(Reference ref)
-            throws BuildException
-    {
-        if (path == null)
-        {
+    /**
+     * Method setPathRef.
+     *
+     * @param ref Reference
+     * @throws BuildException if path element is specified
+     */
+    public void setPathRef(Reference ref) throws BuildException {
+        if (path == null) {
             path = new Path(getProject());
             path.setRefid(ref);
-        }
-        else
-        {
+        } else {
             throw new BuildException("Path element already specified.");
         }
     }
 
-    public Path createPath()
-            throws BuildException
-    {
+    /**
+     * Method createPath.
+     *
+     * @return Path
+     * @throws BuildException if path element is specified
+     */
+    public Path createPath() throws BuildException {
         if (path == null)
             path = new Path(getProject());
         else
             throw new BuildException("Path element already specified.");
         return path;
     }
-
 }

@@ -40,27 +40,45 @@ import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 import net.sf.antcontrib.antserver.commands.ShutdownCommand;
 
 /**
- *
  * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
  */
-public class ConnectionHandler
-        implements Runnable
-{
+public class ConnectionHandler implements Runnable {
+    /**
+     * Field nextGroupId.
+     */
     private static long nextGroupId = 0;
+
+    /**
+     * Field task.
+     */
     private final ServerTask task;
+
+    /**
+     * Field socket.
+     */
     private final Socket socket;
+
+    /**
+     * Field thrown.
+     */
     private Throwable thrown;
 
-    public ConnectionHandler(ServerTask task, Socket socket)
-    {
+    /**
+     * Constructor for ConnectionHandler.
+     *
+     * @param task   ServerTask
+     * @param socket Socket
+     */
+    public ConnectionHandler(ServerTask task, Socket socket) {
         super();
         this.socket = socket;
         this.task = task;
     }
 
-    public void start()
-    {
+    /**
+     * Method start.
+     */
+    public void start() {
         long gid = nextGroupId;
         if (nextGroupId == Long.MAX_VALUE)
             nextGroupId = 0;
@@ -72,18 +90,25 @@ public class ConnectionHandler
         thread.start();
     }
 
-    public Throwable getThrown()
-    {
+    /**
+     * Method getThrown.
+     *
+     * @return Throwable
+     */
+    public Throwable getThrown() {
         return thrown;
     }
 
-    public void run()
-    {
+    /**
+     * Method run.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
         InputStream is = null;
         OutputStream os = null;
 
-        try
-        {
+        try {
             ConnectionBuildListener cbl = null;
 
             is = socket.getInputStream();
@@ -100,8 +125,7 @@ public class ConnectionHandler
             Command inputCommand = null;
             Response response = null;
 
-            while (! disconnect)
-            {
+            while (!disconnect) {
                 task.getProject().log("Reading command object.",
                         Project.MSG_DEBUG);
 
@@ -112,24 +136,18 @@ public class ConnectionHandler
 
                 response = new Response();
 
-                try
-                {
+                try {
                     cbl = new ConnectionBuildListener();
                     task.getProject().addBuildListener(cbl);
 
                     inputCommand.execute(task.getProject(),
-                            inputCommand.getContentLength(),
-                            is);
+                            inputCommand.getContentLength(), is);
 
                     response.setSucceeded(true);
-                }
-                catch (Throwable t)
-                {
+                } catch (Throwable t) {
                     response.setSucceeded(false);
                     response.setThrowable(t);
-                }
-                finally
-                {
+                } finally {
                     if (cbl != null)
                         task.getProject().removeBuildListener(cbl);
                 }
@@ -153,78 +171,48 @@ public class ConnectionHandler
 
                 oos.writeObject(response);
 
-                if (inputCommand.getResponseContentLength() != 0)
-                {
+                if (inputCommand.getResponseContentLength() != 0) {
                     Util.transferBytes(inputCommand.getResponseContentStream(),
                             inputCommand.getResponseContentLength(),
-                            os,
-                            true);
+                            os, true);
                 }
 
-                if (inputCommand instanceof DisconnectCommand)
-                {
+                if (inputCommand instanceof DisconnectCommand) {
                     disconnect = true;
                     task.getProject().log("Got disconnect command",
                             Project.MSG_DEBUG);
-                }
-                else if (inputCommand instanceof ShutdownCommand)
-                {
+                } else if (inputCommand instanceof ShutdownCommand) {
                     disconnect = true;
                     task.getProject().log("Got shutdown command",
                             Project.MSG_DEBUG);
                     task.shutdown();
                 }
-
             }
-
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             thrown = e;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             thrown = e;
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             thrown = t;
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
+        } finally {
+            if (is != null) {
+                try {
                     is.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
 
-            if (os != null)
-            {
-                try
-                {
+            if (os != null) {
+                try {
                     os.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
 
-            if (socket != null)
-            {
-                try
-                {
+            if (socket != null) {
+                try {
                     socket.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
         }

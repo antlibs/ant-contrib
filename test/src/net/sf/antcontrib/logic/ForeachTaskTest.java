@@ -27,27 +27,41 @@ import org.junit.Test;
  * Testcase for &lt;foreach&gt;.
  */
 public class ForeachTaskTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/foreach.xml");
     }
 
+    /**
+     * Method tearDown.
+     */
     @After
     public void tearDown() {
         executeTarget("teardown");
     }
 
+    /**
+     * Method testSimpleList.
+     */
     @Test
     public void testSimpleList() {
         simpleTest("simpleList");
     }
 
+    /**
+     * Method testDelimiter.
+     */
     @Test
     public void testDelimiter() {
         simpleTest("delimiter");
     }
 
+    /**
+     * Method testFileset.
+     */
     @Test
     public void testFileset() {
         simpleTest("fileset");
@@ -55,6 +69,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
                 + " use a nested path instead"));
     }
 
+    /**
+     * Method testFilesetAndList.
+     */
     @Test
     public void testFilesetAndList() {
         simpleTest("filesetAndList");
@@ -62,46 +79,72 @@ public class ForeachTaskTest extends BuildFileTestBase {
                 + " use a nested path instead"));
     }
 
+    /**
+     * Method testNoList.
+     */
     @Test
     public void testNoList() {
         expectSpecificBuildException("noList", "neither list nor fileset",
-                                     "You must have a list or path to iterate through");
+                "You must have a list or path to iterate through");
     }
 
+    /**
+     * Method testNoTarget.
+     */
     @Test
     public void testNoTarget() {
         expectSpecificBuildException("noTarget", "no target",
-                                     "You must supply a target to perform");
+                "You must supply a target to perform");
     }
 
+    /**
+     * Method testNoParam.
+     */
     @Test
     public void testNoParam() {
         expectSpecificBuildException("noParam", "no param",
-                                     "You must supply a property name to set on each iteration in param");
+                "You must supply a property name to set on each iteration in param");
     }
 
+    /**
+     * Method testNestedParam.
+     */
     @Test
     public void testNestedParam() {
         executeTarget("nestedParam");
         assertTrue(getLog().contains("Called with param: rincewind"));
     }
 
+    /**
+     * Method testNestedReference.
+     */
     @Test
     public void testNestedReference() {
         executeTarget("nestedReference");
         assertTrue(getLog().contains("Called with param: twoflower"));
     }
 
+    /**
+     * Method testPath.
+     */
     @Test
     public void testPath() {
         simpleTest("path");
     }
 
+    /**
+     * Method testPathAndList.
+     */
     @Test
     public void testPathAndList() {
         simpleTest("pathAndList");
     }
 
+    /**
+     * Method simpleTest.
+     *
+     * @param target String
+     */
     private void simpleTest(String target) {
         executeTarget(target);
         int last = -1;
@@ -110,5 +153,5 @@ public class ForeachTaskTest extends BuildFileTestBase {
             assertTrue(thisIdx > last);
             last = thisIdx;
         }
-   }
+    }
 }

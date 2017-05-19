@@ -26,18 +26,26 @@ import org.junit.Test;
  * Testcase for &lt;for&gt;.
  */
 public class ForTest extends BuildFileTestBase {
-
+    /**
+     * Method setUp.
+     */
     @Before
     public void setUp() {
         configureProject("logic/for.xml");
     }
 
+    /**
+     * Method testLoop.
+     */
     @Test
     public void testLoop() {
         executeTarget("loop");
         assertTrue(getLog().contains("i is 10"));
     }
 
+    /**
+     * Method testStep.
+     */
     @Test
     public void testStep() {
         executeTarget("step");
