@@ -39,13 +39,15 @@ import org.junit.Test;
  */
 public class CompileWithWallsTest extends BuildFileTestBase {
 
-    private final String baseDir = "test" + File.separator
-                            + "resources" + File.separator
-                            + "walls" + File.separator;
+    /**
+     * Field baseDir.
+     */
+    private static String baseDir = "";
 
     @Before
     public void setUp() {
         configureProject("walls/compilewithwalls.xml");
+        baseDir = getProject().getBaseDir().getAbsolutePath();
     }
 
     @After
@@ -183,22 +185,22 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         //modA should have been compiled successfully, it is only modB that
         //fails.  It is very important we make sure A got compiled otherwise
         //we are not testing the correct behavior and the test would be wrong.
-        ensureClassFileExists("testB" + File.separator + "mod" + File.separator + "modA" + File.separator + "ModuleA.class", true);
-        ensureClassFileExists("testB" + File.separator + "mod" + File.separator + "modB" + File.separator + "ModuleB.class", false);
+        ensureClassFileExists("testB/mod/modA/ModuleA.class", true);
+        ensureClassFileExists("testB/mod/modB/ModuleB.class", false);
     }
 
     @Ignore
     public void testCompileOfAllUsingDepends() {
-        ensureClassFileExists("testC" + File.separator + "mod" + File.separator + "Module.class", false);
+        ensureClassFileExists("testC/mod/Module.class", false);
         //make sure we are testing the correct thing and Module.java exists!
-        ensureJavaFileExists("testC" + File.separator + "mod" + File.separator + "Module.java", true);
+        ensureJavaFileExists("testC/mod/Module.java", true);
 
         executeTarget("testCompileOfAllUsingDepends");
 
         //must test class files were actually created afterwards.
         //The build might pass with no class files if the task is
         //messed up.
-        ensureClassFileExists("testC" + File.separator + "mod" + File.separator + "Module.class", true);
+        ensureClassFileExists("testC/mod/Module.class", true);
 
     }
 
@@ -226,8 +228,8 @@ public class CompileWithWallsTest extends BuildFileTestBase {
      */
     @Ignore
     public void testPackageBBreakingWhenAIsCompiledFirstExternalWalls() {
-        ensureClassFileExists("testB" + File.separator + "mod" + File.separator + "modA" + File.separator + "ModuleA.class", false);
-        ensureJavaFileExists("testB" + File.separator + "mod" + File.separator + "modB" + File.separator + "ModuleB.java", true);
+        ensureClassFileExists("testB/mod/modA/ModuleA.class", false);
+        ensureJavaFileExists("testB/mod/modB/ModuleB.java", true);
 
         expectSpecificBuildException("testPackageBBreakingWhenAIsCompiledFirst",
                 "PackageBBreakingWhenAIsCompiledFirst",
@@ -236,26 +238,25 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         //modA should have been compiled successfully, it is only modB that
         //fails.  It is very important we make sure A got compiled otherwise
         //we are not testing the correct behavior and the test would be wrong.
-        ensureClassFileExists("testB" + File.separator + "mod" + File.separator + "modA" + File.separator + "ModuleA.class", true);
-        ensureClassFileExists("testB" + File.separator + "mod" + File.separator + "modB" + File.separator + "ModuleB.class", false);
+        ensureClassFileExists("testB/mod/modA/ModuleA.class", true);
+        ensureClassFileExists("testB/mod/modB/ModuleB.class", false);
     }
 
     @Ignore
     public void testCompileOfAllUsingDependsExternalWalls() {
-        ensureClassFileExists("testC" + File.separator + "mod" + File.separator + "Module.class", false);
-        ensureJavaFileExists("testC" + File.separator + "mod" + File.separator + "Module.java", true);
+        ensureClassFileExists("testC/mod/Module.class", false);
+        ensureJavaFileExists("testC/mod/Module.java", true);
         executeTarget("testCompileOfAllUsingDependsExternalWalls");
         //must test class files were actually created afterwards.
         //The build might pass with no class files if the task is
         //messed up.
-        ensureClassFileExists("testC" + File.separator + "mod" + File.separator + "Module.class", true);
+        ensureClassFileExists("testC/mod/Module.class", true);
     }
 
     private void ensureJavaFileExists(String file, boolean shouldExist) {
         //must test that it is testing the correct directory.
         //It wasn't before.
-        String javaFile = baseDir + file;
-        File f1 = new File(javaFile);
+        File f1 = new File(baseDir, file);
         if (shouldExist)
             assertTrue("The java file=" + f1.getAbsolutePath() + " didn't exist, we can't run this test.  It will pass with false results",
                     f1.exists());
@@ -265,12 +266,7 @@ public class CompileWithWallsTest extends BuildFileTestBase {
     }
 
     private void ensureClassFileExists(String file, boolean shouldExist) {
-        String classFile = baseDir
-                           + "compilewithwalls" + File.separator
-                           + "classes" + File.separator
-                           + file;
-
-        File f1 = new File(classFile);
+        File f1 = new File(baseDir + "/compilewithwalls/classes", file);
         if (shouldExist)
             assertTrue("The class file=" + f1.getAbsolutePath() + " didn't get created, No build exception\nwas thrown, but the build failed because a class\nfile should have been created",
                     f1.exists());

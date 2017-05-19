@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.tools.ant.BuildEvent;
@@ -89,9 +88,7 @@ public class AntPerformanceListener implements BuildListener {
         String lSep = System.getProperty("line.separator");
         msg.append(lSep).append("Statistics:").append(lSep);
         msg.append("-------------- Target Results ---------------------").append(lSep);
-        Iterator<StopWatch> it = sortedTargets.keySet().iterator();
-        while (it.hasNext()) {
-            StopWatch key = it.next();
+        for (StopWatch key : sortedTargets.keySet()) {
             StringBuilder sb = new StringBuilder();
             Target target = sortedTargets.get(key);
             if (target != null) {
@@ -108,9 +105,7 @@ public class AntPerformanceListener implements BuildListener {
         }
         msg.append(lSep);
         msg.append("-------------- Task Results -----------------------").append(lSep);
-        it = sortedTasks.keySet().iterator();
-        while (it.hasNext()) {
-            StopWatch key = it.next();
+        for (StopWatch key : sortedTasks.keySet()) {
             Task task = sortedTasks.get(key);
             StringBuilder sb = new StringBuilder();
             Target target = task.getOwningTarget();

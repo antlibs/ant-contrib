@@ -462,8 +462,7 @@ public abstract class BuildFileTest {
 		|| event.getPriority() == Project.MSG_ERR) {
                 logBuffer.append(event.getMessage());
             }
-            fullLogBuffer.append(event.getMessage());
-
+            fullLogBuffer.append(event.getMessage()).append(System.getProperty("line.separator"));
         }
     }
 

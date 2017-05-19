@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import net.sf.antcontrib.BuildFileTestBase;
-import org.apache.tools.ant.util.JavaEnvUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,28 +39,17 @@ import org.junit.Test;
 public class VerifyDesignTest extends BuildFileTestBase {
 
     private static final String REASON = "Build should have failed with proper message and did not";
-    private final String baseDir = "test" + File.separator
-        + "resources" + File.separator
-        + "design" + File.separator;
 
+    private static String baseDir = "";
     @Before
     public void setUp() {
         configureProject("design/verifydesign.xml");
-//        project.log("ASFDSADF", Project.MSG_INFO);
-    }
-
-    @SuppressWarnings("unused")
-    private static String s = "";
-
-    public static void log(String msg) {
-        s += msg + "\n";
+        baseDir = getProject().getBaseDir().getAbsolutePath();
     }
 
     @After
     public void tearDown() {
         executeTarget("cleanup");
-
-        //System.out.println("test log=\n"+s);
     }
 
     @Test
@@ -157,12 +145,6 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testFieldRefDepend() {
-        if (JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_1)
-            || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_2)
-            || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_3)) {
-            return;
-        }
-
         String class1 = "mod.fieldrefdepend.ClassDependsOnReferenceInFieldDeclaration";
         String class2 = "mod.dummy.DummyClass";
         expectDesignCheckFailure("testFieldRefDepend", Design.getErrorMessage(class1, class2));
@@ -198,11 +180,6 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testLocalVarRefDepend() {
-        if (JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_1)
-            || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_2)
-            || JavaEnvUtils.isJavaVersion(JavaEnvUtils.JAVA_1_3)) {
-            return;
-        }
         String class1 = "mod.localvarrefdepend.ClassDependsOnLocalVariableReference";
         String class2 = "mod.dummy.DummyInterface";
         expectDesignCheckFailure("testLocalVarRefDepend", Design.getErrorMessage(class1, class2));
@@ -210,7 +187,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testMissingAttribute() {
-    	File designFile = new File("test/resources/design/designfiles/missingattribute.xml");
+        File designFile = new File(baseDir, "designfiles/missingattribute.xml");
         String msg = "\nProblem parsing design file='"
 			+ designFile.getAbsolutePath() + "'.  \nline=3 column=31 Reason:\nError in file="
 			+ designFile.getAbsolutePath() + ", package element must contain the 'name' attribute\n";
@@ -219,8 +196,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testMultipleErrors() {
-    	File jarFile = new File(baseDir + File.separator + "build" + File.separator + "jar"
-		    + File.separator + "test.jar");
+        File jarFile = new File(baseDir, "build/jar/test.jar");
         String class1 = "mod.arraydepend.ClassDependsOnArray";
         String class2 = "mod.dummy.DummyClass";
         //executeTarget("testMultipleErrors");
@@ -261,7 +237,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testNoJar() {
-    	File jar = new File("test/resources/design/build/jar/test.jar");
+        File jar = new File(baseDir, "build/jar/test.jar");
         expectSpecificBuildException("testNoJar", REASON, VisitorImpl.getNoFileMsg(jar));
     }
 
@@ -356,9 +332,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
 
     @Test
     public void testSuperDepend() {
-        String s = File.separator;
-        File f = new File("test" + s + "resources" + s + "design" + s + "build"
-        		+ s + "jar" + s + "test.jar");
+        File f = new File(baseDir, "build/jar/test.jar");
 
         //      executeTarget("testSuperDepend");
         String class1 = "mod.superdepend.ClassDependsOnSuperMod2";

@@ -15,13 +15,14 @@
  */
 package net.sf.antcontrib.property;
 
+import static org.apache.tools.ant.util.FileUtils.getFileUtils;
+
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.util.FileUtils;
 
 public class PathToFileSet
     extends Task
@@ -31,7 +32,6 @@ public class PathToFileSet
     private String pathRefId;
     private boolean ignoreNonRelative = false;
 
-    private static final FileUtils fileUtils = FileUtils.getFileUtils();
 
     public void setDir(File dir) {
         this.dir = dir;
@@ -71,8 +71,8 @@ public class PathToFileSet
         fileSet.setProject(getProject());
         fileSet.setDir(dir);
         String dirNormal =
-            fileUtils.normalize(dir.getAbsolutePath()).getAbsolutePath();
-        if (! dirNormal.endsWith(File.separator)) {
+                getFileUtils().normalize(dir.getAbsolutePath()).getAbsolutePath();
+        if (!dirNormal.endsWith(File.separator)) {
             dirNormal += File.separator;
         }
 
@@ -101,8 +101,8 @@ public class PathToFileSet
 
     private String getRelativeName(String dirNormal, File file) {
         String fileNormal =
-            fileUtils.normalize(file.getAbsolutePath()).getAbsolutePath();
-        if (! fileNormal.startsWith(dirNormal))
+                getFileUtils().normalize(file.getAbsolutePath()).getAbsolutePath();
+        if (!fileNormal.startsWith(dirNormal))
             return null;
         return fileNormal.substring(dirNormal.length());
     }
