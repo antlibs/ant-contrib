@@ -30,7 +30,7 @@ import net.sf.antcontrib.antserver.Util;
 import static org.apache.tools.ant.util.FileUtils.isAbsolutePath;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 @SuppressWarnings("serial")
 public class SendFileCommand extends AbstractCommand implements Command {

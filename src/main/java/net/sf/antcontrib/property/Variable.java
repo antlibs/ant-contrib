@@ -45,7 +45,7 @@ import org.apache.tools.ant.property.ResolvePropertyMap;
  * </p>
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.6 $
  * @since Ant 1.5
  */

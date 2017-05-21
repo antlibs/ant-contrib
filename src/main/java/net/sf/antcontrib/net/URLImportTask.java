@@ -36,7 +36,7 @@ import fr.jayasoft.ivy.ant.IvyConfigure;
  * or a .zip/.jar, in which case we download and extract the entire archive, and
  * import the file "build.xml"
  *
- * @author Matthew Inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class URLImportTask extends ImportTask {
     /**

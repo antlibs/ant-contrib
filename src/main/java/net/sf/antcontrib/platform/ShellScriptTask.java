@@ -28,8 +28,8 @@ import org.apache.tools.ant.util.FileUtils;
  * accept a filename containing script input (bash, perl, csh, tcsh, etc.).
  * see antcontrib doc for usage
  *
- * @author Stephan Beal
- * @author Peter Reilly
+ * @author <a href="mailto:sgbeal@users.sf.net">Stephan Beal</a>
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class ShellScriptTask extends ExecTask {
     /**

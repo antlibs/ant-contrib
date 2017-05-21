@@ -30,7 +30,7 @@ package net.sf.antcontrib.perf;
  * </pre>
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.4 $
  */
 public class StopWatch {

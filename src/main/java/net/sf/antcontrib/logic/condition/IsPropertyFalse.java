@@ -23,7 +23,7 @@ import org.apache.tools.ant.taskdefs.condition.IsFalse;
  * Extends IsFalse condition to check the value of a specified property.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.3 $
  */
 public class IsPropertyFalse extends IsFalse {

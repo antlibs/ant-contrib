@@ -23,7 +23,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Utility class for executing calculations.
  *
- * @author Matthew Inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Math {
     /**

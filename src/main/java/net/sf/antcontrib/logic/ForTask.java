@@ -39,7 +39,7 @@ import org.apache.tools.ant.types.Path;
  * the foreach task but takes a sequential element
  * instead of a target and only works for Ant 1.6+
  *
- * @author Peter Reilly
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class ForTask extends Task {
     /**

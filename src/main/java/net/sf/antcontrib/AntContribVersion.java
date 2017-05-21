@@ -18,7 +18,7 @@ package net.sf.antcontrib;
 /**
  * Version class.
  *
- * @author Dean Hiller
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class AntContribVersion {
     /**

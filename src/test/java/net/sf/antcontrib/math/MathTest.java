@@ -23,7 +23,7 @@ import net.sf.antcontrib.BuildFileTestBase;
 /**
  * MathTest class.
  *
- * @author danson
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class MathTest extends BuildFileTestBase {
     /**

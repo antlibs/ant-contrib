@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class ConnectionBuildListener implements BuildListener {
     /**

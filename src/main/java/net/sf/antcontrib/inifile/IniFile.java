@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Class representing a windows style .ini file.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class IniFile {
     /**

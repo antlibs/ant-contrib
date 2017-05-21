@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Util {
     /**

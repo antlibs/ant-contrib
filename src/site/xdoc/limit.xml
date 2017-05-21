@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Limit Task</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+  </properties>
+  <body>
+    <section name="Limit">
+      <p>
+	The Limit task is a task container (that is, it holds other
+	tasks) and sets a time limit on how long the nested tasks are
+	allowed to run. This is useful for unit tests that go awry,
+	hung socket connections, or other potentially long running
+	tasks that need to be shut off without stopping the build.
+      </p>
+      <table summary="Limit Task Attributes" border="1" cellpadding="2" cellspacing="0">
+	<caption>Limit Task Attributes</caption>
+	<thead>
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Description</th>
+	    <th>Default</th>
+	    <th>Required</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>maxwait</td>
+	    <td>How long to wait for nested tasks to finish.</td>
+	    <td>180 seconds (3 minutes)</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>maxwaitunit</td>
+	    <td>The unit for maxwait. Valid values are "millisecond", "second", "minute", "hour", "day", "week".</td>
+	    <td>seconds</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>failonerror</td>
+	    <td>Should the build fail if the time limit has been exceeded?</td>
+	    <td>false</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>property</td>
+	    <td>The name of a property to set if the max wait time is exceeded.</td>
+	    <td>none</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>value</td>
+	    <td>The value to set for the property if the max wait time is exceeded.</td>
+	    <td>true</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>milliseconds</td>
+	    <td>How long to wait in milliseconds.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>seconds</td>
+	    <td>How long to wait in seconds.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>minutes</td>
+	    <td>How long to wait in minutes.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>hours</td>
+	    <td>How long to wait in hours.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>days</td>
+	    <td>How long to wait in days.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>weeks</td>
+	    <td>How long to wait in weeks.</td>
+	    <td>3 minutes</td>
+	    <td>No</td>
+	  </tr>
+	</tbody>
+      </table>
+      <p>
+	Examples:
+      </p>
+      <p>
+	Neither the echo nor the fail will happen in this example. The
+	build will continue once the time has expired.
+      </p>
+      <source>
+	<![CDATA[
+<limit maxwait="3">
+   <sleep seconds="10"/>
+   <echo>This won't happen...</echo>
+   <fail>This won't happen either...</fail>
+</limit>
+	]]>
+      </source>
+      <p>
+	This is identical to the above example, but uses the
+	convenience "seconds" attribute:
+      </p>
+      <source>
+	<![CDATA[
+<limit seconds="3">
+   <sleep seconds="10"/>
+   <echo>This won't happen...</echo>
+   <fail>This won't happen either...</fail>
+</limit>
+	]]>
+      </source>
+      <p>
+	Neither the echo nor the fail will happen in this example. The
+	build will not continue once the time has expired.
+      </p>
+      <source>
+	<![CDATA[
+<limit maxwait="3" failonerror="true">
+   <sleep seconds="10"/>
+   <echo>This won't happen...</echo>
+   <fail>This won't happen either...</fail>
+</limit>
+	]]>
+      </source>
+      <p>
+	The limit will be reached and a property will be set
+	indicating so.
+      </p>
+      <source>
+	<![CDATA[
+<limit minutes="3" property="limit_reached">
+   <sleep minutes="10"/>
+   <echo>This won't happen...</echo>
+   <fail>This won't happen either...</fail>
+</limit>
+<echo>limit_reached = ${limit_reached)</echo>
+	]]>
+      </source>
+      <hr/>
+      <p align="center">
+	Copyright &copy; 2003-2004 Ant-Contrib Project. All rights
+	Reserved.
+      </p>
+    </section>
+  </body>
+</document>

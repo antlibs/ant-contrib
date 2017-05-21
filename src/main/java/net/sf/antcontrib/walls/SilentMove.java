@@ -21,7 +21,7 @@ import org.apache.tools.ant.taskdefs.Move;
 /**
  * Created on Aug 25, 2003.
  *
- * @author Dean Hiller (dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class SilentMove extends Move {
     /**

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>OutOfDate Task</title>
+    <author email="peterreilly@users.sf.net">Peter Reilly</author>
+  </properties>
+  <body>
+    <section name="OutOfDate">
+    <p>
+      Task definition for the <code>outofdate</code> task. This is an
+      extension of uptodate which allows multible targets and contains
+      an embedded <code>parallel</code> or <code>sequential</code>
+      element. If any of the target file's dates are earlier than any
+      of the source file's dates, then the specified
+      <code>parallel</code> or <code>sequential</code> block is
+      executed. The task may also contain mappers to map source files
+      to corresponding target files.
+    </p>
+    <subsection name="Parameters">
+    <table summary="OutOfDate Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+	<th>
+	  <p>Attribute</p>
+	</th>
+	<th>
+	  <p>Description</p>
+	</th>
+	<th>
+	  <p>Required</p>
+	</th>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>property</p>
+	</td>
+	<td>
+	  <p>
+	    The name of the property to set to the contents of
+	    the <code>value</code> parameter if any of the target
+	    files are out of date
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>value</p>
+	</td>
+	<td>
+	  <p>
+	    The value to set the property specified by the
+	    parameter <code>property</code> to, if any of the target
+	    files are out of date
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No, defaults to "true"</p>
+	</td>
+      </tr>
+      <tr>
+        <td valign="top">force</td>
+        <td valign="top">
+          Force outofdate ("true"/"false"). Default is "false".
+        </td>
+        <td valign="top">No</td>
+      </tr>
+      <tr>
+        <td valign="top">verbose</td>
+        <td valign="top">
+          Set vebose logging level for this task ("true"/"false").
+          Default is "false".
+        </td>
+        <td valign="top">No</td>
+      </tr>
+	<tr valign="top">
+	  <td>
+	    <p>outputsources</p>
+	  </td>
+	  <td>
+	    <p>
+	      The name of a property to set containing the sources
+	      that are newer that their corresponding targets.
+	    </p>
+	  </td>
+	  <td>
+	    <p align="left">No</p>
+	  </td>
+	</tr>
+      <tr valign="top">
+	<td>
+	  <p>outputtargets</p>
+	</td>
+	<td>
+	  <p>
+	    The name of a property to set containing the targets that
+	    are outofDate with respect to their corresponding sources.
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>alltargets</p>
+	</td>
+	<td>
+	  <p>
+	    The name of a property to set containing all the
+	    targets. This is usefull for debugging mapper nested
+	    elements.
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>separator</p>
+	</td>
+	<td>
+	  <p>
+	    The separator used to separate the files in the properties
+	    above. If a filename contains the separator, double quotes
+	    will be placed aroudnd the filename.
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No, defaults to “ “</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>outputsourcespath</p>
+	</td>
+	<td>
+	  <p>
+	    The id of a path to create containing the source files
+	    that are outofdate.
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>outputtargetspath</p>
+	</td>
+	<td>
+	  <p>
+	    The id of a path to create containing the target files
+	    that need to be updated.
+	  </p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+      <tr valign="top">
+	<td>
+	  <p>alltargetspath</p>
+	</td>
+	<td>
+	  <p>The id of a path to create containing all the target files.</p>
+	</td>
+	<td>
+	  <p align="left">No</p>
+	</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Attributes specified as nested elements">
+    <p>
+      <b>sourcefiles</b> - The list of files which are source files.
+      This element is required.
+    </p>
+    <p>
+      <b>targetfiles</b> - The list of files which are target files.
+    </p>
+    <p>
+      Both of these nested elements
+      are <a href="http://ant.apache.org/manual/using.html#path">Path</a>
+      elements which are are used to select sets or lists of files or
+      directories
+    </p>
+    <p>
+      The <i>sourcefiles</i> may contain no files. In this case,
+      outofdate will check the existance of the <i>targetfiles</i>.
+    </p>
+    <p>
+      <b>mapper</b> - This is used to map source files to target
+      files.
+    </p>
+    <p>
+      As well as the regular attributes for mapper, there is a extra
+      attribute to specify the relative directory of the sources.
+    </p>
+    <table summary="Mapper Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+	<td valign="top"><b>Attribute</b></td>
+	<td valign="top"><b>Description</b></td>
+	<td valign="top"><b>Required</b></td>
+      </tr>
+      <tr>
+	<td valign="top">dir</td>
+	<td valign="top">
+          The directory to the sources are relative to for the mapper.
+          Default is ${base.dir}.
+	</td>
+	<td valign="top">No</td>
+      </tr>
+    </table>
+    <p>
+      There may be a number of mapper nested elements.
+    </p>
+    <p>
+      <b>deletetargets</b> - This is used to delete targets if the
+      corresponding sources are outofdate.
+    </p>
+    <table summary="DeleteTargets Attributes" border="1" cellspacing="0" cellpadding="2">
+      <tr>
+	<td valign="top"><b>Attribute</b></td>
+	<td valign="top"><b>Description</b></td>
+	<td valign="top"><b>Required</b></td>
+      </tr>
+      <tr>
+	<td valign="top">all</td>
+	<td valign="top">
+          Whether to delete all the targets ("true"/"false"). Defaults
+          to "false".
+	</td>
+	<td valign="top">No</td>
+      </tr>
+      <tr>
+	<td valign="top">quiet</td>
+	<td valign="top">
+          Do not display diagnostic messages when deleting targets
+          ("true"/ "false"). Defaults to false.  When set to "true",
+          if a file or directory cannot be deleted, no error is
+          reported. This setting emulates the -f option to the Unix rm
+          command. Default is "false".  Setting this to "true" implies
+          setting failonerror to "false"
+	</td>
+	<td valign="top">No</td>
+      </tr>
+      <tr>
+	<td valign="top">failonerror</td>
+	<td valign="top">
+          Controls whether an error (such as a failure to delete a
+          file) stops the build or is merely reported to the screen.
+          Only relevant if quiet is "false".  Default is
+          "true".  Controls whether a failure to delete a
+          target stops the build or is merely reported to the screen.
+	</td>
+	<td valign="top">No</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Examples">
+    <p>
+      The following example creates the file ${jrun.file} if is older
+      that build.xml, or any file in ${lib.dir}.
+    </p>
+    <source>
+      <![CDATA[
+      <outofdate>
+          <sourcefiles>
+            <pathelement path="build.xml"/>
+            <fileset dir="${lib.dir}"/>
+          </sourcefiles>
+          <targetfiles path="${jrun.file}"/>
+          <sequential>
+            <mkdir dir="${build.bin.dir}"/>
+            <echo file="${jrun.file}" message="java -cp ${jrun.path} $*"/>
+            <chmod file="${jrun.file}" perm="ugo+rx"/>
+          </sequential>
+      </outofdate>
+      ]]>
+    </source>
+    <p>
+      The following example check the generated files, MODULE.IDS,
+      acme_agent_mib.h, acme_agent_mib.cpp are older that miblist.txt,
+      or any file in ${mib.src}, and if so an embedded shellScript is
+      invoked to update the files.
+    </p>
+    <source>
+      <![CDATA[
+      <outofdate>
+          <sourcefiles>
+            <pathelement path="${agent.src}/miblist.txt"/>
+            <fileset dir="${mib.src}"/>
+          </sourcefiles>
+          <targetfiles>
+            <pathelement path="${rep}/MODULE.IDS"/>
+            <pathelement path="${gen-agent}/acme_agent_mib.h"/>
+            <pathelement path="${gen-agent}/acme_agent_mib.cpp"/>
+          </targetfiles>
+          <sequential>
+            <shellscript shell="bash" dir="${agent.src}">
+                    classname=com.agentpp.agentgen.AgentGenConsole
+                    h1=${gen-agent}/acme_agent_mib.x
+                    ag() {
+                        java -cp ${lib.dir}/agentgen.jar $classname ${rep} $@
+                    }
+                    ag initialize
+                    ag load miblist.txt
+                    ag generate ACME-AGENT-MIB h > $h1
+                    (head -16 $h1; echo "using namespace Agentpp;";
+                    tail +16 $h1) > ${gen-agent}/acme_agent_mib.h
+                    ag generate ACME-AGENT-MIB c >\
+                        ${gen-agent}/acme_agent_mib.cpp
+            </shellscript>
+          </sequential>
+      </outofdate>
+      ]]>
+    </source>
+    <p>
+      The following example sets the project <i>manual.outofdate</i>
+      if any of the xml files are newer than index.html, or if any of
+      the xml files are newer than their corresponding .html file. A
+      path identified by <i>sources.path</i>, is created which
+      contains the sources that fullfilled these conditions.
+    </p>
+    <source>
+      <![CDATA[
+    <outofdate property="manual.outofdate" outputsourcespath="sources.path">
+      <sourcefiles>
+        <fileset dir="${src.manual}" includes="**/*.xml"/>
+      </sourcefiles>
+      <targetfiles path="${doc.manual}/index.html"/>
+      <mapper type="glob" dir="${src.manual}" from="*.xml" to="${doc.manual}/*.html"/>
+    </outofdate>
+      ]]>
+    </source>
+    <p>
+      The following assumes that there is a program
+      called <i>gengrammar</i> that takes a grammar file as an input
+      and generates a .h and a .c file in the current directory.
+    </p>
+    <source>
+      <![CDATA[
+  <outofdate property="manual.outofdate"
+             outputsources="grammar.sources">
+    <sourcefiles>
+      <fileset dir="${src.grammar}" includes="**/*.y"/>
+    </sourcefiles>
+    <mapper type="glob" dir="${src.grammar}" from="*.y" to="${gen.grammar}/*.c"/>
+    <mapper type="glob" dir="${src.grammar}" from="*.y" to="${gen.grammar}/*.h"/>
+    <sequential>
+      <shellscript shell="bash">
+        cd ${gen.grammar}
+        for g in ${grammar.sources}
+        do
+            gengrammar $g
+        done
+      </shellscript>
+    </sequential>
+  </outofdate>
+      ]]>
+    </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+    </section>
+  </body>
+</document>

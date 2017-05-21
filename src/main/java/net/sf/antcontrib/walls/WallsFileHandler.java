@@ -27,6 +27,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Handler for the root element. Its only child must be the "project" element.
+ *
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 class WallsFileHandler extends DefaultHandler {
     /**

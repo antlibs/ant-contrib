@@ -22,7 +22,7 @@ import org.apache.tools.ant.Task;
 /**
  * Task for mathematical operations.
  *
- * @author Matthew Inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class MathTask extends Task implements DynamicConfigurator {
     /**

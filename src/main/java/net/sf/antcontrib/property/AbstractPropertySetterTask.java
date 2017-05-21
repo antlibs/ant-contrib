@@ -20,7 +20,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public abstract class AbstractPropertySetterTask extends Task {
     /**

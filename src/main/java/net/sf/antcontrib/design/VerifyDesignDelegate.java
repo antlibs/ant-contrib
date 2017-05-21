@@ -54,7 +54,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 /**
- * @author Dean Hiller(dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class VerifyDesignDelegate implements Log {
     /**

@@ -32,7 +32,7 @@ import net.sf.antcontrib.antserver.Util;
 import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Client {
     /**

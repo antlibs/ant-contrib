@@ -22,7 +22,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 
 /**
- * @author Dean Hiller (dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class VerifyDesign extends Task implements Log {
 

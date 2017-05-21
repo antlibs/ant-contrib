@@ -28,6 +28,7 @@ import org.apache.bcel.generic.Type;
 import org.apache.tools.ant.Project;
 
 /**
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class InstructionVisitor extends EmptyVisitor {
     /**

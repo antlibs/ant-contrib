@@ -30,7 +30,7 @@ import org.apache.tools.ant.BuildException;
  * uses java reflection to call methods on the objects.
  * If things go wrong, BuildExceptions are thrown.
  *
- * @author Peter Reilly
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class Reflector {
     /**

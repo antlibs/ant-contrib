@@ -40,6 +40,8 @@ import org.apache.tools.ant.Project;
 
 /**
  * Created on Jan 9, 2005.
+ *
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 class VisitorImpl extends EmptyVisitor {
     /**

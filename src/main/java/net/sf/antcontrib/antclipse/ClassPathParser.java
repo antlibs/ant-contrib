@@ -35,7 +35,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * in nasty cases (Windows files containing strange chars, internationalized
  * filenames, but you shouldn't be doing this, anyway :)).
  *
- * @author Adrian Spinei aspinei@myrealbox.com
+ * @author <a href="mailto:aspinei@myrealbox.com">Adrian Spinei</a>
  * @version $Revision: 1.2 $
  * @since Ant 1.5
  */

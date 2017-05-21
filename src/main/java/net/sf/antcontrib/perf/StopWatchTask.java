@@ -25,7 +25,7 @@ import org.apache.tools.ant.Task;
  * Assists in timing tasks and/or targets.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.5 $
  */
 public class StopWatchTask extends Task {

@@ -40,7 +40,7 @@ import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 import net.sf.antcontrib.antserver.commands.ShutdownCommand;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class ConnectionHandler implements Runnable {
     /**

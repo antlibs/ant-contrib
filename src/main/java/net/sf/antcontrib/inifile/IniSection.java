@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * A section within an IniFile.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class IniSection implements IniPart {
     /**

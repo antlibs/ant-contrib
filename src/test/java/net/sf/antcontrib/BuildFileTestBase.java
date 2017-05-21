@@ -29,7 +29,7 @@ import org.apache.tools.ant.BuildFileTest;
 /**
  * More methods for BuildFileTest.
  *
- * @author Dale Anson
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public abstract class BuildFileTestBase extends BuildFileTest {
     /**

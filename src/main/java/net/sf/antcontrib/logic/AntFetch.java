@@ -28,8 +28,8 @@ import org.apache.tools.ant.taskdefs.Ant;
  * Normally, these properties are thrown away as soon as the
  * called target completes execution.
  *
- * @author Matthew Inger
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class AntFetch extends Ant {
     /**

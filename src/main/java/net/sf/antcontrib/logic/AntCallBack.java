@@ -53,8 +53,8 @@ import org.apache.tools.ant.util.FileUtils;
  * <p>Credit to Costin for the original &lt;ant&gt; task, on which this is
  * based.</p>
  *
- * @author costin@dnt.ro
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:costin@dnt.ro">Costin Manolache</a>
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @since Ant 1.1
  */
 public class AntCallBack extends Task {
@@ -595,7 +595,7 @@ public class AntCallBack extends Task {
      * Helper class that implements the nested &lt;reference&gt; element of
      * &lt;ant&gt; and &lt;antcall&gt;.
      *
-     * @author danson
+     * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
      */
     public static class Reference
             extends org.apache.tools.ant.types.Reference {

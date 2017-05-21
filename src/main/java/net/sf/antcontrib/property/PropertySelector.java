@@ -24,7 +24,7 @@ import org.apache.tools.ant.types.RegularExpression;
 import org.apache.tools.ant.util.regexp.Regexp;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class PropertySelector extends AbstractPropertySetterTask {
     /**

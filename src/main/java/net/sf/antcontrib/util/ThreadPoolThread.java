@@ -16,7 +16,7 @@
 package net.sf.antcontrib.util;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class ThreadPoolThread extends Thread {
     /**

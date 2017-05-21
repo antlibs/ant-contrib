@@ -22,7 +22,7 @@ import java.io.Serializable;
 import org.apache.tools.ant.Project;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public interface Command extends Serializable {
     /**

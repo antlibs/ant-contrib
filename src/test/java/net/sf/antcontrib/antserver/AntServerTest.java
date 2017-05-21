@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Place class description here.
  *
- * @author inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class AntServerTest extends BuildFileTestBase {
     /**

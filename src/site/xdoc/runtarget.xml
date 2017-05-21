@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>RunTarget Task</title>
+    <author email="nicolaken@apache.org">Nicola Ken Barozzi</author>
+  </properties>
+  <body>
+    <section name="RunTarget">
+    <p>
+      Ant task that runs a target without creating a new project.
+    </p>
+    <subsection name="Parameters">
+    <table summary="RunTarget Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">target</td>
+        <td valign="top">The name of the target to run.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+    </table>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+    </section>
+  </body>
+</document>

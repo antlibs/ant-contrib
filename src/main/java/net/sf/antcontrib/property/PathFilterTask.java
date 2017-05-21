@@ -26,6 +26,7 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.selectors.OrSelector;
 
 /**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class PathFilterTask extends Task {
     /**

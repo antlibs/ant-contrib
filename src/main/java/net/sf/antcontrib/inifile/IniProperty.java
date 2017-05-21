@@ -21,7 +21,7 @@ import java.io.Writer;
 /**
  * A single property in an IniSection.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class IniProperty implements IniPart {
     /**

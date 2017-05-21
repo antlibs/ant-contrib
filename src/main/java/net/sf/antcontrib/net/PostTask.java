@@ -53,7 +53,7 @@ import org.apache.tools.ant.property.ResolvePropertyMap;
  * post. This means that a file can be set up in advance of running the build
  * and the appropriate property values will be filled in at run time.
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.11 $
  */
 public class PostTask extends Task {

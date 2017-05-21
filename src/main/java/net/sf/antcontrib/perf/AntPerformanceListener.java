@@ -44,7 +44,7 @@ import org.apache.tools.ant.Task;
  * location="/tmp/performance.log"/&gt;</code>).</p>
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.5 $
  */
 public class AntPerformanceListener implements BuildListener {
@@ -275,7 +275,7 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * A stopwatch, useful for 'quick and dirty' performance testing.
      *
-     * @author Dale Anson
+     * <a href="mailto:danson@germane-software.com">Dale Anson</a>
      * @version $Revision: 1.5 $
      */
     public class StopWatch {

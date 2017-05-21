@@ -27,7 +27,7 @@ import org.apache.tools.ant.TaskContainer;
  * ignoring any failures until all tasks have completed.  If any of the
  * executed tasks fail, then Relentless will fail; otherwise it will succeed.
  *
- * @author Christopher Heiny
+ * @author <a href="mailto:clheiny@users.sf.net">Christopher Heiny</a>
  */
 public class Relentless extends Task implements TaskContainer {
     /**

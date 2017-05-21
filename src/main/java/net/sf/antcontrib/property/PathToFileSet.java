@@ -25,6 +25,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 /**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class PathToFileSet extends Task {
     /**

@@ -21,7 +21,7 @@ import org.apache.tools.ant.Task;
 /**
  * Ant task that runs a target without creating a new project.
  *
- * @author Nicola Ken Barozzi nicolaken@apache.org
+ * @author <a href="mailto:nicolaken@apache.org">Nicola Ken Barozzi</a>
  */
 public class RunTargetTask extends Task {
     /**

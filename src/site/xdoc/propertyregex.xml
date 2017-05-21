@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>PropertyRegex Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="PropertyRegex">
+    <p>
+      Performs regular expression operations on an input string, and
+      sets the results to a property.  There are two different
+      operations that can be performed:
+    </p>
+    <ol type="1">
+      <li>
+	Replacement - The matched regular expression is replaced with
+        a substitition pattern
+      </li>
+      <li>
+	Selection - Groupings within the regular expression are
+        selected via a selection expression.
+      </li>
+    </ol>
+    <subsection name="Parameters">
+    <table summary="PropertyRegex Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">property</td>
+        <td valign="top">The name of the property to set.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">override</td>
+        <td valign="top">
+	  If the property is already set, should we change it's value.
+          Can be <code>true</code> or <code>false</code>
+	</td>
+        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+      </tr>
+      <tr>
+        <td valign="top">input</td>
+        <td valign="top">The input string to be processed</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">regexp</td>
+        <td valign="top">
+	  The regular expression which is matched in the input string.
+	</td>
+        <td align="center" valign="top">
+	  Yes (can be specified in a <code>regexp</code> subelement).
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">select</td>
+        <td valign="top">
+	  A pattern which indicates what selection pattern you want in
+          the returned value.  This uses the substitution pattern
+          syntax to indicate where to insert groupings created as a
+          result of the regular expression match.
+	</td>
+        <td align="center" valign="top">Yes, unless a replace is specified</td>
+      </tr>
+      <tr>
+        <td valign="top">replace</td>
+        <td valign="top">
+	  A regular expression substitition pattern, which will be
+          used to replace the given regular expression in the input
+          string.
+	</td>
+        <td align="center" valign="top">Yes, unless a select is specified</td>
+      </tr>
+      <tr>
+        <td valign="top">casesensitive</td>
+        <td valign="top">Should the match be case sensitive</td>
+        <td align="center" valign="top">No. default is "true".</td>
+      </tr>
+      <tr>
+        <td valign="top">global</td>
+        <td valign="top">
+	  Should a replacement operation be performed on the entire
+          string, rather than just the first occurence
+	</td>
+        <td align="center" valign="top">No. default is <code>false</code>.</td>
+      </tr>
+      <tr>
+        <td valign="top">defaultValue</td>
+        <td valign="top">
+	  The value to set the output property to, if the input string
+          does not match the specific regular expression.
+	</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Select expressions">
+    <p>
+      Expressions are selected in a the same syntax as a regular
+      expression substitution pattern.
+    </p>
+    <ul type="disc">
+      <li><code>\0</code> indicates the entire property name (default).</li>
+      <li><code>\1</code> indicates the first grouping</li>
+      <li><code>\2</code> indicates the second grouping</li>
+      <li>etc...</li>
+    </ul>
+    </subsection>
+    <subsection name="Replacement">
+    <p>
+      It is important to note that when doing a "replace" operation,
+      if the input string does not match the regular expression, then
+      the property is not set.  You can change this behavior by
+      supplying the "defaultValue" attribute.  This attribute should
+      contain the value to set the property to in this case.
+    </p>
+    </subsection>
+    <subsection name="Example">
+      <source>
+	<![CDATA[
+    <propertyregex property="pack.name"
+              input="package.ABC.name"
+              regexp="package\.([^\.]*)\.name"
+              select="\1"
+              casesensitive="false"/>
+	]]>
+      </source>
+      <p>
+	yields <code>ABC</code>
+      </p>
+      <source>
+	<![CDATA[
+    <propertyregex property="pack.name"
+              input="package.ABC.name"
+              regexp="(package)\.[^\.]*\.(name)"
+              replace="\1.DEF.\2"
+              casesensitive="false"/>
+	]]>
+      </source>
+      <p>
+	yields <code>package.DEF.name</code>
+      </p>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+    </section>
+  </body>
+</document>

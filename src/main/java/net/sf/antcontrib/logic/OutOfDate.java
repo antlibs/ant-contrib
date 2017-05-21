@@ -41,7 +41,7 @@ import org.apache.tools.ant.util.FileUtils;
  * <p>Based on {@link
  * org.apache.tools.ant.taskdefs.UpToDate UpToDate} task</p>
  *
- * @author Peter Reilly
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class OutOfDate extends Task implements Condition {
     /**

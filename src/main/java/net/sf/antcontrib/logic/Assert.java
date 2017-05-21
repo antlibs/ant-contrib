@@ -27,7 +27,7 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
 /**
  * Assert class.
  *
- * @author Matthew Inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Assert extends BooleanConditionBase {
     /**

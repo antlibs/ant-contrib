@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Importurl Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="Importurl">
+    <p>
+      The Importurl task will download a file, and import it's
+      contents into the current project.  The file can be in the form
+      of a standard ant .xml project file, or a .jar/.zip file.
+    </p>
+    <p>
+      In the case of an .xml file, the file is downloaded, and
+      imported as is. In this case, the file itself is the only thing
+      downloaded (ie. no corresponding .properties files, or other
+      build files are downloaded).
+    </p>
+    <p>
+      In the case of a .jar/.zip file, the file is downloaded and then
+      decompressed. After decompression, the file
+      <code>build.xml</code> at the root level of the jar is imported
+      (the name of the imported file can be overriden with the
+      'resource' attribute). By importing a .jar/.zip file, one can
+      package additional resources along with the
+      <code>build.xml</code> file. However, you must be careful how
+      you refer to these resources. The <code>build.xml</code> file
+      must follow the same rules as any other file imported with the
+      <code>import</code> task, in that references relative to the
+      <code>build.xml</code> file must be made with the property:
+      <code>ant.file.&lang;projectname&rang;</code> where
+      <code>&lang;projectname&rang;</code> is the name of the project
+      being imported, as specified in the project tag. Example:
+    </p>
+    <source>
+      <![CDATA[
+        <project name="common">
+            <dirname property="ant.dir.common" file="${ant.file.common}"/>
+            <property file="${ant.dir.common}/build.properties"/>
+        </project>
+      ]]>
+    </source>
+    <p>
+      This task should be compatible with older versions of ant, but
+       has only been tested with Ant 1.6+. The underlying
+       implementation is done using the
+       <a href="http://www.jaya.free.fr/">Ivy</a> dependency resolver software,
+       and thus, it needs available to the same classloader that loads this task.
+    </p>
+    <subsection name="Parameters">
+    <table summary="ImportURL Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">org</td>
+        <td valign="top">The organization that publishes the script.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">module</td>
+        <td valign="top">The name of the module which is to be fetched.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">rev</td>
+        <td valign="top">The revision of the module to be fetched.</td>
+        <td align="center" valign="top">
+	  No.  Defaults to "latest.integration".  See the ivy details
+          for more information on the possible wildcarding that can be
+          used for this value.
+	</td>
+      </tr>
+      <tr>
+        <td valign="top">type</td>
+        <td valign="top">The type of file to be downloaded</td>
+        <td align="center" valign="top">
+	  No.  Defaults to 'jar'.  Can be any file extension.
+	  However, unless the type is 'xml', the file is assumed to be
+	  a compressed file, expandable by Ant's <code>expand</code>
+	  task (which is aliased to unjar, unzip).
+	</td>
+      </tr>
+      <tr>
+        <td valign="top">ivyConfUrl</td>
+        <td valign="top">
+	  The URL of an ivy configuration file to use.  We will use
+          the default resolver in this file to find the requested
+          resource.
+	</td>
+        <td align="center" valign="top">No.  Defaults to the IvyRepResolver.</td>
+      </tr>
+      <tr>
+        <td valign="top">ivyConfFile</td>
+        <td valign="top">
+	  The path of an ivy configuration file to use.  We will use
+          the default resolver in this file to find the requested
+          resource.
+	</td>
+        <td align="center" valign="top">No.  Defaults to the IvyRepResolver.</td>
+      </tr>
+      <tr>
+        <td valign="top">repositoryUrl</td>
+        <td valign="top">
+	  The URL base of the repository to use.  This results in
+          using Ivy's URLResolver to resolve the requested resource.
+	</td>
+        <td align="center" valign="top">No.  Defaults to the IvyRepResolver.</td>
+      </tr>
+      <tr>
+        <td valign="top">repositoryDir</td>
+        <td valign="top">
+	  The file base of the repository to use.  This results in
+          using Ivy's FileSystemResolver to resolve the requested
+          resource.
+	</td>
+        <td align="center" valign="top">No.  Defaults to the IvyRepResolver.</td>
+      </tr>
+      <tr>
+        <td valign="top">artifactPattern</td>
+        <td valign="top">The pattern used to find artifacts in the repository.</td>
+        <td align="center" valign="top">
+	  No.  If repositoryUrl or repositoryDir are specified, this
+          defaults to the standard repository pattern:
+          "/[org]/[module]/[ext]s/[module]-[revision].[ext]".  Please
+          see the ivy documentation for more information on the
+          contents of this pattern.
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">ivyPattern</td>
+        <td valign="top">The pattern used to find ivy file for the artifact in the repository.</td>
+        <td align="center" valign="top">
+	  No.  If repositoryUrl or repositoryDir are specified, this
+          defaults to the standard repository pattern:
+          "/[org]/[module]/ivy-[revision].xml".  Please see the ivy
+          documentation for more information on the contents of this
+          pattern.
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">resource</td>
+        <td valign="top">The name of the resource within a compressed file to import.</td>
+        <td align="center" valign="top">No.  Defaults to "build.xml".
+        </td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Example">
+    <source>
+      <![CDATA[
+    <project name="build" basedir="." default="build" xmlns:ac="antlib:net.sf.antcontrib">
+        <ac:antcontrib:importurl org="antcontrib"
+                                 module="common"
+                                 rev="3.2"/>
+    </project>
+      ]]>
+    </source>
+    <p>
+      would look for the file "antcontrib/common/jars/common-3.2.jar"
+      in the IvyRep repository.
+    </p>
+    <source>
+      <![CDATA[
+    <ac:antcontrib:importurl org="antcontrib"
+                             module="common"
+                             rev="3.2"
+                             type="xml"/>
+      ]]>
+    </source>
+    <p>
+      would look for the file "antcontrib/common/jars/common-3.2.xml"
+      in the IvyRep repository.
+    </p>
+    <source>
+      <![CDATA[
+    <ac:antcontrib:importurl repositoryUrl="http://www.antcontrib.org/ivyrep"
+                             org="antcontrib"
+                             module="common"
+                             rev="3.2"/>
+      ]]>
+    </source>
+    <p>
+      would look for the located at
+      "http://www.antcontrib.org/ivyrep/antcontrib/common/jars/common-3.2.jar"
+    </p>
+    <source>
+      <![CDATA[
+    <ac:antcontrib:importurl ivyConfUrl="http://ivyrep.myorg.com/ivyconf.xml"
+                                org="antcontrib"
+                                module="common"
+                                rev="3.2"/>
+      ]]>
+    </source>
+    <p>
+      would configure ivy using the ivy configuration file at the
+      given ivyConfUrl.
+    </p>
+    <p>
+      The following build.xml may be packaged into a .jar with it's
+      corresponding build.properties file:
+    </p>
+    <source>
+      <![CDATA[
+    <project name="common">
+    <basedir property="ant.dir.common" file="${ant.file.common}"/>
+    <property file="${ant.dir.common}/build.properties"/>
+    </project>
+      ]]>
+    </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2006 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

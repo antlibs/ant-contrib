@@ -28,7 +28,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class SortList extends AbstractPropertySetterTask {
     /**

@@ -28,7 +28,7 @@ import org.apache.tools.ant.taskdefs.Property;
 import net.sf.antcontrib.antserver.Command;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 @SuppressWarnings("serial")
 public class RunTargetCommand extends AbstractCommand implements Command {

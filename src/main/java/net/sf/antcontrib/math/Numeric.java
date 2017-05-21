@@ -23,7 +23,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * A numeric value that implements Evaluateable.
  *
- * @author Matthew Inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class Numeric implements Evaluateable {
     /**

@@ -34,7 +34,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * and feeds a SAX parser. The handler is slightly different according to what we want to
  * obtain (a classpath or a fileset).
  *
- * @author Adrian Spinei aspinei@myrealbox.com
+ * @author <a href="mailto:aspinei@myrealbox.com">Adrian Spinei</a>
  * @version $Revision: 1.2 $
  * @since Ant 1.5
  */

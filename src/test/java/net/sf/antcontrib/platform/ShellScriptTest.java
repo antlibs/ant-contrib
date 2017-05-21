@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Testcase for &lt;shellscript&gt;.
  *
- * @author Peter Reilly
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class ShellScriptTest extends BuildFileTestBase {
     /**

@@ -21,7 +21,7 @@ import java.io.Writer;
 /**
  * A part of an IniFile that might be written to disk.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public interface IniPart {
     /**

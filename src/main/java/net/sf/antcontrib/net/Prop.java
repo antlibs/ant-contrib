@@ -19,7 +19,7 @@ package net.sf.antcontrib.net;
  * Simple bean to represent a name/value pair.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.3 $
  */
 public class Prop {

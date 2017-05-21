@@ -32,7 +32,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * complete, whichever is first.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @author Robert D. Rice
  * @version $Revision: 1.6 $
  * @since Ant 1.5

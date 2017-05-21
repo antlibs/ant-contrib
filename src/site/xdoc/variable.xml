@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Variable Task</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+  </properties>
+  <body>
+    <section name="Variable Task">
+      <p>
+	The Variable task provides a mutable property to Ant and works
+	much like variable assignment in Java. This task is similar to
+	the standard Ant Property task, except that THESE PROPERTIES
+	ARE MUTABLE. While this goes against the standard Ant use of
+	properties, occasionally it is useful to be able to change a
+	property value within the build. <b>In general, use of this
+	task is DISCOURAGED, and the standard Ant Property should be
+	used if possible.</b> Having said that, in real life I use
+	this a lot.
+      </p>
+      <p>
+	Variables can be set individually or loaded from a standard
+	properties file. A 'feature' of variables is that they can
+	override properties, but properties cannot override
+	variables. So if an already established property exists, its
+	value can be reassigned by use of this task.
+      </p>
+      <table summary="Variable Task Attributes" border="1" cellpadding="2" cellspacing="0">
+	<caption>Variable Task Attributes</caption>
+	<thead>
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Description</th>
+	    <th>Default</th>
+	    <th>Required</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>name</td>
+	    <td>The name of the property to set.</td>
+	    <td>None</td>
+	    <td>Yes, unless 'file' is used.</td>
+	  </tr>
+	  <tr>
+	    <td>value</td>
+	    <td>The value of the property.</td>
+	    <td>""</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>unset</td>
+	    <td>Removes the property from the project as if it had never been set.</td>
+	    <td>false</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>file</td>
+	    <td>The name of a standard properties file to load variables from.</td>
+	    <td>None</td>
+	    <td>No</td>
+	  </tr>
+	</tbody>
+      </table>
+      <p>
+	In the following example, the property <code>x</code> is first
+	set to "6", then evaluated by the <code>if</code>, and
+	reassigned the value "12". The <code>echo</code> task will
+	print out 12.
+      </p>
+      <source>
+	<![CDATA[
+    <var name="x" value="6"/>
+    <if>
+        <equals arg1="${x}" arg2="6"/>
+        <then>
+            <var name="x" value="12"/>
+        </then>
+    </if>
+    <echo>${x}</echo>   <!-- will print 12 -->
+	]]>
+      </source>
+      <p>
+	The next example shows a property being set, echoed, unset,
+	then reset:
+      </p>
+      <source>
+	<![CDATA[
+    <property name="x" value="6"/>
+    <echo>${x}</echo>   <!-- will print 6 -->
+    <var name="x" unset="true"/>
+    <property name="x" value="12"/>
+    <echo>${x}</echo>   <!-- will print 12 -->
+	]]>
+      </source>
+      <p>
+	The following shows some more uses of the Variable task. It is
+	especially handy for property appending. Notice a couple of
+	things: the property task can't override a var value, in
+	general, you should use var with the unset attribute to change
+	the value of a property.
+      </p>
+      <source>
+	<![CDATA[
+    <var name="x" value="6"/>
+    <echo>x = ${x}</echo>   <!-- print: 6 -->
+
+    <var name="x" value="12"/>
+    <echo>x = ${x}</echo>   <!-- print: 12 -->
+
+    <var name="x" value="6 + ${x}"/>
+    <echo>x = ${x}</echo>   <!-- print: 6 + 12 -->
+
+    <var name="str" value="I "/>
+    <var name="str" value="${str} am "/>
+    <var name="str" value="${str} a "/>
+    <var name="str" value="${str} string."/>
+    <echo>${str}</echo>     <!-- print: I am a string. -->
+
+    <var name="x" value="6"/>
+    <echo>x = ${x}</echo>   <!-- print: 6 -->
+
+    <property name="x" value="12"/>
+    <echo>x = ${x}</echo>   <!-- print: 6 (property can't override) -->
+
+    <var name="x" value="blue"/>
+    <tstamp>
+        <format property="x" pattern="EEEE"/>
+    </tstamp>
+    <echo>Today is ${x}.</echo> <!-- print: Today is blue. -->
+
+    <var name="x" value="" unset="true"/>
+    <tstamp>
+        <format property="x" pattern="EEEE"/>
+    </tstamp>
+    <echo>Today is ${x}.</echo> <!-- print: Today is Friday. -->
+	]]>
+      </source>
+      <!--
+      <p>
+	The next example shows Variable, If, Assert, and Try working together to make sure e-mail is sent from the right address and that if the mail fails to be sent for any reason, the build will not fail.
+      </p>
+      <source>
+	<![CDATA[
+   <var name="valid_email" value="false"/>
+   <if name="email_from" value="buildteam@mycompany.com">
+      <var name="valid_email" value="true"/>
+   </if>
+   <if name="email_from" value="buildsite@mycompany.com">
+      <var name="valid_email" value="true"/>
+   </if>
+   <assert name="valid_email" value="true" failonerror="false">
+      <try>
+         <mail from="${email_from}" tolist="${email_to}"
+            message="New release available"/>
+      </try>
+   </assert>
+	]]>
+      </source>
+      -->
+      <hr/>
+      <p align="center">
+	Copyright &copy; 2003-2004 Ant-Contrib Project. All rights
+	Reserved.
+      </p>
+    </section>
+  </body>
+</document>

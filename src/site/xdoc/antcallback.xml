@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>AntCallBack</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+  </properties>
+  <body>
+    <section name="AntCallBack">
+      <p>
+	AntCallBack is identical to the standard 'antcall' task,
+	except that it allows properties set in the called target to
+	be available in the calling target.
+      </p>
+      <p>
+	Some background may be in order: When the <code>antcall</code>
+	task is used, in actuality, a new Ant project is created, and
+	depending on the inheritAll property, it is populated with
+	properties from the original project. Then the requested
+	target in this new project is executed. Any properties set in
+	the new project remain with that project, they do not get
+	"passed back" to the original project. So, for example, if the
+	target in the new project sets a property named
+	"image.directory", there is no reference to that property in
+	the original. Here's an example of what I mean:
+      </p>
+      <source>
+	<![CDATA[
+    <target name="testCallback" description="Test CallBack">
+        <antcallback target="-testcb" return="a, b"/>
+        <echo>a = ${a}</echo>
+        <echo>b = ${b}</echo>
+    </target>
+
+    <target name="-testcb">
+        <property name="a" value="A"/>
+        <property name="b" value="B"/>
+    </target>
+    	]]>
+      </source>
+      <p>
+	The output from executing "testCallback" looks like this:
+      </p>
+      <source>
+a = A
+b = B
+      </source>
+      <p>
+	Contrast with this output from "antcall":
+      </p>
+      <source>
+a = ${a}
+b = ${b}
+      </source>
+      <p>
+	This is an often requested feature for Ant, at least judging
+	from the Ant mailing lists. I assume this is because it allows
+	a more functional programming style than Ant natively
+	supports. The proper Ant way of doing the above is like this:
+      </p>
+      <source>
+	    <![CDATA[
+    <target name="testCallback" description="Test CallBack" depends="-testcb">
+        <echo>a = ${a}</echo>
+        <echo>b = ${b}</echo>
+    </target>
+
+    <target name="-testcb">
+        <property name="a" value="A"/>
+        <property name="b" value="B"/>
+    </target>
+	    ]]>
+      </source>
+      <p>
+	This is actually looks cleaner in this situation, and is
+	faster, too. There is significant overhead in using both
+	"antcall" and "antcallback" in that they both require a lot of
+	object instantiation and property copying. That said, many
+	people prefer to use "antcall" and "antcallback" as it better
+	fits their logic and style.
+      </p>
+      <p>
+	The attributes for AntCallBack are identical to the 'antcall'
+	task, with one additional, optional attibute. This attribute
+	is named "return" and can be either a single property name or
+	a comma separated list of property names.
+      </p>
+      <table summary="AntCallBack Attributes" border="1" cellpadding="2" cellspacing="0">
+	<caption>AntCallBack Attributes</caption>
+	<thead>
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Description</th>
+	    <th>Default</th>
+	    <th>Required</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>return</td>
+	    <td>
+	      A comma separated list of property names. Whitespace is
+	      allowed, so either "a,b" or "a, b" are acceptable.
+	    </td>
+	    <td>None</td>
+	    <td>No</td>
+	  </tr>
+	</tbody>
+      </table>
+      <p>
+	For other attribute and nested element information and more
+	examples, see the documentation for the "antcall" task in the
+	Ant documentation.
+      </p>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+    </section>
+  </body>
+</document>

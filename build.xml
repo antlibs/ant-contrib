@@ -8,6 +8,7 @@
     <property name="src.test.dir" location="src/test/java"/>
     <property name="resources.test.dir" location="src/test/resources"/>
     <property name="docs.dir" location="src/site/resources"/>
+    <property name="xdoc.dir" location="src/site/xdoc"/>
     <property name="target.dir" location="target"/>
     <property name="lib.dir" value="${target.dir}/lib"/>
     <property name="target.classes.dir" location="${target.dir}/classes"/>
@@ -42,6 +43,7 @@
         <ivy:cachepath pathid="compile.classpath" type="jar" conf="provided"/>
         <ivy:cachepath pathid="runtime.classpath" type="jar" conf="default"/>
         <ivy:cachepath pathid="test.classpath" type="jar" conf="test"/>
+        <ivy:cachepath pathid="doxia.classpath" type="jar" conf="doxia"/>
         <ivy:cachefileset setid="compile.fileset" type="jar" conf="provided"/>
         <ivy:cachefileset setid="runtime.fileset" type="jar" conf="default"/>
         <ivy:cachefileset setid="test.fileset" type="jar" conf="test"/>
@@ -141,14 +143,31 @@
         </javadoc>
     </target>
 
-    <target name="docs" description="o Add manual to javadoc for distribution" depends="javadoc">
-        <mkdir dir="${target.docs.dir}/manual"/>
+    <target name="site" description="o Add manual to javadoc for distribution" depends="test,javadoc">
+        <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${target.dir}/${jar.name}" onerror="ignore"/>
+        <for param="xdoc.source">
+            <path>
+                <fileset dir="${xdoc.dir}" includes="*.xml"/>
+            </path>
+            <sequential>
+                <propertyregex property="xdoc.html" input="@{xdoc.source}"
+                               regexp=".*[\\/]xdoc[\\/](.*)\.xml$" replace="\1.html" override="true"/>
+                <echo>${xdoc.html}</echo>
+                <java classname="org.apache.maven.doxia.cli.ConverterCli" classpathref="doxia.classpath">
+                    <arg line="-from xdoc -to xhtml"/>
+                    <arg value="-in"/>
+                    <arg file="@{xdoc.source}"/>
+                    <arg value="-out"/>
+                    <arg file="${target.docs.dir}/manual/${xdoc.html}"/>
+                </java>
+            </sequential>
+        </for>
         <copy todir="${target.docs.dir}/manual">
-            <fileset dir="${docs.dir}" includes="**/*"/>
+            <fileset dir="${docs.dir}" includes="**/*.html"/>
         </copy>
     </target>
 
-    <target name="dist-stage" description="o Stage distribution" depends="test,docs">
+    <target name="dist-stage" description="o Stage distribution" depends="site">
         <mkdir dir="${target.stage.dir}"/>
         <mkdir dir="${target.stage.dir}/lib"/>
 

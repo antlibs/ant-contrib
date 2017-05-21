@@ -18,7 +18,7 @@ package net.sf.antcontrib.process;
 import org.apache.tools.ant.taskdefs.Sequential;
 
 /**
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class ForgetTask extends Sequential implements Runnable {
     /**

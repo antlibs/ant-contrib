@@ -18,7 +18,7 @@ package net.sf.antcontrib.design;
 /**
  * Created on Dec 24, 2004.
  *
- * @author Dean Hiller (dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class Depends {
     /**

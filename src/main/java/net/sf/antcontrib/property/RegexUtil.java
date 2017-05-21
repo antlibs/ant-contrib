@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Regular Expression utilities.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
 public class RegexUtil {
     /**

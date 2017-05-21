@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created on Aug 24, 2003.
  *
- * @author Dean Hiller (dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class Walls {
     /**

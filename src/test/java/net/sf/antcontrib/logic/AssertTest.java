@@ -27,7 +27,7 @@ import net.sf.antcontrib.BuildFileTestBase;
  * has it's own unit tests (which turns out to have been a bad assumption,
  * I can't find any unit tests for antcall).
  *
- * @author danson
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class AssertTest extends BuildFileTestBase {
     /**

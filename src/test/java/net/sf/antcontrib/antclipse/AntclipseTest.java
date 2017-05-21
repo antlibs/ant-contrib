@@ -24,7 +24,7 @@ import org.junit.Test;
  * Basic test for "antclipse" task.
  * For the moment it just launches the test xml script.
  *
- * @author Adrian Spinei aspinei@myrealbox.com
+ * @author <a href="mailto:aspinei@myrealbox.com">Adrian Spinei</a>
  * @version $Revision: 1.2 $
  */
 public class AntclipseTest extends BuildFileTestBase {

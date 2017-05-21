@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Testcase for &lt;relentless&gt;.
  *
- * @author Christopher Heiny
+ * @author <a href="mailto:clheiny@users.sf.net">Christopher Heiny</a>
  */
 public class RelentlessTaskTest extends BuildFileTestBase {
     /**
