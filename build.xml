@@ -15,7 +15,9 @@
     <property name="target.test-classes.dir" location="${target.dir}/test-classes"/>
     <property name="target.docs.dir" location="${target.dir}/docs"/>
     <property name="target.stage.dir" location="${target.dir}/stage"/>
+    <property name="xml.log.dir" value="${target.dir}/test-report"/>
     <property name="dist.dir" location="dist"/>
+    <property name="skip.tests" value="walls"/>
 
     <!-- Ivy -->
     <property name="central.repo" value="http://repo1.maven.org/maven2"/>
@@ -65,7 +67,7 @@
         </copy>
     </target>
 
-    <target name="compile-tests" description="o Compile test Java classes" depends="compile">
+    <target name="compile-tests" description="o Compile test Java classes and copy test resources" depends="compile">
         <mkdir dir="${target.test-classes.dir}"/>
         <javac srcdir="${src.test.dir}"
                destdir="${target.test-classes.dir}"
@@ -99,18 +101,27 @@
         </jar>
     </target>
 
-    <target name="test" description="o Run JUnit tests" depends="jar">
-        <junit fork="true" tempdir="${target.dir}" haltonerror="false" haltonfailure="false"
-               errorproperty="junit.error" failureproperty="junit.failure">
-            <formatter type="brief" usefile="false"/>
+    <target name="test-internal" depends="jar">
+        <mkdir dir="${xml.log.dir}"/>
+        <loadresource property="exclude.tests">
+            <propertyresource name="skip.tests"/>
+            <filterchain>
+                <tokenfilter>
+                   <replacestring from="," to="/**,**/"/>
+                </tokenfilter>
+            </filterchain>
+        </loadresource>
+        <junit fork="true" tempdir="${target.dir}"
+               haltonerror="false" haltonfailure="false"
+               errorproperty="junit.error" failureproperty="junit.failure"
+               showoutput="off" printsummary="on">
+            <formatter type="xml"/>
             <sysproperty key="basedir" value="${target.test-classes.dir}"/>
             <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
-            <batchtest>
-                <fileset dir="${target.test-classes.dir}" includes="net/sf/antcontrib/**/*Test.class">
-                    <exclude name="**/${skip.tests}/**" if="skip.tests"/>
-                    <exclude name="**/antclipse/**" unless="eclipse.present"/>
-                    <exclude name="walls/**"/>
-                </fileset>
+            <batchtest todir="${xml.log.dir}">
+                <fileset dir="${target.test-classes.dir}"
+                         includes="net/sf/antcontrib/**/*Test.class"
+                         excludes="**/${exclude.tests}/**"/>
             </batchtest>
             <classpath>
                 <path refid="test.classpath"/>
@@ -118,9 +129,22 @@
                 <pathelement location="${target.test-classes.dir}"/>
             </classpath>
         </junit>
+    </target>
 
-        <fail message="JUnit error (${junit.error}) encountered." if="junit.error"/>
-        <fail message="JUnit failure (${junit.failure}) encountered." if="junit.failure"/>
+    <target name="test" depends="test-internal" description="o Run JUnit tests">
+        <fail message="JUnit error (${junit.error}) encountered. See logs (in ${xml.log.dir}) for details (use the target test-report to run the test with a report)" if="junit.error"/>
+        <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) for details (use the target test-report to run the test with a report)" if="junit.failure"/>
+    </target>
+
+    <target name="test-report" depends="test-internal" description="o Make report of JUnit tests">
+        <junitreport todir="${xml.log.dir}">
+            <fileset dir="${xml.log.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${target.docs.dir}/test-reports"/>
+        </junitreport>
+        <fail message="JUnit error (${junit.error}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.error"/>
+        <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reposrt)" if="junit.failure"/>
     </target>
 
     <target name="javadoc" description="o Build javadoc" depends="classpath">
@@ -143,7 +167,7 @@
         </javadoc>
     </target>
 
-    <target name="site" description="o Add manual to javadoc for distribution" depends="test,javadoc">
+    <target name="site" description="o Build manual from xdoc files" depends="test-report,javadoc">
         <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${target.dir}/${jar.name}" onerror="ignore"/>
         <for param="xdoc.source">
             <path>
