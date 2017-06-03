@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<!-- this is an awfully hacked Eclipse classpath file, must find a way to test libs-->
-    <classpathentry kind="src" path="../../../src"/>
-    <classpathentry kind="src" path="../../../test/src"/>
-    <classpathentry kind="src" path="../../../test/resources"/>
+    <!-- this is an awfully hacked Eclipse classpath file, must find a way to test libs-->
+    <classpathentry kind="src" path="../../src/main/java"/>
+    <classpathentry kind="src" path="../../src/test/java"/>
+    <classpathentry kind="src" path="../../src/test/resources"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="output" path="."/>
 </classpath>

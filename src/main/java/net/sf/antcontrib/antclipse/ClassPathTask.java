@@ -222,31 +222,37 @@ public class ClassPathTask extends Task {
          * Field projDir.
          */
         protected String projDir;
+
         /**
          * Field ATTRNAME_PATH.
          * (value is ""path"")
          */
         protected static final String ATTRNAME_PATH = "path";
+
         /**
          * Field ATTRNAME_KIND.
          * (value is ""kind"")
          */
         protected static final String ATTRNAME_KIND = "kind";
+
         /**
          * Field ATTR_LIB.
          * (value is ""lib"")
          */
         protected static final String ATTR_LIB = "lib";
+
         /**
          * Field ATTR_SRC.
          * (value is ""src"")
          */
         protected static final String ATTR_SRC = "src";
+
         /**
          * Field ATTR_OUTPUT.
          * (value is ""output"")
          */
         protected static final String ATTR_OUTPUT = "output";
+
         /**
          * Field EMPTY.
          * (value is """")
@@ -294,11 +300,14 @@ public class ClassPathTask extends Task {
         /**
          * Method startElement.
          *
-         * @param tag   String
-         * @param attrs Attributes
+         * @param uri       String
+         * @param localName String
+         * @param tag       String
+         * @param attrs     Attributes
          * @throws SAXParseException when tags lack mandatory attributes
          */
-        public void startElement(String tag, Attributes attrs) throws SAXParseException {
+        @Override
+        public void startElement(String uri, String localName, String tag, Attributes attrs) throws SAXParseException {
             if (tag.equalsIgnoreCase("classpathentry")) {
                 //start by checking if the classpath is coherent at all
                 String kind = attrs.getValue(ATTRNAME_KIND);
@@ -356,8 +365,7 @@ public class ClassPathTask extends Task {
                                 System.out.println("Created new fileset "
                                         + newReference
                                         + " containing all the files from the output dir "
-                                        + projDir + File.separator
-                                        + path);
+                                        + projDir + File.separator + path);
                             outFileSet.setDefaultexcludes(false);
                             outFileSet.setDir(new File(projDir + File.separator + path));
                             outFileSet.setIncludes("**/*"); //get everything
@@ -370,8 +378,7 @@ public class ClassPathTask extends Task {
                                 System.out.println("Created new fileset "
                                         + newReference
                                         + " containing all the files from the source dir "
-                                        + projDir + File.separator
-                                        + path);
+                                        + projDir + File.separator + path);
                             srcFileSet.setDefaultexcludes(false);
                             srcFileSet.setDir(new File(projDir + File.separator + path));
                             srcFileSet.setIncludes("**/*"); //get everything
@@ -420,11 +427,14 @@ public class ClassPathTask extends Task {
         /**
          * Method startElement.
          *
-         * @param tag   String
-         * @param attrs Attributes
+         * @param uri       String
+         * @param localName String
+         * @param tag       String
+         * @param attrs     Attributes
          * @throws SAXParseException when tags lack mandatory attributes
          */
-        public void startElement(String tag, Attributes attrs) throws SAXParseException {
+        @Override
+        public void startElement(String uri, String localName, String tag, Attributes attrs) throws SAXParseException {
             if (tag.equalsIgnoreCase("classpathentry")) {
                 //start by checking if the classpath is coherent at all
                 String kind = attrs.getValue(ATTRNAME_KIND);

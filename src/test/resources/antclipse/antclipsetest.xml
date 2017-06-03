@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project default="everything" name="Antclipse test xml file" basedir=".">
+<project default="everything" name="Antclipse test xml file">
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
 
     <target name="make.fs.output">
@@ -15,24 +15,44 @@
     </target>
 
     <target name="make.fs.libs">
-        <!-- creates a fileset sontaining all your project libs called ecl3/ -->
+        <!-- creates a fileset containing all your project libs called ecl3/ -->
         <antclipse produce="fileset" idcontainer="ecl3" verbose="true"/>
     </target>
 
     <target name="make.cp">
-        <!-- creates a fileset sontaining all your project libs called ecl3/ -->
+        <!-- creates a fileset containing all your project libs called ecl3/ -->
         <antclipse produce="classpath" idcontainer="eclp" verbose="true" includeoutput="true"/>
     </target>
 
     <target name="everything" depends="make.fs.libs, make.fs.output, make.fs.sources, make.cp">
         <echo message="The output path is ${ecl1outpath}"/>
         <echo message="The source path is ${ecl2srcpath}"/>
+	<loadresource property="ecl1outfileset">
+	  <propertyresource name="ecl1outpath"/>
+	  <filterchain>
+	  <tokenfilter>
+	    <replacestring from="/" to="-"/>
+	  </tokenfilter>
+	  </filterchain>
+	</loadresource>
+	<loadresource property="ecl2srcfileset">
+	  <propertyresource name="ecl2srcpath"/>
+	  <filterchain>
+	  <tokenfilter>
+	    <replacestring from="/" to="-"/>
+	  </tokenfilter>
+	  </filterchain>
+	</loadresource>
+        <echo message="The output fileset is ecl1-${ecl1outfileset}"/>
+        <echo message="The source path is ecl2-${ecl2srcfileset}"/>
+	<property name="archive.dir" value="../test-output"/>
+	<mkdir dir="${archive.dir}"/>
         <!-- makes a jar file with the content of the output directory -->
-        <zip destfile="out.jar"><fileset refid="ecl1-${ecl1outpath}"/></zip>
+        <zip destfile="${archive.dir}/out.jar"><fileset refid="ecl1-${ecl1outfileset}"/></zip>
         <!-- makes a zip file with all your sources (supposing you have only source directory) -->
-        <zip destfile="src.zip"><fileset refid="ecl2-${ecl2srcpath}"/></zip>
+        <zip destfile="${archive.dir}/src.zip"><fileset refid="ecl2-${ecl2srcfileset}"/></zip>
         <!-- makes a big zip file with all your project libraries -->
-        <zip destfile="libs.zip"><fileset refid="ecl3"/></zip>
+        <zip destfile="${archive.dir}/libs.zip"><fileset refid="ecl3"/></zip>
         <!-- imports the classpath into a property then echoes the property -->
         <property name="cpcontent" refid="eclp"/>
         <echo>The newly created classpath is ${cpcontent}</echo>
