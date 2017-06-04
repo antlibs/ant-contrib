@@ -20,7 +20,7 @@ package mod.superdepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  * This class depends on a superclass in another package creating a dependency
  * between packages.
  * @author dhiller

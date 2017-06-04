@@ -20,9 +20,9 @@ package mod.fielddepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  * This class depends on a field in another package.
- * 
+ *
  * @author dhiller
  */
 public class ClassDependsOnField {

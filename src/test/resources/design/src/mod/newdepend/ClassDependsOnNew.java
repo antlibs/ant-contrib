@@ -20,7 +20,7 @@ package mod.newdepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */

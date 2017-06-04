@@ -20,7 +20,7 @@ package mod.recursion.client;
 
 import mod.recursion.rec.a.FakeClass;
 
-/** 
+/**
  *
  * @author dhiller
  */

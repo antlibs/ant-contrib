@@ -20,7 +20,7 @@ package mod.signatureexceptiondepend;
 
 import mod.dummy.DummyException;
 
-/** 
+/**
  *
  * @author dhiller
  */

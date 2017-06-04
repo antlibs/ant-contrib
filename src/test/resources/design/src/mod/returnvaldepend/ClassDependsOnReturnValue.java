@@ -20,7 +20,7 @@ package mod.returnvaldepend;
 
 import mod.dummy.DummyInterface;
 
-/** 
+/**
  *
  * @author dhiller
  */

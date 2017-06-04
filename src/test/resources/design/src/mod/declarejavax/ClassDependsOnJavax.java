@@ -20,7 +20,7 @@ package mod.declarejavax;
 
 import javax.swing.JButton;
 
-/** 
+/**
  *
  * @author dhiller
  */

@@ -20,13 +20,13 @@ package mod.paramdepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class ClassDependsOnParameter {
 
 	public void setSomething(String dummy, DummyClass c) {
-		
+
 	}
 }

@@ -20,13 +20,13 @@ package mod.recursion3.client;
 
 import mod.recursion3.svc.DependencyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class SubpackageClassDependsOnSubpackage {
 
 	public void doSomething(DependencyClass c) {
-		
+
 	}
 }

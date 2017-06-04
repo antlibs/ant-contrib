@@ -20,12 +20,12 @@ package mod.fieldrefdepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class ClassDependsOnReferenceInFieldDeclaration {
 
 	private Class c = DummyClass.class;
-	
+
 }

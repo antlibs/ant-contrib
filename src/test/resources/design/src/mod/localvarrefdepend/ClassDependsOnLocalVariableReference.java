@@ -20,7 +20,7 @@ package mod.localvarrefdepend;
 
 import mod.dummy.DummyInterface;
 
-/** 
+/**
  *
  * @author dhiller
  */

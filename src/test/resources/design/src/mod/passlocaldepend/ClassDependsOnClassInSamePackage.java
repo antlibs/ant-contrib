@@ -18,13 +18,13 @@
  */
 package mod.passlocaldepend;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class ClassDependsOnClassInSamePackage {
 
 	public void doSomething(FakeClass c) {
-		
+
 	}
 }

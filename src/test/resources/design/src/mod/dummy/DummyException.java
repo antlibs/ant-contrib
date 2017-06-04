@@ -18,7 +18,7 @@
  */
 package mod.dummy;
 
-/** 
+/**
  *
  * @author dhiller
  */

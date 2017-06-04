@@ -20,7 +20,7 @@ package mod.nodebugoption;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */

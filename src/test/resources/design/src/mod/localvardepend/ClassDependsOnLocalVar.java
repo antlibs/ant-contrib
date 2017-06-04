@@ -20,7 +20,7 @@ package mod.localvardepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
@@ -28,7 +28,7 @@ public class ClassDependsOnLocalVar {
 
 	public String doNothing() {
 		DummyClass c = null;
-		
+
 		return ""+c;
 	}
 }

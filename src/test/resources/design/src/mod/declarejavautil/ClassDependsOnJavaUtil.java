@@ -20,7 +20,7 @@ package mod.declarejavautil;
 
 import java.util.List;
 
-/** 
+/**
  *
  * @author dhiller
  */

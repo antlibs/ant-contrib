@@ -20,10 +20,10 @@ package mod.interfacedepend;
 
 import mod.dummy.DummyInterface;
 
-/** 
+/**
  * This class depends on an interface in another package creating a dependency
  * between packages.
- * 
+ *
  * @author dhiller
  */
 public class ClassDependsOnInterfaceMod2 implements DummyInterface {

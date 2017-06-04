@@ -20,13 +20,13 @@ package mod.staticfield2depend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class ClassDependsOnStaticField {
 
 	public static DummyClass x = null;
-	
-	
+
+
 }

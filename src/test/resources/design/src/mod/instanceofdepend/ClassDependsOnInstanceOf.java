@@ -20,7 +20,7 @@ package mod.instanceofdepend;
 
 import mod.dummy.DummyInterface;
 
-/** 
+/**
  *
  * @author dhiller
  */

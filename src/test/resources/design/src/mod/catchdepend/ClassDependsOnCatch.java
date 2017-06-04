@@ -20,7 +20,7 @@ package mod.catchdepend;
 
 import mod.dummy.DummyRuntimeException;
 
-/** 
+/**
  *
  * @author dhiller
  */
@@ -31,7 +31,7 @@ public class ClassDependsOnCatch {
 			int x = 0;
 			int y = x+4;
 		} catch(DummyRuntimeException e) {
-			
+
 		}
 	}
 }

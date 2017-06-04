@@ -19,7 +19,7 @@
 package mod.putstatic;
 
 
-/** 
+/**
  *
  * @author dhiller
  */

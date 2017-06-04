@@ -20,7 +20,7 @@ package mod.castdepend;
 
 import mod.dummy.DummyInterface;
 
-/** 
+/**
  *
  * @author dhiller
  */

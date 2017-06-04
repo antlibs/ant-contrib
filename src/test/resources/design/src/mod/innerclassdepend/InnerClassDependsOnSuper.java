@@ -20,13 +20,13 @@ package mod.innerclassdepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
 public class InnerClassDependsOnSuper {
 
 	private class Inner extends DummyClass {
-		
+
 	}
 }

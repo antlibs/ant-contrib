@@ -20,7 +20,7 @@ package mod.arraydepend;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */

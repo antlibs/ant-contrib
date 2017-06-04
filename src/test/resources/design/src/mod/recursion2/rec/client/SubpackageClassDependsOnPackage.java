@@ -20,7 +20,7 @@ package mod.recursion2.rec.client;
 
 import mod.recursion2.dependency.Dependency;
 
-/** 
+/**
  *
  * @author dhiller
  */

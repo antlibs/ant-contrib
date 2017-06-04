@@ -20,7 +20,7 @@ package mod.temp;
 
 import mod.dummy.DummyClass;
 
-/** 
+/**
  *
  * @author dhiller
  */
