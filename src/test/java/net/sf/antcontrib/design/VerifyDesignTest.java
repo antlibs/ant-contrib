@@ -100,7 +100,8 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testBadXML() {
-        File designFile = new File(baseDir, "designfiles/badxml.xml");
+        // Tests are run from basedir "target/test-classes"
+        File designFile = new File(baseDir, "design/designfiles/badxml.xml");
         String msg = "\nProblem parsing design file='" + designFile.getAbsolutePath()
                 + "'.  \nline=3 column=1 Reason:\n"
                 + "Element type \"design\" must be followed by either attribute specifications, \">\" or \"/>\".\n";
@@ -256,7 +257,8 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testMissingAttribute() {
-        File designFile = new File(baseDir, "designfiles/missingattribute.xml");
+        // Tests are run from basedir "target/test-classes"
+        File designFile = new File(baseDir, "design/designfiles/missingattribute.xml");
         String msg = "\nProblem parsing design file='"
                 + designFile.getAbsolutePath() + "'.  \nline=3 column=31 Reason:\nError in file="
                 + designFile.getAbsolutePath() + ", package element must contain the 'name' attribute\n";
@@ -268,7 +270,8 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testMultipleErrors() {
-        File jarFile = new File(baseDir, "build/jar/test.jar");
+        // Tests are run from basedir "target/test-classes"
+        File jarFile = new File(baseDir, "design/build/jar/test.jar");
         String class1 = "mod.arraydepend.ClassDependsOnArray";
         String class2 = "mod.dummy.DummyClass";
         //executeTarget("testMultipleErrors");
@@ -321,7 +324,8 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testNoJar() {
-        File jar = new File(baseDir, "build/jar/test.jar");
+        // Tests are run from basedir "target/test-classes"
+        File jar = new File(baseDir, "design/build/jar/test.jar");
         expectSpecificBuildException("testNoJar", REASON, VisitorImpl.getNoFileMsg(jar));
     }
 

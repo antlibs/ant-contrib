@@ -7,8 +7,8 @@
     <property name="jar" value="${jardir}/test.jar"/>
     <property name="war" value="${jardir}/test.war"/>
     <property name="src" value="${testdir}/src"/>
-    <property name="mod" value="${testdir}/mod"/>
-    <property name="dummy" value="${testdir}/dummy"/>
+    <property name="mod" value="mod"/>
+    <property name="dummy" value="dummy"/>
     <property name="designs" value="${testdir}/designfiles"/>
     <property name="webxml" value="${testdir}/web.xml"/>
 
@@ -28,7 +28,7 @@
         <mkdir dir="${jardir}"/>
     </target>
 
-    <target name="templateTest">
+    <target name="templateTest" depends="init">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" debug="true" destdir="${classes}" fork="true" includeantruntime="false" executable="${javac.executable}">

@@ -84,14 +84,16 @@ class WallsFileHandler extends DefaultHandler {
      * Handles the start of a project element. A project handler is created
      * and initialised with the element name and attributes.
      *
-     * @param name  The name of the element being started.
-     *              Will not be <code>null</code>.
-     * @param attrs Attributes of the element being started.
-     *              Will not be <code>null</code>.
+     * @param uri       ditto
+     * @param localName ditto
+     * @param name      The name of the element being started.
+     *                  Will not be <code>null</code>.
+     * @param attrs     Attributes of the element being started.
+     *                  Will not be <code>null</code>.
      * @throws SAXParseException if the tag given is not
      *                           <code>"project"</code>
      */
-    public void startElement(String name, Attributes attrs) throws SAXParseException {
+    public void startElement(String uri, String localName, String name, Attributes attrs) throws SAXParseException {
         if (name.equals("walls")) {
             if (attrs.getLength() > 0)
                 throw new SAXParseException("Error in file=" + file.getAbsolutePath()
