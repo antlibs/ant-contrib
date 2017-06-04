@@ -1,7 +1,7 @@
 <ivy-module version="2.0"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
-    <info organisation="net.sourceforge" module="ant-contrib"/>
+    <info organisation="net.sourceforge" module="ant-contrib" revision="1.1"/>
 
     <configurations>
         <conf name="default"/>

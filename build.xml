@@ -27,6 +27,7 @@
     <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
     <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
     <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
+
     <target name="get-ivy" description="o Get Ivy jar unless already cached" unless="has.ivy">
         <mkdir dir="${ivy.dir}"/>
         <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
@@ -93,12 +94,13 @@
 
     <target name="jar" description="o Build jar file" depends="compile-tests">
         <mkdir dir="${target.dir}"/>
+        <property name="jar.file" value="${target.dir}/${ivy.module}.jar"/>
         <tstamp>
             <format property="tstamp" pattern="dd/MM/yyyy HH:mm:ss"/>
         </tstamp>
-        <jar file="${target.dir}/${jar.name}">
+        <jar file="${jar.file}">
             <manifest>
-                <attribute name="Version" value="${project.version}"/>
+                <attribute name="Version" value="${ivy.revision}"/>
                 <attribute name="Build-Timestamp" value="${tstamp}"/>
             </manifest>
             <fileset dir="${target.classes.dir}"/>
@@ -121,7 +123,7 @@
                showoutput="off" printsummary="on">
             <formatter type="xml"/>
             <sysproperty key="basedir" value="${target.test-classes.dir}"/>
-            <sysproperty key="antcontrib.jar" file="${target.dir}/${jar.name}"/>
+            <sysproperty key="antcontrib.jar" file="${jar.file}"/>
             <batchtest todir="${xml.log.dir}">
                 <fileset dir="${target.test-classes.dir}"
                          includes="net/sf/antcontrib/**/*Test.class"
@@ -211,7 +213,7 @@
     </target>
 
     <target name="site" description="o Build manual from xdoc files" depends="test-report,javadoc">
-        <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${target.dir}/${jar.name}" onerror="ignore"/>
+        <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${jar.file}" onerror="ignore"/>
         <for param="xdoc.source">
             <path>
                 <fileset dir="${xdoc.dir}" includes="*.xml"/>
@@ -238,8 +240,8 @@
         <mkdir dir="${target.stage.dir}"/>
         <mkdir dir="${target.stage.dir}/lib"/>
 
-        <copy file="${target.dir}/${jar.name}"
-              tofile="${target.stage.dir}/${jar.name.versioned}"/>
+        <copy file="${jar.file}"
+              tofile="${target.stage.dir}/${ivy.module}-${ivy.revision}.jar"/>
 
         <copy todir="${target.stage.dir}">
             <fileset dir="${root.dir}" includes="README.txt"/>
@@ -252,12 +254,12 @@
 
     <target name="zip" depends="dist-stage">
         <mkdir dir="${dist.dir}"/>
-        <zip file="${dist.dir}/${project.name}-${project.version}-bin.zip">
+        <zip file="${dist.dir}/${ivy.module}-${ivy.revision}-bin.zip">
             <zipfileset prefix="ant-contrib" dir="${target.stage.dir}"
                         includes="**/*"/>
         </zip>
 
-        <zip file="${dist.dir}/${project.name}-${project.version}-src.zip">
+        <zip file="${dist.dir}/${ivy.module}-${ivy.revision}-src.zip">
             <zipfileset prefix="ant-contrib"
                         dir="${root.dir}"
                         includes="**/*"
@@ -268,21 +270,21 @@
     <target name="tar.gz" depends="dist-stage">
         <mkdir dir="${dist.dir}"/>
 
-        <tar destfile="${dist.dir}/${project.name}-${project.version}-bin.tar.gz"
+        <tar destfile="${dist.dir}/${ivy.module}-${ivy.revision}-bin.tar.gz"
              compression="gzip">
             <tarfileset prefix="ant-contrib"
                         dir="${target.stage.dir}"
                         includes="**/*"/>
         </tar>
 
-        <tar destfile="${dist.dir}/${project.name}-${project.version}-bin.tar.bz2"
+        <tar destfile="${dist.dir}/${ivy.module}-${ivy.revision}-bin.tar.bz2"
              compression="bzip2">
             <tarfileset prefix="ant-contrib"
                         dir="${target.stage.dir}"
                         includes="**/*"/>
         </tar>
 
-        <tar destfile="${dist.dir}/${project.name}-${project.version}-src.tar.gz"
+        <tar destfile="${dist.dir}/${ivy.module}-${ivy.revision}-src.tar.gz"
              compression="gzip">
             <tarfileset prefix="ant-contrib"
                         dir="${root.dir}"
@@ -290,7 +292,7 @@
                         excludes="target,target/**/*,dist,dist/**/*"/>
         </tar>
 
-        <tar destfile="${dist.dir}/${project.name}-${project.version}-src.tar.bz2"
+        <tar destfile="${dist.dir}/${ivy.module}-${ivy.revision}-src.tar.bz2"
              compression="bzip2">
             <tarfileset prefix="ant-contrib"
                         dir="${root.dir}"
