@@ -14,6 +14,8 @@
     <property name="target.classes.dir" location="${target.dir}/classes"/>
     <property name="target.test-classes.dir" location="${target.dir}/test-classes"/>
     <property name="target.docs.dir" location="${target.dir}/docs"/>
+    <property name="checkstyle.src.dir" location="src/config"/>
+    <property name="checkstyle.report.dir" location="${target.dir}/docs/checkstyle"/>
     <property name="target.stage.dir" location="${target.dir}/stage"/>
     <property name="xml.log.dir" value="${target.dir}/test-report"/>
     <property name="dist.dir" location="dist"/>
@@ -147,6 +149,45 @@
         </junitreport>
         <fail message="JUnit error (${junit.error}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.error"/>
         <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reposrt)" if="junit.failure"/>
+    </target>
+
+    <target name="init-checkstyle" depends="jar">
+        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="7.8"
+                inline="true" conf="default" pathid="checkstyle.classpath" log="download-only"/>
+        <taskdef uri="antlib:com.puppycrawl.tools.checkstyle.ant"
+                 resource="com/puppycrawl/tools/checkstyle/ant/antlib.xml" classpathref="checkstyle.classpath"/>
+    </target>
+
+    <!-- Checks ant-contrib codebase according to ${checkstyle.src.dir}/checkstyle.xml -->
+    <target name="checkstyle-internal" depends="init-checkstyle">
+        <mkdir dir="${checkstyle.report.dir}"/>
+        <cs:checkstyle xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant"
+		       config="${checkstyle.src.dir}/checkstyle.xml"
+		       failOnViolation="false" failureProperty="checkstyle.failed">
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+            <formatter type="xml" toFile="${checkstyle.report.dir}/checkstyle.xml"/>
+            <fileset dir="${src.main.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+        </cs:checkstyle>
+    </target>
+
+    <target name="checkstyle" depends="checkstyle-internal"
+	    description="checks Ivy codebase according to ${checkstyle.src.dir}/checkstyle.xml">
+        <fail if="checkstyle.failed"
+            message="Checkstyle has errors. See report in ${checkstyle.report.dir}"/>
+    </target>
+
+    <target name="checkstyle-report" depends="checkstyle-internal">
+        <property name="checkstyle.basedir" location="${src.main.dir}"/>
+        <xslt in="${checkstyle.report.dir}/checkstyle.xml"
+                style="${checkstyle.src.dir}/checkstyle-frames.xsl"
+                out="${checkstyle.report.dir}/output.txt">
+            <param name="basedir" expression="${checkstyle.basedir}"/>
+            <param name="output.dir" expression="${checkstyle.report.dir}"/>
+        </xslt>
     </target>
 
     <target name="javadoc" description="o Build javadoc" depends="classpath">

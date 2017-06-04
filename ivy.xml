@@ -9,6 +9,7 @@
         <conf name="test" extends="default"/>
         <conf name="doxia"/>
     </configurations>
+
     <publications>
         <artifact name="ant-contrib" type="jar"/>
     </publications>
