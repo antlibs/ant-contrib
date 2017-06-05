@@ -150,7 +150,7 @@
             <report format="frames" todir="${target.docs.dir}/test-reports"/>
         </junitreport>
         <fail message="JUnit error (${junit.error}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.error"/>
-        <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reposrt)" if="junit.failure"/>
+        <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.failure"/>
     </target>
 
     <target name="init-checkstyle" depends="jar">
