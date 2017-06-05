@@ -45,12 +45,12 @@
     </target>
 
     <target name="classpath" depends="get-deps">
-        <ivy:cachepath pathid="compile.classpath" type="jar" conf="provided"/>
-        <ivy:cachepath pathid="runtime.classpath" type="jar" conf="default"/>
+        <ivy:cachepath pathid="compile.classpath" type="jar" conf="compile"/>
+        <ivy:cachepath pathid="runtime.classpath" type="jar" conf="runtime"/>
         <ivy:cachepath pathid="test.classpath" type="jar" conf="test"/>
         <ivy:cachepath pathid="doxia.classpath" type="jar" conf="doxia"/>
-        <ivy:cachefileset setid="compile.fileset" type="jar" conf="provided"/>
-        <ivy:cachefileset setid="runtime.fileset" type="jar" conf="default"/>
+        <ivy:cachefileset setid="compile.fileset" type="jar" conf="compile"/>
+        <ivy:cachefileset setid="runtime.fileset" type="jar" conf="runtime"/>
         <ivy:cachefileset setid="test.fileset" type="jar" conf="test"/>
     </target>
 
