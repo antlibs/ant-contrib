@@ -32,7 +32,7 @@ public class Ivy14Adapter implements IvyAdapter {
             if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
                 String path = ivyConfUrl.getPath();
                 File f = new File(path);
-                if (! f.isAbsolute()) {
+                if (!f.isAbsolute()) {
                     f = new File(task.getProject().getBaseDir(), path);
                 }
                 configure.setFile(f);
@@ -89,7 +89,6 @@ public class Ivy14Adapter implements IvyAdapter {
                         fw = null;
                     }
                 } catch (IOException e) {
-                    ;
                 }
             }
         }
