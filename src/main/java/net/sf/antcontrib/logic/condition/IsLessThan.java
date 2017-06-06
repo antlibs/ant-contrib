@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2004 Ant-Contrib project.  All rights reserved.
+ * Copyright (c) 2001-2004, 2007 Ant-Contrib project.  All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 package net.sf.antcontrib.logic.condition;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.condition.Equals;
+import org.apache.tools.ant.taskdefs.condition.Condition;
 
 /**
- * Extends Equals condition to test if the first argument is less than the
+ * Condition to test if the first argument is less than the
  * second argument. Will deal with base 10 integer and decimal numbers, otherwise,
  * treats arguments as Strings.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
@@ -27,7 +27,7 @@ import org.apache.tools.ant.taskdefs.condition.Equals;
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.4 $
  */
-public class IsLessThan extends Equals {
+public final class IsLessThan implements Condition {
 
     /**
      * Field arg1.

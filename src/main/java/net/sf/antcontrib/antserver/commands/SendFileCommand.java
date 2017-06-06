@@ -170,7 +170,7 @@ public class SendFileCommand extends AbstractCommand implements Command {
         if (tofile != null) {
             if (isAbsolutePath(tofile)) {
                 if (!new File(tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                    throw new SecurityException("The requested filename must be in the project file tree.");
+                    throw new SecurityException("toFile must be in the project file tree.");
                 }
                 dest = new File(tofile);
             } else {
@@ -179,7 +179,7 @@ public class SendFileCommand extends AbstractCommand implements Command {
         } else {
             if (isAbsolutePath(todir)) {
                 if (!new File(todir).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                    throw new SecurityException("The requested directory must be in the project file tree.");
+                    throw new SecurityException("toDir must be in the project file tree.");
                 }
                 dest = new File(todir);
             } else {

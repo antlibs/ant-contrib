@@ -16,9 +16,6 @@
 package net.sf.antcontrib.net;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.tools.ant.BuildException;
@@ -27,9 +24,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
 import org.apache.tools.ant.types.FileSet;
-
-import fr.jayasoft.ivy.ant.IvyCacheFileset;
-import fr.jayasoft.ivy.ant.IvyConfigure;
 
 /**
  * Task to import a build file from a url.  The build file can be a build.xml,
@@ -218,99 +212,133 @@ public class URLImportTask extends ImportTask {
     }
 
     /**
+     * Method getOrg.
+     *
+     * @return String organisation name
+     */
+    public String getOrg() {
+        return org;
+    }
+
+    /**
+     * Method getModule.
+     *
+     * @return String module name
+     */
+    public String getModule() {
+        return module;
+    }
+
+    /**
+     * Method getRev.
+     *
+     * @return String revision
+     */
+    public String getRev() {
+        return rev;
+    }
+
+    /**
+     * Method getConf.
+     *
+     * @return String configuration
+     */
+    public String getConf() {
+        return conf;
+    }
+
+    /**
+     * Method getType.
+     *
+     * @return String artifact type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Method getRepositoryUrl.
+     *
+     * @return String repository URL
+     */
+    public String getRepositoryUrl() {
+        return repositoryUrl;
+    }
+
+    /**
+     * Method getRepositoryDir.
+     *
+     * @return String repository directory
+     */
+    public File getRepositoryDir() {
+        return repositoryDir;
+    }
+
+    /**
+     * Method getIvyConfUrl.
+     *
+     * @return String Ivy configuration URL
+     */
+    public URL getIvyConfUrl() {
+        return ivyConfUrl;
+    }
+
+    /**
+     * Method getIvyConfFile.
+     *
+     * @return String Ivy configuration file
+     */
+    public File getIvyConfFile() {
+        return ivyConfFile;
+    }
+
+    /**
+     * Method getResource.
+     *
+     * @return String resource
+     */
+    public String getResource() {
+        return resource;
+    }
+
+    /**
+     * Method getArtifactPattern.
+     *
+     * @return String artifact pattern
+     */
+    public String getArtifactPattern() {
+        return artifactPattern;
+    }
+
+    /**
+     * Method getIvyPattern.
+     *
+     * @return String descriptor pattern
+     */
+    public String getIvyPattern() {
+        return ivyPattern;
+    }
+
+    /**
      * Method execute.
      *
      * @throws BuildException if something goes wrong
      */
     public void execute() throws BuildException {
-        IvyConfigure configure = new IvyConfigure();
-        configure.setProject(getProject());
-        configure.setLocation(getLocation());
-        configure.setOwningTarget(getOwningTarget());
-        configure.setTaskName(getTaskName());
-        configure.init();
-        if (ivyConfUrl != null) {
-            if (ivyConfUrl.getProtocol().equalsIgnoreCase("file")) {
-                String path = ivyConfUrl.getPath();
-                File f = new File(path);
-                if (!f.isAbsolute()) {
-                    f = new File(getProject().getBaseDir(), path);
-                }
-                configure.setFile(f);
-            } else {
-                try {
-                    configure.setUrl(ivyConfUrl.toExternalForm());
-                } catch (MalformedURLException e) {
-                    throw new BuildException(e);
-                }
-            }
-        } else if (ivyConfFile != null) {
-            configure.setFile(ivyConfFile);
-        } else if (repositoryDir != null
-                || repositoryUrl != null) {
-            File temp = null;
-            FileWriter fw = null;
+        IvyAdapter adapter = null;
 
-            try {
-                temp = File.createTempFile("ivyconf", ".xml");
-                temp.deleteOnExit();
-                fw = new FileWriter(temp);
-                fw.write("<ivyconf>");
-                fw.write("<conf defaultResolver=\"default\" />");
-                fw.write("<resolvers>");
-                if (repositoryDir != null) {
-                    fw.write("<filesystem name=\"default\">");
-                    fw.write("<ivy pattern=\"" + repositoryDir + "/" + ivyPattern + "\"  />");
-                    fw.write("<artifact pattern=\"" + repositoryDir + "/" + artifactPattern + "\"  />");
-                    fw.write("</filesystem>");
-                } else {
-                    fw.write("<url name=\"default\">");
-                    fw.write("<ivy pattern=\"" + repositoryUrl + "/" + ivyPattern + "\"  />");
-                    fw.write("<artifact pattern=\"" + repositoryUrl + "/" + artifactPattern + "\"  />");
-                    fw.write("</url>");
-                }
-                fw.write("</resolvers>");
-
-                fw.write("<latest-strategies>");
-                fw.write("<latest-revision name=\"latest\"/>");
-                fw.write("</latest-strategies>");
-                fw.write("</ivyconf>");
-                fw.close();
-                fw = null;
-
-                configure.setFile(temp);
-            } catch (IOException e) {
-                throw new BuildException(e);
-            } finally {
-                try {
-                    if (fw != null) {
-                        fw.close();
-                        fw = null;
-                    }
-                } catch (IOException e) {
-                    // gulp
-                }
-            }
+        try {
+            Class.forName("org.apache.ivy.Ivy");
+            adapter = new Ivy20Adapter();
+        } catch (ClassNotFoundException e) {
+            adapter = new Ivy14Adapter();
         }
 
-        configure.execute();
+        String setId = org + "." + module + "." + rev + ".fileset";
+        adapter.configure(this);
+        adapter.fileset(this, setId);
 
-        IvyCacheFileset cacheFileSet = new IvyCacheFileset();
-        cacheFileSet.setProject(getProject());
-        cacheFileSet.setLocation(getLocation());
-        cacheFileSet.setOwningTarget(getOwningTarget());
-        cacheFileSet.setTaskName(getTaskName());
-        cacheFileSet.setInline(true);
-        cacheFileSet.setOrganisation(org);
-        cacheFileSet.setModule(module);
-        cacheFileSet.setRevision(rev);
-        cacheFileSet.setConf(conf);
-        cacheFileSet.init();
-        cacheFileSet.setSetid(org + module + rev + ".fileset");
-        cacheFileSet.execute();
-
-        FileSet fileset =
-                getProject().getReference(org + module + rev + ".fileset");
+        FileSet fileset = getProject().getReference(setId);
 
         DirectoryScanner scanner =
                 fileset.getDirectoryScanner(getProject());

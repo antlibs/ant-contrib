@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2004 Ant-Contrib project.  All rights reserved.
+ * Copyright (c) 2001-2004, 2007 Ant-Contrib project.  All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@
 package net.sf.antcontrib.logic.condition;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.condition.IsTrue;
+import org.apache.tools.ant.ProjectComponent;
+import org.apache.tools.ant.taskdefs.condition.Condition;
 
 /**
- * Extends IsTrue condition to check the value of a specified property.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
+ * Checks the value of a specified property.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
  *
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.3 $
  */
-public class IsPropertyTrue extends IsTrue {
+public final class IsPropertyTrue extends ProjectComponent implements Condition {
     /**
      * Field name.
      */
@@ -52,6 +52,6 @@ public class IsPropertyTrue extends IsTrue {
         if (name == null)
             throw new BuildException("Property name must be set.");
         String value = getProject().getProperty(name);
-        return value != null && Project.toBoolean(value);
+        return value != null && getProject().toBoolean(value);
     }
 }
