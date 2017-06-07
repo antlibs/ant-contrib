@@ -258,6 +258,7 @@ public class ForTask extends Task {
     public void execute() {
         if (parallel) {
             parallelTasks = (Parallel) getProject().createTask("parallel");
+            parallelTasks.setFailOnAny(!keepgoing);
             if (threadCount != null) {
                 parallelTasks.setThreadCount(threadCount);
             }
