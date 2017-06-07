@@ -15,64 +15,82 @@
  */
 package net.sf.antcontrib.walls;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-
-/*
- * Created on Aug 24, 2003
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
- * FILL IN JAVADOC HERE
+ * Created on Aug 24, 2003.
  *
- * @author Dean Hiller(dean@xsoftware.biz)
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class Walls {
-    
-    private List packages = new LinkedList();
-    private Map nameToPackage = new HashMap();
-    
+    /**
+     * Field packages.
+     */
+    private final List<Package> packages = new LinkedList<Package>();
+    /**
+     * Field nameToPackage.
+     */
+    private final Map<String, Package> nameToPackage = new HashMap<String, Package>();
+
+    /**
+     * Method getPackage.
+     *
+     * @param name String
+     * @return Package
+     */
     public Package getPackage(String name) {
-        return (Package)nameToPackage.get(name);        
+        return nameToPackage.get(name);
     }
-    
+
+    /**
+     * Method addConfiguredPackage.
+     *
+     * @param p Package
+     */
     public void addConfiguredPackage(Package p) {
-        
+
         String pack = p.getPackage();
-        if(!pack.endsWith(".*") && !pack.endsWith(".**"))
-            p.setFaultReason("The package='"+pack+"' must end with "
-                        +".* or .** such as biz.xsoftware.* or "
-                        +"biz.xsoftware.**");
-        
+        if (!pack.endsWith(".*") && !pack.endsWith(".**"))
+            p.setFaultReason("The package='" + pack + "' must end with "
+                    + ".* or .** such as biz.xsoftware.* or "
+                    + "biz.xsoftware.**");
+
         String[] depends = p.getDepends();
-        if(depends == null) {
+        if (depends == null) {
             nameToPackage.put(p.getName(), p);
             packages.add(p);
             return;
-        } 
-        
+        }
+
         //make sure all depends are in Map first
         //circular references then are not a problem because they must
         //put the stuff in order
-        for(int i = 0; i < depends.length; i++) {
-            Package dependsPackage = (Package)nameToPackage.get(depends[i]);
-            
-            if(dependsPackage == null) {
-                p.setFaultReason("package name="+p.getName()+" did not have "
-                        +depends[i]+" listed before it and cannot compile without it");
+        for (String depend : depends) {
+            Package dependsPackage = nameToPackage.get(depend);
+
+            if (dependsPackage == null) {
+                p.setFaultReason("package name=" + p.getName() + " did not have "
+                        + depend + " listed before it and cannot compile without it");
             }
         }
-        
+
         nameToPackage.put(p.getName(), p);
         packages.add(p);
     }
 
-    public Iterator getPackagesToCompile() {
+    /**
+     * Method getPackagesToCompile.
+     *
+     * @return Iterator&lt;Package&gt;
+     */
+    public Iterator<Package> getPackagesToCompile() {
         //must return the list, as we need to process in order, so unfortunately
         //we cannot pass back an iterator from the hashtable because that would
         //be unordered and would break.
         return packages.iterator();
-    }    
+    }
 }

@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -38,193 +37,348 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.util.FileUtils;
 
-public class PostMethodTask
-	extends AbstractMethodTask {
+/**
+ */
+public class PostMethodTask extends AbstractMethodTask {
+    /**
+     * Field parts.
+     */
+    private final List<Object> parts = new ArrayList<Object>();
 
-	private List parts = new ArrayList();
-	private boolean multipart;
-	private transient FileInputStream stream;
-	
-	
-	public static class FilePartType {
-		private File path;
-		private String contentType = FilePart.DEFAULT_CONTENT_TYPE;
-		private String charSet = FilePart.DEFAULT_CHARSET;
+    /**
+     * Field multipart.
+     */
+    private boolean multipart;
 
-		public File getPath() {
-			return path;
-		}
+    /**
+     * Field stream.
+     */
+    private transient FileInputStream stream;
 
-		public void setPath(File path) {
-			this.path = path;
-		}
+    /**
+     */
+    public static class FilePartType {
+        /**
+         * Field path.
+         */
+        private File path;
 
-		public String getContentType() {
-			return contentType;
-		}
+        /**
+         * Field contentType.
+         */
+        private String contentType = FilePart.DEFAULT_CONTENT_TYPE;
 
-		public void setContentType(String contentType) {
-			this.contentType = contentType;
-		}
+        /**
+         * Field charSet.
+         */
+        private String charSet = FilePart.DEFAULT_CHARSET;
 
-		public String getCharSet() {
-			return charSet;
-		}
+        /**
+         * Method getPath.
+         *
+         * @return File
+         */
+        public File getPath() {
+            return path;
+        }
 
-		public void setCharSet(String charSet) {
-			this.charSet = charSet;
-		}		
-	}
-	
-	public static class TextPartType {
-		private String name = "";
-		private String value = "";
-		private String charSet = StringPart.DEFAULT_CHARSET;
-		private String contentType = StringPart.DEFAULT_CONTENT_TYPE;
+        /**
+         * Method setPath.
+         *
+         * @param path File
+         */
+        public void setPath(File path) {
+            this.path = path;
+        }
 
-		public String getValue() {
-			return value;
-		}
+        /**
+         * Method getContentType.
+         *
+         * @return String
+         */
+        public String getContentType() {
+            return contentType;
+        }
 
-		public void setValue(String value) {
-			this.value = value;
-		}
+        /**
+         * Method setContentType.
+         *
+         * @param contentType String
+         */
+        public void setContentType(String contentType) {
+            this.contentType = contentType;
+        }
 
-		public String getName() {
-			return name;
-		}
+        /**
+         * Method getCharSet.
+         *
+         * @return String
+         */
+        public String getCharSet() {
+            return charSet;
+        }
 
-		public void setName(String name) {
-			this.name = name;
-		}
+        /**
+         * Method setCharSet.
+         *
+         * @param charSet String
+         */
+        public void setCharSet(String charSet) {
+            this.charSet = charSet;
+        }
+    }
 
-		public String getCharSet() {
-			return charSet;
-		}
+    /**
+     */
+    public static class TextPartType {
+        /**
+         * Field name.
+         */
+        private String name = "";
 
-		public void setCharSet(String charSet) {
-			this.charSet = charSet;
-		}
+        /**
+         * Field value.
+         */
+        private String value = "";
 
-		public String getContentType() {
-			return contentType;
-		}
+        /**
+         * Field charSet.
+         */
+        private String charSet = StringPart.DEFAULT_CHARSET;
 
-		public void setContentType(String contentType) {
-			this.contentType = contentType;
-		}		
-		
-		public void setText(String text) {
-			this.value = text;
-		}
-	}
-	
-	public void addConfiguredFile(FilePartType file) {
-		this.parts.add(file);
-	}
-	
-	public void setMultipart(boolean multipart) {
-		this.multipart = multipart;
-	}
+        /**
+         * Field contentType.
+         */
+        private String contentType = StringPart.DEFAULT_CONTENT_TYPE;
 
-	public void addConfiguredText(TextPartType text) {
-		this.parts.add(text);
-	}
-	
-	public void setParameters(File parameters) {
-		PostMethod post = getPostMethod();
-		Properties p = new Properties();
-		Iterator it = p.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			post.addParameter(entry.getKey().toString(),
-					entry.getValue().toString());
-		}
-	}
+        /**
+         * Method getValue.
+         *
+         * @return String
+         */
+        public String getValue() {
+            return value;
+        }
 
-	protected HttpMethodBase createNewMethod() {
-		return new PostMethod();
-	}
-	
-	private PostMethod getPostMethod() {
-		return ((PostMethod)createMethodIfNecessary());
-	}
+        /**
+         * Method setValue.
+         *
+         * @param value String
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
 
-	public void addConfiguredParameter(NameValuePair pair) {
-		getPostMethod().setParameter(pair.getName(), pair.getValue());
-	}
-	
-	public void setContentChunked(boolean contentChunked) {
-		getPostMethod().setContentChunked(contentChunked);
-	}
-	
-	protected void configureMethod(HttpMethodBase method) {
-		PostMethod post = (PostMethod) method;
+        /**
+         * Method getName.
+         *
+         * @return String
+         */
+        public String getName() {
+            return name;
+        }
 
-		if (parts.size() == 1 && ! multipart) {
-			Object part = parts.get(0);
-			if (part instanceof FilePartType) {
-				FilePartType filePart = (FilePartType)part;
-				try {
-					stream = new FileInputStream(
-							filePart.getPath().getAbsolutePath());
-					post.setRequestEntity(
-						new InputStreamRequestEntity(stream,
-								filePart.getPath().length(),
-								filePart.getContentType()));
-				}
-				catch (IOException e) {
-					throw new BuildException(e);
-				}
-			}
-			else if (part instanceof TextPartType) {
-				TextPartType textPart = (TextPartType)part;
-				try {
-					post.setRequestEntity(
-							new StringRequestEntity(textPart.getValue(),
-									textPart.getContentType(),
-									textPart.getCharSet()));
-				}
-				catch (UnsupportedEncodingException e) {
-					throw new BuildException(e);
-				}
-			}
-		}
-		else if (! parts.isEmpty()){
-			Part partArray[] = new Part[parts.size()];
-			for (int i=0;i<parts.size();i++) {
-				Object part = parts.get(i);
-				if (part instanceof FilePartType) {
-					FilePartType filePart = (FilePartType)part;
-					try {
-						partArray[i] = new FilePart(filePart.getPath().getName(),
-								filePart.getPath().getName(),
-								filePart.getPath(),
-								filePart.getContentType(),
-								filePart.getCharSet());
-					}
-					catch (FileNotFoundException e) {
-						throw new BuildException(e);
-					}
-				}
-				else if (part instanceof TextPartType) {
-					TextPartType textPart = (TextPartType)part;
-					partArray[i] = new StringPart(textPart.getName(),
-							textPart.getValue(),
-							textPart.getCharSet());
-					((StringPart)partArray[i]).setContentType(textPart.getContentType());
-				}
-			}
-			MultipartRequestEntity entity = new MultipartRequestEntity(
-					partArray,
-					post.getParams());
-			post.setRequestEntity(entity);
-		}
-	}
+        /**
+         * Method setName.
+         *
+         * @param name String
+         */
+        public void setName(String name) {
+            this.name = name;
+        }
 
-	protected void cleanupResources(HttpMethodBase method) {
-		FileUtils.close(stream);
-	}
-	
-	
+        /**
+         * Method getCharSet.
+         *
+         * @return String
+         */
+        public String getCharSet() {
+            return charSet;
+        }
+
+        /**
+         * Method setCharSet.
+         *
+         * @param charSet String
+         */
+        public void setCharSet(String charSet) {
+            this.charSet = charSet;
+        }
+
+        /**
+         * Method getContentType.
+         *
+         * @return String
+         */
+        public String getContentType() {
+            return contentType;
+        }
+
+        /**
+         * Method setContentType.
+         *
+         * @param contentType String
+         */
+        public void setContentType(String contentType) {
+            this.contentType = contentType;
+        }
+
+        /**
+         * Method setText.
+         *
+         * @param text String
+         */
+        public void setText(String text) {
+            this.value = text;
+        }
+    }
+
+    /**
+     * Method addConfiguredFile.
+     *
+     * @param file FilePartType
+     */
+    public void addConfiguredFile(FilePartType file) {
+        this.parts.add(file);
+    }
+
+    /**
+     * Method setMultipart.
+     *
+     * @param multipart boolean
+     */
+    public void setMultipart(boolean multipart) {
+        this.multipart = multipart;
+    }
+
+    /**
+     * Method addConfiguredText.
+     *
+     * @param text TextPartType
+     */
+    public void addConfiguredText(TextPartType text) {
+        this.parts.add(text);
+    }
+
+    /**
+     * Method setParameters.
+     *
+     * @param parameters File
+     */
+    public void setParameters(File parameters) {
+        PostMethod post = getPostMethod();
+        Properties p = new Properties();
+        for (Map.Entry<Object, Object> entry : p.entrySet()) {
+            post.addParameter(entry.getKey().toString(),
+                    entry.getValue().toString());
+        }
+    }
+
+    /**
+     * Method createNewMethod.
+     *
+     * @return HttpMethodBase
+     */
+    protected HttpMethodBase createNewMethod() {
+        return new PostMethod();
+    }
+
+    /**
+     * Method getPostMethod.
+     *
+     * @return PostMethod
+     */
+    private PostMethod getPostMethod() {
+        return ((PostMethod) createMethodIfNecessary());
+    }
+
+    /**
+     * Method addConfiguredParameter.
+     *
+     * @param pair NameValuePair
+     */
+    public void addConfiguredParameter(NameValuePair pair) {
+        getPostMethod().setParameter(pair.getName(), pair.getValue());
+    }
+
+    /**
+     * Method setContentChunked.
+     *
+     * @param contentChunked boolean
+     */
+    public void setContentChunked(boolean contentChunked) {
+        getPostMethod().setContentChunked(contentChunked);
+    }
+
+    /**
+     * Method configureMethod.
+     *
+     * @param method HttpMethodBase
+     */
+    protected void configureMethod(HttpMethodBase method) {
+        PostMethod post = (PostMethod) method;
+
+        if (parts.size() == 1 && !multipart) {
+            Object part = parts.get(0);
+            if (part instanceof FilePartType) {
+                FilePartType filePart = (FilePartType) part;
+                try {
+                    stream = new FileInputStream(
+                            filePart.getPath().getAbsolutePath());
+                    post.setRequestEntity(
+                            new InputStreamRequestEntity(stream,
+                                    filePart.getPath().length(),
+                                    filePart.getContentType()));
+                } catch (IOException e) {
+                    throw new BuildException(e);
+                }
+            } else if (part instanceof TextPartType) {
+                TextPartType textPart = (TextPartType) part;
+                try {
+                    post.setRequestEntity(
+                            new StringRequestEntity(textPart.getValue(),
+                                    textPart.getContentType(),
+                                    textPart.getCharSet()));
+                } catch (UnsupportedEncodingException e) {
+                    throw new BuildException(e);
+                }
+            }
+        } else if (!parts.isEmpty()) {
+            Part[] partArray = new Part[parts.size()];
+            for (int i = 0; i < parts.size(); i++) {
+                Object part = parts.get(i);
+                if (part instanceof FilePartType) {
+                    FilePartType filePart = (FilePartType) part;
+                    try {
+                        partArray[i] = new FilePart(filePart.getPath().getName(),
+                                filePart.getPath().getName(),
+                                filePart.getPath(),
+                                filePart.getContentType(),
+                                filePart.getCharSet());
+                    } catch (FileNotFoundException e) {
+                        throw new BuildException(e);
+                    }
+                } else if (part instanceof TextPartType) {
+                    TextPartType textPart = (TextPartType) part;
+                    partArray[i] = new StringPart(textPart.getName(),
+                            textPart.getValue(),
+                            textPart.getCharSet());
+                    ((StringPart) partArray[i]).setContentType(textPart.getContentType());
+                }
+            }
+            MultipartRequestEntity entity = new MultipartRequestEntity(
+                    partArray,
+                    post.getParams());
+            post.setRequestEntity(entity);
+        }
+    }
+
+    /**
+     * Method cleanupResources.
+     *
+     * @param method HttpMethodBase
+     */
+    protected void cleanupResources(HttpMethodBase method) {
+        FileUtils.close(stream);
+    }
 }

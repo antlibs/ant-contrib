@@ -21,37 +21,46 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * Extends ConditionBase so I can get access to the condition count and the
  * first condition. This is the class that the BooleanConditionTask is proxy
  * for.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author     Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class BooleanConditionBase extends ConditionBase {
-   /**
-    * Adds a feature to the IsPropertyTrue attribute of the BooleanConditionBase
-    * object
-    *
-    * @param i  The feature to be added to the IsPropertyTrue attribute
-    */
-   public void addIsPropertyTrue( IsPropertyTrue i ) {
-      super.add( i );
-   }
+    /**
+     * Adds a feature to the IsPropertyTrue attribute of the
+     * BooleanConditionBase object.
+     *
+     * @param i The feature to be added to the IsPropertyTrue attribute
+     */
+    public void addIsPropertyTrue(IsPropertyTrue i) {
+        super.add(i);
+    }
 
-   /**
-    * Adds a feature to the IsPropertyFalse attribute of the
-    * BooleanConditionBase object
-    *
-    * @param i  The feature to be added to the IsPropertyFalse attribute
-    */
-   public void addIsPropertyFalse( IsPropertyFalse i ) {
-      super.add( i );
-   }
-   
-   public void addIsGreaterThan( IsGreaterThan i) {
-      super.add(i);  
-   }
-   
-   public void addIsLessThan( IsLessThan i) {
-      super.add(i);  
-   }
+    /**
+     * Adds a feature to the IsPropertyFalse attribute of the
+     * BooleanConditionBase object.
+     *
+     * @param i The feature to be added to the IsPropertyFalse attribute
+     */
+    public void addIsPropertyFalse(IsPropertyFalse i) {
+        super.add(i);
+    }
+
+    /**
+     * Method addIsGreaterThan.
+     *
+     * @param i IsGreaterThan
+     */
+    public void addIsGreaterThan(IsGreaterThan i) {
+        super.add(i);
+    }
+
+    /**
+     * Method addIsLessThan.
+     *
+     * @param i IsLessThan
+     */
+    public void addIsLessThan(IsLessThan i) {
+        super.add(i);
+    }
 }
-

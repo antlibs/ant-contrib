@@ -15,20 +15,25 @@
  */
 package net.sf.antcontrib.math;
 
-import org.apache.tools.ant.BuildException;
+import static java.lang.Math.E;
+import static java.lang.Math.PI;
 
+import org.apache.tools.ant.BuildException;
 
 /**
  * A numeric value that implements Evaluateable.
  *
- * @author		inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-
-
-public class Numeric
-        implements Evaluateable
-{
+public class Numeric implements Evaluateable {
+    /**
+     * Field datatype.
+     */
     private String datatype;
+
+    /**
+     * Field value.
+     */
     private String value;
 
     /**
@@ -39,21 +44,22 @@ public class Numeric
      *
      * @param value the value for this number
      */
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         if (value.equals("E"))
-            value = String.valueOf(java.lang.Math.E);
+            value = String.valueOf(E);
         else if (value.equals("PI"))
-            value = String.valueOf(java.lang.Math.PI);
+            value = String.valueOf(PI);
         this.value = value;
     }
 
     /**
+     * evaluate() method.
+     *
      * @return the value for this number as a Number. Cast as appropriate to
-     *         Integer, Long, Float, or Double.
+     * Integer, Long, Float, or Double.
+     * @see net.sf.antcontrib.math.Evaluateable#evaluate()
      */
-    public Number evaluate()
-    {
+    public Number evaluate() {
         if (datatype == null)
             datatype = "double";
         if (datatype.equals("int"))
@@ -70,24 +76,30 @@ public class Numeric
     /**
      * Sets the datatype of this number. Allowed values are
      * "int", "long", "float", or "double".
+     *
+     * @param p String
      */
-    public void setDatatype(String p)
-    {
+    public void setDatatype(String p) {
         datatype = p;
     }
 
     /**
+     * getDatatype() method.
+     *
      * @return the datatype as one of the defined types.
      */
-    public String getDatatype()
-    {
+    public String getDatatype() {
         if (datatype == null)
             datatype = "double";
         return datatype;
     }
 
-    public String toString()
-    {
+    /**
+     * Method toString.
+     *
+     * @return String
+     */
+    public String toString() {
         return "Numeric[value=" + value
                 + ";datatype=" + datatype
                 + "]";

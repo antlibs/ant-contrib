@@ -28,57 +28,66 @@ import org.apache.tools.ant.taskdefs.Ant;
  * Normally, these properties are thrown away as soon as the
  * called target completes execution.
  *
- * @author     inger
- * @author     Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class AntFetch extends Ant {
-	/** the name of the property to fetch from the new project */
-	private String returnName = null;
-	
-	private ProjectDelegate fakeProject = null;
+    /**
+     * the name of the property to fetch from the new project.
+     */
+    private String returnName = null;
 
-	public void setProject(Project realProject) {
-		fakeProject = new ProjectDelegate(realProject);
-		super.setProject(fakeProject);
-	}
+    /**
+     * Field fakeProject.
+     */
+    private ProjectDelegate fakeProject = null;
 
-	/**
-	 * Do the execution.
-	 *
-	 * @exception BuildException  Description of the Exception
-	 */
-	public void execute() throws BuildException {
-		super.execute();
+    /**
+     * Method setProject.
+     *
+     * @param realProject Project
+     */
+    public void setProject(Project realProject) {
+        fakeProject = new ProjectDelegate(realProject);
+        super.setProject(fakeProject);
+    }
 
-		// copy back the props if possible
-		if ( returnName != null ) {
-			StringTokenizer st = new StringTokenizer( returnName, "," );
-			while ( st.hasMoreTokens() ) {
-				String name = st.nextToken().trim();
-				String value = fakeProject.getSubproject().getUserProperty( name );
-				if ( value != null ) {
-					getProject().setUserProperty( name, value );
-				}
-				else {
-					value = fakeProject.getSubproject().getProperty( name );
-					if ( value != null ) {
-						getProject().setProperty( name, value );
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Do the execution.
+     *
+     * @throws BuildException Description of the Exception
+     */
+    public void execute() throws BuildException {
+        super.execute();
 
-	/**
-	 * Set the property or properties that are set in the new project to be
-	 * transfered back to the original project. As with all properties, if the
-	 * property already exists in the original project, it will not be overridden
-	 * by a different value from the new project.
-	 *
-	 * @param r  the name of a property in the new project to set in the original
-	 *      project. This may be a comma separate list of properties.
-	 */
-	public void setReturn( String r ) {
-		returnName = r;
-	}	
+        // copy back the props if possible
+        if (returnName != null) {
+            StringTokenizer st = new StringTokenizer(returnName, ",");
+            while (st.hasMoreTokens()) {
+                String name = st.nextToken().trim();
+                String value = fakeProject.getSubproject().getUserProperty(name);
+                if (value != null) {
+                    getProject().setUserProperty(name, value);
+                } else {
+                    value = fakeProject.getSubproject().getProperty(name);
+                    if (value != null) {
+                        getProject().setProperty(name, value);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Set the property or properties that are set in the new project to be
+     * transferred back to the original project. As with all properties, if the
+     * property already exists in the original project, it will not be
+     * overridden by a different value from the new project.
+     *
+     * @param r the name of a property in the new project to set in the original
+     *          project. This may be a comma separate list of properties.
+     */
+    public void setReturn(String r) {
+        returnName = r;
+    }
 }

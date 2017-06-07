@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -27,59 +27,80 @@ import org.apache.tools.ant.BuildListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
- *
- * @since
- *
- ****************************************************************************/
-
-
-public class ConnectionBuildListener
-        implements BuildListener
-{
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+public class ConnectionBuildListener implements BuildListener {
+    /**
+     * Field results.
+     */
     private Document results;
-    private Stack elementStack;
-    private ThreadGroup group;
 
-    public ConnectionBuildListener()
-        throws ParserConfigurationException
-    {
+    /**
+     * Field elementStack.
+     */
+    private Stack<Element> elementStack;
+
+    /**
+     * Field group.
+     */
+    private final ThreadGroup group;
+
+    /**
+     * Constructor for ConnectionBuildListener.
+     *
+     * @throws ParserConfigurationException if something goes wrong
+     */
+    public ConnectionBuildListener() throws ParserConfigurationException {
         group = Thread.currentThread().getThreadGroup();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         results = builder.newDocument();
-        elementStack = new Stack();
+        elementStack = new Stack<Element>();
 
         Element rootElement = results.createElement("results");
         elementStack.push(rootElement);
         results.appendChild(rootElement);
     }
 
-    public Document getDocument()
-    {
+    /**
+     * Method getDocument.
+     *
+     * @return Document
+     */
+    public Document getDocument() {
         return results;
     }
 
-    public void buildStarted(BuildEvent event)
-    {
+    /**
+     * Method buildStarted.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#buildStarted(BuildEvent)
+     */
+    public void buildStarted(BuildEvent event) {
     }
 
-
-    public void buildFinished(BuildEvent event)
-    {
+    /**
+     * Method buildFinished.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#buildFinished(BuildEvent)
+     */
+    public void buildFinished(BuildEvent event) {
     }
 
-
-    public void targetStarted(BuildEvent event)
-    {
+    /**
+     * Method targetStarted.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#targetStarted(BuildEvent)
+     */
+    public void targetStarted(BuildEvent event) {
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element parent = (Element)elementStack.peek();
+        Element parent = elementStack.peek();
 
         Element myElement = results.createElement("target");
         myElement.setAttribute("name", event.getTarget().getName());
@@ -88,21 +109,24 @@ public class ConnectionBuildListener
         elementStack.push(myElement);
     }
 
-
-    public void targetFinished(BuildEvent event)
-    {
+    /**
+     * Method targetFinished.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#targetFinished(BuildEvent)
+     */
+    public void targetFinished(BuildEvent event) {
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element myElement = (Element)elementStack.peek();
+        Element myElement = elementStack.peek();
 
         String message = event.getMessage();
         if (message != null)
             myElement.setAttribute("message", message);
 
         Throwable t = event.getException();
-        if (t != null)
-        {
+        if (t != null) {
             myElement.setAttribute("status", "failure");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);
@@ -119,23 +143,24 @@ public class ConnectionBuildListener
             error.appendChild(errorMsgElement);
             error.appendChild(stackElement);
             myElement.appendChild(error);
-        }
-        else
-        {
+        } else {
             myElement.setAttribute("status", "success");
         }
 
         elementStack.pop();
     }
 
-
-    public void taskStarted(BuildEvent event)
-    {
-
+    /**
+     * Method taskStarted.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#taskStarted(BuildEvent)
+     */
+    public void taskStarted(BuildEvent event) {
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element parent = (Element)elementStack.peek();
+        Element parent = elementStack.peek();
 
         Element myElement = results.createElement("task");
         myElement.setAttribute("name", event.getTask().getTaskName());
@@ -144,17 +169,20 @@ public class ConnectionBuildListener
         elementStack.push(myElement);
     }
 
-
-    public void taskFinished(BuildEvent event)
-    {
+    /**
+     * Method taskFinished.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#taskFinished(BuildEvent)
+     */
+    public void taskFinished(BuildEvent event) {
         if (Thread.currentThread().getThreadGroup() != group)
             return;
 
-        Element myElement = (Element)elementStack.peek();
+        Element myElement = elementStack.peek();
 
         Throwable t = event.getException();
-        if (t != null)
-        {
+        if (t != null) {
             myElement.setAttribute("status", "failure");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);
@@ -171,18 +199,20 @@ public class ConnectionBuildListener
             error.appendChild(errorMsgElement);
             error.appendChild(stackElement);
             myElement.appendChild(error);
-        }
-        else
-        {
+        } else {
             myElement.setAttribute("status", "success");
         }
 
         elementStack.pop();
     }
 
-
-    public void messageLogged(BuildEvent event)
-    {
+    /**
+     * Method messageLogged.
+     *
+     * @param event BuildEvent
+     * @see org.apache.tools.ant.BuildListener#messageLogged(BuildEvent)
+     */
+    public void messageLogged(BuildEvent event) {
         /*
         if (Thread.currentThread().getThreadGroup() != group)
             return;

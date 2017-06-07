@@ -15,8 +15,8 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -26,64 +26,51 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * A wrapper that lets you run a set of tasks and optionally run a
  * different set of tasks if the first set fails and yet another set
  * after the first one has finished.
- *
  * <p>This mirrors Java's try/catch/finally.</p>
- *
  * <p>The tasks inside of the required <code>&lt;try&gt;</code>
  * element will be run.  If one of them should throw a {@link
  * org.apache.tools.ant.BuildException BuildException} several things
  * can happen:</p>
- *
  * <ul>
- *   <li>If there is no <code>&lt;catch&gt;</code> block, the
- *   exception will be passed through to Ant.</li>
- *
- *   <li>If the property attribute has been set, a property of the
- *   given name will be set to the message of the exception.</li>
- *
- *   <li>If the reference attribute has been set, a reference of the
- *   given id will be created and point to the exception object.</li>
- *
- *   <li>If there is a <code>&lt;catch&gt;</code> block, the tasks
- *   nested into it will be run.</li>
+ * <li>If there is no <code>&lt;catch&gt;</code> block, the
+ * exception will be passed through to Ant.</li>
+ * <li>If the property attribute has been set, a property of the
+ * given name will be set to the message of the exception.</li>
+ * <li>If the reference attribute has been set, a reference of the
+ * given id will be created and point to the exception object.</li>
+ * <li>If there is a <code>&lt;catch&gt;</code> block, the tasks
+ * nested into it will be run.</li>
  * </ul>
- *
  * <p>If a <code>&lt;finally&gt;</code> block is present, the task
  * nested into it will be run, no matter whether the first tasks have
  * thrown an exception or not.</p>
- *
- * <p><strong>Attributes:</strong></p>
- *
  * <table>
- *   <tr>
- *     <td>Name</td>
- *     <td>Description</td>
- *     <td>Required</td>
- *   </tr>
- *   <tr>
- *     <td>property</td>
- *     <td>Name of a property that will receive the message of the
- *     exception that has been caught (if any)</td>
- *     <td>No</td>
- *   </tr>
- *   <tr>
- *     <td>reference</td>
- *     <td>Id of a reference that will point to the exception object
- *     that has been caught (if any)</td>
- *     <td>No</td>
- *   </tr>
+ * <caption>Attributes:</caption>
+ * <tr>
+ * <td>Name</td>
+ * <td>Description</td>
+ * <td>Required</td>
+ * </tr>
+ * <tr>
+ * <td>property</td>
+ * <td>Name of a property that will receive the message of the
+ * exception that has been caught (if any)</td>
+ * <td>No</td>
+ * </tr>
+ * <tr>
+ * <td>reference</td>
+ * <td>Id of a reference that will point to the exception object
+ * that has been caught (if any)</td>
+ * <td>No</td>
+ * </tr>
  * </table>
- *
  * <p>Use the following task to define the <code>&lt;trycatch&gt;</code>
  * task before you use it the first time:</p>
- *
  * <pre><code>
- *   &lt;taskdef name="trycatch" 
+ *   &lt;taskdef name="trycatch"
  *            classname="net.sf.antcontrib.logic.TryCatchTask" /&gt;
  * </code></pre>
- * 
  * <h3>Crude Example</h3>
- *
  * <pre><code>
  * &lt;trycatch property=&quot;foo&quot; reference=&quot;bar&quot;&gt;
  *   &lt;try&gt;
@@ -103,9 +90,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * &lt;property name=&quot;baz&quot; refid=&quot;bar&quot; /&gt;
  * &lt;echo&gt;From reference: ${baz}&lt;/echo&gt;
  * </code></pre>
- *
  * <p>results in</p>
- *
  * <pre><code>
  *   [trycatch] Caught exception: Tada!
  *       [echo] In &lt;catch&gt;.
@@ -118,69 +103,118 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * @author <a href="mailto:RITCHED2@Nationwide.com">Dan Ritchey</a>
  */
 public class TryCatchTask extends Task {
-
+    /**
+     */
     public static final class CatchBlock extends Sequential {
+        /**
+         * Field throwable.
+         */
         private String throwable = BuildException.class.getName();
 
+        /**
+         * Constructor for CatchBlock.
+         */
         public CatchBlock() {
             super();
         }
 
+        /**
+         * Method setThrowable.
+         *
+         * @param throwable String
+         */
         public void setThrowable(String throwable) {
             this.throwable = throwable;
         }
 
+        /**
+         * Method execute.
+         *
+         * @param t Throwable
+         * @return boolean
+         * @throws BuildException if a task fails to execute
+         */
         public boolean execute(Throwable t) throws BuildException {
             try {
-                Class c = Thread.currentThread().getContextClassLoader().loadClass(throwable);
+                Class<?> c = Thread.currentThread().getContextClassLoader().loadClass(throwable);
                 if (c.isAssignableFrom(t.getClass())) {
                     execute();
                     return true;
                 }
                 return false;
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 throw new BuildException(e);
             }
         }
     }
 
-
+    /**
+     * Field tryTasks.
+     */
     private Sequential tryTasks = null;
-    private Vector catchBlocks = new Vector();
+
+    /**
+     * Field catchBlocks.
+     */
+    private final List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>();
+
+    /**
+     * Field finallyTasks.
+     */
     private Sequential finallyTasks = null;
+
+    /**
+     * Field property.
+     */
     private String property = null;
+
+    /**
+     * Field reference.
+     */
     private String reference = null;
 
     /**
      * Adds a nested &lt;try&gt; block - one is required, more is
      * forbidden.
+     *
+     * @param seq Sequential
+     * @throws BuildException if more than one try is specified
      */
     public void addTry(Sequential seq) throws BuildException {
         if (tryTasks != null) {
             throw new BuildException("You must not specify more than one <try>");
         }
-        
+
         tryTasks = seq;
     }
 
+    /**
+     * Method addCatch.
+     *
+     * @param cb CatchBlock
+     */
     public void addCatch(CatchBlock cb) {
         catchBlocks.add(cb);
     }
 
     /**
      * Adds a nested &lt;finally&gt; block - at most one is allowed.
+     *
+     * @param seq Sequential
+     * @throws BuildException if seq is null
      */
     public void addFinally(Sequential seq) throws BuildException {
         if (finallyTasks != null) {
             throw new BuildException("You must not specify more than one <finally>");
         }
-        
+
         finallyTasks = seq;
     }
 
     /**
      * Sets the property attribute.
+     *
+     * @param p String
      */
     public void setProperty(String p) {
         property = p;
@@ -188,6 +222,8 @@ public class TryCatchTask extends Task {
 
     /**
      * Sets the reference attribute.
+     *
+     * @param r String
      */
     public void setReference(String r) {
         reference = r;
@@ -195,10 +231,12 @@ public class TryCatchTask extends Task {
 
     /**
      * The heart of the task.
+     *
+     * @throws BuildException when no tasks or any catch blocks did not execute
      */
     public void execute() throws BuildException {
-    	Throwable thrown = null;
-    	
+        Throwable thrown = null;
+
         if (tryTasks == null) {
             throw new BuildException("A nested <try> element is required");
         }
@@ -213,30 +251,28 @@ public class TryCatchTask extends Task {
                  */
                 getProject().setProperty(property, e.getMessage());
             }
-            
+
             if (reference != null) {
                 getProject().addReference(reference, e);
             }
 
             boolean executed = false;
-            Enumeration blocks = catchBlocks.elements();
-            while (blocks.hasMoreElements() && ! executed) {
-                CatchBlock cb = (CatchBlock)blocks.nextElement();
+            for (CatchBlock cb : catchBlocks) {
                 executed = cb.execute(e);
+                if (executed) break;
             }
-            
-            if (! executed) {
-            	thrown = e;
+
+            if (!executed) {
+                thrown = e;
             }
         } finally {
             if (finallyTasks != null) {
                 finallyTasks.perform();
             }
         }
-        
+
         if (thrown != null) {
-        	throw new BuildException(thrown);
+            throw new BuildException(thrown);
         }
     }
-
 }

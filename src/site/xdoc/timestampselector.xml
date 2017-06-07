@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>TimestampSelector Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="TimestampSelector">
+    <p>
+      The TimestampSelector task takes either a nested
+      <code>path</code> element, or a path reference, and sets either
+      a named property, or a <code>path</code> instance to absolute
+      pathnames of the files with either the N latest or earliest
+      modification dates (based on the <code>age</code> attribute)
+    </p>
+    <subsection name="Parameters">
+    <table summary="TimeStampSelector Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">property</td>
+        <td valign="top">
+	  The property to set with the most recently modified file.
+          Mutually exclusive with the <code>outputsetid</code>
+          attribute.
+	</td>
+        <td align="center" valign="top">Yes, if <code>outputsetid</code> is not specified.</td>
+      </tr>
+      <tr>
+        <td valign="top">outputsetid</td>
+        <td valign="top">
+	  The id of a <code>path</code> instance which will contain
+          the resulting list of files.  This id should not already
+          exist.  Mutually exclusive with the <code>property</code>
+          attribute
+	</td>
+        <td align="center" valign="top">Yes, if <code>property</code> is note specified.</td>
+      </tr>
+      <tr>
+        <td valign="top">count</td>
+        <td valign="top">
+	  The number of files to find.  If more than 1, than the files
+          in the output appear in the order indicated by
+          the <code>age</code> attribute.
+	</td>
+        <td align="center" valign="top">No.  Defaults to <code>1</code></td>
+      </tr>
+      <tr>
+        <td valign="top">age</td>
+        <td valign="top">
+	  The age of the files to retrieve, either <code>eldest</code>
+          or <code>youngest</code>.  Defaults
+          to <code>youngest</code>.
+	</td>
+        <td align="center" valign="top">No.  Defaults to <code>1</code></td>
+      </tr>
+      <tr>
+        <td valign="top">pathSep</td>
+        <td valign="top">
+	  The path separator to separate paths with when using
+          the <code>property</code> attribute in conjunction with
+          the <code>count</code> attribute
+	</td>
+        <td align="center" valign="top">No.  Defaults to <code>,</code></td>
+      </tr>
+      <tr>
+        <td valign="top">pathref</td>
+        <td valign="top">Id of the path to find the most recently modified file in.</td>
+        <td align="center" valign="top">
+	  No, if a <code>path</code> subelement is specified.
+	</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Parameters specified as nested elements">
+    <h3 id="path">path</h3>
+    <p>
+      <a href="https://ant.apache.org/manual/using.html#path">Path</a>
+      is used to select sets of files or directories in which to find
+      the most recently modified file
+    </p>
+    </subsection>
+    <subsection name="Example">
+      <h3>Using a path reference</h3>
+      <source>
+	<![CDATA[
+    <path id="mypath">
+       <fileset dir="${log.dir}">
+         <include name="update*.log"/>
+       </fileset>
+    <path>
+    <timestampselector property="most.recent.logs"
+                        pathref="mypath" count="3"
+                        pathsep=";"/>
+
+    <echo message="${most.recent.logs}"/>
+	]]>
+      </source>
+      <h3>Using a nested <code>path</code> element</h3>
+      <source>
+	<![CDATA[
+    <timestampselector property="most.recent.logs"
+                        count="3"
+                        pathsep=";" >
+      <path>
+         <fileset dir="${log.dir}">
+           <include name="update*.log"/>
+         </fileset>
+      <path>
+    </timestampselector>
+
+    <echo message="${most.recent.logs}"/>
+	]]>
+      </source>
+      <h3>Outputing to a <code>path</code> element</h3>
+      <source>
+	<![CDATA[
+    <timestampselector outputsetref="most.recent.logs"
+                        pathref="mypath" count="3">
+      <path>
+         <fileset dir="${log.dir}">
+           <include name="update*.log"/>
+         </fileset>
+      <path>
+    </timestampselector>
+
+    <copy todir="somedir">
+      <path refid="most.recent.logs"/>
+    </copy>
+	]]>
+      </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

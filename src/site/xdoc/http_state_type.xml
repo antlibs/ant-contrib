@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Http Tasks</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+  </properties>
+  <body>
+    <section name="HttpState">
+    <p>
+      The <code>httpState</code> type allows the caller to create an
+      HttpState instance, and add it as a reference, or be nested as a
+      subelement of an <code>httpClient</code> element.
+    </p>
+    <subsection name="Parameters">
+    <table summary="HttpState Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top"><i>id</i></td>
+        <td valign="top">The reference id to store this HttpState under.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>refId</i></td>
+        <td valign="top">The reference id of the HttpState which this element references.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Parameters specified as Nested Elements">
+    <p>
+      <b><code>cookie</code></b>
+    </p>
+    <p>
+      Create a cookie.
+    </p>
+    <table summary="Cookie Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top"><i>domain</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>path</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>name</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>value</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>secure</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>comment</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>expiryDate</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>version</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>domainAttributeSpecified</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>pathAttributeSpecified</i></td>
+        <td valign="top"></td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+    </table>
+    <p>
+      <b><code>credentials</code></b>
+    </p>
+    <p>
+      Create authentication credentials.
+    </p>
+    <table summary="Credentials Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top"><i>host</i></td>
+        <td valign="top">The host.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>port</i></td>
+        <td valign="top">The port.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>realm</i></td>
+        <td valign="top">The realm.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>scheme</i></td>
+        <td valign="top">The scheme.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>username</i></td>
+        <td valign="top">The username.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top"><i>password</i></td>
+        <td valign="top">The password.</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+    </table>
+    <p>
+      <b><code>proxyCredentials</code></b>
+    </p>
+    <p>
+      Create proxy authentication credentials.
+    </p>
+    <table summary="ProxyCredentials Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Identical to <code>credentials</code> element.</th>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Examples">
+      <source>
+	<![CDATA[
+    <httpState id="myState">
+       <cookie name="loginId" value="username" realm="sourceforge.net"/>
+    </httpState>
+
+    <httpClient id="myClient" stateRefId="myState"/>
+
+    <httpClient id="myClient>
+      <httpState >
+        <cookie name="loginId" value="username" realm="sourceforge.net"/>
+      </httpState>
+    </httpClient>
+	]]>
+      </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

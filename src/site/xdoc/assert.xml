@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Assert Task</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+  </properties>
+  <body>
+    <section name="Assert Task">
+      <p>
+	The Assert task adds an assertion capability to Ant
+	projects. This task works in a manner very similar to the
+	Java <code>assert</code> keyword, and provides a limited
+	"design by contract" facility to Ant. This is very useful for
+	testing build scripts prior to putting them into production.
+      </p>
+      <p>
+	The Assert task verifies that a particular boolean condition
+	is met, and throws a BuildException if it is not.
+      </p>
+      <p>
+	Also like Java's <code>assert</code> keyword, the Assert task
+	must be 'turned on' using the property
+	<code>ant.enable.asserts</code>. If not set, or is set to
+	<code>false</code>, the Assert task works exactly like the
+	Sequential task. If the <a href="variable.html"
+	title="Variable Task">Variable task</a> is used to define this
+	property, then it can be turned on and off as needed
+	throughout a build.
+      </p>
+      <p>
+	This task can hold other tasks including Assert.
+      </p>
+      <p>
+	The assert task may contain a single conditional element known
+	by Ant, or one of the following additional conditions:
+	<a href="more_conditions.html#IfPropertyTrue" title="More
+	Conditions">IfPropertyTrue</a>,
+	<a href="more_conditions.html#IfPropertyFalse" title="More
+	Conditions">IfPropertyFalse</a>,
+	<a href="more_conditions.html#StartsWith" title="More
+	Conditions">StartsWith</a>,
+	<a href="more_conditions.html#EndsWith" title="More
+	Conditions">EndsWith</a>,
+	<a href="more_conditions.html#IsGreaterThan" title="More
+	Conditions">IsGreaterThan</a>,
+	<a href="more_conditions.html#IsLessThan" title="More
+	Conditions">IsLessThan</a> and conditions. See the
+	<a href="if.html">If task</a> for examples of using these
+	conditionals.
+      </p>
+      <table summary="Assert Task Attributes" border="1" cellpadding="2" cellspacing="0">
+	<caption>Assert Task Attributes</caption>
+	<thead>
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Description</th>
+	    <th>Default</th>
+	    <th>Required</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>name</td>
+	    <td>
+	      The name of the property to test for. This is a shortcut
+	      for specifying an <code>equals</code> condition.
+	    </td>
+	    <td>none</td>
+	    <td>
+	      No. However, if specified, the 'value' attribute must
+	      also be present.
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>value</td>
+	    <td>
+	      The value to test for, implies . If the value in the
+	      project is different than this value, a
+	      BuildException will be thrown and the build will
+	      stop.
+	    </td>
+	    <td>none</td>
+	    <td>No, unless the 'name' attribute is specified.</td>
+	  </tr>
+	  <tr>
+	    <td>execute</td>
+	    <td>
+	      Should the tasks contained in this task be executed? It
+	      may be useful to set this to false when testing build
+	      files.
+	    </td>
+	    <td>True</td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td>failonerror</td>
+	    <td>
+	      Should the build halt if the assertion fails? Setting
+	      this to false is contrary to the intented use of
+	      assertions, but may be useful in certain situations.
+	    </td>
+	    <td>True</td>
+	    <td>No</td>
+	  </tr>
+	</tbody>
+      </table>
+      <h2>Examples</h2>
+      <p>
+	In the following example, the first <code>assert</code> task
+	checks that the <code>wait</code> property exists and does not
+	execute the <code>echo</code> and <code>sleep</code>
+	tasks. The second <code>assert</code> task checks that
+	the <code>wait</code> property exists, has a value of 2, and
+	executes the <code>echo</code> task.
+      </p>
+      <source>
+		<![CDATA[
+     <property name="wait" value="2"/>
+     <assert execute="false">
+        <isset property="wait" />
+        <sequential>
+        <echo>
+            Waiting ${wait} seconds...
+            Click the red button to stop waiting.
+            </echo>
+            <sleep seconds="${wait}"/>
+        </sequential>
+     </assert>
+     <assert name="wait" value="2" execute="true">
+        <sequential>
+            <echo>done waiting!</echo>
+        </sequential>
+     </assert>
+     	]]>
+      </source>
+      <p>
+	The next example shows Assert being used in a unit test for the "limit" task:
+      </p>
+      <source>
+		<![CDATA[
+  <property name="ant.enable.asserts" value="true"/>
+  <target name="test2">
+    <!-- should not stop 'sleep' task, should print out '_passed_' -->
+    <stopwatch name="timer"/>
+    <limit maxwait="5">
+        <sleep seconds="1"/>
+        <echo>_passed_</echo>
+    </limit>
+    <stopwatch name="timer" action="total"/>
+    <assert message="Too much time.">
+        <islessthan arg1="${timer}" arg2="2"/>
+    </assert>
+  </target>
+     	]]>
+      </source>
+      <p>
+	If the <code>ant.enable.asserts</code> property is set to
+	false, then in the above example,
+	the <code>echo</code>, <code>sleep</code>,
+	and <code>echo</code> tasks will all execute.
+      </p>
+      <hr/>
+      <p align="center">
+	Copyright &copy; 2003 Ant-Contrib Project. All rights
+	Reserved.
+      </p>
+    </section>
+  </body>
+</document>

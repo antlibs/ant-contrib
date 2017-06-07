@@ -18,11 +18,13 @@ package net.sf.antcontrib.math;
 /**
  * An object which can evaluate to a numeric value.
  *
- * @author		inger
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-
-
-public interface Evaluateable
-{
+public interface Evaluateable {
+    /**
+     * Method evaluate.
+     *
+     * @return Number
+     */
     Number evaluate();
 }

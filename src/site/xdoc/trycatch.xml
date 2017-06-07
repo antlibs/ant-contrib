@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Trycatch Task</title>
+    <author email="stefan.bodewig@freenet.de">Stefan Bodewig</author>
+  </properties>
+  <body>
+    <section name="Trycatch">
+    <p>
+      A wrapper that lets you run a set of tasks and optionally run a
+      different set of tasks if the first set fails and yet another
+      set after the first one has finished.
+    </p>
+    <p>This mirrors Java's try/catch/finally.</p>
+    <p>
+      The tasks inside of the required <code>try</code> element will
+      be run. If one of them should throw a BuildException several
+      things can happen:
+    </p>
+    <ul>
+      <li>
+	If there is no <code>catch</code> block, the exception will be
+	passed through to Ant.
+      </li>
+      <li>
+	If the property attribute has been set, a property of the
+	given name will be set to the message of the exception.
+      </li>
+      <li>
+	If the reference attribute has been set, a reference of the
+	given id will be created and point to the exception object.
+      </li>
+      <li>
+	If there is a <code>catch</code> block, the tasks nested into
+	it will be run.
+      </li>
+    </ul>
+    <p>
+      If a <code>finally</code> block is present, the task nested into
+      it will be run, no matter whether the first tasks have thrown an
+      exception or not.
+    </p>
+    <subsection name="Parameters">
+    <table summary="TryCatch Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">property</td>
+        <td valign="top">
+	  Name of a property that will receive the message of the
+          exception that has been caught (if any)
+	</td>
+        <td align="center" valign="top">No.</td>
+      </tr>
+      <tr>
+        <td valign="top">reference</td>
+        <td valign="top">
+	  Id of a reference that will point to the exception object
+          that has been caught (if any)
+	</td>
+        <td align="center" valign="top">No</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Example">
+      <source>
+	<![CDATA[
+<trycatch property="foo" reference="bar">
+  <try>
+    <fail>Tada!</fail>
+  </try>
+
+  <catch>
+    <echo>In &amp;lt;catch&amp;gt;.</echo>
+  </catch>
+
+  <finally>
+    <echo>In &amp;lt;finally&amp;gt;.</echo>
+  </finally>
+</trycatch>
+
+<echo>As property: ${foo}</echo>
+<property name="baz" refid="bar"/>
+<echo>From reference: ${baz}</echo>
+	]]>
+      </source>
+      <p>results in</p>
+      <source>
+	<![CDATA[
+  [trycatch] Caught exception: Tada!
+      [echo] In <catch>.
+      [echo] In <finally>.
+      [echo] As property: Tada!
+      [echo] From reference: Tada!
+	]]>
+      </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

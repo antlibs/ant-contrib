@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>If Task</title>
+    <author email="stefan.bodewig@freenet.de">Stefan Bodewig</author>
+  </properties>
+  <body>
+    <section name="If">
+    <p>
+      Perform some tasks based on whether a given condition holds true
+      or not.
+    </p>
+    <p>
+      This task is heavily based on the Condition framework that can
+      be found in Ant 1.4 and later. Due to numerous bugs in Ant
+      1.4(.1) that affect this task, we recommend using Ant 1.5 or
+      later.
+    </p>
+    <subsection name="Parameters">
+    <p>
+      This task doesn't have any attributes, the condition to test is
+      specified by a nested element - see the documentation of your
+      <code>condition</code> task
+      (see <a href="https://ant.apache.org/manual/Tasks/condition.html">the
+      online documentation</a> for example) for a complete list of
+      nested elements.
+    </p>
+    <p>
+      Just like the <code>condition</code> task, only a single
+      condition can be specified - you combine them using
+      <code>and</code> or <code>or</code> conditions.
+    </p>
+    <p>
+      In addition to the condition, you can specify three different
+      child elements, <code>elseif</code>, <code>then</code> and
+      <code>else</code>. All three subelements are optional.
+    </p>
+    <p>
+      Both <code>then</code> and <code>else</code> must not be used
+      more than once inside the if task. Both are containers for Ant
+      tasks, just like Ant's <code>parallel</code> and
+      <code>sequential</code> tasks - in fact they are implemented
+      using the same class as Ant's <code>sequential</code> task.
+    </p>
+    <p>
+      The <code>elseif</code> behaves exactly like an <code>if</code>
+      except that it cannot contain the <code>else</code> element
+      inside of it. You may specify as may of these as you like, and
+      the order they are specified is the order they are evaluated
+      in. If the condition on the <code>if</code> is false, then the
+      first <code>elseif</code> who's conditional evaluates to true
+      will be executed. The <code>else</code> will be executed only if
+      the <code>if</code> and all <code>elseif</code> conditions are
+      false.
+    </p>
+    </subsection>
+    <subsection name="Example">
+      <source>
+	<![CDATA[
+<if>
+ <equals arg1="${foo}" arg2="bar"/>
+ <then>
+   <echo message="The value of property foo is bar"/>
+ </then>
+ <else>
+   <echo message="The value of property foo is not bar"/>
+ </else>
+</if>
+
+<if>
+ <equals arg1="${foo}" arg2="bar"/>
+ <then>
+   <echo message="The value of property foo is 'bar'"/>
+ </then>
+
+ <elseif>
+  <equals arg1="${foo}" arg2="foo"/>
+  <then>
+   <echo message="The value of property foo is 'foo'"/>
+  </then>
+ </elseif>
+
+ <else>
+   <echo message="The value of property foo is not 'foo' or 'bar'"/>
+ </else>
+</if>
+	]]>
+      </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

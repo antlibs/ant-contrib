@@ -15,15 +15,15 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Sequential;
 
-/***
+/**
  * Task definition for the ANT task to switch on a particular value.
- *
  * <pre>
  *
  * Usage:
@@ -46,7 +46,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *         &lt;property name="propname" value="propvalue" /&gt; |
  *         &lt;antcall target="targetname" /&gt; |
  *         any other tasks
- *       &lt;/default&gt; 
+ *       &lt;/default&gt;
  *      ]
  *     &lt;/switch&gt;
  *    </code>
@@ -63,7 +63,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
  *                    the case, then the nested tasks will be executed.
  *       default  --&gt; The default case for when no match is found.
  *
- * 
+ *
  * Crude Example:
  *
  *     <code>
@@ -85,24 +85,40 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
  */
-public class Switch extends Task
-{
-    private String value;
-    private Vector cases;
-    private Sequential defaultCase;
-    private boolean caseInsensitive;
-    
-    /***
-     * Default Constructor
+public class Switch extends Task {
+    /**
+     * Field value.
      */
-    public Switch()
-    {
-        cases = new Vector();
+    private String value;
+
+    /**
+     * Field cases.
+     */
+    private final List<Case> cases;
+
+    /**
+     * Field defaultCase.
+     */
+    private Sequential defaultCase;
+
+    /**
+     * Field caseInsensitive.
+     */
+    private boolean caseInsensitive;
+
+    /**
+     * Constructor.
+     */
+    public Switch() {
+        cases = new ArrayList<Case>();
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if no cases are supplied or values are missing
+     */
+    public void execute() throws BuildException {
         if (value == null)
             throw new BuildException("Value is missing");
         if (cases.size() == 0 && defaultCase == null)
@@ -110,19 +126,14 @@ public class Switch extends Task
 
         Sequential selectedCase = defaultCase;
 
-        int sz = cases.size();
-        for (int i=0;i<sz;i++)
-        {
-            Case c = (Case)(cases.elementAt(i));
-
+        for (Case c : cases) {
             String cvalue = c.value;
             if (cvalue == null) {
                 throw new BuildException("Value is required for case.");
             }
             String mvalue = value;
 
-            if (caseInsensitive)
-            {
+            if (caseInsensitive) {
                 cvalue = cvalue.toUpperCase();
                 mvalue = mvalue.toUpperCase();
             }
@@ -133,75 +144,99 @@ public class Switch extends Task
 
         if (selectedCase == null) {
             throw new BuildException("No case matched the value " + value
-                                     + " and no default has been specified.");
+                    + " and no default has been specified.");
         }
         selectedCase.perform();
     }
 
-    /***
-     * Sets the value being switched on
+    /**
+     * Sets the value being switched on.
+     *
+     * @param value String
      */
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public void setCaseInsensitive(boolean c)
-    {
+    /**
+     * Method setCaseInsensitive.
+     *
+     * @param c boolean
+     */
+    public void setCaseInsensitive(boolean c) {
         caseInsensitive = c;
     }
 
-    public final class Case extends Sequential
-    {
+    /**
+     */
+    public final class Case extends Sequential {
+        /**
+         * Field value.
+         */
         private String value;
 
-        public Case()
-        {
+        /**
+         * Constructor for Case.
+         */
+        public Case() {
             super();
         }
-        
-        public void setValue(String value)
-        {
+
+        /**
+         * Method setValue.
+         *
+         * @param value String
+         */
+        public void setValue(String value) {
             this.value = value;
         }
 
-        public void execute()
-            throws BuildException
-        {
+        /**
+         * Method execute.
+         *
+         * @throws BuildException if something goes wrong
+         */
+        public void execute() throws BuildException {
             super.execute();
         }
 
-        public boolean equals(Object o)
-        {
+        /**
+         * Method equals.
+         *
+         * @param o Object
+         * @return boolean
+         */
+        public boolean equals(Object o) {
             boolean res = false;
-            Case c = (Case)o;
+            Case c = (Case) o;
             if (c.value.equals(value))
                 res = true;
-            return res;                
+            return res;
         }
     }
 
-    /***
-     * Creates the &lt;case&gt; tag
+    /**
+     * Creates the &lt;case&gt; tag.
+     *
+     * @return Switch.Case
+     * @throws BuildException if something goes wrong
      */
-    public Switch.Case createCase()
-        throws BuildException
-    {
-        Switch.Case res = new Switch.Case();
-        cases.addElement(res);
+    public Case createCase() throws BuildException {
+        Case res = new Case();
+        cases.add(res);
         return res;
     }
 
-    /***
-     * Creates the &lt;default&gt; tag
+    /**
+     * Creates the &lt;default&gt; tag.
+     *
+     * @param res Sequential
+     * @throws BuildException if multiple default cases are specified
      */
-    public void addDefault(Sequential res)
-        throws BuildException
-    {
+    public void addDefault(Sequential res) throws BuildException {
         if (defaultCase != null)
             throw new BuildException("Cannot specify multiple default cases");
 
         defaultCase = res;
     }
-
 }

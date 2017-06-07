@@ -34,30 +34,92 @@ import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-/***
+/**
  * Task definition for the for task.  This is based on
  * the foreach task but takes a sequential element
- * instead of a target and only works for ant >= 1.6Beta3
- * @author Peter Reilly
+ * instead of a target and only works for Ant 1.6+
+ *
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
 public class ForTask extends Task {
+    /**
+     * Field list.
+     */
+    private String list;
 
-    private String     list;
-    private String     param;
-    private String     delimiter = ",";
-    private Path       currPath;
-    private boolean    trim;
-    private boolean    keepgoing = false;
-    private MacroDef   macroDef;
-    private List       hasIterators = new ArrayList();
-    private boolean    parallel = false;
-    private Integer    threadCount;
-    private Parallel   parallelTasks;
-    private int        begin   = 0;
-    private Integer    end     = null;
-    private int        step    = 1;
+    /**
+     * Field param.
+     */
+    private String param;
 
+    /**
+     * Field delimiter.
+     */
+    private String delimiter = ",";
+
+    /**
+     * Field currPath.
+     */
+    private Path currPath;
+
+    /**
+     * Field trim.
+     */
+    private boolean trim;
+
+    /**
+     * Field keepgoing.
+     */
+    private boolean keepgoing = false;
+
+    /**
+     * Field macroDef.
+     */
+    private MacroDef macroDef;
+
+    /**
+     * Field hasIterators.
+     */
+    private final List<HasIterator> hasIterators = new ArrayList<HasIterator>();
+
+    /**
+     * Field parallel.
+     */
+    private boolean parallel = false;
+
+    /**
+     * Field threadCount.
+     */
+    private Integer threadCount;
+
+    /**
+     * Field parallelTasks.
+     */
+    private Parallel parallelTasks;
+
+    /**
+     * Field begin.
+     */
+    private int begin = 0;
+
+    /**
+     * Field end.
+     */
+    private Integer end = null;
+
+    /**
+     * Field step.
+     */
+    private int step = 1;
+
+    /**
+     * Field taskCount.
+     */
     private int taskCount = 0;
+
+    /**
+     * Field errorCount.
+     */
     private int errorCount = 0;
 
     /**
@@ -68,23 +130,25 @@ public class ForTask extends Task {
 
     /**
      * Attribute whether to execute the loop in parallel or in sequence.
+     *
      * @param parallel if true execute the tasks in parallel. Default is false.
      */
     public void setParallel(boolean parallel) {
         this.parallel = parallel;
     }
 
-    /***
+    /**
      * Set the maximum amount of threads we're going to allow
-     * to execute in parallel
+     * to execute in parallel.
+     *
      * @param threadCount the number of threads to use
      */
     public void setThreadCount(int threadCount) {
         if (threadCount < 1) {
             throw new BuildException("Illegal value for threadCount " + threadCount
-                                     + " it should be > 0");
+                    + " it should be > 0");
         }
-        this.threadCount = new Integer(threadCount);
+        this.threadCount = threadCount;
     }
 
     /**
@@ -101,7 +165,7 @@ public class ForTask extends Task {
      * should stop on errors or continue heedlessly onward.
      *
      * @param keepgoing a boolean, if <code>true</code> then we act in
-     * the keepgoing manner described.
+     *                  the keepgoing manner described.
      */
     public void setKeepgoing(boolean keepgoing) {
         this.keepgoing = keepgoing;
@@ -120,7 +184,7 @@ public class ForTask extends Task {
      * Set the delimiter attribute.
      *
      * @param delimiter the delimiter used to separate the tokens in
-     *        the list attribute. The default is ",".
+     *                  the list attribute. The default is ",".
      */
     public void setDelimiter(String delimiter) {
         this.delimiter = delimiter;
@@ -137,6 +201,11 @@ public class ForTask extends Task {
         this.param = param;
     }
 
+    /**
+     * Method getOrCreatePath.
+     *
+     * @return Path
+     */
     private Path getOrCreatePath() {
         if (currPath == null) {
             currPath = new Path(getProject());
@@ -145,9 +214,9 @@ public class ForTask extends Task {
     }
 
     /**
-     * This is a path that can be used instread of the list
-     * attribute to interate over. If this is set, each
-     * path element in the path is used for an interator of the
+     * This is a path that can be used instead of the list
+     * attribute to iterate over. If this is set, each
+     * path element in the path is used for an iterator of the
      * sequential element.
      *
      * @param path the path to be set by the ant script.
@@ -157,9 +226,9 @@ public class ForTask extends Task {
     }
 
     /**
-     * This is a path that can be used instread of the list
-     * attribute to interate over. If this is set, each
-     * path element in the path is used for an interator of the
+     * This is a path that can be used instead of the list
+     * attribute to iterate over. If this is set, each
+     * path element in the path is used for an iterator of the
      * sequential element.
      *
      * @param path the path to be set by the ant script.
@@ -169,6 +238,8 @@ public class ForTask extends Task {
     }
 
     /**
+     * createSequential() method.
+     *
      * @return a MacroDef#NestedSequential object to be configured
      */
     public Object createSequential() {
@@ -179,6 +250,7 @@ public class ForTask extends Task {
 
     /**
      * Set begin attribute.
+     *
      * @param begin the value to use.
      */
     public void setBegin(int begin) {
@@ -187,6 +259,7 @@ public class ForTask extends Task {
 
     /**
      * Set end attribute.
+     *
      * @param end the value to use.
      */
     public void setEnd(Integer end) {
@@ -196,43 +269,43 @@ public class ForTask extends Task {
     /**
      * Set step attribute.
      *
+     * @param step int
      */
     public void setStep(int step) {
         this.step = step;
     }
 
-    
     /**
      * Run the for task.
      * This checks the attributes and nested elements, and
      * if there are ok, it calls doTheTasks()
-     * which constructes a macrodef task and a
-     * for each interation a macrodef instance.
+     * which constructs a macrodef task and a
+     * for each iteration a macrodef instance.
      */
     public void execute() {
         if (parallel) {
             parallelTasks = (Parallel) getProject().createTask("parallel");
             if (threadCount != null) {
-                parallelTasks.setThreadCount(threadCount.intValue());
+                parallelTasks.setThreadCount(threadCount);
             }
         }
         if (list == null && currPath == null && hasIterators.size() == 0
-            && end == null) {
+                && end == null) {
             throw new BuildException(
-                "You must have a list or path or sequence to iterate through");
+                    "You must have a list or path or sequence to iterate through");
         }
         if (param == null) {
             throw new BuildException(
-                "You must supply a property name to set on"
-                + " each iteration in param");
+                    "You must supply a property name to set on"
+                            + " each iteration in param");
         }
         if (macroDef == null) {
             throw new BuildException(
-                "You must supply an embedded sequential "
-                + "to perform");
+                    "You must supply an embedded sequential "
+                            + "to perform");
         }
         if (end != null) {
-            int iEnd = end.intValue();
+            int iEnd = end;
             if (step == 0) {
                 throw new BuildException("step cannot be 0");
             } else if (iEnd > begin && step < 0) {
@@ -247,14 +320,18 @@ public class ForTask extends Task {
         }
     }
 
-
+    /**
+     * Method doSequentialIteration.
+     *
+     * @param val String
+     */
     private void doSequentialIteration(String val) {
         MacroInstance instance = new MacroInstance();
         instance.setProject(getProject());
         instance.setOwningTarget(getOwningTarget());
         instance.setMacroDef(macroDef);
         instance.setDynamicAttribute(param.toLowerCase(),
-                                     val);
+                val);
         if (!parallel) {
             instance.execute();
         } else {
@@ -262,6 +339,11 @@ public class ForTask extends Task {
         }
     }
 
+    /**
+     * Method doToken.
+     *
+     * @param tok String
+     */
     private void doToken(String tok) {
         try {
             taskCount++;
@@ -275,18 +357,21 @@ public class ForTask extends Task {
             }
         }
     }
-    
+
+    /**
+     * Method doTheTasks.
+     */
     private void doTheTasks() {
         errorCount = 0;
         taskCount = 0;
 
         // Create a macro attribute
         if (macroDef.getAttributes().isEmpty()) {
-        	MacroDef.Attribute attribute = new MacroDef.Attribute();
-        	attribute.setName(param);
-        	macroDef.addConfiguredAttribute(attribute);
+            MacroDef.Attribute attribute = new MacroDef.Attribute();
+            attribute.setName(param);
+            macroDef.addConfiguredAttribute(attribute);
         }
-        
+
         // Take Care of the list attribute
         if (list != null) {
             StringTokenizer st = new StringTokenizer(list, delimiter);
@@ -302,7 +387,7 @@ public class ForTask extends Task {
 
         // Take care of the begin/end/step attributes
         if (end != null) {
-            int iEnd = end.intValue();
+            int iEnd = end;
             if (step > 0) {
                 for (int i = begin; i < (iEnd + 1); i = i + step) {
                     doToken("" + i);
@@ -313,37 +398,37 @@ public class ForTask extends Task {
                 }
             }
         }
-        
+
         // Take Care of the path element
         String[] pathElements = new String[0];
         if (currPath != null) {
             pathElements = currPath.list();
         }
-        for (int i = 0; i < pathElements.length; i++) {
-            File nextFile = new File(pathElements[i]);
+        for (String pathElement : pathElements) {
+            File nextFile = new File(pathElement);
             doToken(nextFile.getAbsolutePath());
         }
 
         // Take care of iterators
-        for (Iterator i = hasIterators.iterator(); i.hasNext();) {
-            Iterator it = ((HasIterator) i.next()).iterator();
+        for (HasIterator hasIterator : hasIterators) {
+            Iterator<?> it = hasIterator.iterator();
             while (it.hasNext()) {
                 doToken(it.next().toString());
             }
         }
         if (keepgoing && (errorCount != 0)) {
             throw new BuildException(
-                "Keepgoing execution: " + errorCount
-                + " of " + taskCount + " iterations failed.");
+                    "Keepgoing execution: " + errorCount
+                            + " of " + taskCount + " iterations failed.");
         }
     }
 
     /**
-     * Add a Map, iterate over the values
+     * Add a Map, iterate over the values.
      *
      * @param map a Map object - iterate over the values.
      */
-    public void add(Map map) {
+    public void add(Map<?, ?> map) {
         hasIterators.add(new MapIterator(map));
     }
 
@@ -388,7 +473,7 @@ public class ForTask extends Task {
      *
      * @param collection a <code>Collection</code> value.
      */
-    public void add(Collection collection) {
+    public void add(Collection<?> collection) {
         hasIterators.add(new ReflectIterator(collection));
     }
 
@@ -397,7 +482,7 @@ public class ForTask extends Task {
      *
      * @param iterator an <code>Iterator</code> value
      */
-    public void add(Iterator iterator) {
+    public void add(Iterator<?> iterator) {
         hasIterators.add(new IteratorIterator(iterator));
     }
 
@@ -414,48 +499,106 @@ public class ForTask extends Task {
     /**
      * Interface for the objects in the iterator collection.
      */
-    private interface HasIterator {
-        Iterator iterator();
+    public interface HasIterator {
+        /**
+         * Method iterator.
+         *
+         * @return Iterator&lt;?&gt;
+         */
+        Iterator<?> iterator();
     }
 
+    /**
+     */
     private static class IteratorIterator implements HasIterator {
-        private Iterator iterator;
-        public IteratorIterator(Iterator iterator) {
+        /**
+         * Field iterator.
+         */
+        private final Iterator<?> iterator;
+
+        /**
+         * Constructor for IteratorIterator.
+         *
+         * @param iterator Iterator&lt;?&gt;
+         */
+        public IteratorIterator(Iterator<?> iterator) {
             this.iterator = iterator;
         }
-        public Iterator iterator() {
+
+        /**
+         * Method iterator.
+         *
+         * @return Iterator&lt;?&gt;
+         */
+        public Iterator<?> iterator() {
             return this.iterator;
         }
     }
 
+    /**
+     */
     private static class MapIterator implements HasIterator {
-        private Map map;
-        public MapIterator(Map map) {
+        /**
+         * Field map.
+         */
+        private final Map<?, ?> map;
+
+        /**
+         * Constructor for MapIterator.
+         *
+         * @param map Map&lt;?,?&gt;
+         */
+        public MapIterator(Map<?, ?> map) {
             this.map = map;
         }
-        public Iterator iterator() {
+
+        /**
+         * Method iterator.
+         *
+         * @return Iterator&lt;?&gt;
+         */
+        public Iterator<?> iterator() {
             return map.values().iterator();
         }
     }
 
+    /**
+     */
     private static class ReflectIterator implements HasIterator {
-        private Object  obj;
-        private Method  method;
+        /**
+         * Field obj.
+         */
+        private final Object obj;
+        /**
+         * Field method.
+         */
+        private Method method;
+
+        /**
+         * Constructor for ReflectIterator.
+         *
+         * @param obj Object
+         */
         public ReflectIterator(Object obj) {
             this.obj = obj;
             try {
                 method = obj.getClass().getMethod(
-                    "iterator", new Class[] {});
+                        "iterator", new Class[]{});
             } catch (Throwable t) {
                 throw new BuildException(
-                    "Invalid type " + obj.getClass() + " used in For task, it does"
-                    + " not have a public iterator method");
+                        "Invalid type " + obj.getClass() + " used in For task, it does"
+                                + " not have a public iterator method");
             }
         }
 
-        public Iterator iterator() {
+        /**
+         * Method iterator.
+         *
+         * @return Iterator&lt;?&gt;
+         */
+        public Iterator<?> iterator() {
             try {
-                return (Iterator) method.invoke(obj, new Object[] {});
+                return (Iterator<?>) method.invoke(obj, new Object[]{});
             } catch (Throwable t) {
                 throw new BuildException(t);
             }

@@ -16,9 +16,10 @@
 package net.sf.antcontrib.logic;
 
 import java.io.File;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -35,10 +36,9 @@ import org.apache.tools.ant.util.FileNameMapper;
 import net.sf.antcontrib.util.ThreadPool;
 import net.sf.antcontrib.util.ThreadPoolThread;
 
-/***
+/**
  * Task definition for the foreach task.  The foreach task iterates
  * over a list, a list of filesets, or both.
- *
  * <pre>
  *
  * Usage:
@@ -50,47 +50,96 @@ import net.sf.antcontrib.util.ThreadPoolThread;
  *
  *   Call Syntax:
  *   <code>
- *     &lt;foreach list="values" target="targ" param="name"
+ *     &lt;foreach list="values" target="target" param="name"
  *                 [parallel="true|false"]
  *                 [delimiter="delim"] /&gt;
  *   </code>
  *
  *   Attributes:
- *         list      --> The list of values to process, with the delimiter character,
+ *         list      --&gt; The list of values to process, with the delimiter character,
  *                       indicated by the "delim" attribute, separating each value
- *         target    --> The target to call for each token, passing the token as the
+ *         target    --&gt; The target to call for each token, passing the token as the
  *                       parameter with the name indicated by the "param" attribute
- *         param     --> The name of the parameter to pass the tokens in as to the
+ *         param     --&gt; The name of the parameter to pass the tokens in as to the
  *                       target
- *         delimiter --> The delimiter string that separates the values in the "list"
+ *         delimiter --&gt; The delimiter string that separates the values in the "list"
  *                       parameter.  The default is ","
- *         parallel  --> Should all targets execute in parallel.  The default is false.
- *         trim      --> Should we trim the list item before calling the target?
+ *         parallel  --&gt; Should all targets execute in parallel.  The default is false.
+ *         trim      --&gt; Should we trim the list item before calling the target?
  *
  * </pre>
+ *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class ForEach extends Task
-{
+public class ForEach extends Task {
+    /**
+     * Field list.
+     */
     private String list;
+
+    /**
+     * Field param.
+     */
     private String param;
+
+    /**
+     * Field delimiter.
+     */
     private String delimiter;
+
+    /**
+     * Field target.
+     */
     private String target;
+
+    /**
+     * Field inheritAll.
+     */
     private boolean inheritAll;
+    /**
+     * Field inheritRefs.
+     */
     private boolean inheritRefs;
-    private Vector params;
-    private Vector references;
+
+    /**
+     * Field params.
+     */
+    private final List<Property> params;
+
+    /**
+     * Field references.
+     */
+    private final List<Ant.Reference> references;
+
+    /**
+     * Field currPath.
+     */
     private Path currPath;
+
+    /**
+     * Field parallel.
+     */
     private boolean parallel;
+
+    /**
+     * Field trim.
+     */
     private boolean trim;
+
+    /**
+     * Field maxThreads.
+     */
     private int maxThreads;
+
+    /**
+     * Field mapper.
+     */
     private Mapper mapper;
 
-    /***
-     * Default Constructor
+    /**
+     * Constructor.
      */
-    public ForEach()
-    {
+    public ForEach() {
         super();
         this.list = null;
         this.param = null;
@@ -98,30 +147,29 @@ public class ForEach extends Task
         this.target = null;
         this.inheritAll = false;
         this.inheritRefs = false;
-        this.params = new Vector();
-        this.references = new Vector();
-    	this.parallel = false;
+        this.params = new ArrayList<Property>();
+        this.references = new ArrayList<Ant.Reference>();
+        this.parallel = false;
         this.maxThreads = 5;
     }
 
-    private void executeParallel(Vector tasks)
-    {
+    /**
+     * Method executeParallel.
+     *
+     * @param tasks List&lt;CallTarget&gt;
+     */
+    private void executeParallel(List<CallTarget> tasks) {
         ThreadPool pool = new ThreadPool(maxThreads);
-        Enumeration e = tasks.elements();
         Runnable r = null;
-        Vector threads = new Vector();
+        List<ThreadPoolThread> threads = new ArrayList<ThreadPoolThread>();
 
         // start each task in it's own thread, using the
         // pool to ensure that we don't exceed the maximum
         // amount of threads
-        while (e.hasMoreElements())
-        {
+        for (final Task task : tasks) {
             // Create the Runnable object
-            final Task task = (Task)e.nextElement();
-            r = new Runnable()
-            {
-                public void run()
-                {
+            r = new Runnable() {
+                public void run() {
                     task.execute();
                 }
             };
@@ -129,15 +177,12 @@ public class ForEach extends Task
             // Get a thread, and start the task.
             // If there is no thread available, this will
             // block until one becomes available
-            try
-            {
+            try {
                 ThreadPoolThread tpt = pool.borrowThread();
                 tpt.setRunnable(r);
                 tpt.start();
-                threads.addElement(tpt);
-            }
-            catch (Exception ex)
-            {
+                threads.add(tpt);
+            } catch (Exception ex) {
                 throw new BuildException(ex);
             }
 
@@ -145,42 +190,37 @@ public class ForEach extends Task
 
         // Wait for all threads to finish before we
         // are allowed to return.
-        Enumeration te = threads.elements();
-        Thread t= null;
-        while (te.hasMoreElements())
-        {
-            t = (Thread)te.nextElement();
-            if (t.isAlive())
-            {
-                try
-                {
+        for (Thread t : threads) {
+            if (t.isAlive()) {
+                try {
                     t.join();
-                }
-                catch (InterruptedException ex)
-                {
+                } catch (InterruptedException ex) {
                     throw new BuildException(ex);
                 }
             }
         }
     }
 
-    private void executeSequential(Vector tasks)
-    {
+    /**
+     * Method executeSequential.
+     *
+     * @param tasks List&lt;CallTarget&gt;
+     */
+    private void executeSequential(List<CallTarget> tasks) {
         TaskContainer tc = (TaskContainer) getProject().createTask("sequential");
-        Enumeration e = tasks.elements();
-        Task t = null;
-        while (e.hasMoreElements())
-        {
-            t = (Task)e.nextElement();
+        for (Task t : tasks) {
             tc.addTask(t);
         }
 
-        ((Task)tc).execute();
+        ((Task) tc).execute();
     }
 
-    public void execute()
-        throws BuildException
-    {
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
         if (list == null && currPath == null) {
             throw new BuildException("You must have a list or path to iterate through");
         }
@@ -189,105 +229,112 @@ public class ForEach extends Task
         if (target == null)
             throw new BuildException("You must supply a target to perform");
 
-        Vector values = new Vector();
+        List<Object> values = new ArrayList<Object>();
 
         // Take Care of the list attribute
-        if (list != null)
-        {
+        if (list != null) {
             StringTokenizer st = new StringTokenizer(list, delimiter);
 
-            while (st.hasMoreTokens())
-            {
+            while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if (trim) tok = tok.trim();
-                values.addElement(tok);
+                values.add(tok);
             }
         }
 
-        String[] pathElements = new String[0];
         if (currPath != null) {
-            pathElements = currPath.list();
-        }
-
-        for (int i=0;i<pathElements.length;i++)
-        {
-            if (mapper != null)
-            {
-                FileNameMapper m = mapper.getImplementation();
-                String mapped[] = m.mapFileName(pathElements[i]);
-                for (int j=0;j<mapped.length;j++)
-                    values.addElement(mapped[j]);
-            }
-            else
-            {
-                values.addElement(new File(pathElements[i]));
+            for (String pathElement : currPath.list()) {
+                if (mapper != null) {
+                    FileNameMapper m = mapper.getImplementation();
+                    String[] mapped = m.mapFileName(pathElement);
+                    Collections.addAll(values, mapped);
+                } else {
+                    values.add(new File(pathElement));
+                }
             }
         }
 
-        Vector tasks = new Vector();
+        List<CallTarget> tasks = new ArrayList<CallTarget>();
 
-        int sz = values.size();
-        CallTarget ct = null;
-        Object val = null;
-        Property p = null;
-
-        for (int i = 0; i < sz; i++) {
-            val = values.elementAt(i);
-            ct = createCallTarget();
-            p = ct.createParam();
+        for (Object val : values) {
+            CallTarget ct = createCallTarget();
+            Property p = ct.createParam();
             p.setName(param);
 
             if (val instanceof File)
-                p.setLocation((File)val);
+                p.setLocation((File) val);
             else
-                p.setValue((String)val);
+                p.setValue((String) val);
 
-            tasks.addElement(ct);
+            tasks.add(ct);
         }
 
-        if (parallel && maxThreads > 1)
-        {
+        if (parallel && maxThreads > 1) {
             executeParallel(tasks);
-        }
-        else
-        {
+        } else {
             executeSequential(tasks);
         }
     }
 
-    public void setTrim(boolean trim)
-    {
+    /**
+     * Method setTrim.
+     *
+     * @param trim boolean
+     */
+    public void setTrim(boolean trim) {
         this.trim = trim;
     }
 
-    public void setList(String list)
-    {
+    /**
+     * Method setList.
+     *
+     * @param list String
+     */
+    public void setList(String list) {
         this.list = list;
     }
 
-    public void setDelimiter(String delimiter)
-    {
+    /**
+     * Method setDelimiter.
+     *
+     * @param delimiter String
+     */
+    public void setDelimiter(String delimiter) {
         this.delimiter = delimiter;
     }
 
-    public void setParam(String param)
-    {
+    /**
+     * Method setParam.
+     *
+     * @param param String
+     */
+    public void setParam(String param) {
         this.param = param;
     }
 
-    public void setTarget(String target)
-    {
+    /**
+     * Method setTarget.
+     *
+     * @param target String
+     */
+    public void setTarget(String target) {
         this.target = target;
     }
 
-    public void setParallel(boolean parallel)
-    {
-	    this.parallel = parallel;
+    /**
+     * Method setParallel.
+     *
+     * @param parallel boolean
+     */
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
     }
 
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritall</code>
      * attribute.
+     *
+     * @param b boolean
      */
     public void setInheritall(boolean b) {
         this.inheritAll = b;
@@ -296,50 +343,59 @@ public class ForEach extends Task
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s <code>inheritrefs</code>
      * attribute.
+     *
+     * @param b boolean
      */
     public void setInheritrefs(boolean b) {
         this.inheritRefs = b;
     }
 
-
-    /***
+    /**
      * Set the maximum amount of threads we're going to allow
-     * at once to execute
-     * @param maxThreads
+     * at once to execute.
+     *
+     * @param maxThreads int
      */
-    public void setMaxThreads(int maxThreads)
-    {
+    public void setMaxThreads(int maxThreads) {
         this.maxThreads = maxThreads;
     }
-
 
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;param&gt;</code> element.
+     *
+     * @param p Property
      */
     public void addParam(Property p) {
-        params.addElement(p);
+        params.add(p);
     }
 
     /**
      * Corresponds to <code>&lt;antcall&gt;</code>'s nested
      * <code>&lt;reference&gt;</code> element.
+     *
+     * @param r Ant.Reference
      */
     public void addReference(Ant.Reference r) {
-        references.addElement(r);
+        references.add(r);
     }
 
     /**
+     * @param set FileSet
      * @deprecated Use createPath instead.
      */
-    public void addFileset(FileSet set)
-    {
-        log("The nested fileset element is deprectated, use a nested path "
-            + "instead",
-            Project.MSG_WARN);
+    public void addFileset(FileSet set) {
+        log("The nested fileset element is deprecated, use a nested path "
+                        + "instead",
+                Project.MSG_WARN);
         createPath().addFileset(set);
     }
 
+    /**
+     * Method createPath.
+     *
+     * @return Path
+     */
     public Path createPath() {
         if (currPath == null) {
             currPath = new Path(getProject());
@@ -347,12 +403,21 @@ public class ForEach extends Task
         return currPath;
     }
 
-    public Mapper createMapper()
-    {
+    /**
+     * Method createMapper.
+     *
+     * @return Mapper
+     */
+    public Mapper createMapper() {
         mapper = new Mapper(getProject());
         return mapper;
     }
 
+    /**
+     * Method createCallTarget.
+     *
+     * @return CallTarget
+     */
     private CallTarget createCallTarget() {
         CallTarget ct = (CallTarget) getProject().createTask("antcall");
         ct.setOwningTarget(getOwningTarget());
@@ -360,9 +425,7 @@ public class ForEach extends Task
         ct.setTarget(target);
         ct.setInheritAll(inheritAll);
         ct.setInheritRefs(inheritRefs);
-        Enumeration e = params.elements();
-        while (e.hasMoreElements()) {
-            Property param = (Property) e.nextElement();
+        for (Property param : params) {
             Property toSet = ct.createParam();
             toSet.setName(param.getName());
             if (param.getValue() != null) {
@@ -388,36 +451,39 @@ public class ForEach extends Task
             }
         }
 
-        e = references.elements();
-        while (e.hasMoreElements()) {
-            ct.addReference((Ant.Reference) e.nextElement());
+        for (Ant.Reference r : references) {
+            ct.addReference(r);
         }
 
         return ct;
     }
 
-    protected void handleOutput(String line)
-    {
+    /**
+     * Method handleOutput.
+     *
+     * @param line String
+     */
+    protected void handleOutput(String line) {
         try {
-                super.handleOutput(line);
-        }
-        // This is needed so we can run with 1.5 and 1.5.1
-        catch (IllegalAccessError e) {
+            super.handleOutput(line);
+        } catch (IllegalAccessError e) {
+            // This is needed so we can run with 1.5 and 1.5.1
             super.handleOutput(line);
         }
     }
 
-    protected void handleErrorOutput(String line)
-    {
+    /**
+     * Method handleErrorOutput.
+     *
+     * @param line String
+     */
+    protected void handleErrorOutput(String line) {
         try {
-                super.handleErrorOutput(line);
-        }
-        // This is needed so we can run with 1.5 and 1.5.1
-        catch (IllegalAccessError e) {
+            super.handleErrorOutput(line);
+        } catch (IllegalAccessError e) {
+            // This is needed so we can run with 1.5 and 1.5.1
             super.handleErrorOutput(line);
         }
     }
 
 }
-
-

@@ -22,71 +22,103 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.DataType;
 
-public class HttpStateType
-	extends DataType {
+/**
+ */
+public class HttpStateType extends DataType {
+    /**
+     * Field state.
+     */
+    private final HttpState state;
 
-	private HttpState state;
-	
-	public HttpStateType(Project p) {
-		super();
-		setProject(p);
-		
-		state = new HttpState();
-	}
-	
-	public HttpState getState() {
-		if (isReference()) {
-			return getRef().getState();
-		}
-		else {
-			return state;
-		}
-	}
-	
-	protected HttpStateType getRef() {
-		return (HttpStateType) super.getCheckedRef(HttpStateType.class,
-				"http-state");
-	}
-	
-	public void addConfiguredCredentials(Credentials credentials) {
-		if (isReference()) {
-			tooManyAttributes();
-		}
+    /**
+     * Constructor for HttpStateType.
+     *
+     * @param p Project
+     */
+    public HttpStateType(Project p) {
+        super();
+        setProject(p);
 
-		AuthScope scope = new AuthScope(credentials.getHost(),
-				credentials.getPort(),
-				credentials.getRealm(),
-				credentials.getScheme());
-		
-		UsernamePasswordCredentials c = new UsernamePasswordCredentials(
-				credentials.getUsername(),
-				credentials.getPassword());
-		
-		state.setCredentials(scope, c);
-	}
-	
-	public void addConfiguredProxyCredentials(Credentials credentials) {
-		if (isReference()) {
-			tooManyAttributes();
-		}
+        state = new HttpState();
+    }
 
-		AuthScope scope = new AuthScope(credentials.getHost(),
-				credentials.getPort(),
-				credentials.getRealm(),
-				credentials.getScheme());
-		
-		UsernamePasswordCredentials c = new UsernamePasswordCredentials(
-				credentials.getUsername(),
-				credentials.getPassword());
-		
-		state.setProxyCredentials(scope, c);
-	}
-	
-	public void addConfiguredCookie(Cookie cookie) {
-		if (isReference()) {
-			tooManyAttributes();
-		}
-		
-		state.addCookie(cookie);
-	}
+    /**
+     * Method getState.
+     *
+     * @return HttpState
+     */
+    public HttpState getState() {
+        if (isReference()) {
+            return getRef().getState();
+        } else {
+            return state;
+        }
+    }
+
+    /**
+     * Method getRef.
+     *
+     * @return HttpStateType
+     */
+    protected HttpStateType getRef() {
+        return super.getCheckedRef(HttpStateType.class,
+                "http-state");
+    }
+
+    /**
+     * Method addConfiguredCredentials.
+     *
+     * @param credentials Credentials
+     */
+    public void addConfiguredCredentials(Credentials credentials) {
+        if (isReference()) {
+            tooManyAttributes();
+        }
+
+        AuthScope scope = new AuthScope(credentials.getHost(),
+                credentials.getPort(),
+                credentials.getRealm(),
+                credentials.getScheme());
+
+        UsernamePasswordCredentials c = new UsernamePasswordCredentials(
+                credentials.getUsername(),
+                credentials.getPassword());
+
+        state.setCredentials(scope, c);
+    }
+
+    /**
+     * Method addConfiguredProxyCredentials.
+     *
+     * @param credentials Credentials
+     */
+    public void addConfiguredProxyCredentials(Credentials credentials) {
+        if (isReference()) {
+            tooManyAttributes();
+        }
+
+        AuthScope scope = new AuthScope(credentials.getHost(),
+                credentials.getPort(),
+                credentials.getRealm(),
+                credentials.getScheme());
+
+        UsernamePasswordCredentials c = new UsernamePasswordCredentials(
+                credentials.getUsername(),
+                credentials.getPassword());
+
+        state.setProxyCredentials(scope, c);
+    }
+
+    /**
+     * Method addConfiguredCookie.
+     *
+     * @param cookie Cookie
+     */
+    public void addConfiguredCookie(Cookie cookie) {
+        if (isReference()) {
+            tooManyAttributes();
+        }
+
+        state.addCookie(cookie);
+    }
 }

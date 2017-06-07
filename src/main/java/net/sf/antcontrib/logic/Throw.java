@@ -22,26 +22,34 @@ import org.apache.tools.ant.types.Reference;
 /**
  * Extension of <code>&lt;fail&gt;</code> that can throw an exception
  * that is a reference in the project.
- *
  * <p>This may be useful inside the <code>&lt;catch&gt;</code> block
  * of a <code>&lt;trycatch&gt;</code> task if you want to rethrow the
  * exception just caught.</p>
  */
 public class Throw extends Exit {
-
+    /**
+     * Field ref.
+     */
     private Reference ref;
 
     /**
      * The reference that points to a BuildException.
+     *
+     * @param ref Reference
      */
     public void setRefid(Reference ref) {
         this.ref = ref;
     }
 
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
     public void execute() throws BuildException {
-        Object reffed = ref != null 
-            ? ref.getReferencedObject(getProject())
-            : null;
+        Object reffed = ref != null
+                ? ref.getReferencedObject(getProject())
+                : null;
         if (reffed != null && reffed instanceof BuildException) {
             throw (BuildException) reffed;
         }

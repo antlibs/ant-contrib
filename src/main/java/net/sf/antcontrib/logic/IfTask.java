@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.sf.antcontrib.logic;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Sequential;
@@ -26,34 +26,28 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
 /**
  * Perform some tasks based on whether a given condition holds true or
  * not.
- *
  * <p>This task is heavily based on the Condition framework that can
  * be found in Ant 1.4 and later, therefore it cannot be used in
  * conjunction with versions of Ant prior to 1.4.</p>
- *
  * <p>This task doesn't have any attributes, the condition to test is
  * specified by a nested element - see the documentation of your
  * <code>&lt;condition&gt;</code> task (see
  * <a href="http://jakarta.apache.org/ant/manual/CoreTasks/condition.html">the
  * online documentation</a> for example) for a complete list of nested
  * elements.</p>
- *
  * <p>Just like the <code>&lt;condition&gt;</code> task, only a single
  * condition can be specified - you combine them using
  * <code>&lt;and&gt;</code> or <code>&lt;or&gt;</code> conditions.</p>
- *
  * <p>In addition to the condition, you can specify three different
  * child elements, <code>&lt;elseif&gt;</code>, <code>&lt;then&gt;</code> and
- * <code>&lt;else&gt;</code>.  All three subelements are optional.
- *
- * Both <code>&lt;then&gt;</code> and <code>&lt;else&gt;</code> must not be
+ * <code>&lt;else&gt;</code>.  All three subelements are optional.</p>
+ * <p>Both <code>&lt;then&gt;</code> and <code>&lt;else&gt;</code> must not be
  * used more than once inside the if task.  Both are
  * containers for Ant tasks, just like Ant's
  * <code>&lt;parallel&gt;</code> and <code>&lt;sequential&gt;</code>
  * tasks - in fact they are implemented using the same class as Ant's
  * <code>&lt;sequential&gt;</code> task.</p>
- *
- *  The <code>&lt;elseif&gt;</code> behaves exactly like an <code>&lt;if&gt;</code>
+ * <p>The <code>&lt;elseif&gt;</code> behaves exactly like an <code>&lt;if&gt;</code>
  * except that it cannot contain the <code>&lt;else&gt;</code> element
  * inside of it.  You may specify as may of these as you like, and the
  * order they are specified is the order they are evaluated in.  If the
@@ -61,17 +55,13 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * <code>&lt;elseif&gt;</code> who's conditional evaluates to true
  * will be executed.  The <code>&lt;else&gt;</code> will be executed
  * only if the <code>&lt;if&gt;</code> and all <code>&lt;elseif&gt;</code>
- * conditions are false.
- *
+ * conditions are false.</p>
  * <p>Use the following task to define the <code>&lt;if&gt;</code>
  * task before you use it the first time:</p>
- *
  * <pre><code>
  *   &lt;taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" /&gt;
  * </code></pre>
- *
  * <h3>Crude Example</h3>
- *
  * <pre><code>
  * &lt;if&gt;
  *  &lt;equals arg1=&quot;${foo}&quot; arg2=&quot;bar&quot; /&gt;
@@ -107,24 +97,33 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
  */
 public class IfTask extends ConditionBase {
-
-    public static final class ElseIf
-        extends ConditionBase
-    {
+    /**
+     */
+    public static final class ElseIf extends ConditionBase {
+        /**
+         * Field thenTasks.
+         */
         private Sequential thenTasks = null;
 
-        public void addThen(Sequential t)
-        {
-            if (thenTasks != null)
-            {
+        /**
+         * Method addThen.
+         *
+         * @param t Sequential
+         */
+        public void addThen(Sequential t) {
+            if (thenTasks != null) {
                 throw new BuildException("You must not nest more than one <then> into <elseif>");
             }
             thenTasks = t;
         }
 
-        public boolean eval()
-            throws BuildException
-        {
+        /**
+         * Method eval.
+         *
+         * @return boolean
+         * @throws BuildException if something goes wrong
+         */
+        public boolean eval() throws BuildException {
             if (countConditions() > 1) {
                 throw new BuildException("You must not nest more than one condition into <elseif>");
             }
@@ -136,33 +135,46 @@ public class IfTask extends ConditionBase {
             return c.eval();
         }
 
-        public void execute()
-            throws BuildException
-        {
-            if (thenTasks != null)
-            {
+        /**
+         * Method execute.
+         *
+         * @throws BuildException if something goes wrong
+         */
+        public void execute() throws BuildException {
+            if (thenTasks != null) {
                 thenTasks.execute();
             }
         }
     }
 
+    /**
+     * Field thenTasks.
+     */
     private Sequential thenTasks = null;
-    private Vector     elseIfTasks = new Vector();
+    /**
+     * Field elseIfTasks.
+     */
+    private final List<ElseIf> elseIfTasks = new ArrayList<ElseIf>();
+    /**
+     * Field elseTasks.
+     */
     private Sequential elseTasks = null;
 
-    /***
-     * A nested Else if task
+    /**
+     * A nested ElseIf task.
+     *
+     * @param ei ElseIf
      */
-    public void addElseIf(ElseIf ei)
-    {
-        elseIfTasks.addElement(ei);
+    public void addElseIf(ElseIf ei) {
+        elseIfTasks.add(ei);
     }
 
     /**
      * A nested &lt;then&gt; element - a container of tasks that will
      * be run if the condition holds true.
-     *
      * <p>Not required.</p>
+     *
+     * @param t Sequential
      */
     public void addThen(Sequential t) {
         if (thenTasks != null) {
@@ -174,8 +186,9 @@ public class IfTask extends ConditionBase {
     /**
      * A nested &lt;else&gt; element - a container of tasks that will
      * be run if the condition doesn't hold true.
-     *
      * <p>Not required.</p>
+     *
+     * @param e Sequential
      */
     public void addElse(Sequential e) {
         if (elseTasks != null) {
@@ -184,6 +197,11 @@ public class IfTask extends ConditionBase {
         elseTasks = e;
     }
 
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
     public void execute() throws BuildException {
         if (countConditions() > 1) {
             throw new BuildException("You must not nest more than one condition into <if>");
@@ -196,24 +214,16 @@ public class IfTask extends ConditionBase {
             if (thenTasks != null) {
                 thenTasks.execute();
             }
-        }
-        else
-        {
+        } else {
             boolean done = false;
-            int sz = elseIfTasks.size();
-            for (int i=0;i<sz && ! done;i++)
-            {
-
-                ElseIf ei = (ElseIf)(elseIfTasks.elementAt(i));
-                if (ei.eval())
-                {
+            for (ElseIf ei : elseIfTasks) {
+                if (ei.eval()) {
                     done = true;
                     ei.execute();
                 }
             }
 
-            if (!done && elseTasks != null)
-            {
+            if (!done && elseTasks != null) {
                 elseTasks.execute();
             }
         }

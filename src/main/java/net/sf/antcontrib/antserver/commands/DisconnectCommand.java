@@ -13,45 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.commands;
+package net.sf.antcontrib.antserver.commands;
 
 import java.io.InputStream;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import net.sf.antcontrib.antserver.Command;
 
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
- *
- * @since
- *
- ****************************************************************************/
-
-
-public class DisconnectCommand
-        extends AbstractCommand
-        implements Command
-{
-    public static Command DISCONNECT_COMMAND =
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+@SuppressWarnings("serial")
+public class DisconnectCommand extends AbstractCommand implements Command {
+    /**
+     * Field DISCONNECT_COMMAND.
+     */
+    public static final Command DISCONNECT_COMMAND =
             new DisconnectCommand();
 
-    private DisconnectCommand()
-    {
+    /**
+     * Constructor for DisconnectCommand.
+     */
+    private DisconnectCommand() {
     }
 
-    public void validate(Project project)
-    {
+    /**
+     * Method validate.
+     *
+     * @param project Project
+     * @see net.sf.antcontrib.antserver.Command#validate(Project)
+     */
+    public void validate(Project project) {
     }
 
+    /**
+     * Method execute.
+     *
+     * @param project       Project
+     * @param contentLength long
+     * @param content       InputStream
+     * @return boolean
+     * @throws BuildException if something goes wrong
+     * @see net.sf.antcontrib.antserver.Command#execute(Project, long, InputStream)
+     */
     public boolean execute(Project project,
                            long contentLength,
                            InputStream content)
-            throws Throwable
-    {
+            throws BuildException {
         return true;
     }
 }

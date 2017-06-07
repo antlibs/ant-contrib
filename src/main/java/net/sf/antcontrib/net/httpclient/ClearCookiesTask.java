@@ -17,12 +17,16 @@ package net.sf.antcontrib.net.httpclient;
 
 import org.apache.tools.ant.BuildException;
 
-public class ClearCookiesTask
-	extends AbstractHttpStateTypeTask {
-
-	protected void execute(HttpStateType stateType) throws BuildException {
-		stateType.getState().clearCookies();
-	}
-
-	
+/**
+ */
+public class ClearCookiesTask extends AbstractHttpStateTypeTask {
+    /**
+     * Method execute.
+     *
+     * @param stateType HttpStateType
+     * @throws BuildException if something goes wrong
+     */
+    protected void execute(HttpStateType stateType) throws BuildException {
+        stateType.getState().clearCookies();
+    }
 }

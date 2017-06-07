@@ -13,14 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.antserver.server;
+package net.sf.antcontrib.antserver.server;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.Socket;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.tools.ant.Project;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 
 import net.sf.antcontrib.antserver.Command;
 import net.sf.antcontrib.antserver.Response;
@@ -28,35 +39,46 @@ import net.sf.antcontrib.antserver.Util;
 import net.sf.antcontrib.antserver.commands.DisconnectCommand;
 import net.sf.antcontrib.antserver.commands.ShutdownCommand;
 
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
- *
- * @since
- *
- ****************************************************************************/
-
-
-public class ConnectionHandler
-        implements Runnable
-{
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+public class ConnectionHandler implements Runnable {
+    /**
+     * Field nextGroupId.
+     */
     private static long nextGroupId = 0;
-    private ServerTask task;
-    private Socket socket;
-    private Thread thread;
+
+    /**
+     * Field task.
+     */
+    private final ServerTask task;
+
+    /**
+     * Field socket.
+     */
+    private final Socket socket;
+
+    /**
+     * Field thrown.
+     */
     private Throwable thrown;
 
-    public ConnectionHandler(ServerTask task, Socket socket)
-    {
+    /**
+     * Constructor for ConnectionHandler.
+     *
+     * @param task   ServerTask
+     * @param socket Socket
+     */
+    public ConnectionHandler(ServerTask task, Socket socket) {
         super();
         this.socket = socket;
         this.task = task;
     }
 
-    public void start()
-    {
+    /**
+     * Method start.
+     */
+    public void start() {
         long gid = nextGroupId;
         if (nextGroupId == Long.MAX_VALUE)
             nextGroupId = 0;
@@ -64,23 +86,29 @@ public class ConnectionHandler
             nextGroupId++;
 
         ThreadGroup group = new ThreadGroup("server-tg-" + gid);
-        thread = new Thread(group, this);
+        Thread thread = new Thread(group, this);
         thread.start();
     }
 
-    public Throwable getThrown()
-    {
+    /**
+     * Method getThrown.
+     *
+     * @return Throwable
+     */
+    public Throwable getThrown() {
         return thrown;
     }
 
-    public void run()
-    {
+    /**
+     * Method run.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
         InputStream is = null;
         OutputStream os = null;
 
-
-        try
-        {
+        try {
             ConnectionBuildListener cbl = null;
 
             is = socket.getInputStream();
@@ -97,8 +125,7 @@ public class ConnectionHandler
             Command inputCommand = null;
             Response response = null;
 
-            while (! disconnect)
-            {
+            while (!disconnect) {
                 task.getProject().log("Reading command object.",
                         Project.MSG_DEBUG);
 
@@ -109,37 +136,30 @@ public class ConnectionHandler
 
                 response = new Response();
 
-                try
-                {
+                try {
                     cbl = new ConnectionBuildListener();
                     task.getProject().addBuildListener(cbl);
 
                     inputCommand.execute(task.getProject(),
-                            inputCommand.getContentLength(),
-                            is);
+                            inputCommand.getContentLength(), is);
 
                     response.setSucceeded(true);
-                }
-                catch (Throwable t)
-                {
+                } catch (Throwable t) {
                     response.setSucceeded(false);
                     response.setThrowable(t);
-                }
-                finally
-                {
+                } finally {
                     if (cbl != null)
                         task.getProject().removeBuildListener(cbl);
                 }
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                XMLSerializer serial = new XMLSerializer();
-                OutputFormat fmt = new OutputFormat();
-                fmt.setOmitDocumentType(true);
-                fmt.setOmitXMLDeclaration(false);
-                serial.setOutputFormat(fmt);
-                serial.setOutputByteStream(baos);
-                serial.serialize(cbl.getDocument());
-                response.setResultsXml(baos.toString());
+                StringWriter xmlWriter = new StringWriter();
+                Transformer idTransform = TransformerFactory.newInstance().newTransformer();
+                idTransform.setOutputProperty(OutputKeys.METHOD, "xml");
+                idTransform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "false");
+                Source input = new DOMSource(cbl.getDocument());
+                Result output = new StreamResult(xmlWriter);
+                idTransform.transform(input, output);
+                response.setResultsXml(xmlWriter.toString());
 
                 task.getProject().log("Executed command object: " + inputCommand,
                         Project.MSG_DEBUG);
@@ -151,81 +171,50 @@ public class ConnectionHandler
 
                 oos.writeObject(response);
 
-                if (inputCommand.getResponseContentLength() != 0)
-                {
-                    Util.transferBytes(inputCommand.getReponseContentStream(),
+                if (inputCommand.getResponseContentLength() != 0) {
+                    Util.transferBytes(inputCommand.getResponseContentStream(),
                             inputCommand.getResponseContentLength(),
-                            os,
-                            true);
+                            os, true);
                 }
 
-                if (inputCommand instanceof DisconnectCommand)
-                {
+                if (inputCommand instanceof DisconnectCommand) {
                     disconnect = true;
                     task.getProject().log("Got disconnect command",
                             Project.MSG_DEBUG);
-                }
-                else if (inputCommand instanceof ShutdownCommand)
-                {
+                } else if (inputCommand instanceof ShutdownCommand) {
                     disconnect = true;
                     task.getProject().log("Got shutdown command",
                             Project.MSG_DEBUG);
                     task.shutdown();
                 }
-
             }
-
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             thrown = e;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             thrown = e;
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             thrown = t;
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
+        } finally {
+            if (is != null) {
+                try {
                     is.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
 
-            if (os != null)
-            {
-                try
-                {
+            if (os != null) {
+                try {
                     os.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
 
-            if (socket != null)
-            {
-                try
-                {
+            if (socket != null) {
+                try {
                     socket.close();
-                }
-                catch (IOException e)
-                {
-
+                } catch (IOException e) {
                 }
             }
-
         }
     }
 }

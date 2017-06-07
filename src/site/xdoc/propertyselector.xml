@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>PropertySelector Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="PropertySelector">
+    <p>
+      Selects property names that match a given regular expression and
+      returns them in a delimited list
+    </p>
+    <subsection name="Parameters">
+    <table summary="PropertySelector Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">property</td>
+        <td valign="top">The name of the property you wish to set.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">override</td>
+        <td valign="top">
+	  If the property is already set, should we change it's value.
+          Can be <code>true</code> or <code>false</code>
+	</td>
+        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+      </tr>
+      <tr>
+        <td valign="top">match</td>
+        <td valign="top">
+	  The regular expression which is used to select property
+          names for inclusion in the list.  This follows the standard
+          regular expression syntax accepted by ant's regular
+          expression tasks.
+	</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">select</td>
+        <td valign="top">
+	  A pattern which indicates what selection pattern you want in
+          the returned list.  This used the substitution pattern
+          syntax to indicate where to insert groupings created as a
+          result of the regular expression match.
+	</td>
+        <td align="center" valign="top">No. default is "\0".</td>
+      </tr>
+      <tr>
+        <td valign="top">casesensitive</td>
+        <td valign="top">Should the match be case sensitive</td>
+        <td align="center" valign="top">No. default is "true".</td>
+      </tr>
+      <tr>
+        <td valign="top">delimiter</td>
+        <td valign="top">
+	  The delimiter used to seperate entries in the resulting
+          property
+	</td>
+        <td align="center" valign="top">No. default is ",".</td>
+      </tr>
+      <tr>
+        <td valign="top">distinct</td>
+        <td valign="top">
+	  Should the returned entries be a distinct set (no duplicate
+          entries)
+	</td>
+        <td align="center" valign="top">No. default is "false".</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Select expressions">
+    <p>
+      Expressions are selected in a the same syntax as a regular expression
+      substitution pattern.
+    </p>
+    <ul type="disc">
+      <li><code>\0</code> indicates the entire property name (default).</li>
+      <li><code>\1</code> indicates the first grouping</li>
+      <li><code>\2</code> indicates the second grouping</li>
+      <li>etc...</li>
+    </ul>
+    </subsection>
+    <subsection name="Example">
+    <p>
+      The following code
+    </p>
+    <source>
+      <![CDATA[
+    <property name="package.ABC.name" value="abc pack name"/>
+    <property name="package.DEF.name" value="def pack name"/>
+    <property name="package.GHI.name" value="ghi pack name"/>
+    <property name="package.JKL.name" value="jkl pack name"/>
+
+    <propertyselector property="pack.list"
+                         delimiter=","
+                         match="package\.([^\.]*)\.name"
+                         select="\1"
+                         casesensitive="false"/>
+      ]]>
+    </source>
+    <p>
+      would yield the results
+    </p>
+    <source>ABC,DEF,GHI,JKL</source>
+    <p>
+      You could then iterate through this list using
+      the <a href="foreach.html">ForEach Task</a> as follows:
+    </p>
+    <source>
+      <![CDATA[
+    <foreach list="${pack.list}"
+                delimiter=","
+                target="print.name"
+                param="pack.id"/>
+
+    <target name="print.name" >
+      <propertycopy name="pack.name" value="package.${pack.id}.name"/>
+      <echo message="${pack.name}"/>
+    </target>
+      ]]>
+    </source>
+    <p>
+      Would print
+    </p>
+    <source>
+      [echo] abc pack name
+      [echo] def pack name
+      [echo] ghi pack name
+      [echo] jkl pack name
+    </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
+    </p>
+    </section>
+  </body>
+</document>

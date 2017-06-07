@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Stopwatch Task</title>
+    <author email="danson@germane-software.com">Dale Anson</author>
+</properties>
+  <body>
+	<section name="Stopwatch">
+      <p>
+	The Stopwatch task makes it easy to add performance timing to
+	Ant targets. Stopwatches are named so that multiple watches
+	can run simultaneously.
+      </p>
+      <table summary="Stopwatch Task Attributes" border="1" cellpadding="2" cellspacing="0">
+	<caption>Stopwatch Task Attributes</caption>
+	<thead>
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Description</th>
+	    <th>Default</th>
+	    <th>Required</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>name</td>
+	    <td>The name for the stopwatch. The elapsed time or total time will be stored as an Ant property with this name.</td>
+	    <td>None</td>
+	    <td>Yes</td>
+	  </tr>
+	  <tr>
+	    <td>action</td>
+	    <td>Valid values are "start", "stop", "elapsed", and "total".</td>
+	    <td>"start"</td>
+	    <td>No</td>
+	  </tr>
+	</tbody>
+      </table>
+      <p>
+	The stopwatch is started with the "start" action. When the
+	action is "elapsed" or "total", the running time of the
+	stopwatch is printed out. Both "stop" and "total" stop the
+	stopwatch and reset it to zero. "elapsed" prints out the
+	current running time of the stopwatch without stopping it.
+      </p>
+      <p>
+	Example:
+      </p>
+      <source>
+	<![CDATA[
+<stopwatch name="timer1"/>
+<!-- do some tasks here... -->
+<stopwatch name="timer1" action="elapsed"/> <!-- print the elapsed time -->
+<!-- do some more tasks here... -->
+<stopwatch name="timer1" action="total"/> <!-- print out the total time -->
+	]]>
+</source>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+	</section>
+  </body>
+</document>

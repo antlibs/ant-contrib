@@ -15,109 +15,156 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import net.sf.antcontrib.logic.condition.BooleanConditionBase;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.TaskContainer;
 import org.apache.tools.ant.taskdefs.Exit;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 import org.apache.tools.ant.taskdefs.condition.Equals;
 
-
 /**
+ * Assert class.
  *
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class Assert
-	extends BooleanConditionBase {
+public class Assert extends BooleanConditionBase {
+    /**
+     * Field message.
+     */
+    private String message;
 
-	private List tasks = new ArrayList();
-	private String message;
-	private boolean failOnError = true;
-	private boolean execute = true;
+    /**
+     * Field failOnError.
+     */
+    private boolean failOnError = true;
+
+    /**
+     * Field execute.
+     */
+    private boolean execute = true;
+
+    /**
+     * Field sequential.
+     */
     private Sequential sequential;
+
+    /**
+     * Field name.
+     */
     private String name;
+
+    /**
+     * Field value.
+     */
     private String value;
-	
+
+    /**
+     * Method createSequential.
+     *
+     * @return Sequential
+     */
     public Sequential createSequential() {
-    	this.sequential = (Sequential) getProject().createTask("sequential");
-    	return this.sequential;
+        this.sequential = (Sequential) getProject().createTask("sequential");
+        return this.sequential;
     }
-    
+
+    /**
+     * Method setName.
+     *
+     * @param name String
+     */
     public void setName(String name) {
-    	this.name = name;
+        this.name = name;
     }
-    
+
+    /**
+     * Method setValue.
+     *
+     * @param value String
+     */
     public void setValue(String value) {
-    	this.value = value;
+        this.value = value;
     }
-    
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
-	public BooleanConditionBase createBool() {
-		return this;
-	}
-	
-	public void setExecute(boolean execute) {
-		this.execute = execute;
-	}
+    /**
+     * Method setMessage.
+     *
+     * @param message String
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setFailOnError(boolean failOnError) {
-		this.failOnError = failOnError;
-	}
+    /**
+     * Method createBool.
+     *
+     * @return BooleanConditionBase
+     */
+    public BooleanConditionBase createBool() {
+        return this;
+    }
 
-	public void execute() {
-		String use_asserts = getProject().getProperty("ant.enable.asserts");
-		boolean assertsEnabled = Project.toBoolean(use_asserts);
-		
-		if (assertsEnabled) {
-			if (name != null) {
-				if (value == null) {
-					throw new BuildException("The 'value' attribute must accompany the 'name' attribute.");
-				}
-				String propVal = getProject().replaceProperties("${" + name + "}");
-				Equals e = new Equals();
-				e.setArg1(propVal);
-				e.setArg2(value);
-				addEquals(e);
-			}
+    /**
+     * Method setExecute.
+     *
+     * @param execute boolean
+     */
+    public void setExecute(boolean execute) {
+        this.execute = execute;
+    }
 
-			if (countConditions() == 0) {
-				throw new BuildException("There is no condition specified.");
-			}
-			else if (countConditions() > 1) {
-				throw new BuildException("There must be exactly one condition specified.");
-			}
+    /**
+     * Method setFailOnError.
+     *
+     * @param failOnError boolean
+     */
+    public void setFailOnError(boolean failOnError) {
+        this.failOnError = failOnError;
+    }
 
-			Condition c = (Condition) getConditions().nextElement();
-			if (! c.eval()) {
-				if (failOnError) {
-					Exit fail = (Exit) getProject().createTask("fail");
-					fail.setMessage(message);
-					fail.execute();
-				}
-			}
-			else {
-				if (execute && sequential != null) {
-					this.sequential.execute();
-				}
-			}
-		}
-		else {
-			if (execute && sequential != null) {
-				this.sequential.execute();
-			}			
-		}
-	}
-	
+    /**
+     * Method execute.
+     */
+    public void execute() {
+        String use_asserts = getProject().getProperty("ant.enable.asserts");
+        boolean assertsEnabled = Project.toBoolean(use_asserts);
 
+        if (assertsEnabled) {
+            if (name != null) {
+                if (value == null) {
+                    throw new BuildException("The 'value' attribute must accompany the 'name' attribute.");
+                }
+                String propVal = getProject().replaceProperties("${" + name + "}");
+                Equals e = new Equals();
+                e.setArg1(propVal);
+                e.setArg2(value);
+                addEquals(e);
+            }
+
+            if (countConditions() == 0) {
+                throw new BuildException("There is no condition specified.");
+            } else if (countConditions() > 1) {
+                throw new BuildException("There must be exactly one condition specified.");
+            }
+
+            Condition c = (Condition) getConditions().nextElement();
+            if (!c.eval()) {
+                if (failOnError) {
+                    Exit fail = (Exit) getProject().createTask("fail");
+                    fail.setMessage(message);
+                    fail.execute();
+                }
+            } else {
+                if (execute && sequential != null) {
+                    this.sequential.execute();
+                }
+            }
+        } else {
+            if (execute && sequential != null) {
+                this.sequential.execute();
+            }
+        }
+    }
 }

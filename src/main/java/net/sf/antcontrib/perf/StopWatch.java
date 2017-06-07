@@ -28,40 +28,50 @@ package net.sf.antcontrib.perf;
  * System.out.println(sw.format(sw.elapsed()); // print the time since the last start
  * System.out.println(sw.toString()); // print the cumulative total
  * </pre>
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author Dale Anson
- * @version   $Revision: 1.4 $
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
+ * @version $Revision: 1.4 $
  */
 public class StopWatch {
-
-    /** an identifying name for this stopwatch */
+    /**
+     * an identifying name for this stopwatch.
+     */
     private String name = "";
 
-    /** storage for start time */
+    /**
+     * storage for start time.
+     */
     private long startTime = 0;
 
-    /** storage for stop time */
+    /**
+     * storage for stop time.
+     */
     private long stopTime = 0;
 
-    /** cumulative elapsed time */
+    /**
+     * cumulative elapsed time.
+     */
     private long totalTime = 0;
 
-    /** is the stopwatch running? */
+    /**
+     * is the stopwatch running.
+     */
     private boolean running = false;
 
     /**
      * Starts the stopwatch.
      */
     public StopWatch() {
-        this( "" );
+        this("");
     }
 
     /**
      * Starts the stopwatch.
+     *
      * @param name an identifying name for this StopWatch
      */
-    public StopWatch( String name ) {
+    public StopWatch(String name) {
         this.name = name;
         start();
     }
@@ -70,10 +80,10 @@ public class StopWatch {
      * Starts/restarts the stopwatch. <code>stop</code> must be called prior
      * to restart.
      *
-     * @return   the start time, the long returned System.currentTimeMillis().
+     * @return the start time, the long returned System.currentTimeMillis().
      */
     public long start() {
-        if ( !running )
+        if (!running)
             startTime = System.currentTimeMillis();
         running = true;
         return startTime;
@@ -82,11 +92,11 @@ public class StopWatch {
     /**
      * Stops the stopwatch.
      *
-     * @return   the stop time, the long returned System.currentTimeMillis().
+     * @return the stop time, the long returned System.currentTimeMillis().
      */
     public long stop() {
         stopTime = System.currentTimeMillis();
-        if ( running ) {
+        if (running) {
             totalTime += stopTime - startTime;
         }
         startTime = stopTime;
@@ -97,25 +107,27 @@ public class StopWatch {
     /**
      * Total cumulative elapsed time.
      *
-     * @return   the total time
+     * @return the total time
      */
     public long total() {
-	stop();
-	long rtn = totalTime;
-	totalTime = 0;
+        stop();
+        long rtn = totalTime;
+        totalTime = 0;
         return rtn;
     }
 
     /**
      * Elapsed time, difference between the last start time and now.
      *
-     * @return   the elapsed time
+     * @return the elapsed time
      */
     public long elapsed() {
         return System.currentTimeMillis() - startTime;
     }
 
     /**
+     * getName() method.
+     *
      * @return the name of this StopWatch
      */
     public String getName() {
@@ -123,26 +135,28 @@ public class StopWatch {
     }
 
     /**
-     * Formats the given time into decimal seconds.    
+     * Formats the given time into decimal seconds.
+     *
+     * @param ms long
      * @return the time formatted as mm:ss.ddd
      */
-    public String format( long ms ) {
-        String total = String.valueOf( ms );
+    public String format(long ms) {
+        String total = String.valueOf(ms);
         String frontpad = "000";
         int pad_length = 3 - total.length();
-        if ( pad_length >= 0 )
-            total = "0." + frontpad.substring( 0, pad_length ) + total;
+        if (pad_length >= 0)
+            total = "0." + frontpad.substring(0, pad_length) + total;
         else {
-            String dec = total.substring( total.length() - 3 );
+            String dec = total.substring(total.length() - 3);
             total = "";
-            int min = 0, sec = 0;
-            min = ( int ) ( ms / 60000 );
-            sec = min > 0 ? ( int ) ( ( ms - ( min * 60000 ) ) / 1000 ) : ( int ) ( ms / 1000 );
-            if ( min > 0 ) {
-                total = String.valueOf( min ) + ":" + ( sec < 10 ? "0" : "" ) + String.valueOf( sec ) + "." + dec;
-            }
-            else {
-                total = String.valueOf( sec ) + "." + dec;
+            int min = 0;
+            int sec = 0;
+            min = (int) (ms / 60000);
+            sec = min > 0 ? (int) ((ms - (min * 60000)) / 1000) : (int) (ms / 1000);
+            if (min > 0) {
+                total = String.valueOf(min) + ":" + (sec < 10 ? "0" : "") + String.valueOf(sec) + "." + dec;
+            } else {
+                total = String.valueOf(sec) + "." + dec;
             }
         }
         return total + " sec";
@@ -150,44 +164,48 @@ public class StopWatch {
 
     /**
      * Returns the total elapsed time of the stopwatch formatted in decimal seconds.
+     *
      * @return [name: mm:ss.ddd]
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append( "[" );
-        if ( name != null )
-            sb.append( name ).append( ": " );
-        sb.append( format( totalTime ) );
-        sb.append( "]" );
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if (name != null)
+            sb.append(name).append(": ");
+        sb.append(format(totalTime));
+        sb.append("]");
         return sb.toString();
     }
 
-    public static void main ( String[] args ) {
-        StopWatch sw = new StopWatch( "test" );
-        
+    /**
+     * Method main.
+     *
+     * @param args String[]
+     */
+    public static void main(String[] args) {
+        StopWatch sw = new StopWatch("test");
+
         // test the formatter
-        System.out.println( sw.format( 1 ) );
-        System.out.println( sw.format( 10 ) );
-        System.out.println( sw.format( 100 ) );
-        System.out.println( sw.format( 1000 ) );
-        System.out.println( sw.format( 100000 ) );
-        System.out.println( sw.format( 1000000 ) );
-        
+        System.out.println(sw.format(1));
+        System.out.println(sw.format(10));
+        System.out.println(sw.format(100));
+        System.out.println(sw.format(1000));
+        System.out.println(sw.format(100000));
+        System.out.println(sw.format(1000000));
+
         // test the stopwatch
         try {
-            System.out.println( "StopWatch: " + sw.getName() );
-            Thread.currentThread().sleep( 2000 );
+            System.out.println("StopWatch: " + sw.getName());
+            Thread.sleep(2000);
             sw.stop();
-            System.out.println( sw.toString() );
+            System.out.println(sw.toString());
             sw.start();
-            Thread.currentThread().sleep( 2000 );
+            Thread.sleep(2000);
             sw.stop();
-            System.out.println( "elapsed: " + sw.format( sw.elapsed() ) );
-            System.out.println( "total: " + sw.format( sw.total() ) );
-        }
-        catch ( Exception e ) {
+            System.out.println("elapsed: " + sw.format(sw.elapsed()));
+            System.out.println("total: " + sw.format(sw.total()));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-

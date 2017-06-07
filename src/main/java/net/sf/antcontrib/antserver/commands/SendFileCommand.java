@@ -15,7 +15,11 @@
  */
 package net.sf.antcontrib.antserver.commands;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -23,147 +27,181 @@ import org.apache.tools.ant.Project;
 import net.sf.antcontrib.antserver.Command;
 import net.sf.antcontrib.antserver.Util;
 
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
- *
- * @since
- *
- ****************************************************************************/
+import static org.apache.tools.ant.util.FileUtils.isAbsolutePath;
 
-
-public class SendFileCommand
-        extends AbstractCommand
-        implements Command
-{
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+@SuppressWarnings("serial")
+public class SendFileCommand extends AbstractCommand implements Command {
+    /**
+     * Field contentLength.
+     */
     private long contentLength;
+
+    /**
+     * Field todir.
+     */
     private String todir;
+
+    /**
+     * Field tofile.
+     */
     private String tofile;
+
+    /**
+     * Field fileBaseName.
+     */
     private String fileBaseName;
+
+    /**
+     * Field file.
+     */
     private transient File file;
 
-    public File getFile()
-    {
+    /**
+     * Method getFile.
+     *
+     * @return File
+     */
+    public File getFile() {
         return file;
     }
 
-    public long getContentLength()
-    {
+    /**
+     * Method getContentLength.
+     *
+     * @return long
+     * @see net.sf.antcontrib.antserver.Command#getContentLength()
+     */
+    public long getContentLength() {
         return contentLength;
     }
 
-    public InputStream getContentStream()
-        throws IOException
-    {
+    /**
+     * Method getContentStream.
+     *
+     * @return InputStream
+     * @throws IOException if something goes wrong
+     * @see net.sf.antcontrib.antserver.Command#getContentStream()
+     */
+    public InputStream getContentStream() throws IOException {
         return new FileInputStream(file);
     }
 
-    public void setFile(File file)
-    {
+    /**
+     * Method setFile.
+     *
+     * @param file File
+     */
+    public void setFile(File file) {
         this.file = file;
         this.fileBaseName = file.getName();
         this.contentLength = file.length();
     }
 
-
-    public String getTofile()
-    {
+    /**
+     * Method getTofile.
+     *
+     * @return String
+     */
+    public String getTofile() {
         return tofile;
     }
 
-
-    public void setTofile(String tofile)
-    {
+    /**
+     * Method setTofile.
+     *
+     * @param tofile String
+     */
+    public void setTofile(String tofile) {
         this.tofile = tofile;
     }
 
-
-    public String getTodir()
-    {
+    /**
+     * Method getTodir.
+     *
+     * @return String
+     */
+    public String getTodir() {
         return todir;
     }
 
-
-    public void setTodir(String todir)
-    {
+    /**
+     * Method setTodir.
+     *
+     * @param todir String
+     */
+    public void setTodir(String todir) {
         this.todir = todir;
     }
 
-    public void validate(Project project)
-    {
+    /**
+     * Method validate.
+     *
+     * @param project Project
+     * @see net.sf.antcontrib.antserver.Command#validate(Project)
+     */
+    public void validate(Project project) {
         if (file == null)
             throw new BuildException("Missing required attribute 'file'");
 
         if (tofile == null && todir == null)
             throw new BuildException("Missing both attributes 'tofile' and 'todir'"
-                + " at least one must be supplied");
-
-        /*
-        try
-        {
-            String realBasePath = project.getBaseDir().getCanonicalPath();
-            String realGetBasePath = file.getCanonicalPath();
-            if (! realGetBasePath.startsWith(realBasePath))
-                throw new SecurityException("Cannot access a file that is not rooted in the project execution directory");
-        }
-        catch (IOException e)
-        {
-            throw new BuildException(e);
-        }
-        */
-
-
+                    + " at least one must be supplied");
     }
 
+    /**
+     * Method execute.
+     *
+     * @param project       Project
+     * @param contentLength long
+     * @param content       InputStream
+     * @return boolean
+     * @throws IOException if data transfer fails
+     * @see net.sf.antcontrib.antserver.Command#execute(Project, long, InputStream)
+     */
     public boolean execute(Project project,
                            long contentLength,
                            InputStream content)
-            throws Throwable
-    {
+            throws IOException {
         File dest = null;
 
-        if (tofile != null)
-        {
-            dest = new File(project.getBaseDir(), tofile);
-            if (! dest.getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                System.out.println("throwing an exception");
-                throw new SecurityException("toFile must be a relative path");
+        if (tofile != null) {
+            if (isAbsolutePath(tofile)) {
+                if (!new File(tofile).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+                    throw new SecurityException("toFile must be in the project file tree.");
+                }
+                dest = new File(tofile);
+            } else {
+                dest = new File(project.getBaseDir(), tofile);
             }
-        }
-        else
-        {
-            dest = new File(project.getBaseDir(), todir);
+        } else {
+            if (isAbsolutePath(todir)) {
+                if (!new File(todir).getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
+                    throw new SecurityException("toDir must be in the project file tree.");
+                }
+                dest = new File(todir);
+            } else {
+                dest = new File(project.getBaseDir(), todir);
+            }
+            if (!dest.canWrite()) {
+                throw new SecurityException("The requested directory is not writable.");
+            }
             dest = new File(dest, fileBaseName);
-
-            if (! dest.getCanonicalPath().startsWith(project.getBaseDir().getCanonicalPath())) {
-                throw new SecurityException("toDir must be a relative path");
-            }
-
         }
 
-        FileOutputStream fos =  null;
+        FileOutputStream fos = null;
 
-        try
-        {
+        try {
             fos = new FileOutputStream(dest);
-
-            Util.transferBytes(content,
-                    contentLength,
-                    fos,
-                    false);
-        }
-        finally
-        {
-            try
-            {
+            Util.transferBytes(content, contentLength, fos, false);
+        } finally {
+            try {
                 if (fos != null)
                     fos.close();
-            }
-            catch (IOException e)
-            {
-                ; // gulp;
+            } catch (IOException e) {
+                // gulp
             }
         }
         return false;

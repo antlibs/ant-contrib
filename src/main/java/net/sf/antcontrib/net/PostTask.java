@@ -25,22 +25,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.HttpURLConnection;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import java.rmi.server.UID;
-
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.TaskContainer;
+import org.apache.tools.ant.property.ResolvePropertyMap;
 
 /**
  * This task does an http post. Name/value pairs for the post can be set in
@@ -51,128 +53,161 @@ import org.apache.tools.ant.TaskContainer;
  * post. This means that a file can be set up in advance of running the build
  * and the appropriate property values will be filled in at run time.
  *
- * @author    Dale Anson, danson@germane-software.com
- * @version   $Revision: 1.11 $
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
+ * @version $Revision: 1.11 $
  */
 public class PostTask extends Task {
+    /**
+     * Storage for name/value pairs to send.
+     */
+    private final Map<String, String> props = new HashMap<String, String>();
 
-    /** Storage for name/value pairs to send. */
-    private Hashtable props = new Hashtable();
-    /** URL to send the name/value pairs to. */
+    /**
+     * URL to send the name/value pairs to.
+     */
     private URL to = null;
-    /** File to read name/value pairs from. */
+
+    /**
+     * File to read name/value pairs from.
+     */
     private File propsFile = null;
-    /** storage for Ant properties */
+
+    /**
+     * storage for Ant properties.
+     */
     private String textProps = null;
-    /** encoding to use for the name/value pairs */
+
+    /**
+     * encoding to use for the name/value pairs.
+     */
     private String encoding = "UTF-8";
-    /** where to store the server response */
+
+    /**
+     * where to store the server response.
+     */
     private File log = null;
-    /** append to the log? */
+
+    /**
+     * append to the log.
+     */
     private boolean append = true;
-    /** verbose? */
+
+    /**
+     * verbose.
+     */
     private boolean verbose = true;
-    /** want to keep the server response? */
+
+    /**
+     * want to keep the server response.
+     */
     private boolean wantResponse = true;
-    /** store output in a property */
+
+    /**
+     * store output in a property.
+     */
     private String property = null;
 
-    /** how long to wait for a response from the server */
-    private long maxwait = 180000;   // units for maxwait is milliseconds
-    /** fail on error? */
+    /**
+     * how long to wait for a response from the server in milliseconds.
+     */
+    private long maxwait = 180000;
+
+    /**
+     * fail on error.
+     */
     private boolean failOnError = false;
 
-    // storage for cookies
-    private static Hashtable cookieStorage = new Hashtable();
+    /**
+     * storage for cookies.
+     */
+    private static final Map<String, Cookie> cookieStorage = new HashMap<String, Cookie>();
 
-    /** connection to the server */
+    /**
+     * connection to the server.
+     */
     private URLConnection connection = null;
-    /** for thread handling */
+
+    /**
+     * for thread handling.
+     */
     private Thread currentRunner = null;
-
-
 
     /**
      * Set the url to post to. Required.
      *
-     * @param name  the url to post to.
+     * @param name the url to post to.
      */
-    public void setTo( URL name ) {
+    public void setTo(URL name) {
         to = name;
     }
-
 
     /**
      * Set the name of a file to read a set of properties from.
      *
-     * @param f  the file
+     * @param f the file
      */
-    public void setFile( File f ) {
+    public void setFile(File f) {
         propsFile = f;
     }
-
 
     /**
      * Set the name of a file to save the response to. Optional. Ignored if
      * "want response" is false.
      *
-     * @param f  the file
+     * @param f the file
      */
-    public void setLogfile( File f ) {
+    public void setLogfile(File f) {
         log = f;
     }
-
 
     /**
      * Should the log file be appended to or overwritten? Default is true,
      * append to the file.
      *
-     * @param b  append or not
+     * @param b append or not
      */
-    public void setAppend( boolean b ) {
+    public void setAppend(boolean b) {
         append = b;
     }
-
 
     /**
      * If true, progress messages and returned data from the post will be
      * displayed. Default is true.
      *
-     * @param b  true = verbose
+     * @param b true = verbose
      */
-    public void setVerbose( boolean b ) {
+    public void setVerbose(boolean b) {
         verbose = b;
     }
-
 
     /**
      * Default is true, get the response from the post. Can be set to false for
      * "fire and forget" messages.
      *
-     * @param b  print/log server response
+     * @param b print/log server response
      */
-    public void setWantresponse( boolean b ) {
+    public void setWantresponse(boolean b) {
         wantResponse = b;
     }
 
     /**
      * Set the name of a property to save the response to. Optional. Ignored if
      * "wantResponse" is false.
+     *
      * @param name the name to use for the property
      */
-    public void setProperty( String name ) {
+    public void setProperty(String name) {
         property = name;
     }
 
     /**
      * Sets the encoding of the outgoing properties, default is UTF-8.
      *
-     * @param encoding  The new encoding value
+     * @param encoding The new encoding value
      */
-    public void setEncoding( String encoding ) {
+    public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
-
 
     /**
      * How long to wait on the remote server. As a post is generally a two part
@@ -181,474 +216,426 @@ public class PostTask extends Task {
      * spend at most 3 minutes to connect to the remote server and at most
      * another 3 minutes waiting on a response after the post has been sent.
      * This means that the wait period could total as much as 6 minutes (or 360
-     * seconds). <p>
+     * seconds).
+     * <p>The default wait period is 3 minutes (180 seconds).</p>
      *
-     * The default wait period is 3 minutes (180 seconds).
-     *
-     * @param wait  time to wait in seconds, set to 0 to wait forever.
+     * @param wait time to wait in seconds, set to 0 to wait forever.
      */
-    public void setMaxwait( int wait ) {
+    public void setMaxwait(int wait) {
         maxwait = wait * 1000;
     }
 
-
     /**
-     * Should the build fail if the post fails?
+     * Should the build fail if the post fails.
      *
-     * @param fail  true = fail the build, default is false
+     * @param fail true = fail the build, default is false
      */
-    public void setFailonerror( boolean fail ) {
+    public void setFailonerror(boolean fail) {
         failOnError = fail;
     }
 
     /**
      * Adds a name/value pair to post. Optional.
      *
-     * @param p                   A property pair to send as part of the post.
-     * @exception BuildException  When name and/or value are missing.
+     * @param p A property pair to send as part of the post.
+     * @throws BuildException When name and/or value are missing.
      */
-    public void addConfiguredProp( Prop p ) throws BuildException {
+    public void addConfiguredProp(Prop p) throws BuildException {
         String name = p.getName();
-        if ( name == null ) {
-            throw new BuildException( "name is null", getLocation() );
+        if (name == null) {
+            throw new BuildException("name is null", getLocation());
         }
         String value = p.getValue();
-        if ( value == null ) {
-            value = getProject().getProperty( name );
+        if (value == null) {
+            value = getProject().getProperty(name);
         }
-        if ( value == null ) {
-            throw new BuildException( "value is null", getLocation() );
+        if (value == null) {
+            throw new BuildException("value is null", getLocation());
         }
-        props.put( name, value );
+        props.put(name, value);
     }
-
 
     /**
-     * Adds a feature to the Text attribute of the PostTask object
+     * Adds a feature to the Text attribute of the PostTask object.
      *
-     * @param text  The feature to be added to the Text attribute
+     * @param text The feature to be added to the Text attribute
      */
-    public void addText( String text ) {
+    public void addText(String text) {
         textProps = text;
     }
-
 
     /**
      * Do the post.
      *
-     * @exception BuildException  On any error.
+     * @throws BuildException On any error.
      */
     public void execute() throws BuildException {
-        if ( to == null ) {
-            throw new BuildException( "'to' attribute is required", getLocation() );
+        if (to == null) {
+            throw new BuildException("'to' attribute is required", getLocation());
         }
         final String content = getContent();
         try {
-            if ( verbose )
-                log( "Opening connection for post to " + to.toString() + "..." );
+            if (verbose)
+                log("Opening connection for post to " + to.toString() + "...");
 
             // do the POST
-            Thread runner =
-                new Thread() {
-                    public void run() {
-                        DataOutputStream out = null;
-                        try {
-                            // set the url connection properties
-                            connection = to.openConnection();
-                            connection.setDoInput( true );
-                            connection.setDoOutput( true );
-                            connection.setUseCaches( false );
-                            connection.setRequestProperty(
+            Thread runner = new Thread() {
+                public void run() {
+                    DataOutputStream out = null;
+                    try {
+                        // set the url connection properties
+                        connection = to.openConnection();
+                        connection.setDoInput(true);
+                        connection.setDoOutput(true);
+                        connection.setUseCaches(false);
+                        connection.setRequestProperty(
                                 "Content-Type",
-                                "application/x-www-form-urlencoded" );
+                                "application/x-www-form-urlencoded");
 
-                            // check if there are cookies to be included
-                            for ( Iterator it = cookieStorage.keySet().iterator(); it.hasNext(); ) {
-                                StringBuffer sb = new StringBuffer();
-                                Object name = it.next();
-                                if ( name != null ) {
-                                    String key = name.toString();
-                                    Cookie cookie = ( Cookie ) cookieStorage.get( name );
-                                    if ( to.getPath().startsWith( cookie.getPath() ) ) {
-                                        connection.addRequestProperty( "Cookie", cookie.toString() );
-                                    }
+                        // check if there are cookies to be included
+                        for (String key : cookieStorage.keySet()) {
+                            if (key != null) {
+                                Cookie cookie = cookieStorage.get(key);
+                                if (to.getPath().startsWith(cookie.getPath())) {
+                                    connection.addRequestProperty("Cookie", cookie.toString());
                                 }
                             }
+                        }
 
-                            // do the post
-                            if ( verbose ) {
-                                log( "Connected, sending data..." );
-                            }
-                            out = new DataOutputStream( connection.getOutputStream() );
-                            if ( verbose ) {
-                                log( content );
-                            }
-                            out.writeBytes( content );
-                            out.flush();
-                            if ( verbose ) {
-                                log( "Data sent." );
-                            }
+                        // do the post
+                        if (verbose) {
+                            log("Connected, sending data...");
                         }
-                        catch ( Exception e ) {
-                            if ( failOnError ) {
-                                throw new BuildException( e, getLocation() );
-                            }
+                        out = new DataOutputStream(connection.getOutputStream());
+                        if (verbose) {
+                            log(content);
                         }
-                        finally {
-                            try {
-                                out.close();
-                            }
-                            catch ( Exception e ) {
-                                // ignored
-                            }
+                        out.writeBytes(content);
+                        out.flush();
+                        if (verbose) {
+                            log("Data sent.");
+                        }
+                    } catch (Exception e) {
+                        if (failOnError) {
+                            throw new BuildException(e, getLocation());
+                        }
+                    } finally {
+                        try {
+                            out.close();
+                        } catch (Exception e) {
+                            // ignored
                         }
                     }
                 }
-                ;
+            };
             runner.start();
-            runner.join( maxwait );
-            if ( runner.isAlive() ) {
+            runner.join(maxwait);
+            if (runner.isAlive()) {
                 runner.interrupt();
-                if ( failOnError ) {
-                    throw new BuildException( "maxwait exceeded, unable to send data", getLocation() );
+                if (failOnError) {
+                    throw new BuildException("maxwait exceeded, unable to send data", getLocation());
                 }
-                return ;
+                return;
             }
 
             // read the response, if any, optionally writing it to a file
-            if ( wantResponse ) {
-                if ( verbose ) {
-                    log( "Waiting for response..." );
+            if (wantResponse) {
+                if (verbose) {
+                    log("Waiting for response...");
                 }
-                runner =
-                    new Thread() {
-                        public void run() {
-                            PrintWriter fw = null;
-                            StringWriter sw = null;
-                            PrintWriter pw = null;
-                            BufferedReader in = null;
-                            try {
-                                if ( connection instanceof HttpURLConnection ) {
-                                    // read and store cookies
-                                    Map map = ( ( HttpURLConnection ) connection ).getHeaderFields();
-                                    for ( Iterator it = map.keySet().iterator(); it.hasNext(); ) {
-                                        String name = ( String ) it.next();
-                                        if ( name != null && name.equals( "Set-Cookie" ) ) {
-                                            List cookies = ( List ) map.get( name );
-                                            for ( Iterator c = cookies.iterator(); c.hasNext(); ) {
-                                                String raw = ( String ) c.next();
-                                                Cookie cookie = new Cookie( raw );
-                                                cookieStorage.put( cookie.getId(), cookie );
-                                            }
+                runner = new Thread() {
+                    public void run() {
+                        PrintWriter fw = null;
+                        StringWriter sw = null;
+                        PrintWriter pw = null;
+                        BufferedReader in = null;
+                        try {
+                            if (connection instanceof HttpURLConnection) {
+                                // read and store cookies
+                                Map<String, List<String>> map = connection.getHeaderFields();
+                                for (String name : map.keySet()) {
+                                    if (name != null && name.equals("Set-Cookie")) {
+                                        List<String> cookies = map.get(name);
+                                        for (String raw : cookies) {
+                                            Cookie cookie = new Cookie(raw);
+                                            cookieStorage.put(cookie.getId(), cookie);
                                         }
                                     }
+                                }
 
-                                    // maybe log response headers
-                                    if ( verbose ) {
-                                        log( String.valueOf( ( ( HttpURLConnection ) connection ).getResponseCode() ) );
-                                        log( ( ( HttpURLConnection ) connection ).getResponseMessage() );
-                                        StringBuffer sb = new StringBuffer();
-                                        map = ( ( HttpURLConnection ) connection ).getHeaderFields();
-                                        for ( Iterator it = map.keySet().iterator(); it.hasNext(); ) {
-                                            String name = ( String ) it.next();
-                                            sb.append( name ).append( "=" );
-                                            List values = ( List ) map.get( name );
-                                            if ( values != null ) {
-                                                if ( values.size() == 1 )
-                                                    sb.append( values.get( 0 ) );
-                                                else if ( values.size() > 1 ) {
-                                                    sb.append( "[" );
-                                                    for ( Iterator v = values.iterator(); v.hasNext(); ) {
-                                                        sb.append( v.next() ).append( "," );
-                                                    }
-                                                    sb.append( "]" );
+                                // maybe log response headers
+                                if (verbose) {
+                                    log(String.valueOf(((HttpURLConnection) connection).getResponseCode()));
+                                    log(((HttpURLConnection) connection).getResponseMessage());
+                                    StringBuilder sb = new StringBuilder();
+                                    map = connection.getHeaderFields();
+                                    for (String name : map.keySet()) {
+                                        sb.append(name).append("=");
+                                        List<String> values = map.get(name);
+                                        if (values != null) {
+                                            if (values.size() == 1)
+                                                sb.append(values.get(0));
+                                            else if (values.size() > 1) {
+                                                sb.append("[");
+                                                for (String value : values) {
+                                                    sb.append(value).append(",");
                                                 }
+                                                sb.append("]");
                                             }
-                                            sb.append( "\n" );
-                                            log( sb.toString() );
                                         }
-                                    }
-                                }
-                                in = new BufferedReader(
-                                         new InputStreamReader( connection.getInputStream() ) );
-                                if ( log != null ) {
-                                    // user wants output stored to a file
-                                    fw = new PrintWriter( new FileWriter( log, append ) );
-                                }
-                                if ( property != null ) {
-                                    // user wants output stored in a property
-                                    sw = new StringWriter();
-                                    pw = new PrintWriter( sw );
-                                }
-                                String line;
-                                while ( null != ( ( line = in.readLine() ) ) ) {
-                                    if ( currentRunner != this ) {
-                                        break;
-                                    }
-                                    if ( verbose ) {
-                                        log( line );
-                                    }
-                                    if ( fw != null ) {
-                                        // write response to a file
-                                        fw.println( line );
-                                    }
-                                    if ( pw != null ) {
-                                        // write response to a property
-                                        pw.println( line );
+                                        sb.append("\n");
+                                        log(sb.toString());
                                     }
                                 }
                             }
-                            catch ( Exception e ) {
-                                //e.printStackTrace();
-                                if ( failOnError ) {
-                                    throw new BuildException( e, getLocation() );
+                            in = new BufferedReader(
+                                    new InputStreamReader(connection.getInputStream()));
+                            if (log != null) {
+                                // user wants output stored to a file
+                                fw = new PrintWriter(new FileWriter(log, append));
+                            }
+                            if (property != null) {
+                                // user wants output stored in a property
+                                sw = new StringWriter();
+                                pw = new PrintWriter(sw);
+                            }
+                            String line;
+                            while (null != ((line = in.readLine()))) {
+                                if (currentRunner != this) {
+                                    break;
+                                }
+                                if (verbose) {
+                                    log(line);
+                                }
+                                if (fw != null) {
+                                    // write response to a file
+                                    fw.println(line);
+                                }
+                                if (pw != null) {
+                                    // write response to a property
+                                    pw.println(line);
                                 }
                             }
-                            finally {
-                                try {
-                                    in.close();
-                                }
-                                catch ( Exception e ) {
-                                    // ignored
-                                }
-                                try {
-                                    if ( fw != null ) {
-                                        fw.flush();
-                                        fw.close();
-                                    }
-                                }
-                                catch ( Exception e ) {
-                                    // ignored
-                                }
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                            if (failOnError) {
+                                throw new BuildException(e, getLocation());
                             }
-                            if ( property != null && sw != null ) {
-                                // save property
-                                getProject().setProperty( property, sw.toString() );
+                        } finally {
+                            try {
+                                in.close();
+                            } catch (Exception e) {
+                                // ignored
+                            }
+                            try {
+                                if (fw != null) {
+                                    fw.flush();
+                                    fw.close();
+                                }
+                            } catch (Exception e) {
+                                // ignored
                             }
                         }
-                    };
+                        if (property != null && sw != null) {
+                            // save property
+                            getProject().setProperty(property, sw.toString());
+                        }
+                    }
+                };
                 currentRunner = runner;
                 runner.start();
-                runner.join( maxwait );
-                if ( runner.isAlive() ) {
+                runner.join(maxwait);
+                if (runner.isAlive()) {
                     currentRunner = null;
                     runner.interrupt();
-                    if ( failOnError ) {
-                        throw new BuildException( "maxwait exceeded, unable to receive data", getLocation() );
+                    if (failOnError) {
+                        throw new BuildException("maxwait exceeded, unable to receive data", getLocation());
                     }
                 }
             }
-            if ( verbose )
-                log( "Post complete." );
-        }
-        catch ( Exception e ) {
-            if ( failOnError ) {
-                throw new BuildException( e );
+            if (verbose)
+                log("Post complete.");
+        } catch (Exception e) {
+            if (failOnError) {
+                throw new BuildException(e);
             }
         }
     }
 
-
     /**
-     * Borrowed from Property -- load variables from a file
+     * Borrowed from Property -- load variables from a file.
      *
-     * @param file                file to load
-     * @exception BuildException  Description of the Exception
+     * @param file file to load
+     * @throws BuildException Description of the Exception
      */
-    private void loadFile( File file ) throws BuildException {
+    private void loadFile(File file) throws BuildException {
         Properties fileprops = new Properties();
         try {
-            if ( file.exists() ) {
-                FileInputStream fis = new FileInputStream( file );
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
                 try {
-                    fileprops.load( fis );
-                }
-                finally {
-                    if ( fis != null ) {
+                    fileprops.load(fis);
+                } finally {
+                    if (fis != null) {
                         fis.close();
                     }
                 }
-                addProperties( fileprops );
+                addProperties(fileprops);
+            } else {
+                log("Unable to find property file: " + file.getAbsolutePath(),
+                        Project.MSG_VERBOSE);
             }
-            else {
-                log( "Unable to find property file: " + file.getAbsolutePath(),
-                     Project.MSG_VERBOSE );
-            }
-            log( "Post complete." );
-        }
-        catch ( Exception e ) {
-            if ( failOnError ) {
-                throw new BuildException( e );
+            log("Post complete.");
+        } catch (Exception e) {
+            if (failOnError) {
+                throw new BuildException(e);
             }
         }
     }
-
 
     /**
      * Builds and formats the message to send to the server. Message is UTF-8
      * encoded unless encoding has been explicitly set.
      *
-     * @return   the message to send to the server.
+     * @return the message to send to the server.
      */
     private String getContent() {
-        if ( propsFile != null ) {
-            loadFile( propsFile );
+        if (propsFile != null) {
+            loadFile(propsFile);
         }
 
-        if ( textProps != null ) {
-            loadTextProps( textProps );
+        if (textProps != null) {
+            loadTextProps(textProps);
         }
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         try {
-            Enumeration en = props.keys();
-            while ( en.hasMoreElements() ) {
-                String name = ( String ) en.nextElement();
-                String value = ( String ) props.get( name );
-                content.append( URLEncoder.encode( name, encoding ) );
-                content.append( "=" );
-                content.append( URLEncoder.encode( value, encoding ) );
-                if ( en.hasMoreElements() ) {
-                    content.append( "&" );
+            for (String name : props.keySet()) {
+                if (content.length() != 0) {
+                    content.append("&");
                 }
+                String value = props.get(name);
+                content.append(URLEncoder.encode(name, encoding));
+                content.append("=");
+                content.append(URLEncoder.encode(value, encoding));
             }
-        }
-        catch ( IOException ex ) {
-            if ( failOnError ) {
-                throw new BuildException( ex, getLocation() );
+        } catch (IOException ex) {
+            if (failOnError) {
+                throw new BuildException(ex, getLocation());
             }
         }
         return content.toString();
     }
 
-
     /**
-     * Description of the Method
+     * loadTextProps() method.
      *
-     * @param tp
+     * @param tp String
      */
-    private void loadTextProps( String tp ) {
+    private void loadTextProps(String tp) {
         Properties p = new Properties();
         Project project = getProject();
-        StringTokenizer st = new StringTokenizer( tp, "$" );
-        while ( st.hasMoreTokens() ) {
+        StringTokenizer st = new StringTokenizer(tp, "$");
+        while (st.hasMoreTokens()) {
             String token = st.nextToken();
-            int start = token.indexOf( "{" );
-            int end = token.indexOf( "}" );
-            if ( start > -1 && end > -1 && end > start ) {
-                String name = token.substring( start + 1, end - start );
-                String value = project.getProperty( name );
-                if ( value != null )
-                    p.setProperty( name, value );
+            int start = token.indexOf("{");
+            int end = token.indexOf("}");
+            if (start > -1 && end > -1 && end > start) {
+                String name = token.substring(start + 1, end - start);
+                String value = project.getProperty(name);
+                if (value != null)
+                    p.setProperty(name, value);
             }
         }
-        addProperties( p );
+        addProperties(p);
     }
-
 
     /**
      * Borrowed from Property -- iterate through a set of properties, resolve
-     * them, then assign them
+     * them, then assign them.
      *
-     * @param fileprops  The feature to be added to the Properties attribute
+     * @param fileprops The feature to be added to the Properties attribute
      */
-    private void addProperties( Properties fileprops ) {
-        resolveAllProperties( fileprops );
-        Enumeration e = fileprops.keys();
-        while ( e.hasMoreElements() ) {
-            String name = ( String ) e.nextElement();
-            String value = fileprops.getProperty( name );
-            props.put( name, value );
+    private void addProperties(Properties fileprops) {
+        resolveAllProperties(fileprops);
+        Enumeration<Object> e = fileprops.keys();
+        while (e.hasMoreElements()) {
+            String name = e.nextElement().toString();
+            String value = fileprops.getProperty(name);
+            props.put(name, value);
         }
     }
 
-
     /**
      * Borrowed from Property -- resolve properties inside a properties
-     * hashtable
+     * hashtable.
      *
-     * @param fileprops           Description of the Parameter
-     * @exception BuildException  Description of the Exception
+     * @param props Description of the Parameter
+     * @throws BuildException Description of the Exception
      */
-    private void resolveAllProperties( Properties fileprops ) throws BuildException {
-        for ( Enumeration e = fileprops.keys(); e.hasMoreElements(); ) {
-            String name = ( String ) e.nextElement();
-            String value = fileprops.getProperty( name );
-
-            boolean resolved = false;
-            while ( !resolved ) {
-                Vector fragments = new Vector();
-                Vector propertyRefs = new Vector();
-                /// this is the Ant 1.5 way of doing it. The Ant 1.6 PropertyHelper
-                /// should be used -- eventually.
-                ProjectHelper.parsePropertyString( value, fragments,
-                        propertyRefs );
-
-                resolved = true;
-                if ( propertyRefs.size() != 0 ) {
-                    StringBuffer sb = new StringBuffer();
-                    Enumeration i = fragments.elements();
-                    Enumeration j = propertyRefs.elements();
-                    while ( i.hasMoreElements() ) {
-                        String fragment = ( String ) i.nextElement();
-                        if ( fragment == null ) {
-                            String propertyName = ( String ) j.nextElement();
-                            if ( propertyName.equals( name ) ) {
-                                throw new BuildException( "Property " + name
-                                        + " was circularly "
-                                        + "defined." );
-                            }
-                            fragment = getProject().getProperty( propertyName );
-                            if ( fragment == null ) {
-                                if ( fileprops.containsKey( propertyName ) ) {
-                                    fragment = fileprops.getProperty( propertyName );
-                                    resolved = false;
-                                }
-                                else {
-                                    fragment = "${" + propertyName + "}";
-                                }
-                            }
-                        }
-                        sb.append( fragment );
-                    }
-                    value = sb.toString();
-                    fileprops.put( name, value );
-                }
-            }
+    private void resolveAllProperties(Properties props) throws BuildException {
+        PropertyHelper propertyHelper
+                = PropertyHelper.getPropertyHelper(getProject());
+        Map<String, Object> properties = new HashMap<String, Object>();
+        for (Object key : props.keySet()) {
+            properties.put(key.toString(), props.get(key));
         }
+        new ResolvePropertyMap(
+                getProject(),
+                propertyHelper,
+                propertyHelper.getExpanders())
+                .resolveAllProperties(properties, null, false);
     }
 
     /**
      * Represents a cookie.  See RFC 2109 and 2965.
      */
     public class Cookie {
+        /**
+         * Field name.
+         */
         private String name;
+
+        /**
+         * Field value.
+         */
         private String value;
+
+        /**
+         * Field domain.
+         */
         private String domain;
+
+        /**
+         * Field path.
+         */
         private String path = "/";
+
+        /**
+         * Field id.
+         */
         private String id;
 
         /**
-         * @param raw the raw string abstracted from the header of an http response
-         * for a single cookie.
+         * @param raw the raw string abstracted from the header of an http
+         *            response for a single cookie.
          */
-        public Cookie( String raw ) {
-            String[] args = raw.split( "[;]" );
-	    for ( int i = 0; i < args.length; i++ ) {
-	        String part = args[ i ];
-	        int eq_index = part.indexOf("=");
-	        if (eq_index == -1)
-	             continue;
-	        String first_part = part.substring(0, eq_index).trim();
-	        String second_part = part.substring(eq_index + 1);
-	        if ( i == 0 ) {
-	             name = first_part;
-	             value = second_part;
-	        }
-	        else if ( first_part.equalsIgnoreCase( "Path" ) )
-	             path = second_part;
-	        else if ( first_part.equalsIgnoreCase( "Domain" ) )
-	             domain = second_part;
+        public Cookie(String raw) {
+            String[] args = raw.split("[;]");
+            for (int i = 0; i < args.length; i++) {
+                String part = args[i];
+                int eq_index = part.indexOf("=");
+                if (eq_index == -1)
+                    continue;
+                String first_part = part.substring(0, eq_index).trim();
+                String second_part = part.substring(eq_index + 1);
+                if (i == 0) {
+                    name = first_part;
+                    value = second_part;
+                } else if (first_part.equalsIgnoreCase("Path"))
+                    path = second_part;
+                else if (first_part.equalsIgnoreCase("Domain"))
+                    domain = second_part;
             }
             if (name == null)
                 throw new IllegalArgumentException("Raw cookie does not contain a cookie name.");
@@ -658,46 +645,65 @@ public class PostTask extends Task {
         }
 
         /**
-         * @param name name of the cookie
+         * Constructor.
+         *
+         * @param name  name of the cookie
          * @param value the value of the cookie
          */
-        public Cookie( String name, String value ) {
+        public Cookie(String name, String value) {
             if (name == null)
                 throw new IllegalArgumentException("Cookie name may not be null.");
-            
+
             this.name = name;
             this.value = value;
             setId(name);
         }
 
         /**
-         * @return the id of the cookie, used internally by Post to store the cookie
-         * in a hashtable.
+         * getId() object.
+         *
+         * @return the id of the cookie, used internally by Post to store
+         * the cookie in a hashtable.
          */
         public String getId() {
             if (id == null)
                 setId(path, name);
-            return id.toString();
-        }
-        
-        private void setId(String name) {
-            setId(path, name);    
-        }
-        
-        private void setId(String path, String name) {
-            if (name == null)
-                name = "";
-            id = path + name;   
+            return id;
         }
 
         /**
-         * @return the name of the cookie        
+         * Method setId.
+         *
+         * @param name String
+         */
+        private void setId(String name) {
+            setId(path, name);
+        }
+
+        /**
+         * Method setId.
+         *
+         * @param path String
+         * @param name String
+         */
+        private void setId(String path, String name) {
+            if (name == null)
+                name = "";
+            id = path + name;
+        }
+
+        /**
+         * getName() method.
+         *
+         * @return the name of the cookie
          */
         public String getName() {
             return name;
         }
 
         /**
+         * getValue() method.
+         *
          * @return the value of the cookie
          */
         public String getValue() {
@@ -705,47 +711,54 @@ public class PostTask extends Task {
         }
 
         /**
-         * @param domain the domain of the cookie        
+         * setDomain() method.
+         *
+         * @param domain the domain of the cookie
          */
-        public void setDomain( String domain ) {
+        public void setDomain(String domain) {
             this.domain = domain;
         }
 
         /**
-         * @return the domain of the cookie        
+         * getDomain() method.
+         *
+         * @return the domain of the cookie
          */
         public String getDomain() {
             return domain;
         }
 
         /**
-         * @param path the path of the cookie        
+         * setPath method().
+         *
+         * @param path the path of the cookie
          */
-        public void setPath( String path ) {
+        public void setPath(String path) {
             this.path = path;
         }
 
         /**
-         * @return the path of the cookie        
+         * getPath() method.
+         *
+         * @return the path of the cookie
          */
         public String getPath() {
             return path;
         }
 
         /**
-         * @return a Cookie formatted as a Cookie Version 1 string.  The returned
-         * string is suitable for including with an http request.
+         * @return a Cookie formatted as a Cookie Version 1 string.
+         * The returned string is suitable for including in an http request.
          */
         public String toString() {
-            StringBuffer sb = new StringBuffer();
-            sb.append( name ).append( "=" ).append( value ).append( ";" );
-            if ( domain != null )
-                sb.append( "Domain=" ).append( domain ).append( ";" );
-            if ( path != null )
-                sb.append( "Path=" ).append( path ).append( ";" );
-            sb.append( "Version=\"1\";" );
+            StringBuilder sb = new StringBuilder();
+            sb.append(name).append("=").append(value).append(";");
+            if (domain != null)
+                sb.append("Domain=").append(domain).append(";");
+            if (path != null)
+                sb.append("Path=").append(path).append(";");
+            sb.append("Version=\"1\";");
             return sb.toString();
         }
     }
 }
-

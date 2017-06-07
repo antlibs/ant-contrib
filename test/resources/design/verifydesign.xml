@@ -11,10 +11,7 @@
     <property name="webxml" value="web.xml"/>
 
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath>
-        	<pathelement location="${antcontrib.jar}"/>
-			<pathelement path="${test.classpath}" />
-        </classpath>
+        <classpath location="${antcontrib.jar}"/>
     </taskdef>
 
     <target name="cleanup">

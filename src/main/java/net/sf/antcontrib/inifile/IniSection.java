@@ -13,133 +13,138 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package net.sf.antcontrib.inifile;
+package net.sf.antcontrib.inifile;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-
-/****************************************************************************
+/**
  * A section within an IniFile.
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
- ****************************************************************************/
-
-
-public class IniSection
-        implements IniPart
-{
-    private String name;
-    private List properties;
-    private Map propertyMap;
-
-    /***
-     * Default contructor, constructs an IniSectino with no name
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+public class IniSection implements IniPart {
+    /**
+     * Field name.
      */
-    public IniSection()
-    {
+    private String name;
+
+    /**
+     * Field properties.
+     */
+    private final List<IniProperty> properties;
+
+    /**
+     * Field propertyMap.
+     */
+    private final Map<String, IniProperty> propertyMap;
+
+    /**
+     * Default constructor, constructs an IniSection with no name.
+     */
+    public IniSection() {
         super();
-        this.propertyMap = new HashMap();
-        this.properties = new ArrayList();
+        this.propertyMap = new HashMap<String, IniProperty>();
+        this.properties = new ArrayList<IniProperty>();
     }
 
-
-    /***
-     * Constructs an IniSection with the given name
+    /**
+     * Constructs an IniSection with the given name.
+     *
      * @param name The name of the section
      */
-    public IniSection(String name)
-    {
+    public IniSection(String name) {
         this();
         this.name = name;
     }
 
-
-    /***
-     * Gets a list of all properties in this section
+    /**
+     * Gets a list of all properties in this section.
+     *
      * @return A List of IniProperty objects
      */
-    public List getProperties()
-    {
+    public List<IniProperty> getProperties() {
         return properties;
     }
 
-
-    /***
-     * Gets the name of the section
+    /**
+     * Gets the name of the section.
+     *
+     * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-
-    /***
-     * Sets the name of the section
+    /**
+     * Sets the name of the section.
+     *
      * @param name The name of the section
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    /***
-     * Gets the property with the given name
+    /**
+     * Gets the property with the given name.
+     *
      * @param name The name of the property
+     * @return IniProperty
      */
-    public IniProperty getProperty(String name)
-    {
-        return (IniProperty)propertyMap.get(name);
+    public IniProperty getProperty(String name) {
+        return propertyMap.get(name);
     }
 
-    /***
+    /**
      * Sets a property, replacing the old value, if necessary.
+     *
      * @param property The property to set
      */
-    public void setProperty(IniProperty property)
-    {
-        IniProperty prop = (IniProperty)propertyMap.get(property.getName());
-        if (prop != null)
-        {
+    public void setProperty(IniProperty property) {
+        IniProperty prop = propertyMap.get(property.getName());
+        if (prop != null) {
             int idx = properties.indexOf(prop);
             properties.set(idx, property);
-        }
-        else
-        {
+        } else {
             properties.add(property);
         }
 
         propertyMap.put(property.getName(), property);
     }
 
-    /***
-     * Removes a property from this ection
+    /**
+     * Removes a property from this section.
+     *
      * @param name The name of the property to remove
      */
-    public void removeProperty(String name)
-    {
-        IniProperty prop = (IniProperty)propertyMap.get(name);
-        if (prop != null)
-        {
+    public void removeProperty(String name) {
+        IniProperty prop = propertyMap.get(name);
+        if (prop != null) {
             int idx = properties.indexOf(prop);
             properties.remove(idx);
             propertyMap.remove(name);
         }
     }
 
-
-    public void write(Writer writer)
-        throws IOException
-    {
+    /**
+     * Method write.
+     *
+     * @param writer Writer
+     * @throws IOException if write fails
+     * @see net.sf.antcontrib.inifile.IniPart#write(Writer)
+     */
+    public void write(Writer writer) throws IOException {
         writer.write("[" + name + "]");
         writer.write(System.getProperty("line.separator"));
-        Iterator it = properties.iterator();
+        Iterator<IniProperty> it = properties.iterator();
         IniProperty prop = null;
-        while (it.hasNext())
-        {
-            prop = (IniProperty)it.next();
+        while (it.hasNext()) {
+            prop = it.next();
             prop.write(writer);
             writer.write(System.getProperty("line.separator"));
         }

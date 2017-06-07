@@ -1,115 +1,21 @@
-<!--
- Licensed to the Ant-Contrib Project under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The Ant-Contrib Project licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
--->
-<project name="Ant-contrib Compile tasks for Apache Ant">
+<?xml version="1.0"?>
+<project name="Ant Contrib"
+         xmlns="http://maven.apache.org/DECORATION/1.7.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.6</version>
+  </skin>
   <bannerLeft>
-    <name>ant-contrib</name>
-    <href>http://ant-contrib.sourceforge.net/</href>
+    <name>Ant Contrib</name>
   </bannerLeft>
-  <bannerRight>
-    <name>SourceForge.net Logo</name>
-    <src>http://sflogo.sourceforge.net/sflogo.php?group_id=36177&amp;type=5</src>
-    <href>http://www.sourceforge.net/</href>
-  </bannerRight>
+  <publishDate/>
+  <version/>
   <body>
-    <breadcrumbs>
-      <item name="SourceForge" href="http://www.sourceforge.net/"/>
-      <item name="ant-contrib" href="http://ant-contrib.sourceforge.net:80/"/>
-    </breadcrumbs>
-  
-	<menu name="Get ant-contrib">
-	   <item name="Download" href="http://sourceforge.net/project/showfiles.php?group_id=36177"/>
-	   <item name="Changes" href="/changes-report.html"/>
-	   <item name="License" href="/license.html"/>
-	</menu>
-
-	<menu name="About ant-contrib">
-	   <item name="Usage" href="/index.html"/>
-	   <item name="FAQ" href="/faq.html"/>
-	</menu>
-	
-	<menu name="Tasks">
-		<item name="antclipse" href="/antdocs/ClassPathTask.html"/>
-		<item name="antserver" href="/antdocs/ServerTask.html"/>
-        <item name="compilewithwalls" href="/antdocs/CompileWithWalls.html"/>
-		<item name="forget" href="/antdocs/ForgetTask.html"/>
-		<item name="inifile" href="/antdocs/IniFileTask.html"/>
-		<item name="limit" href="/antdocs/Limit.html"/>
-		<item name="math" href="/antdocs/MathTask.html"/>
-		<item name="osfamily" href="/antdocs/OsFamily.html"/>
-		<item name="post" href="/antdocs/PostTask.html"/>
-		<item name="remoteant" href="/antdocs/ClientTask.html"/>
-		<item name="shellscript" href="/antdocs/ShellScriptTask.html"/>
-		<item name="stopwatch" href="/antdocs/StopWatchTask.html"/>
-		<item name="verifydesign" href="/antdocs/VerifyDesign.html"/>
-		
- 		<item name="http">
-        	<item name="httpState" href="/antdocs/HttpStateType.html"/>
-        	<item name="httpClient" href="/antdocs/HttpClientType.html"/>
-        	<item name="getCookie" href="/antdocs/GetCookieTask.html"/>
-        	<item name="addCookie" href="/antdocs/AddCookieTask.html"/>
-        	<item name="clearCookies" href="/antdocs/ClearCookiesTask.html"/>
-        	<item name="addCredentials" href="/antdocs/AddCredentialsTask.html"/>
-    		<item name="clearCredentials" href="/antdocs/ClearCredentialsTask.html"/>
-    		<item name="purgeExpiredCookies" href="/antdocs/PurgeExpiredCookiesTask.html"/>
-    		<item name="postMethod" href="/antdocs/PostMethodTask.html"/>
-    		<item name="getMethod" href="/antdocs/GetMethodTask.html"/>
-    		<item name="headMethod" href="/antdocs/HeadMethodTask.html"/>
-    		<item name="importurl" href="/antdocs/URLImportTask.html"/>
-		</item>
-		<item name="Logic">
-<!-- item name="if" href="/antdocs/IfTask.html"/ -->
-<item name="foreach" href="/antdocs/ForEach.html"/>
-<item name="for" href="/antdocs/ForTask.html"/>
-<item name="throw" href="/antdocs/Throw.html"/>
-<item name="trycatch" href="/antdocs/TryCatchTask.html"/>
-<item name="switch" href="/antdocs/Switch.html"/>
-<item name="outofdate" href="/antdocs/OutOfDate.html"/>
-<item name="runtarget" href="/antdocs/RunTargetTask.html"/>
-<item name="timestampselector" href="/antdocs/TimestampSelector.html"/>
-<item name="antcallback" href="/antdocs/AntCallBack.html"/>
-<item name="antfetch" href="/antdocs/AntFetch.html"/>
-<!-- item name="assert" href="/antdocs/Assert.html"/ -->
-<item name="relentless" href="/antdocs/Relentless.html"/>
-		</item>
-<item name="Property">
-<item name="propertycopy" href="/antdocs/PropertyCopy.html"/>
-<item name="pathtofileset" href="/antdocs/PathToFileSet.html"/>
-<item name="propertyselector" href="/antdocs/PropertySelector.html"/>
-<item name="propertyregex" href="/antdocs/RegexTask.html"/>
-<item name="sortlist" href="/antdocs/SortList.html"/>
-<item name="urlencode" href="/antdocs/URLEncodeTask.html"/>
-<item name="var" href="/antdocs/Variable.html"/>
-</item>
-	</menu>
-	
-	
-
-	<menu name="Community">
-		<item name="Mailing Lists" href="/mail-lists.html"/>
-		<item name="Issue Tracking" href="/issue-tracking.html"/>
-		<item name="Project Page" href="http://sourceforge.net/projects/ant-contrib/"/>
-		<item name="News" href="http://sourceforge.net/news/?group_id=36177"/>
-	</menu>
-	
-	<menu name="Development">
-		<item name="Repository" href="/source-repository.html"/>
-		<item name="JavaDoc" href="/apidocs/index.html"/>
-		<item name="Continuous Integration" href="/integration.html"/>
-	</menu>
+    <menu name="Ant Contrib">
+      <item name="Manual" href="manual.html"/>
+    </menu>
   </body>
 </project>

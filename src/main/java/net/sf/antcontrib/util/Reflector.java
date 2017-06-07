@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.sf.antcontrib.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -29,20 +29,25 @@ import org.apache.tools.ant.BuildException;
  * The class is a holder class for an object and
  * uses java reflection to call methods on the objects.
  * If things go wrong, BuildExceptions are thrown.
- * @author Peter Reilly
+ *
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
-
 public class Reflector {
-    private Object obj;
     /**
-     * Constructor for the wrapper using a classname
+     * Field obj.
+     */
+    private Object obj;
+
+    /**
+     * Constructor for the wrapper using a classname.
+     *
      * @param name the classname of the object to construct.
      */
     public Reflector(String name) {
         try {
-            Class clazz;
+            Class<?> clazz;
             clazz = Class.forName(name);
-            Constructor constructor;
+            Constructor<?> constructor;
             constructor = clazz.getConstructor(new Class[]{});
             obj = constructor.newInstance(new Object[]{});
         } catch (Throwable t) {
@@ -52,14 +57,16 @@ public class Reflector {
 
     /**
      * Constructor using a passed in object.
+     *
      * @param obj the object to wrap.
      */
-
     public Reflector(Object obj) {
         this.obj = obj;
     }
 
     /**
+     * getObject() method.
+     *
      * @return the wrapped object.
      */
     public Object getObject() {
@@ -68,6 +75,7 @@ public class Reflector {
 
     /**
      * Call a method on the object with no parameters.
+     *
      * @param methodName the name of the method to call
      * @return the object returned by the method
      */
@@ -75,8 +83,8 @@ public class Reflector {
         try {
             Method method;
             method = obj.getClass().getMethod(
-                methodName, new Class[] {});
-            return method.invoke(obj, new Object[] {});
+                    methodName, new Class[]{});
+            return method.invoke(obj, new Object[]{});
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -91,19 +99,19 @@ public class Reflector {
     /**
      * Call a method with an object using a specific
      * type as for the method parameter.
+     *
      * @param methodName the name of the method
-     * @param className the name of the class of the parameter of the method
-     * @param o the object to use as the argument of the method
+     * @param className  the name of the class of the parameter of the method
+     * @param o          the object to use as the argument of the method
      * @return the object returned by the method
      */
-    public Object callExplicit(
-        String methodName, String className, Object o) {
+    public Object callExplicit(String methodName, String className, Object o) {
         try {
             Method method;
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             method = obj.getClass().getMethod(
-                methodName, new Class[] {clazz});
-            return method.invoke(obj, new Object[] {o});
+                    methodName, new Class[]{clazz});
+            return method.invoke(obj, new Object[]{o});
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -118,18 +126,18 @@ public class Reflector {
     /**
      * Call a method with an object using a specific
      * type as for the method parameter.
+     *
      * @param methodName the name of the method
-     * @param classType the class of the parameter of the method
-     * @param o the object to use as the argument of the method
+     * @param classType  the class of the parameter of the method
+     * @param o          the object to use as the argument of the method
      * @return the object returned by the method
      */
-    public Object callExplicit(
-        String methodName, Class classType, Object o) {
+    public Object callExplicit(String methodName, Class<?> classType, Object o) {
         try {
             Method method;
             method = obj.getClass().getMethod(
-                methodName, new Class[] {classType});
-            return method.invoke(obj, new Object[] {o});
+                    methodName, new Class[]{classType});
+            return method.invoke(obj, new Object[]{o});
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -143,17 +151,18 @@ public class Reflector {
 
     /**
      * Call a method with one parameter.
+     *
      * @param methodName the name of the method to call
-     * @param o the object to use as the parameter, this must
-     *          be of the same type as the method parameter (not a subclass).
+     * @param o          the object to use as the parameter, this must
+     *                   be of the same type as the method parameter (not a subclass).
      * @return the object returned by the method
      */
     public Object call(String methodName, Object o) {
         try {
             Method method;
             method = obj.getClass().getMethod(
-                methodName, new Class[] {o.getClass()});
-            return method.invoke(obj, new Object[] {o});
+                    methodName, new Class[]{o.getClass()});
+            return method.invoke(obj, new Object[]{o});
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -167,19 +176,20 @@ public class Reflector {
 
     /**
      * Call a method with two parameters.
+     *
      * @param methodName the name of the method to call
-     * @param o1 the object to use as the first parameter, this must
-     *           be of the same type as the method parameter (not a subclass).
-     * @param o2 the object to use as the second parameter, this must
-     *           be of the same type as the method parameter (not a subclass).
+     * @param o1         the object to use as the first parameter, this must
+     *                   be of the same type as the method parameter (not a subclass).
+     * @param o2         the object to use as the second parameter, this must
+     *                   be of the same type as the method parameter (not a subclass).
      * @return the object returned by the method
      */
     public Object call(String methodName, Object o1, Object o2) {
         try {
             Method method;
             method = obj.getClass().getMethod(
-                methodName, new Class[] {o1.getClass(), o2.getClass()});
-            return method.invoke(obj, new Object[] {o1, o2});
+                    methodName, new Class[]{o1.getClass(), o2.getClass()});
+            return method.invoke(obj, new Object[]{o1, o2});
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {

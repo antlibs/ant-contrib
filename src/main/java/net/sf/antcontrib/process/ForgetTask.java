@@ -17,46 +17,46 @@ package net.sf.antcontrib.process;
 
 import org.apache.tools.ant.taskdefs.Sequential;
 
-
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- * @author		<additional author>
- *
- * @since
- *               
- ****************************************************************************/
-
-
-public class ForgetTask
-        extends Sequential
-        implements Runnable
-{
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+public class ForgetTask extends Sequential implements Runnable {
+    /**
+     * Field daemon.
+     */
     private boolean daemon = true;
 
-    public ForgetTask()
-    {
+    /**
+     * Constructor for ForgetTask.
+     */
+    public ForgetTask() {
         super();
     }
 
-
-    public void setDaemon(boolean daemon)
-    {
+    /**
+     * Method setDaemon.
+     *
+     * @param daemon boolean
+     */
+    public void setDaemon(boolean daemon) {
         this.daemon = daemon;
     }
 
-
-    public void execute()
-    {
+    /**
+     * Method execute.
+     */
+    public void execute() {
         Thread t = new Thread(this);
         t.setDaemon(daemon);
         t.start();
     }
 
-    public void run()
-    {
+    /**
+     * Method run.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
         super.execute();
     }
-
 }

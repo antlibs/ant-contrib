@@ -13,39 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Created on Dec 24, 2004
- */
 package net.sf.antcontrib.design;
 
-/** 
+/**
+ * Created on Dec 24, 2004.
  *
- * @author dhiller
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
 public class Depends {
+    /**
+     * Field name.
+     */
+    private String name;
 
-	private String name;
-	
-	public Depends() {}
-	/**
-	 * @param name
-	 */
-	public Depends(String name) {
-		super();
-		this.name = name;
-	}
-	/**
-	 * @param string
-	 */
-	public void setName(String s) {
-		this.name = s;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    /**
+     * Constructor for Depends.
+     */
+    public Depends() {
+    }
 
-	public String toString() {
-		return name;
-	}
+    /**
+     * Constructor.
+     *
+     * @param name String
+     */
+    public Depends(String name) {
+        super();
+        this.name = name;
+    }
+
+    /**
+     * setName() method.
+     *
+     * @param s String
+     */
+    public void setName(String s) {
+        this.name = s;
+    }
+
+    /**
+     * Method getName.
+     *
+     * @return String
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Method toString.
+     *
+     * @return String
+     */
+    public String toString() {
+        return name;
+    }
 }

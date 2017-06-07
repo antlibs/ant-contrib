@@ -15,52 +15,53 @@
  */
 package net.sf.antcontrib.util;
 
+/**
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
+ */
+public class ThreadPoolThread extends Thread {
+    /**
+     * Field pool.
+     */
+    private final ThreadPool pool;
 
-
-
-/****************************************************************************
- * Place class description here.
- *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a>
- *
- ****************************************************************************/
-
-
-public class ThreadPoolThread
-        extends Thread
-{
-
-    private ThreadPool pool;
+    /**
+     * Field runnable.
+     */
     private Runnable runnable;
 
-    public ThreadPoolThread(ThreadPool pool)
-    {
+    /**
+     * Constructor for ThreadPoolThread.
+     *
+     * @param pool ThreadPool
+     */
+    public ThreadPoolThread(ThreadPool pool) {
         super();
         this.pool = pool;
     }
 
-    public void setRunnable(Runnable runnable)
-    {
+    /**
+     * Method setRunnable.
+     *
+     * @param runnable Runnable
+     */
+    public void setRunnable(Runnable runnable) {
         this.runnable = runnable;
     }
 
-
-    public void run()
-    {
-        try
-        {
+    /**
+     * Method run.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
+        try {
             if (runnable != null)
                 runnable.run();
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 pool.returnThread(this);
-            }
-            catch (Exception e)
-            {
-                ; // gulp;
+            } catch (Exception e) {
+                // gulp
             }
         }
     }

@@ -1,0 +1,157 @@
+<project default="invalid">
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+  <dirname property="topdir" file="${ant.file}"/>
+
+  <target name="invalid">
+    <fail>Don't call this file directly.</fail>
+  </target>
+
+  <target name="cleanup">
+    <delete quiet="yes" dir="${topdir}/targets"/>
+    <delete quiet="yes" dir="${topdir}/sources"/>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${topdir}/targets"/>
+    <mkdir dir="${topdir}/sources"/>
+
+    <touch file="${topdir}/sources/s1" millis="100000"/>
+    <touch file="${topdir}/targets/t1" millis="100"/>
+    <touch file="${topdir}/targets/t2" millis="1000000"/>
+    <path id="sources" path="${topdir}/sources/s1"/>
+    <path id="targets">
+      <fileset dir="${topdir}/targets"/>
+    </path>
+  </target>
+
+  <target name="simple" depends="init">
+    <outofdate>
+      <sourcefiles refid="sources"/>
+      <targetfiles refid="targets"/>
+      <sequential>
+        <property name="simple.called" value=""/>
+      </sequential>
+    </outofdate>
+    <fail unless="simple.called">Simple seq not triggered</fail>
+  </target>
+
+  <target name="verbose" depends="init">
+    <outofdate verbose="true">
+      <sourcefiles refid="sources"/>
+      <targetfiles refid="targets"/>
+    </outofdate>
+  </target>
+
+  <target name="delete" depends="init">
+    <outofdate>
+      <sourcefiles refid="sources"/>
+      <targetfiles refid="targets"/>
+      <deletetargets/>
+    </outofdate>
+    <if>
+      <available file="${topdir}/targets/t1"/>
+      <then>
+        <fail>delete failed</fail>
+      </then>
+    </if>
+    <if>
+      <available file="${topdir}/targets/t2"/>
+      <else>
+        <fail>delete too much</fail>
+      </else>
+    </if>
+  </target>
+
+  <target name="delete-all" depends="init">
+    <outofdate>
+      <sourcefiles refid="sources"/>
+      <targetfiles refid="targets"/>
+      <deletetargets all="true"/>
+    </outofdate>
+    <if>
+      <available file="${topdir}/targets/t1"/>
+      <then>
+        <fail>delete failed</fail>
+      </then>
+    </if>
+    <if>
+      <available file="${topdir}/targets/t2"/>
+      <then>
+        <fail>delete all failed</fail>
+      </then>
+    </if>
+  </target>
+
+  <target name="delete-quiet">
+    <outofdate>
+      <sourcefiles refid="sources"/>
+      <targetfiles refid="targets"/>
+      <deletetargets quiet="yes"/>
+    </outofdate>
+  </target>
+
+  <target name="outofdate.init">
+    <!-- generated -->
+    <mkdir dir="${topdir}/outofdate/gen/1/2/3"/>
+    <touch file="${topdir}/outofdate/gen/index.done"/>
+    <touch file="${topdir}/outofdate/gen/1/2/file.done"/>
+    <touch file="${topdir}/outofdate/gen/1/done.c"/>
+    <touch file="${topdir}/outofdate/gen/1/done.h"/>
+    <touch file="${topdir}/outofdate/gen/1/partial.c"/>
+
+    <!-- sources -->
+    <mkdir dir="${topdir}/outofdate/source/1/2/3"/>
+    <touch file="${topdir}/outofdate/source/newer.text"/>
+    <touch file="${topdir}/outofdate/source/1/2/file.notdone"/>
+    <touch file="${topdir}/outofdate/source/1/2/file.done"/>
+    <touch file="${topdir}/outofdate/source/1/done.y"/>
+    <touch file="${topdir}/outofdate/source/1/partial.y"/>
+  </target>
+
+  <target name="outofdate.test" depends="outofdate.init">
+    <!-- basedir is set to test-classes in JUnit tests -->
+    <!-- relative attribute requires Ant 1.8+ -->
+    <property name="topdir.rel" value="${topdir}" relative="true"/>
+    <condition property="reldir" value="${topdir.rel}/" else="">
+      <not><equals arg1="${topdir.rel}" arg2=""/></not>
+    </condition>
+    <outofdate verbose="true"
+      outputsources="outofdate.sources"
+      outputtargets="outofdate.targets"
+      alltargets="outofdate.alltargets"
+      outputsourcespath="outofdate.sources.path"
+      outputtargetspath="outofdate.targets.path">
+      <sourcefiles>
+        <fileset dir="${topdir}/outofdate/source"/>
+        <pathelement path="${topdir}/outofdate.xml"/>
+      </sourcefiles>
+      <targetfiles path="${topdir}/outofdate/gen/index.done"/>
+      <mapper type="glob" from="${reldir}outofdate/source/1/2/*"
+              to="${reldir}outofdate/gen/1/2/*"/>
+      <mapper type="glob"
+              from="${reldir}outofdate/source/*.y"
+              to="${reldir}outofdate/gen/*.c"/>
+      <mapper type="glob"
+              from="${reldir}outofdate/source/*.y"
+              to="${reldir}outofdate/gen/*.h"/>
+      <mapper type="glob"
+              from="${reldir}outofdate/source/newer.text"
+              to="${reldir}outofdate.xml"/>
+      <sequential>
+        <echo message="outofdate triggered"/>
+      </sequential>
+    </outofdate>
+    <delete dir="${topdir}/outofdate"/>
+  </target>
+
+  <target name="empty-sources" depends="init">
+    <outofdate>
+      <sourcefiles/>
+      <targetfiles path="THIS IS NOT PRESENT"/>
+      <sequential>
+        <property name="empty-sources.called" value=""/>
+      </sequential>
+    </outofdate>
+    <fail unless="empty-sources.called">Empty sources seq not triggered</fail>
+  </target>
+</project>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Osfamily Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="Osfamily">
+    <p>
+      Task definition for the <code>OsFamily</code> task. This task
+      sets the property indicated in the "property" attribute with the
+      string representing the operating system family. Possible values
+      include "unix", "dos", "mac", "os/2", "os/400", "z/os", "tandem"
+      and "windows".
+    </p>
+    <subsection name="Parameters">
+    <table summary="OsFamily Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">property</td>
+        <td valign="top">
+	  The name of the property to set with the OS family name.
+	</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+    </table>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

@@ -16,30 +16,43 @@
 package net.sf.antcontrib.logic.condition;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 
 /**
  * Checks the value of a specified property.
- * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
+ * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.</p>
  *
- * @author     Dale Anson, danson@germane-software.com
+ * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  * @version $Revision: 1.3 $
  */
-public final class IsPropertyFalse
-    extends ProjectComponent implements Condition {
-    
+public final class IsPropertyFalse extends ProjectComponent implements Condition {
+    /**
+     * Field name.
+     */
     private String name = null;
-    
+
+    /**
+     * Method setProperty.
+     *
+     * @param name String
+     */
     public void setProperty(String name) {
-        this.name = name;   
+        this.name = name;
     }
-    
+
+    /**
+     * Method eval.
+     *
+     * @return boolean
+     * @throws BuildException if property name is not specified
+     * @see org.apache.tools.ant.taskdefs.condition.Condition#eval()
+     */
     public boolean eval() throws BuildException {
         if (name == null)
             throw new BuildException("Property name must be set.");
         String value = getProject().getProperty(name);
-        return value == null || !getProject().toBoolean(value);
+        return value == null || !Project.toBoolean(value);
     }
-
 }

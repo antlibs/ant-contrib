@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Switch Task</title>
+    <author email="mattinger@yahoo.com">Matthew Inger</author>
+  </properties>
+  <body>
+    <section name="Switch">
+    <p>Task definition for the ANT task to switch on a particular value.</p>
+    <subsection name="Parameters">
+    <table summary="Switch Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">value</td>
+        <td valign="top">The value to switch on.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+      <tr>
+        <td valign="top">caseinsensitive</td>
+        <td valign="top">Should we do case insensitive comparisons?</td>
+        <td align="center" valign="top">No, default is "false"</td>
+      </tr>
+    </table>
+    </subsection>
+    <subsection name="Parameters specified as nested elements">
+    <p>
+      At least one <code>case</code> or <code>default</code> is
+      required.
+    </p>
+    <h3>case</h3>
+    <p>
+      An individual case to consider, if the value that is being
+      switched on matches to value attribute of the case, then the
+      nested tasks will be executed.
+    </p>
+    <h4>Parameters</h4>
+    <table summary="Case Attributes" border="1" cellpadding="2" cellspacing="0">
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required</th>
+      </tr>
+      <tr>
+        <td valign="top">value</td>
+        <td valign="top">The value to match against the tasks value attribute.</td>
+        <td align="center" valign="top">Yes.</td>
+      </tr>
+    </table>
+    <h3>default</h3>
+    <p>
+      The default case for when no match is found. Must not appear
+      more than once per task.
+    </p>
+    </subsection>
+    <subsection name="Example">
+      <source>
+	<![CDATA[
+<switch value="${foo}">
+  <case value="bar">
+    <echo message="The value of property foo is bar"/>
+  </case>
+  <case value="baz">
+    <echo message="The value of property foo is baz"/>
+  </case>
+  <default>
+    <echo message="The value of property foo is not sensible"/>
+  </default>
+</switch>
+	]]>
+      </source>
+    </subsection>
+    <hr/>
+    <p align="center">
+      Copyright &copy; 2002 Ant-Contrib Project. All rights
+      Reserved.
+    </p>
+    </section>
+  </body>
+</document>

@@ -20,42 +20,74 @@ import org.apache.commons.httpclient.ProtocolException;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.tools.ant.BuildException;
 
-public class ClientParams
-	extends HttpClientParams {
-	private static final long serialVersionUID = -1;
-	
-	public void setVersion(String version) {
-		try {
-			setVersion(HttpVersion.parse(version));
-		}
-		catch (ProtocolException e) {
-			throw new BuildException(e);
-		}
-	}
-	
-	public void addConfiguredDouble(Params.DoubleParam param) {
-		setDoubleParameter(param.getName(), param.getValue());
-	}
+/**
+ */
+public class ClientParams extends HttpClientParams {
+    /**
+     * Field serialVersionUID.
+     * (value is -1)
+     */
+    private static final long serialVersionUID = -1;
 
-	public void addConfiguredInt(Params.IntParam param) {
-		setIntParameter(param.getName(), param.getValue());
-	}
+    /**
+     * Method setVersion.
+     *
+     * @param version String
+     */
+    public void setVersion(String version) {
+        try {
+            setVersion(HttpVersion.parse(version));
+        } catch (ProtocolException e) {
+            throw new BuildException(e);
+        }
+    }
 
-	public void addConfiguredLong(Params.LongParam param) {
-		setLongParameter(param.getName(), param.getValue());
-	}
-	
-	public void addConfiguredString(Params.StringParam param) {
-		setParameter(param.getName(), param.getValue());
-	}
-	
-	public void setStrict(boolean strict) {
-		if (strict) {
-			makeStrict();
-		}
-		else {
-			makeLenient();
-		}
-	}
-	
+    /**
+     * Method addConfiguredDouble.
+     *
+     * @param param Params.DoubleParam
+     */
+    public void addConfiguredDouble(Params.DoubleParam param) {
+        setDoubleParameter(param.getName(), param.getValue());
+    }
+
+    /**
+     * Method addConfiguredInt.
+     *
+     * @param param Params.IntParam
+     */
+    public void addConfiguredInt(Params.IntParam param) {
+        setIntParameter(param.getName(), param.getValue());
+    }
+
+    /**
+     * Method addConfiguredLong.
+     *
+     * @param param Params.LongParam
+     */
+    public void addConfiguredLong(Params.LongParam param) {
+        setLongParameter(param.getName(), param.getValue());
+    }
+
+    /**
+     * Method addConfiguredString.
+     *
+     * @param param Params.StringParam
+     */
+    public void addConfiguredString(Params.StringParam param) {
+        setParameter(param.getName(), param.getValue());
+    }
+
+    /**
+     * Method setStrict.
+     *
+     * @param strict boolean
+     */
+    public void setStrict(boolean strict) {
+        if (strict) {
+            makeStrict();
+        } else {
+            makeLenient();
+        }
+    }
 }

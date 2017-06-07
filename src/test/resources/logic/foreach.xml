@@ -1,0 +1,103 @@
+<project default="invalid">
+  <target name="invalid">
+    <fail>Don't call this file directly.</fail>
+  </target>
+
+  <target name="setup">
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${antcontrib.jar}"/>
+    <dirname property="topdir" file="${ant.file}"/>
+    <property name="testdir" value="${topdir}/foreachtest"/>
+  </target>
+
+  <target name="teardown">
+    <delete dir="${testdir}"/>
+  </target>
+
+  <target name="echo">
+    <echo>Called with param: ${param}</echo>
+  </target>
+
+  <target name="convert-bar" unless="param">
+    <property name="param" refid="bar"/>
+  </target>
+
+  <target name="echoFilename" depends="convert-bar">
+    <basename file="${param}" property="param2"/>
+    <echo>Called with param: ${param2}</echo>
+  </target>
+
+  <target name="simpleList" depends="setup">
+    <foreach list="1,2,3" target="echo" param="param"/>
+  </target>
+
+  <target name="delimiter" depends="setup">
+    <foreach list="1/2/3" target="echo" param="param" delimiter="/"/>
+  </target>
+
+  <target name="fileset" depends="setup">
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/1"/>
+    <touch file="${testdir}/2"/>
+    <touch file="${testdir}/3"/>
+    <foreach target="echoFilename" param="param">
+      <fileset dir="${testdir}"/>
+    </foreach>
+  </target>
+
+  <target name="filesetAndList" depends="setup">
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/3"/>
+    <foreach list="1,2" target="echoFilename" param="param">
+      <fileset dir="${testdir}"/>
+    </foreach>
+  </target>
+
+  <target name="noList" depends="setup">
+    <foreach target="echo" param="param"/>
+  </target>
+
+  <target name="noTarget" depends="setup">
+    <foreach list="1,2,3" param="param"/>
+  </target>
+
+  <target name="noParam" depends="setup">
+    <foreach list="1,2,3" target="echo"/>
+  </target>
+
+  <target name="nestedParam" depends="setup">
+    <foreach list="1" target="echo" param="who-cares">
+      <param name="param" value="rincewind"/>
+    </foreach>
+  </target>
+
+  <target name="nestedReference" depends="setup">
+    <path id="foo">
+      <pathelement location="twoflower"/>
+    </path>
+    <foreach list="1" target="echoFilename" param="who-cares">
+      <reference refid="foo" torefid="bar"/>
+    </foreach>
+  </target>
+
+  <target name="path" depends="setup">
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/1"/>
+    <touch file="${testdir}/2"/>
+    <touch file="${testdir}/3"/>
+    <foreach target="echoFilename" param="param">
+      <path>
+        <fileset dir="${testdir}"/>
+      </path>
+    </foreach>
+  </target>
+
+  <target name="pathAndList" depends="setup">
+    <mkdir dir="${testdir}"/>
+    <touch file="${testdir}/3"/>
+    <foreach list="1,2" target="echoFilename" param="param">
+      <path>
+        <fileset dir="${testdir}"/>
+      </path>
+    </foreach>
+  </target>
+</project>

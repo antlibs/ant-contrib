@@ -15,7 +15,6 @@
  */
 package net.sf.antcontrib.platform;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -25,37 +24,55 @@ import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.util.FileUtils;
 
 /**
- *  A generic front-end for passing "shell lines" to any application which can
+ * A generic front-end for passing "shell lines" to any application which can
  * accept a filename containing script input (bash, perl, csh, tcsh, etc.).
- * see antcontrib doc for useage
+ * see antcontrib doc for usage
  *
- * @author stephan beal
- *@author peter reilly
+ * @author <a href="mailto:sgbeal@users.sf.net">Stephan Beal</a>
+ * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
-
 public class ShellScriptTask extends ExecTask {
+    /**
+     * Field script.
+     */
+    private final StringBuffer script = new StringBuffer();
 
-    private StringBuffer script = new StringBuffer();
+    /**
+     * Field shell.
+     */
     private String shell = null;
-    private File     tmpFile;
+
+    /**
+     * Field tmpFile.
+     */
+    private File tmpFile;
+
+    /**
+     * Field tmpSuffix.
+     */
     private String tmpSuffix = null;
 
     /**
-     *  Adds s to the lines of script code.
+     * Adds s to the lines of script code.
+     *
+     * @param s String
      */
     public void addText(String s) {
         script.append(getProject().replaceProperties(s));
     }
 
     /**
-     *  Sets script code to s.
+     * Sets script code to s.
+     *
+     * @param s String
      */
     public void setInputString(String s) {
         script.append(s);
     }
 
     /**
-     *  Sets the shell used to run the script.
+     * Sets the shell used to run the script.
+     *
      * @param shell the shell to use (bash is default)
      */
     public void setShell(String shell) {
@@ -63,7 +80,8 @@ public class ShellScriptTask extends ExecTask {
     }
 
     /**
-     *  Sets the shell used to run the script.
+     * Sets the shell used to run the script.
+     *
      * @param shell the shell to use (bash is default)
      */
     public void setExecutable(String shell) {
@@ -73,28 +91,30 @@ public class ShellScriptTask extends ExecTask {
     /**
      * Disallow the command attribute of parent class ExecTask.
      * ant.attribute ignore="true"
+     *
      * @param notUsed not used
      * @throws BuildException if called
      */
     public void setCommand(Commandline notUsed) {
         throw new BuildException("Attribute command is not supported");
     }
-     
-    
+
     /**
      * Sets the suffix for the tmp file used to
      * contain the script.
      * This is useful for cmd.exe as one can
      * use cmd /c call x.bat
+     *
      * @param tmpSuffix the suffix to use
      */
-
     public void setTmpSuffix(String tmpSuffix) {
         this.tmpSuffix = tmpSuffix;
     }
-    
+
     /**
-     * execute the task
+     * execute the task.
+     *
+     * @throws BuildException if shell is not specified
      */
     public void execute() throws BuildException {
         // Remove per peter's comments.  Makes sense.
@@ -112,14 +132,15 @@ public class ShellScriptTask extends ExecTask {
              // Get the default script suffix
              if (tmpSuffix == null)
                  tmpSuffix = Platform.getDefaultScriptSuffix();
-                 
+
          }
          */
         if (shell == null)
             throw new BuildException("You must specify a shell to run.");
 
         try {
-            /* // The following may be used when ant 1.6 is used.
+            /*
+              // The following may be used when ant 1.6 is used.
               if (tmpSuffix == null)
               super.setInputString(script.toString());
               else
@@ -130,38 +151,38 @@ public class ShellScriptTask extends ExecTask {
             }
             super.setExecutable(shell);
             super.execute();
-        }
-        finally {
+        } finally {
             if (tmpFile != null) {
-                if (! tmpFile.delete()) {
-                    log("Non-fatal error: could not delete temporary file " +
-                        tmpFile.getAbsolutePath());
+                if (!tmpFile.delete()) {
+                    log("Non-fatal error: could not delete temporary file "
+                            + tmpFile.getAbsolutePath());
                 }
             }
         }
     }
 
     /**
-     *  Writes the script lines to a temp file.
+     * Writes the script lines to a temp file.
+     *
+     * @throws BuildException if write fails
      */
     protected void writeScript() throws BuildException {
         FileOutputStream os = null;
         try {
-            FileUtils fileUtils = FileUtils.newFileUtils();
+            FileUtils fileUtils = FileUtils.getFileUtils();
             // NB: use File.io.createTempFile whenever jdk 1.2 is allowed
-            tmpFile = fileUtils.createTempFile("script", tmpSuffix, null);
-            os = new java.io.FileOutputStream(tmpFile);
+            tmpFile = fileUtils.createTempFile("script", tmpSuffix, null, false, false);
+            os = new FileOutputStream(tmpFile);
             String string = script.toString();
             os.write(string.getBytes(), 0, string.length());
             os.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BuildException(e);
-        }
-        finally {
-            try {os.close();} catch (Throwable t) {}
+        } finally {
+            try {
+                os.close();
+            } catch (Throwable t) {
+            }
         }
     }
-
 }
-

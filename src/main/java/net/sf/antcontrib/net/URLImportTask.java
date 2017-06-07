@@ -25,187 +25,358 @@ import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.ImportTask;
 import org.apache.tools.ant.types.FileSet;
 
-/***
+/**
  * Task to import a build file from a url.  The build file can be a build.xml,
  * or a .zip/.jar, in which case we download and extract the entire archive, and
  * import the file "build.xml"
- * @author inger
  *
+ * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class URLImportTask
-	extends ImportTask {
+public class URLImportTask extends ImportTask {
+    /**
+     * Field org.
+     */
+    private String org;
 
-	private String org;
-	private String module;
-	private String rev = "latest.integration";
-	private String conf = "default";
-	private String type = "jar";
-	private String repositoryUrl;
-	private File repositoryDir;
-	private URL ivyConfUrl;
-	private File ivyConfFile;
-	private String resource = "build.xml";
-	private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
-	private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
-	
-	public void setModule(String module) {
-		this.module = module;
-	}
+    /**
+     * Field module.
+     */
+    private String module;
 
-	public void setOrg(String org) {
-		this.org = org;
-	}
+    /**
+     * Field rev.
+     */
+    private String rev = "latest.integration";
 
-	public void setRev(String rev) {
-		this.rev = rev;
-	}
+    /**
+     * Field conf.
+     */
+    private String conf = "default";
 
-	public void setConf(String conf) {
-		this.conf = conf;
-	}
-	
-	public void setIvyConfFile(File ivyConfFile) {
-		this.ivyConfFile = ivyConfFile;
-	}
+    /**
+     * Field type.
+     * (value is ""jar"")
+     */
+    private final String type = "jar";
 
-	public void setIvyConfUrl(URL ivyConfUrl) {
-		this.ivyConfUrl = ivyConfUrl;
-	}
+    /**
+     * Field repositoryUrl.
+     */
+    private String repositoryUrl;
 
-	public void setArtifactPattern(String artifactPattern) {
-		this.artifactPattern = artifactPattern;
-	}
+    /**
+     * Field repositoryDir.
+     */
+    private File repositoryDir;
 
-	public void setIvyPattern(String ivyPattern) {
-		this.ivyPattern = ivyPattern;
-	}
+    /**
+     * Field ivyConfUrl.
+     */
+    private URL ivyConfUrl;
 
-	public void setRepositoryDir(File repositoryDir) {
-		this.repositoryDir = repositoryDir;
-	}
+    /**
+     * Field ivyConfFile.
+     */
+    private File ivyConfFile;
 
-	public void setRepositoryUrl(String repositoryUrl) {
-		this.repositoryUrl = repositoryUrl;
-	}
+    /**
+     * Field resource.
+     */
+    private String resource = "build.xml";
 
-	public void setResource(String resource) {
-		this.resource = resource;
-	}
-	
-	public void setOptional(boolean optional) {
-		throw new BuildException("'optional' property not accessed for ImportURL.");
-	}
+    /**
+     * Field artifactPattern.
+     */
+    private String artifactPattern = "/[org]/[module]/[ext]s/[module]-[revision].[ext]";
 
-	public void setFile(String file) {
-		throw new BuildException("'file' property not accessed for ImportURL.");
-	}
+    /**
+     * Field ivyPattern.
+     */
+    private String ivyPattern = "/[org]/[module]/ivy-[revision].xml";
 
-	public String getOrg() {
-		return org;
-	}
+    /**
+     * Method setModule.
+     *
+     * @param module String
+     */
+    public void setModule(String module) {
+        this.module = module;
+    }
 
-	public String getModule() {
-		return module;
-	}
+    /**
+     * Method setOrg.
+     *
+     * @param org String
+     */
+    public void setOrg(String org) {
+        this.org = org;
+    }
 
-	public String getRev() {
-		return rev;
-	}
+    /**
+     * Method setRev.
+     *
+     * @param rev String
+     */
+    public void setRev(String rev) {
+        this.rev = rev;
+    }
 
-	public String getConf() {
-		return conf;
-	}
+    /**
+     * Method setConf.
+     *
+     * @param conf String
+     */
+    public void setConf(String conf) {
+        this.conf = conf;
+    }
 
-	public String getType() {
-		return type;
-	}
+    /**
+     * Method setIvyConfFile.
+     *
+     * @param ivyConfFile File
+     */
+    public void setIvyConfFile(File ivyConfFile) {
+        this.ivyConfFile = ivyConfFile;
+    }
 
-	public String getRepositoryUrl() {
-		return repositoryUrl;
-	}
+    /**
+     * Method setIvyConfUrl.
+     *
+     * @param ivyConfUrl URL
+     */
+    public void setIvyConfUrl(URL ivyConfUrl) {
+        this.ivyConfUrl = ivyConfUrl;
+    }
 
-	public File getRepositoryDir() {
-		return repositoryDir;
-	}
+    /**
+     * Method setArtifactPattern.
+     *
+     * @param artifactPattern String
+     */
+    public void setArtifactPattern(String artifactPattern) {
+        this.artifactPattern = artifactPattern;
+    }
 
-	public URL getIvyConfUrl() {
-		return ivyConfUrl;
-	}
+    /**
+     * Method setIvyPattern.
+     *
+     * @param ivyPattern String
+     */
+    public void setIvyPattern(String ivyPattern) {
+        this.ivyPattern = ivyPattern;
+    }
 
-	public File getIvyConfFile() {
-		return ivyConfFile;
-	}
+    /**
+     * Method setRepositoryDir.
+     *
+     * @param repositoryDir File
+     */
+    public void setRepositoryDir(File repositoryDir) {
+        this.repositoryDir = repositoryDir;
+    }
 
-	public String getResource() {
-		return resource;
-	}
+    /**
+     * Method setRepositoryUrl.
+     *
+     * @param repositoryUrl String
+     */
+    public void setRepositoryUrl(String repositoryUrl) {
+        this.repositoryUrl = repositoryUrl;
+    }
 
-	public String getArtifactPattern() {
-		return artifactPattern;
-	}
+    /**
+     * Method setResource.
+     *
+     * @param resource String
+     */
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
 
-	public String getIvyPattern() {
-		return ivyPattern;
-	}
+    /**
+     * Method setOptional.
+     *
+     * @param optional boolean
+     */
+    public void setOptional(boolean optional) {
+        throw new BuildException("'optional' property not accessed for ImportURL.");
+    }
 
-	public void execute()
-		throws BuildException {
-		
-		IvyAdapter adapter = null;
-		
-		try {
-			Class.forName("org.apache.ivy.Ivy");
-			adapter = new Ivy20Adapter();
-		}
-		catch (ClassNotFoundException e) {
-			adapter = new Ivy14Adapter();
-		}
-		
-		String setId = org + "." + module + "." + rev + ".fileset";
-		adapter.configure(this);
-		adapter.fileset(this, setId);
-		
-		FileSet fileset =(FileSet) getProject().getReference(setId);
-		
-		DirectoryScanner scanner =
-			fileset.getDirectoryScanner(getProject());
-		
-		String files[] = scanner.getIncludedFiles();
-		
-		File file = new File(scanner.getBasedir(), files[0]);
+    /**
+     * Method setFile.
+     *
+     * @param file String
+     */
+    public void setFile(String file) {
+        throw new BuildException("'file' property not accessed for ImportURL.");
+    }
 
-		File importFile = null;
-		
-	    if ("xml".equalsIgnoreCase(type)) {
-	    	importFile = file;
-	    }
-	    else if ("jar".equalsIgnoreCase(type) ||
-	    		"zip".equalsIgnoreCase(type)) {
-	    	File dir = new File(file.getParentFile(),
-	    			file.getName() + ".extracted");
-	    	if (! dir.exists() ||
-	    			dir.lastModified() < file.lastModified()) {
-	    		dir.mkdir();
-	    		Expand expand = (Expand)getProject().createTask("unjar");
-	    		expand.setSrc(file);
-	    		expand.setDest(dir);
-	    		expand.perform();
-	    	}
-	    	importFile = new File(dir, resource);
-	    	if (! importFile.exists()) {
-	    		throw new BuildException("Cannot find a '" + resource + "' file in " +
-	    				file.getName());
-	    	}
-	    }
-	    else {
-	    	throw new BuildException("Don't know what to do with type: " + type);
-	    }
-		
-	    log("Importing " + importFile.getName(), Project.MSG_INFO);
-	    
-	    super.setFile(importFile.getAbsolutePath());
-	    super.execute();
+    /**
+     * Method getOrg.
+     *
+     * @return String organisation name
+     */
+    public String getOrg() {
+        return org;
+    }
 
-	    log("Import complete.", Project.MSG_INFO);
-	}
+    /**
+     * Method getModule.
+     *
+     * @return String module name
+     */
+    public String getModule() {
+        return module;
+    }
+
+    /**
+     * Method getRev.
+     *
+     * @return String revision
+     */
+    public String getRev() {
+        return rev;
+    }
+
+    /**
+     * Method getConf.
+     *
+     * @return String configuration
+     */
+    public String getConf() {
+        return conf;
+    }
+
+    /**
+     * Method getType.
+     *
+     * @return String artifact type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Method getRepositoryUrl.
+     *
+     * @return String repository URL
+     */
+    public String getRepositoryUrl() {
+        return repositoryUrl;
+    }
+
+    /**
+     * Method getRepositoryDir.
+     *
+     * @return String repository directory
+     */
+    public File getRepositoryDir() {
+        return repositoryDir;
+    }
+
+    /**
+     * Method getIvyConfUrl.
+     *
+     * @return String Ivy configuration URL
+     */
+    public URL getIvyConfUrl() {
+        return ivyConfUrl;
+    }
+
+    /**
+     * Method getIvyConfFile.
+     *
+     * @return String Ivy configuration file
+     */
+    public File getIvyConfFile() {
+        return ivyConfFile;
+    }
+
+    /**
+     * Method getResource.
+     *
+     * @return String resource
+     */
+    public String getResource() {
+        return resource;
+    }
+
+    /**
+     * Method getArtifactPattern.
+     *
+     * @return String artifact pattern
+     */
+    public String getArtifactPattern() {
+        return artifactPattern;
+    }
+
+    /**
+     * Method getIvyPattern.
+     *
+     * @return String descriptor pattern
+     */
+    public String getIvyPattern() {
+        return ivyPattern;
+    }
+
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if something goes wrong
+     */
+    public void execute() throws BuildException {
+        IvyAdapter adapter = null;
+
+        try {
+            Class.forName("org.apache.ivy.Ivy");
+            adapter = new Ivy20Adapter();
+        } catch (ClassNotFoundException e) {
+            adapter = new Ivy14Adapter();
+        }
+
+        String setId = org + "." + module + "." + rev + ".fileset";
+        adapter.configure(this);
+        adapter.fileset(this, setId);
+
+        FileSet fileset = getProject().getReference(setId);
+
+        DirectoryScanner scanner =
+                fileset.getDirectoryScanner(getProject());
+
+        String[] files = scanner.getIncludedFiles();
+
+        File file = new File(scanner.getBasedir(), files[0]);
+
+        File importFile = null;
+
+        if ("xml".equalsIgnoreCase(type)) {
+            importFile = file;
+        } else if ("jar".equalsIgnoreCase(type)
+                || "zip".equalsIgnoreCase(type)) {
+            File dir = new File(file.getParentFile(),
+                    file.getName() + ".extracted");
+            if (!dir.exists()
+                    || dir.lastModified() < file.lastModified()) {
+                dir.mkdir();
+                Expand expand = (Expand) getProject().createTask("unjar");
+                expand.setSrc(file);
+                expand.setDest(dir);
+                expand.perform();
+            }
+            importFile = new File(dir, resource);
+            if (!importFile.exists()) {
+                throw new BuildException("Cannot find a '" + resource + "' file in "
+                        + file.getName());
+            }
+        } else {
+            throw new BuildException("Don't know what to do with type: " + type);
+        }
+
+        log("Importing " + importFile.getName(), Project.MSG_INFO);
+
+        super.setFile(importFile.getAbsolutePath());
+        super.execute();
+
+        log("Import complete.", Project.MSG_INFO);
+    }
 }

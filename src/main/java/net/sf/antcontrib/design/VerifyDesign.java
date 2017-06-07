@@ -22,51 +22,100 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 
 /**
- * @author dhiller
+ * @author <a href="mailto:dean@xsoftware.biz">Dean Hiller</a>
  */
-public class VerifyDesign
-        extends Task
-        implements Log {
+public class VerifyDesign extends Task implements Log {
 
-    private VerifyDesignDelegate delegate;
+    /**
+     * Field delegate.
+     */
+    private final VerifyDesignDelegate delegate;
 
+    /**
+     * Constructor for VerifyDesign.
+     */
     public VerifyDesign() {
         delegate = new VerifyDesignDelegate(this);
     }
 
+    /**
+     * Method setJar.
+     *
+     * @param f File
+     */
     public void setJar(File f) {
         delegate.setJar(f);
     }
 
+    /**
+     * Method setDesign.
+     *
+     * @param f File
+     */
     public void setDesign(File f) {
         delegate.setDesign(f);
     }
 
+    /**
+     * Method setCircularDesign.
+     *
+     * @param isCircularDesign boolean
+     */
     public void setCircularDesign(boolean isCircularDesign) {
         delegate.setCircularDesign(isCircularDesign);
     }
-    
+
+    /**
+     * Method setDeleteFiles.
+     *
+     * @param deleteFiles boolean
+     */
     public void setDeleteFiles(boolean deleteFiles) {
         delegate.setDeleteFiles(deleteFiles);
     }
-    
+
+    /**
+     * Method setFillInBuildException.
+     *
+     * @param b boolean
+     */
     public void setFillInBuildException(boolean b) {
-    	delegate.setFillInBuildException(b);
-    }
-    
-    public void setNeedDeclarationsDefault(boolean b) {
-    	delegate.setNeedDeclarationsDefault(b);
-    }
-    
-    public void setNeedDependsDefault(boolean b) {
-    	delegate.setNeedDependsDefault(b);
+        delegate.setFillInBuildException(b);
     }
 
+    /**
+     * Method setNeedDeclarationsDefault.
+     *
+     * @param b boolean
+     */
+    public void setNeedDeclarationsDefault(boolean b) {
+        delegate.setNeedDeclarationsDefault(b);
+    }
+
+    /**
+     * Method setNeedDependsDefault.
+     *
+     * @param b boolean
+     */
+    public void setNeedDependsDefault(boolean b) {
+        delegate.setNeedDependsDefault(b);
+    }
+
+    /**
+     * Method addConfiguredPath.
+     *
+     * @param path Path
+     */
     public void addConfiguredPath(Path path) {
         delegate.addConfiguredPath(path);
     }
-    public void execute()
-            throws BuildException {
+
+    /**
+     * Method execute.
+     *
+     * @throws BuildException if parsing of design file fails
+     */
+    public void execute() throws BuildException {
         delegate.execute();
     }
 }

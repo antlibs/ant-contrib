@@ -15,148 +15,217 @@
  */
 package net.sf.antcontrib.platform;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Execute;
 
-/***
- *
- * </pre>
+/**
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class Platform
-{
-    public static final int FAMILY_NONE = 0;
-    public static final int FAMILY_UNIX = 1;
-    public static final int FAMILY_WINDOWS = 2;
-    public static final int FAMILY_OS2 = 3;
-    public static final int FAMILY_ZOS = 4;
-    public static final int FAMILY_OS400 = 5;
-    public static final int FAMILY_DOS = 6;
-    public static final int FAMILY_MAC = 7;
-    public static final int FAMILY_MACOSX = 8;
-    public static final int FAMILY_TANDEM = 9;
-    public static final int FAMILY_OPENVMS = 10;
+public class Platform {
+    /**
+     * Field FAMILY_NONE.
+     * (value is 0)
+     */
+    private static final int FAMILY_NONE = 0;
 
-    public static final String FAMILY_NAME_UNIX = "unix";
-    public static final String FAMILY_NAME_WINDOWS = "windows";
-    public static final String FAMILY_NAME_OS2 = "os/2";
-    public static final String FAMILY_NAME_ZOS = "z/os";
-    public static final String FAMILY_NAME_OS400 = "os/400";
-    public static final String FAMILY_NAME_DOS = "dos";
-    public static final String FAMILY_NAME_MAC = "mac";
-    public static final String FAMILY_NAME_TANDEM = "tandem";
-    public static final String FAMILY_NAME_OPENVMS = "openvms";
+    /**
+     * Field FAMILY_UNIX.
+     * (value is 1)
+     */
+    private static final int FAMILY_UNIX = 1;
 
-    private static final Hashtable familyNames;
+    /**
+     * Field FAMILY_WINDOWS.
+     * (value is 2)
+     */
+    private static final int FAMILY_WINDOWS = 2;
 
-    static
-    {
-    	familyNames = new Hashtable();
-    	familyNames.put(new Integer(FAMILY_WINDOWS), FAMILY_NAME_WINDOWS);
-        familyNames.put(new Integer(FAMILY_OS2), FAMILY_NAME_OS2);
-        familyNames.put(new Integer(FAMILY_ZOS), FAMILY_NAME_ZOS);
-        familyNames.put(new Integer(FAMILY_OS400), FAMILY_NAME_OS400);
-        familyNames.put(new Integer(FAMILY_DOS), FAMILY_NAME_DOS);
-        familyNames.put(new Integer(FAMILY_MAC), FAMILY_NAME_MAC);
-        familyNames.put(new Integer(FAMILY_MACOSX), FAMILY_NAME_UNIX);
-        familyNames.put(new Integer(FAMILY_TANDEM), FAMILY_NAME_TANDEM);
-        familyNames.put(new Integer(FAMILY_UNIX), FAMILY_NAME_UNIX);
-        familyNames.put(new Integer(FAMILY_OPENVMS), FAMILY_NAME_OPENVMS);
-	}
+    /**
+     * Field FAMILY_OS2.
+     * (value is 3)
+     */
+    private static final int FAMILY_OS2 = 3;
 
-    public static final int getOsFamily()
-    {
+    /**
+     * Field FAMILY_ZOS.
+     * (value is 4)
+     */
+    private static final int FAMILY_ZOS = 4;
+
+    /**
+     * Field FAMILY_OS400.
+     * (value is 5)
+     */
+    private static final int FAMILY_OS400 = 5;
+
+    /**
+     * Field FAMILY_DOS.
+     * (value is 6)
+     */
+    private static final int FAMILY_DOS = 6;
+
+    /**
+     * Field FAMILY_MAC.
+     * (value is 7)
+     */
+    private static final int FAMILY_MAC = 7;
+
+    /**
+     * Field FAMILY_MACOSX.
+     * (value is 8)
+     */
+    private static final int FAMILY_MACOSX = 8;
+
+    /**
+     * Field FAMILY_TANDEM.
+     * (value is 9)
+     */
+    private static final int FAMILY_TANDEM = 9;
+
+    /**
+     * Field FAMILY_OPENVMS.
+     * (value is 10)
+     */
+    private static final int FAMILY_OPENVMS = 10;
+
+    /**
+     * Field FAMILY_NAME_UNIX.
+     * (value is ""unix"")
+     */
+    private static final String FAMILY_NAME_UNIX = "unix";
+
+    /**
+     * Field FAMILY_NAME_WINDOWS.
+     * (value is ""windows"")
+     */
+    private static final String FAMILY_NAME_WINDOWS = "windows";
+
+    /**
+     * Field FAMILY_NAME_OS2.
+     * (value is ""os/2"")
+     */
+    private static final String FAMILY_NAME_OS2 = "os/2";
+
+    /**
+     * Field FAMILY_NAME_ZOS.
+     * (value is ""z/os"")
+     */
+    private static final String FAMILY_NAME_ZOS = "z/os";
+
+    /**
+     * Field FAMILY_NAME_OS400.
+     * (value is ""os/400"")
+     */
+    private static final String FAMILY_NAME_OS400 = "os/400";
+
+    /**
+     * Field FAMILY_NAME_DOS.
+     * (value is ""dos"")
+     */
+    private static final String FAMILY_NAME_DOS = "dos";
+
+    /**
+     * Field FAMILY_NAME_MAC.
+     * (value is ""mac"")
+     */
+    private static final String FAMILY_NAME_MAC = "mac";
+
+    /**
+     * Field FAMILY_NAME_TANDEM.
+     * (value is ""tandem"")
+     */
+    private static final String FAMILY_NAME_TANDEM = "tandem";
+
+    /**
+     * Field FAMILY_NAME_OPENVMS.
+     * (value is ""openvms"")
+     */
+    private static final String FAMILY_NAME_OPENVMS = "openvms";
+
+    /**
+     * Field familyNames.
+     */
+    private static final Map<Integer, String> familyNames;
+
+    static {
+        familyNames = new HashMap<Integer, String>();
+        familyNames.put(FAMILY_WINDOWS, FAMILY_NAME_WINDOWS);
+        familyNames.put(FAMILY_OS2, FAMILY_NAME_OS2);
+        familyNames.put(FAMILY_ZOS, FAMILY_NAME_ZOS);
+        familyNames.put(FAMILY_OS400, FAMILY_NAME_OS400);
+        familyNames.put(FAMILY_DOS, FAMILY_NAME_DOS);
+        familyNames.put(FAMILY_MAC, FAMILY_NAME_MAC);
+        familyNames.put(FAMILY_MACOSX, FAMILY_NAME_UNIX);
+        familyNames.put(FAMILY_TANDEM, FAMILY_NAME_TANDEM);
+        familyNames.put(FAMILY_UNIX, FAMILY_NAME_UNIX);
+        familyNames.put(FAMILY_OPENVMS, FAMILY_NAME_OPENVMS);
+    }
+
+    /**
+     * Method getOsFamily.
+     *
+     * @return int
+     */
+    public static final int getOsFamily() {
         String osName = System.getProperty("os.name").toLowerCase();
         String pathSep = System.getProperty("path.separator");
         int family = FAMILY_NONE;
 
-        if (osName.indexOf("windows") != -1)
-        {
+        if (osName.contains("windows")) {
             family = FAMILY_WINDOWS;
-        }
-        else if (osName.indexOf("os/2") != -1)
-        {
+        } else if (osName.contains("os/2")) {
             family = FAMILY_OS2;
-        }
-        else if (osName.indexOf("z/os") != -1
-                 || osName.indexOf("os/390") != -1)
-        {
+        } else if (osName.contains("z/os") || osName.contains("os/390")) {
             family = FAMILY_ZOS;
-        }
-        else if (osName.indexOf("os/400") != -1)
-        {
+        } else if (osName.contains("os/400")) {
             family = FAMILY_OS400;
-        }
-        else if (pathSep.equals(";"))
-        {
+        } else if (pathSep.equals(";")) {
             family = FAMILY_DOS;
-        }
-        else if (osName.indexOf("mac") != -1)
-        {
+        } else if (osName.contains("mac")) {
             if (osName.endsWith("x"))
                 family = FAMILY_UNIX; // MACOSX
             else
                 family = FAMILY_MAC;
-        }
-        else if (osName.indexOf("nonstop_kernel") != -1)
-        {
+        } else if (osName.contains("nonstop_kernel")) {
             family = FAMILY_TANDEM;
-        }
-        else if (osName.indexOf("openvms") != -1)
-        {
+        } else if (osName.contains("openvms")) {
             family = FAMILY_OPENVMS;
-        }
-        else if (pathSep.equals(":"))
-        {
+        } else if (pathSep.equals(":")) {
             family = FAMILY_UNIX;
         }
 
         return family;
-	}
-
-    public static final String getOsFamilyName()
-    {
-        int family = getOsFamily();
-        return (String)(familyNames.get(new Integer(family)));
     }
 
-    public static final Properties getEnv()
-    {
-        Properties env = new Properties();
-        Vector osEnv = Execute.getProcEnvironment();
-        for (Enumeration e = osEnv.elements(); e.hasMoreElements();) {
-            String entry = (String) e.nextElement();
-            int pos = entry.indexOf('=');
-            if (pos != -1) {
-                env.setProperty(entry.substring(0, pos),
-                        entry.substring(pos + 1));
-            }
-        }
-        return env;
+    /**
+     * Method getOsFamilyName.
+     *
+     * @return String
+     */
+    public static final String getOsFamilyName() {
+        return familyNames.get(getOsFamily());
     }
 
-    public static final String getDefaultShell()
-    {
-        String shell = getEnv().getProperty("SHELL");
+    /**
+     * Method getDefaultShell.
+     *
+     * @return String
+     */
+    public static final String getDefaultShell() {
+        String shell = Execute.getEnvironmentVariables().get("SHELL");
 
-        if (shell == null)
-        {
+        if (shell == null) {
             int family = getOsFamily();
-            switch (family)
-            {
+            switch (family) {
                 case FAMILY_DOS:
-                case FAMILY_WINDOWS:
-                {
+                case FAMILY_WINDOWS: {
                     shell = "CMD.EXE";
                     break;
                 }
 
-                default:
-                {
+                default: {
                     shell = "bash";
                     break;
                 }
@@ -165,22 +234,23 @@ public class Platform
         return shell;
     }
 
-    public static final String getDefaultScriptSuffix()
-    {
+    /**
+     * Method getDefaultScriptSuffix.
+     *
+     * @return String
+     */
+    public static final String getDefaultScriptSuffix() {
         int family = getOsFamily();
         String suffix = null;
 
-        switch (family)
-        {
+        switch (family) {
             case FAMILY_DOS:
-            case FAMILY_WINDOWS:
-            {
+            case FAMILY_WINDOWS: {
                 suffix = ".bat";
                 break;
             }
 
-            default:
-            {
+            default: {
                 suffix = null;
                 break;
             }
@@ -188,24 +258,24 @@ public class Platform
 
         return suffix;
     }
-        
 
-    public static final String[] getDefaultShellArguments()
-    {
+    /**
+     * Method getDefaultShellArguments.
+     *
+     * @return String[]
+     */
+    public static final String[] getDefaultShellArguments() {
         int family = getOsFamily();
-        String args[] = null;
+        String[] args = null;
 
-        switch (family)
-        {
+        switch (family) {
             case FAMILY_DOS:
-            case FAMILY_WINDOWS:
-            {
-                args = new String[] { "/c" , "call" };
+            case FAMILY_WINDOWS: {
+                args = new String[]{"/c", "call"};
                 break;
             }
 
-            default:
-            {
+            default: {
                 args = new String[0];
                 break;
             }
@@ -213,5 +283,4 @@ public class Platform
 
         return args;
     }
-
 }
