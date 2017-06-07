@@ -92,9 +92,9 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @param regex String
      */
     public void setRegexp(String regex) {
-        if (this.regexp != null)
+        if (this.regexp != null) {
             throw new BuildException("Cannot specify more than one regular expression");
-
+        }
         this.regexp = new RegularExpression();
         this.regexp.setPattern(regex);
     }
@@ -105,8 +105,9 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @return RegularExpression
      */
     public RegularExpression createRegexp() {
-        if (this.regexp != null)
+        if (this.regexp != null) {
             throw new BuildException("Cannot specify more than one regular expression");
+        }
         regexp = new RegularExpression();
         return regexp;
     }
@@ -117,10 +118,12 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @param replace String
      */
     public void setReplace(String replace) {
-        if (this.replace != null)
+        if (this.replace != null) {
             throw new BuildException("Cannot specify more than one replace expression");
-        if (select != null)
+        }
+        if (select != null) {
             throw new BuildException("You cannot specify both a select and replace expression");
+        }
         this.replace = new Substitution();
         this.replace.setExpression(replace);
     }
@@ -131,10 +134,12 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @return Substitution
      */
     public Substitution createReplace() {
-        if (replace != null)
+        if (replace != null) {
             throw new BuildException("Cannot specify more than one replace expression");
-        if (select != null)
+        }
+        if (select != null) {
             throw new BuildException("You cannot specify both a select and replace expression");
+        }
         replace = new Substitution();
         return replace;
     }
@@ -145,8 +150,9 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @param select String
      */
     public void setSelect(String select) {
-        if (replace != null)
+        if (replace != null) {
             throw new BuildException("You cannot specify both a select and replace expression");
+        }
         this.select = select;
     }
 
@@ -175,14 +181,17 @@ public class RegexTask extends AbstractPropertySetterTask {
      * @throws BuildException if no regex is specified
      */
     protected String doReplace() throws BuildException {
-        if (replace == null)
+        if (replace == null) {
             throw new BuildException("No replace expression specified.");
+        }
 
         int options = 0;
-        if (!caseSensitive)
+        if (!caseSensitive) {
             options |= Regexp.MATCH_CASE_INSENSITIVE;
-        if (global)
+        }
+        if (global) {
             options |= Regexp.REPLACE_ALL;
+        }
 
         Regexp sregex = regexp.getRegexp(getProject());
 
@@ -195,8 +204,9 @@ public class RegexTask extends AbstractPropertySetterTask {
                     options);
         }
 
-        if (output == null)
+        if (output == null) {
             output = defaultValue;
+        }
 
         return output;
     }
@@ -210,8 +220,9 @@ public class RegexTask extends AbstractPropertySetterTask {
     @SuppressWarnings("unchecked")
     protected String doSelect() throws BuildException {
         int options = 0;
-        if (!caseSensitive)
+        if (!caseSensitive) {
             options |= Regexp.MATCH_CASE_INSENSITIVE;
+        }
 
         Regexp sregex = regexp.getRegexp(getProject());
 
@@ -224,8 +235,9 @@ public class RegexTask extends AbstractPropertySetterTask {
             output = null;
         }
 
-        if (output == null)
+        if (output == null) {
             output = defaultValue;
+        }
 
         return output;
     }
@@ -235,10 +247,12 @@ public class RegexTask extends AbstractPropertySetterTask {
      */
     protected void validate() {
         super.validate();
-        if (regexp == null)
+        if (regexp == null) {
             throw new BuildException("No match expression specified.");
-        if (replace == null && select == null)
+        }
+        if (replace == null && select == null) {
             throw new BuildException("You must specify either a replace or select expression");
+        }
     }
 
     /**
@@ -250,12 +264,14 @@ public class RegexTask extends AbstractPropertySetterTask {
         validate();
 
         String output = input;
-        if (replace != null)
+        if (replace != null) {
             output = doReplace();
-        else
+        } else {
             output = doSelect();
+        }
 
-        if (output != null)
+        if (output != null) {
             setPropertyValue(output);
+        }
     }
 }

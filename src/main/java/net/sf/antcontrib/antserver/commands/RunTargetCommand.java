@@ -202,8 +202,9 @@ public class RunTargetCommand extends AbstractCommand implements Command {
         callTarget.setInheritRefs(interitrefs);
 
         String toExecute = target;
-        if (toExecute == null)
+        if (toExecute == null) {
             toExecute = project.getDefaultTarget();
+        }
         callTarget.setTarget(toExecute);
 
         for (PropertyContainer pc : properties) {

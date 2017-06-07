@@ -224,10 +224,12 @@ public class ForEach extends Task {
         if (list == null && currPath == null) {
             throw new BuildException("You must have a list or path to iterate through");
         }
-        if (param == null)
+        if (param == null) {
             throw new BuildException("You must supply a property name to set on each iteration in param");
-        if (target == null)
+        }
+        if (target == null) {
             throw new BuildException("You must supply a target to perform");
+        }
 
         List<Object> values = new ArrayList<Object>();
 
@@ -237,7 +239,9 @@ public class ForEach extends Task {
 
             while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
-                if (trim) tok = tok.trim();
+                if (trim) {
+                    tok = tok.trim();
+                }
                 values.add(tok);
             }
         }
@@ -261,10 +265,11 @@ public class ForEach extends Task {
             Property p = ct.createParam();
             p.setName(param);
 
-            if (val instanceof File)
+            if (val instanceof File) {
                 p.setLocation((File) val);
-            else
+            } else {
                 p.setValue((String) val);
+            }
 
             tasks.add(ct);
         }

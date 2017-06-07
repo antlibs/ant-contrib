@@ -45,10 +45,11 @@ public class Numeric implements Evaluateable {
      * @param value the value for this number
      */
     public void setValue(String value) {
-        if (value.equals("E"))
+        if (value.equals("E")) {
             value = String.valueOf(E);
-        else if (value.equals("PI"))
+        } else if (value.equals("PI")) {
             value = String.valueOf(PI);
+        }
         this.value = value;
     }
 
@@ -60,16 +61,21 @@ public class Numeric implements Evaluateable {
      * @see net.sf.antcontrib.math.Evaluateable#evaluate()
      */
     public Number evaluate() {
-        if (datatype == null)
+        if (datatype == null) {
             datatype = "double";
-        if (datatype.equals("int"))
+        }
+        if (datatype.equals("int")) {
             return new Integer(value);
-        if (datatype.equals("long"))
+        }
+        if (datatype.equals("long")) {
             return new Long(value);
-        if (datatype.equals("float"))
+        }
+        if (datatype.equals("float")) {
             return new Float(value);
-        if (datatype.equals("double"))
+        }
+        if (datatype.equals("double")) {
             return new Double(value);
+        }
         throw new BuildException("Invalid datatype.");
     }
 
@@ -89,8 +95,9 @@ public class Numeric implements Evaluateable {
      * @return the datatype as one of the defined types.
      */
     public String getDatatype() {
-        if (datatype == null)
+        if (datatype == null) {
             datatype = "double";
+        }
         return datatype;
     }
 

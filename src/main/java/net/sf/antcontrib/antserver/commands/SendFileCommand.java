@@ -143,12 +143,14 @@ public class SendFileCommand extends AbstractCommand implements Command {
      * @see net.sf.antcontrib.antserver.Command#validate(Project)
      */
     public void validate(Project project) {
-        if (file == null)
+        if (file == null) {
             throw new BuildException("Missing required attribute 'file'");
+        }
 
-        if (tofile == null && todir == null)
+        if (tofile == null && todir == null) {
             throw new BuildException("Missing both attributes 'tofile' and 'todir'"
                     + " at least one must be supplied");
+        }
     }
 
     /**
@@ -198,8 +200,9 @@ public class SendFileCommand extends AbstractCommand implements Command {
             Util.transferBytes(content, contentLength, fos, false);
         } finally {
             try {
-                if (fos != null)
+                if (fos != null) {
                     fos.close();
+                }
             } catch (IOException e) {
                 // gulp
             }

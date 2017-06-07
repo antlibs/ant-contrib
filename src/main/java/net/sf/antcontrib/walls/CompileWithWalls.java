@@ -149,8 +149,9 @@ public class CompileWithWalls extends Task {
      * @return Walls
      */
     public Walls createWalls() {
-        if (walls != null)
+        if (walls != null) {
             setWallsTwice = true;
+        }
         walls = new Walls();
         return walls;
     }
@@ -161,8 +162,9 @@ public class CompileWithWalls extends Task {
      * @return Javac
      */
     public Javac createJavac() {
-        if (javac != null)
+        if (javac != null) {
             setJavacTwice = true;
+        }
         javac = new Javac();
         return javac;
     }
@@ -173,57 +175,60 @@ public class CompileWithWalls extends Task {
      * @throws BuildException if task definition is incorrect or something goes wrong
      */
     public void execute() throws BuildException {
-        if (cachedIOException != null)
+        if (cachedIOException != null) {
             throw new BuildException(cachedIOException, getLocation());
-        else if (cachedSAXException != null)
+        } else if (cachedSAXException != null) {
             throw new BuildException(cachedSAXException, getLocation());
-        else if (tempBuildDir == null)
+        } else if (tempBuildDir == null) {
             throw new BuildException(
                     "intermediaryBuildDir attribute must be specified on the compilewithwalls element",
                     getLocation());
-        else if (javac == null)
+        } else if (javac == null) {
             throw new BuildException(
                     "There must be a nested javac element",
                     getLocation());
-        else if (walls == null)
+        } else if (walls == null) {
             throw new BuildException(
                     "There must be a nested walls element",
                     getLocation());
-        else if (setWallsTwice)
+        } else if (setWallsTwice) {
             throw new BuildException(
                     "compilewithwalls task only supports one nested walls element or one walls attribute",
                     getLocation());
-        else if (setJavacTwice)
+        } else if (setJavacTwice) {
             throw new BuildException(
                     "compilewithwalls task only supports one nested javac element",
                     getLocation());
+        }
 
         getProject().addTaskDefinition("SilentMove", SilentMove.class);
         getProject().addTaskDefinition("SilentCopy", SilentCopy.class);
 
         Path src = javac.getSrcdir();
-        if (src == null)
+        if (src == null) {
             throw new BuildException("Javac inside compilewithwalls must have a srcdir specified");
+        }
 
-        String[] list = src.list();
-        File[] tempSrcDirs = new File[list.length];
-        for (int i = 0; i < list.length; i++) {
-            tempSrcDirs[i] = getProject().resolveFile(list[i]);
+        List<File> tempSrcDirs = new ArrayList<File>();
+        for (String file : src.list()) {
+            tempSrcDirs.add(getProject().resolveFile(file));
         }
 
         String[] classpaths = new String[0];
-        if (javac.getClasspath() != null)
+        if (javac.getClasspath() != null) {
             classpaths = javac.getClasspath().list();
+        }
 
         for (String classpath : classpaths) {
             File temp = new File(classpath);
             if (temp.isDirectory()) {
 
                 for (File tempSrcDir : tempSrcDirs) {
-                    if (tempSrcDir.compareTo(temp) == 0)
+                    if (tempSrcDir.compareTo(temp) == 0) {
                         throw new BuildException("The classpath cannot contain any of the\n"
                                 + "src directories, but it does.\n"
                                 + "srcdir=" + tempSrcDir);
+                    }
                 }
             }
         }
@@ -231,23 +236,27 @@ public class CompileWithWalls extends Task {
         //get rid of non-existent srcDirs
         List<File> srcDirs2 = new ArrayList<File>();
         for (File tempSrcDir : tempSrcDirs) {
-            if (tempSrcDir.exists())
+            if (tempSrcDir.exists()) {
                 srcDirs2.add(tempSrcDir);
+            }
         }
 
         File destDir = javac.getDestdir();
-        if (destDir == null)
+        if (destDir == null) {
             throw new BuildException(
                     "destdir was not specified in nested javac task",
                     getLocation());
+        }
 
         //make sure tempBuildDir is not inside destDir or we are in trouble!!
-        if (file1IsChildOfFile2(tempBuildDir, destDir))
+        if (file1IsChildOfFile2(tempBuildDir, destDir)) {
             throw new BuildException("intermediaryBuildDir attribute cannot be specified\n"
                     + "to be the same as destdir or inside desdir of the javac task.\n"
                     + "This is an intermediary build directory only used by the\n"
                     + "compilewithwalls task, not the class file output directory.\n"
-                    + "The class file output directory is specified in javac's destdir attribute", getLocation());
+                    + "The class file output directory is specified in javac's destdir attribute",
+                    getLocation());
+        }
 
         //create the tempBuildDir if it doesn't exist.
         if (!tempBuildDir.exists()) {
@@ -278,8 +287,9 @@ public class CompileWithWalls extends Task {
 
             Path srcDir2 = toCompile.getSrcPath(tempBuildDir, getProject());
             Path classPath = toCompile.getClasspath(tempBuildDir, getProject());
-            if (javac.getClasspath() != null)
+            if (javac.getClasspath() != null) {
                 classPath.addExisting(javac.getClasspath());
+            }
 
             //unfortunately, we cannot clear the SrcDir in Javac, so we have to
             //clone instead of just reusing the other Javac....this means added
@@ -354,15 +364,18 @@ public class CompileWithWalls extends Task {
     private boolean file1IsChildOfFile2(File tempBuildDir, File destDir) {
         File parent = tempBuildDir;
         for (int i = 0; i < 1000; i++) {
-            if (parent.compareTo(destDir) == 0)
+            if (parent.compareTo(destDir) == 0) {
                 return true;
+            }
             parent = parent.getParentFile();
-            if (parent == null)
+            if (parent == null) {
                 return false;
+            }
         }
 
         throw new RuntimeException("You either have more than 1000 directories in"
-                + "\nyour hierarchy or this is a bug, please report. parent=" + parent + "  destDir=" + destDir);
+                + "\nyour hierarchy or this is a bug, please report. parent=" + parent
+                + "  destDir=" + destDir);
     }
 
     /**
@@ -383,10 +396,11 @@ public class CompileWithWalls extends Task {
             FileSet fileset) {
 
         fileset.setDir(srcDir);
-        if (!srcDir.exists())
+        if (!srcDir.exists()) {
             throw new BuildException(
                     "Directory=" + srcDir + " does not exist",
                     getLocation());
+        }
 
         //before we do this, we have to move all files not
         //in the above fileset to xxx.java.ant-tempfile

@@ -245,17 +245,20 @@ public class RunAntCommand extends AbstractCommand implements Command {
             throws BuildException {
         Ant ant = (Ant) project.createTask("ant");
         File baseDir = project.getBaseDir();
-        if (dir != null)
+        if (dir != null) {
             baseDir = new File(dir);
+        }
         ant.setDir(baseDir);
         ant.setInheritAll(inheritall);
         ant.setInheritRefs(interitrefs);
 
-        if (target != null)
+        if (target != null) {
             ant.setTarget(target);
+        }
 
-        if (antFile != null)
+        if (antFile != null) {
             ant.setAntfile(antFile);
+        }
 
         for (PropertyContainer pc : properties) {
             Property p = ant.createProperty();

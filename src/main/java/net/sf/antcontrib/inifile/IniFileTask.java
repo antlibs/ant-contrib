@@ -167,8 +167,9 @@ public class IniFileTask extends Task {
          * @param iniFile IniFile
          */
         public void execute(Project project, IniFile iniFile) {
-            if (isActive(project))
+            if (isActive(project)) {
                 operate(iniFile);
+            }
         }
     }
 
@@ -219,10 +220,11 @@ public class IniFileTask extends Task {
         protected final void setResultPropertyValue(Project project, String value) {
             if (value != null) {
                 if (override) {
-                    if (project.getUserProperty(resultproperty) == null)
+                    if (project.getUserProperty(resultproperty) == null) {
                         project.setProperty(resultproperty, value);
-                    else
+                    } else {
                         project.setUserProperty(resultproperty, value);
+                    }
                 } else {
                     Property p = (Property) project.createTask("property");
                     p.setName(resultproperty);
@@ -256,8 +258,9 @@ public class IniFileTask extends Task {
                 file.removeSection(secName);
             } else {
                 IniSection section = file.getSection(secName);
-                if (section != null)
+                if (section != null) {
                     section.removeProperty(propName);
+                }
             }
         }
     }
@@ -354,13 +357,15 @@ public class IniFileTask extends Task {
             String secName = getSection();
             String propName = getProperty();
 
-            if (secName == null)
+            if (secName == null) {
                 throw new BuildException("You must supply a section to search for.");
+            }
 
-            if (propName == null)
+            if (propName == null) {
                 exists = (file.getSection(secName) != null);
-            else
+            } else {
                 exists = (file.getProperty(secName, propName) != null);
+            }
 
             setResultPropertyValue(getProject(), Boolean.valueOf(exists).toString());
         }
@@ -385,11 +390,13 @@ public class IniFileTask extends Task {
             String secName = getSection();
             String propName = getProperty();
 
-            if (secName == null)
+            if (secName == null) {
                 throw new BuildException("You must supply a section to search for.");
+            }
 
-            if (propName == null)
+            if (propName == null) {
                 throw new BuildException("You must supply a property name to search for.");
+            }
 
             setResultPropertyValue(getProject(), file.getProperty(secName, propName));
         }
@@ -486,8 +493,9 @@ public class IniFileTask extends Task {
      * @throws BuildException if something goes wrong
      */
     public void execute() throws BuildException {
-        if (dest == null)
+        if (dest == null) {
             throw new BuildException("You must supply a dest file to write to.");
+        }
 
         IniFile iniFile = null;
 
@@ -512,8 +520,9 @@ public class IniFileTask extends Task {
                 iniFile.write(writer);
             } finally {
                 try {
-                    if (writer != null)
+                    if (writer != null) {
                         writer.close();
+                    }
                 } catch (IOException e) {
                     // gulp
                 }
@@ -535,16 +544,18 @@ public class IniFileTask extends Task {
         FileReader reader = null;
         IniFile iniFile = new IniFile();
 
-        if (source == null)
+        if (source == null) {
             return iniFile;
+        }
 
         try {
             reader = new FileReader(source);
             iniFile.read(reader);
         } finally {
             try {
-                if (reader != null)
+                if (reader != null) {
                     reader.close();
+                }
             } catch (IOException e) {
                 // gulp
             }

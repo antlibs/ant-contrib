@@ -259,7 +259,9 @@ public class TryCatchTask extends Task {
             boolean executed = false;
             for (CatchBlock cb : catchBlocks) {
                 executed = cb.execute(e);
-                if (executed) break;
+                if (executed) {
+                    break;
+                }
             }
 
             if (!executed) {

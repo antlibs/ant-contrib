@@ -54,10 +54,11 @@ public class Walls {
     public void addConfiguredPackage(Package p) {
 
         String pack = p.getPackage();
-        if (!pack.endsWith(".*") && !pack.endsWith(".**"))
+        if (!pack.endsWith(".*") && !pack.endsWith(".**")) {
             p.setFaultReason("The package='" + pack + "' must end with "
                     + ".* or .** such as biz.xsoftware.* or "
                     + "biz.xsoftware.**");
+        }
 
         String[] depends = p.getDepends();
         if (depends == null) {

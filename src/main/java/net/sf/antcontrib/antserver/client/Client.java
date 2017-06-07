@@ -127,24 +127,27 @@ public class Client {
             // If we were unable to connect, close everything
             if (!connected) {
                 try {
-                    if (os != null)
+                    if (os != null) {
                         os.close();
+                    }
                     os = null;
                     oos = null;
                 } catch (IOException e) {
                 }
 
                 try {
-                    if (is != null)
+                    if (is != null) {
                         is.close();
+                    }
                     is = null;
                     ois = null;
                 } catch (IOException e) {
                 }
 
                 try {
-                    if (socket != null)
+                    if (socket != null) {
                         socket.close();
+                    }
                     socket = null;
                 } catch (IOException e) {
                 }
@@ -157,8 +160,9 @@ public class Client {
      */
     public void shutdown() {
         try {
-            if (os != null)
+            if (os != null) {
                 os.close();
+            }
         } catch (IOException e) {
             // gulp
         }
@@ -166,8 +170,9 @@ public class Client {
         oos = null;
 
         try {
-            if (is != null)
+            if (is != null) {
                 is.close();
+            }
         } catch (IOException e) {
             // gulp
         }
@@ -189,8 +194,9 @@ public class Client {
      * @throws IOException if something goes wrong
      */
     public void disconnect() throws IOException {
-        if (!connected)
+        if (!connected) {
             return;
+        }
 
         try {
             oos.writeObject(DisconnectCommand.DISCONNECT_COMMAND);

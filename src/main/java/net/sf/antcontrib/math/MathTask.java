@@ -65,13 +65,15 @@ public class MathTask extends Task implements DynamicConfigurator {
      */
     public void execute() throws BuildException {
         Operation op = locOperation;
-        if (op == null)
+        if (op == null) {
             op = operation;
+        }
 
         Number res = op.evaluate();
 
-        if (datatype != null)
+        if (datatype != null) {
             res = Math.convert(res, datatype);
+        }
         getProject().setUserProperty(result, res.toString());
     }
 
@@ -185,8 +187,9 @@ public class MathTask extends Task implements DynamicConfigurator {
      * @return Operation
      */
     public Operation createOperation() {
-        if (locOperation != null || operation != null)
+        if (locOperation != null || operation != null) {
             throw new BuildException("Only 1 operation can be specified");
+        }
         this.operation = new Operation();
         this.operation.setStrict(strict);
         this.operation.setDatatype(datatype);

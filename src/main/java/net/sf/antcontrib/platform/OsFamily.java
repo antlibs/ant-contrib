@@ -72,12 +72,14 @@ public class OsFamily extends Task {
      */
     public void execute()
             throws BuildException {
-        if (property == null)
+        if (property == null) {
             throw new BuildException("The attribute 'property' is required "
                     + "for the OsFamily task.");
+        }
 
         String familyStr = Platform.getOsFamilyName();
-        if (familyStr != null)
+        if (familyStr != null) {
             getProject().setProperty(property, familyStr);
+        }
     }
 }

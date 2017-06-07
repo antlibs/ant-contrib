@@ -119,10 +119,12 @@ public class Switch extends Task {
      * @throws BuildException if no cases are supplied or values are missing
      */
     public void execute() throws BuildException {
-        if (value == null)
+        if (value == null) {
             throw new BuildException("Value is missing");
-        if (cases.size() == 0 && defaultCase == null)
+        }
+        if (cases.size() == 0 && defaultCase == null) {
             throw new BuildException("No cases supplied");
+        }
 
         Sequential selectedCase = defaultCase;
 
@@ -138,8 +140,9 @@ public class Switch extends Task {
                 mvalue = mvalue.toUpperCase();
             }
 
-            if (cvalue.equals(mvalue) && c != defaultCase)
+            if (cvalue.equals(mvalue) && c != defaultCase) {
                 selectedCase = c;
+            }
         }
 
         if (selectedCase == null) {
@@ -209,8 +212,9 @@ public class Switch extends Task {
         public boolean equals(Object o) {
             boolean res = false;
             Case c = (Case) o;
-            if (c.value.equals(value))
+            if (c.value.equals(value)) {
                 res = true;
+            }
             return res;
         }
     }
@@ -234,8 +238,9 @@ public class Switch extends Task {
      * @throws BuildException if multiple default cases are specified
      */
     public void addDefault(Sequential res) throws BuildException {
-        if (defaultCase != null)
+        if (defaultCase != null) {
             throw new BuildException("Cannot specify multiple default cases");
+        }
 
         defaultCase = res;
     }

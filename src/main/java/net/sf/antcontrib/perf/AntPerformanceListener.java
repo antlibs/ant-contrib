@@ -112,12 +112,14 @@ public class AntPerformanceListener implements BuildListener {
             Target target = sortedTargets.get(key);
             if (target != null) {
                 Project p = target.getProject();
-                if (p != null && p.getName() != null)
+                if (p != null && p.getName() != null) {
                     sb.append(p.getName()).append(".");
+                }
                 String total = format(key.total());
                 String target_name = target.getName();
-                if (target_name == null || target_name.length() == 0)
+                if (target_name == null || target_name.length() == 0) {
                     target_name = "<implicit>";
+                }
                 sb.append(target_name).append(": ").append(total);
             }
             msg.append(sb.toString()).append(lSep);
@@ -130,11 +132,13 @@ public class AntPerformanceListener implements BuildListener {
             Target target = task.getOwningTarget();
             if (target != null) {
                 Project p = target.getProject();
-                if (p != null && p.getName() != null)
+                if (p != null && p.getName() != null) {
                     sb.append(p.getName()).append(".");
+                }
                 String target_name = target.getName();
-                if (target_name == null || target_name.length() == 0)
+                if (target_name == null || target_name.length() == 0) {
                     target_name = "<implicit>";
+                }
                 sb.append(target_name).append(".");
             }
             sb.append(task.getTaskName()).append(": ").append(format(key.total()));
@@ -154,8 +158,9 @@ public class AntPerformanceListener implements BuildListener {
         File outfile = null;
         if (p != null) {
             String f = p.getProperty("performance.log");
-            if (f != null)
+            if (f != null) {
                 outfile = new File(f);
+            }
         }
         if (outfile != null) {
             try {
@@ -185,9 +190,9 @@ public class AntPerformanceListener implements BuildListener {
         String total = String.valueOf(ms);
         String frontpad = "000";
         int pad_length = 3 - total.length();
-        if (pad_length >= 0)
+        if (pad_length >= 0) {
             total = "0." + frontpad.substring(0, pad_length) + total;
-        else {
+        } else {
             total = total.substring(0, total.length() - 3) + "."
                     + total.substring(total.length() - 3);
         }
@@ -237,8 +242,9 @@ public class AntPerformanceListener implements BuildListener {
      */
     public void taskFinished(BuildEvent be) {
         StopWatch sw = taskStats.get(be.getTask());
-        if (sw != null)
+        if (sw != null) {
             sw.stop();
+        }
     }
 
     /**
@@ -263,12 +269,7 @@ public class AntPerformanceListener implements BuildListener {
          * @return int
          */
         public int compare(StopWatch a, StopWatch b) {
-            if (a.total() < b.total())
-                return -1;
-            else if (a.total() == b.total())
-                return 0;
-            else
-                return 1;
+            return a.total() < b.total() ? -1 : a.total() == b.total() ? 0 : 1;
         }
     }
 

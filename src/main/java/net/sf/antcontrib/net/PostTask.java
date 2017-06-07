@@ -275,8 +275,9 @@ public class PostTask extends Task {
         }
         final String content = getContent();
         try {
-            if (verbose)
+            if (verbose) {
                 log("Opening connection for post to " + to.toString() + "...");
+            }
 
             // do the POST
             Thread runner = new Thread() {
@@ -373,9 +374,9 @@ public class PostTask extends Task {
                                         sb.append(name).append("=");
                                         List<String> values = map.get(name);
                                         if (values != null) {
-                                            if (values.size() == 1)
+                                            if (values.size() == 1) {
                                                 sb.append(values.get(0));
-                                            else if (values.size() > 1) {
+                                            } else if (values.size() > 1) {
                                                 sb.append("[");
                                                 for (String value : values) {
                                                     sb.append(value).append(",");
@@ -449,12 +450,14 @@ public class PostTask extends Task {
                     currentRunner = null;
                     runner.interrupt();
                     if (failOnError) {
-                        throw new BuildException("maxwait exceeded, unable to receive data", getLocation());
+                        throw new BuildException("maxwait exceeded, unable to receive data",
+                                getLocation());
                     }
                 }
             }
-            if (verbose)
+            if (verbose) {
                 log("Post complete.");
+            }
         } catch (Exception e) {
             if (failOnError) {
                 throw new BuildException(e);
@@ -625,22 +628,26 @@ public class PostTask extends Task {
             for (int i = 0; i < args.length; i++) {
                 String part = args[i];
                 int eq_index = part.indexOf("=");
-                if (eq_index == -1)
+                if (eq_index == -1) {
                     continue;
+                }
                 String first_part = part.substring(0, eq_index).trim();
                 String second_part = part.substring(eq_index + 1);
                 if (i == 0) {
                     name = first_part;
                     value = second_part;
-                } else if (first_part.equalsIgnoreCase("Path"))
+                } else if (first_part.equalsIgnoreCase("Path")) {
                     path = second_part;
-                else if (first_part.equalsIgnoreCase("Domain"))
+                } else if (first_part.equalsIgnoreCase("Domain")) {
                     domain = second_part;
+                }
             }
-            if (name == null)
+            if (name == null) {
                 throw new IllegalArgumentException("Raw cookie does not contain a cookie name.");
-            if (path == null)
+            }
+            if (path == null) {
                 path = "/";
+            }
             setId(path, name);
         }
 
@@ -651,8 +658,9 @@ public class PostTask extends Task {
          * @param value the value of the cookie
          */
         public Cookie(String name, String value) {
-            if (name == null)
+            if (name == null) {
                 throw new IllegalArgumentException("Cookie name may not be null.");
+            }
 
             this.name = name;
             this.value = value;
@@ -666,8 +674,9 @@ public class PostTask extends Task {
          * the cookie in a hashtable.
          */
         public String getId() {
-            if (id == null)
+            if (id == null) {
                 setId(path, name);
+            }
             return id;
         }
 
@@ -687,8 +696,9 @@ public class PostTask extends Task {
          * @param name String
          */
         private void setId(String path, String name) {
-            if (name == null)
+            if (name == null) {
                 name = "";
+            }
             id = path + name;
         }
 
@@ -753,10 +763,12 @@ public class PostTask extends Task {
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append(name).append("=").append(value).append(";");
-            if (domain != null)
+            if (domain != null) {
                 sb.append("Domain=").append(domain).append(";");
-            if (path != null)
+            }
+            if (path != null) {
                 sb.append("Path=").append(path).append(";");
+            }
             sb.append("Version=\"1\";");
             return sb.toString();
         }

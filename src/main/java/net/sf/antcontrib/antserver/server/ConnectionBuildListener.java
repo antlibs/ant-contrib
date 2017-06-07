@@ -97,8 +97,9 @@ public class ConnectionBuildListener implements BuildListener {
      * @see org.apache.tools.ant.BuildListener#targetStarted(BuildEvent)
      */
     public void targetStarted(BuildEvent event) {
-        if (Thread.currentThread().getThreadGroup() != group)
+        if (Thread.currentThread().getThreadGroup() != group) {
             return;
+        }
 
         Element parent = elementStack.peek();
 
@@ -116,14 +117,16 @@ public class ConnectionBuildListener implements BuildListener {
      * @see org.apache.tools.ant.BuildListener#targetFinished(BuildEvent)
      */
     public void targetFinished(BuildEvent event) {
-        if (Thread.currentThread().getThreadGroup() != group)
+        if (Thread.currentThread().getThreadGroup() != group) {
             return;
+        }
 
         Element myElement = elementStack.peek();
 
         String message = event.getMessage();
-        if (message != null)
+        if (message != null) {
             myElement.setAttribute("message", message);
+        }
 
         Throwable t = event.getException();
         if (t != null) {
@@ -157,8 +160,9 @@ public class ConnectionBuildListener implements BuildListener {
      * @see org.apache.tools.ant.BuildListener#taskStarted(BuildEvent)
      */
     public void taskStarted(BuildEvent event) {
-        if (Thread.currentThread().getThreadGroup() != group)
+        if (Thread.currentThread().getThreadGroup() != group) {
             return;
+        }
 
         Element parent = elementStack.peek();
 
@@ -176,8 +180,9 @@ public class ConnectionBuildListener implements BuildListener {
      * @see org.apache.tools.ant.BuildListener#taskFinished(BuildEvent)
      */
     public void taskFinished(BuildEvent event) {
-        if (Thread.currentThread().getThreadGroup() != group)
+        if (Thread.currentThread().getThreadGroup() != group) {
             return;
+        }
 
         Element myElement = elementStack.peek();
 

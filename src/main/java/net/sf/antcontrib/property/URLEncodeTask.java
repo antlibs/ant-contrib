@@ -68,8 +68,9 @@ public class URLEncodeTask extends AbstractPropertySetterTask {
     public String getValue(Project p) {
         String val = value;
 
-        if (ref != null)
+        if (ref != null) {
             val = ref.getReferencedObject(p).toString();
+        }
 
         return val;
     }

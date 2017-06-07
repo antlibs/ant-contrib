@@ -15,8 +15,8 @@
  */
 package net.sf.antcontrib.property;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
@@ -110,8 +110,9 @@ public class PropertySelector extends AbstractPropertySetterTask {
      */
     protected void validate() {
         super.validate();
-        if (match == null)
+        if (match == null) {
             throw new BuildException("No match expression specified.");
+        }
     }
 
     /**
@@ -124,24 +125,19 @@ public class PropertySelector extends AbstractPropertySetterTask {
         validate();
 
         int options = 0;
-        if (!caseSensitive)
+        if (!caseSensitive) {
             options |= Regexp.MATCH_CASE_INSENSITIVE;
+        }
 
         Regexp regex = match.getRegexp(getProject());
-        Hashtable<String, Object> props = getProject().getProperties();
-        Enumeration<String> e = props.keys();
+
         StringBuilder buf = new StringBuilder();
-        int cnt = 0;
-
-        Vector<String> used = new Vector<String>();
-
-        while (e.hasMoreElements()) {
-            String key = e.nextElement();
+        List<String> used = new ArrayList<String>();
+        for (String key : getProject().getProperties().keySet()) {
             if (regex.matches(key, options)) {
                 String output = select;
                 Vector<String> groups = regex.getGroups(key, options);
-                int sz = groups.size();
-                for (int i = 0; i < sz; i++) {
+                for (int i = 0; i < groups.size(); i++) {
                     String s = groups.elementAt(i);
 
                     RegularExpression result = null;
@@ -152,15 +148,17 @@ public class PropertySelector extends AbstractPropertySetterTask {
                 }
 
                 if (!(distinct && used.contains(output))) {
-                    used.addElement(output);
-                    if (cnt != 0) buf.append(delim);
+                    used.add(output);
+                    if (buf.length() > 0) {
+                        buf.append(delim);
+                    }
                     buf.append(output);
-                    cnt++;
                 }
             }
         }
 
-        if (buf.length() > 0)
+        if (buf.length() > 0) {
             setPropertyValue(buf.toString());
+        }
     }
 }

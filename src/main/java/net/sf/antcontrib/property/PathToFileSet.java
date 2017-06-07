@@ -88,22 +88,27 @@ public class PathToFileSet extends Task {
      * Method execute.
      */
     public void execute() {
-        if (dir == null)
+        if (dir == null) {
             throw new BuildException("missing dir");
-        if (name == null)
+        }
+        if (name == null) {
             throw new BuildException("missing name");
-        if (pathRefId == null)
+        }
+        if (pathRefId == null) {
             throw new BuildException("missing pathrefid");
+        }
 
-        if (!dir.isDirectory())
-            throw new BuildException(
-                    dir.toString() + " is not a directory");
+        if (!dir.isDirectory()) {
+            throw new BuildException(dir.toString() + " is not a directory");
+        }
 
         Object path = getProject().getReference(pathRefId);
-        if (path == null)
+        if (path == null) {
             throw new BuildException("Unknown reference " + pathRefId);
-        if (!(path instanceof Path))
+        }
+        if (!(path instanceof Path)) {
             throw new BuildException(pathRefId + " is not a path");
+        }
 
         FileSet fileSet = new FileSet();
         fileSet.setProject(getProject());
@@ -117,15 +122,17 @@ public class PathToFileSet extends Task {
         boolean atLeastOne = false;
         for (String source : ((Path) path).list()) {
             File sourceFile = new File(source);
-            if (!sourceFile.exists())
+            if (!sourceFile.exists()) {
                 continue;
+            }
             String relativeName = getRelativeName(dirNormal, sourceFile);
             if (relativeName == null && !ignoreNonRelative) {
                 throw new BuildException(
                         source + " is not relative to " + dir.getAbsolutePath());
             }
-            if (relativeName == null)
+            if (relativeName == null) {
                 continue;
+            }
             fileSet.createInclude().setName(relativeName);
             atLeastOne = true;
         }
@@ -145,10 +152,7 @@ public class PathToFileSet extends Task {
      * @return String
      */
     private String getRelativeName(String dirNormal, File file) {
-        String fileNormal =
-                getFileUtils().normalize(file.getAbsolutePath()).getAbsolutePath();
-        if (!fileNormal.startsWith(dirNormal))
-            return null;
-        return fileNormal.substring(dirNormal.length());
+        String fileNormal = getFileUtils().normalize(file.getAbsolutePath()).getAbsolutePath();
+        return fileNormal.startsWith(dirNormal) ? fileNormal.substring(dirNormal.length()) : null;
     }
 }

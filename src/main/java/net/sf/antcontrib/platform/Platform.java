@@ -184,10 +184,8 @@ public class Platform {
         } else if (pathSep.equals(";")) {
             family = FAMILY_DOS;
         } else if (osName.contains("mac")) {
-            if (osName.endsWith("x"))
-                family = FAMILY_UNIX; // MACOSX
-            else
-                family = FAMILY_MAC;
+            // MACOSX
+            family = osName.endsWith("x") ? FAMILY_UNIX : FAMILY_MAC;
         } else if (osName.contains("nonstop_kernel")) {
             family = FAMILY_TANDEM;
         } else if (osName.contains("openvms")) {

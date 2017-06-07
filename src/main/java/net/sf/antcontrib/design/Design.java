@@ -128,29 +128,23 @@ public class Design {
      * @return Package
      */
     private Package retrievePack(String thePackage) {
-        if (thePackage == null)
+        if (thePackage == null) {
             throw new IllegalArgumentException("Cannot retrieve null packages");
+        }
 
         String currentPackage = thePackage;
         Package result = packageNameToPackage.get(currentPackage);
         while (!Package.DEFAULT.equals(currentPackage)) {
             log.log("p=" + currentPackage + "result=" + result, Project.MSG_DEBUG);
             if (result != null) {
-                if (currentPackage.equals(thePackage))
-                    return result;
-                else if (result.isIncludeSubpackages())
-                    return result;
-                return null;
+                return currentPackage.equals(thePackage) || result.isIncludeSubpackages() ? result : null;
             }
             currentPackage = VerifyDesignDelegate.getPackageName(currentPackage);
             result = packageNameToPackage.get(currentPackage);
         }
 
         //result must now be default package
-        if (result != null && result.isIncludeSubpackages())
-            return result;
-
-        return null;
+        return (result != null && result.isIncludeSubpackages()) ? result : null;
     }
 
     /**
@@ -185,8 +179,9 @@ public class Design {
      */
     public void verifyDependencyOk(String className) {
         log.log("         className=" + className, Project.MSG_DEBUG);
-        if (className.startsWith("L"))
+        if (className.startsWith("L")) {
             className = className.substring(1, className.length());
+        }
 
         //get the classPackage our currentAliasPackage depends on....
         String classPackage = VerifyDesignDelegate.getPackageName(className);
@@ -199,15 +194,17 @@ public class Design {
             throw new BuildException(getErrorMessage(currentClass, className), location);
         }
         p.setUsed(true); //set package to used since we have classes in it
-        if (p != null && !p.isNeedDeclarations())
+        if (p != null && !p.isNeedDeclarations()) {
             return;
+        }
 
         String pack = currentAliasPackage.getPackage();
 
         log.log("         AllowedDepends=" + pack, Project.MSG_DEBUG);
         log.log("         CurrentDepends=" + className, Project.MSG_DEBUG);
-        if (isClassInPackage(className, currentAliasPackage))
+        if (isClassInPackage(className, currentAliasPackage)) {
             return;
+        }
 
         Depends[] depends = currentAliasPackage.getDepends();
 
@@ -245,11 +242,12 @@ public class Design {
     public boolean isClassInPackage(String className, Package p) {
         String classPackage = VerifyDesignDelegate.getPackageName(className);
         if (p.isIncludeSubpackages()) {
-            if (className.startsWith(p.getPackage()))
+            if (className.startsWith(p.getPackage())) {
                 return true;
-        } else { //if not including subpackages, the it must be the exact package.
-            if (classPackage.equals(p.getPackage()))
-                return true;
+            }
+        } else if (classPackage.equals(p.getPackage())) {
+            //if not including subpackages, the it must be the exact package.
+            return true;
         }
         return false;
     }
@@ -281,8 +279,9 @@ public class Design {
             if (className.indexOf('.') != -1) {
                 throw new RuntimeException("Internal error");
             }
-        } else if (!className.startsWith(currentPackageName))
+        } else if (!className.startsWith(currentPackageName)) {
             throw new RuntimeException("Internal error");
+        }
 
         return currentAliasPackage.getNeedDepends();
     }
@@ -310,8 +309,9 @@ public class Design {
             log.log("         dependsOn2=" + dependsOn, Project.MSG_DEBUG);
         }
 
-        if (primitives.contains(dependsOn))
+        if (primitives.contains(dependsOn)) {
             return;
+        }
 
         //Anything in java.lang package seems to be passed in as just the
         //className with no package like Object, String or Class, so here we try to
@@ -379,7 +379,8 @@ public class Design {
     public void fillInUnusedPackages(List<BuildException> designErrors) {
         for (Package pack : nameToPackage.values()) {
             if (!pack.isUsed()) {
-                String msg = "Package name=" + pack.getName() + " is unused.  Full package=" + pack.getPackage();
+                String msg = "Package name=" + pack.getName() + " is unused.  Full package="
+                        + pack.getPackage();
                 log.log(msg, Project.MSG_ERR);
                 designErrors.add(new BuildException(msg));
             } else {

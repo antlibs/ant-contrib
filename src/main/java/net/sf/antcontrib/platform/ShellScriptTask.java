@@ -135,8 +135,9 @@ public class ShellScriptTask extends ExecTask {
 
          }
          */
-        if (shell == null)
+        if (shell == null) {
             throw new BuildException("You must specify a shell to run.");
+        }
 
         try {
             /*

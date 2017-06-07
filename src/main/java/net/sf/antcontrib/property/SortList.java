@@ -156,10 +156,12 @@ public class SortList extends AbstractPropertySetterTask {
 
         // Insertion sort on smallest arrays
         if (length < 7) {
-            for (int i = low; i < high; i++)
+            for (int i = low; i < high; i++) {
                 for (int j = i; j > low
-                        && compare(dest[j - 1], dest[j], caseSensitive, numeric) > 0; j--)
+                        && compare(dest[j - 1], dest[j], caseSensitive, numeric) > 0; j--) {
                     swap(dest, j, j - 1);
+                }
+            }
             return;
         }
 
@@ -177,10 +179,8 @@ public class SortList extends AbstractPropertySetterTask {
 
         // Merge sorted halves (now in src) into dest
         for (int i = low, p = low, q = mid; i < high; i++) {
-            if (q >= high || p < mid && compare(src[p], src[q], caseSensitive, numeric) <= 0)
-                dest[i] = src[p++];
-            else
-                dest[i] = src[q++];
+            dest[i] = (q >= high || p < mid && compare(src[p], src[q], caseSensitive, numeric) <= 0)
+                    ? src[p++] : src[q++];
         }
     }
 
@@ -202,12 +202,7 @@ public class SortList extends AbstractPropertySetterTask {
         if (numeric) {
             double d1 = Double.parseDouble(s1);
             double d2 = Double.parseDouble(s2);
-            if (d1 < d2)
-                res = -1;
-            else if (d1 == d2)
-                res = 0;
-            else
-                res = 1;
+            res = (d1 < d2) ? -1 : (d1 == d2) ? 0 : 1;
         } else if (casesensitive) {
             res = s1.compareTo(s2);
         } else {
@@ -251,19 +246,18 @@ public class SortList extends AbstractPropertySetterTask {
             int pos = 0;
             while ((line = br.readLine()) != null) {
                 pos = line.indexOf('#');
-                if (pos != -1)
+                if (pos != -1) {
                     line = line.substring(0, pos).trim();
+                }
 
                 if (line.length() > 0) {
                     pos = line.indexOf('=');
-                    if (pos != -1)
-                        pname = line.substring(0, pos).trim();
-                    else
-                        pname = line.trim();
+                    pname = (pos != -1) ? line.substring(0, pos).trim() : line.trim();
 
                     String prefPname = pname;
-                    if (orderPropertyFilePrefix != null)
+                    if (orderPropertyFilePrefix != null) {
                         prefPname = orderPropertyFilePrefix + "." + prefPname;
+                    }
 
                     if (props.contains(prefPname)
                             && !orderedProps.contains(prefPname)) {
@@ -275,15 +269,17 @@ public class SortList extends AbstractPropertySetterTask {
             fr.close();
 
             for (String prop : props) {
-                if (!orderedProps.contains(prop))
+                if (!orderedProps.contains(prop)) {
                     orderedProps.add(prop);
+                }
             }
 
             return orderedProps;
         } finally {
             try {
-                if (fr != null)
+                if (fr != null) {
                     fr.close();
+                }
             } catch (IOException e) {
                 // gulp
             }
@@ -304,16 +300,19 @@ public class SortList extends AbstractPropertySetterTask {
         validate();
 
         String val = value;
-        if (val == null && ref != null)
+        if (val == null && ref != null) {
             val = ref.getReferencedObject(getProject()).toString();
+        }
 
-        if (val == null)
+        if (val == null) {
             throw new BuildException("Either the 'Value' or 'Refid' attribute must be set.");
+        }
 
         StringTokenizer st = new StringTokenizer(val, delimiter);
         List<String> vec = new ArrayList<String>(st.countTokens());
-        while (st.hasMoreTokens())
+        while (st.hasMoreTokens()) {
             vec.add(st.nextToken());
+        }
 
         String[] propList = null;
 
@@ -333,7 +332,9 @@ public class SortList extends AbstractPropertySetterTask {
 
         StringBuilder sb = new StringBuilder();
         for (String prop : propList) {
-            if (sb.length() != 0) sb.append(delimiter);
+            if (sb.length() > 0) {
+                sb.append(delimiter);
+            }
             sb.append(prop);
         }
 

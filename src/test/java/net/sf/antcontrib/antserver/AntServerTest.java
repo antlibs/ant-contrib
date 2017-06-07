@@ -123,12 +123,14 @@ public class AntServerTest extends BuildFileTestBase {
 
         int cnt = 0;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < logs.length; i++) {
-            if (realLog.contains(logs[i]))
+        for (String log : logs) {
+            if (realLog.contains(log)) {
                 cnt++;
-            if (i != 0)
+            }
+            if (sb.length() != 0) {
                 sb.append(" and ");
-            sb.append("\"").append(logs[i]).append("\"");
+            }
+            sb.append("\"").append(log).append("\"");
         }
 
         assertTrue("expecting log to contain " + sb.toString()
