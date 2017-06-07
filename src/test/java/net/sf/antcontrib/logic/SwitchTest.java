@@ -15,7 +15,7 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import net.sf.antcontrib.BuildFileTestBase;
@@ -89,8 +89,8 @@ public class SwitchTest extends BuildFileTestBase {
         executeTarget("testDefault");
         assertTrue(getLog().contains("In default"));
         assertTrue(getLog().contains("baz"));
-        assertEquals(-1, getLog().indexOf("${inner}"));
-        assertEquals(-1, getLog().indexOf("In case"));
+        assertFalse(getLog().contains("${inner}"));
+        assertFalse(getLog().contains("In case"));
     }
 
     /**
@@ -101,8 +101,8 @@ public class SwitchTest extends BuildFileTestBase {
         executeTarget("testCase");
         assertTrue(getLog().contains("In case"));
         assertTrue(getLog().contains("baz"));
-        assertEquals(-1, getLog().indexOf("${inner}"));
-        assertEquals(-1, getLog().indexOf("In default"));
+        assertFalse(getLog().contains("${inner}"));
+        assertFalse(getLog().contains("In default"));
     }
 
     /**
@@ -112,7 +112,7 @@ public class SwitchTest extends BuildFileTestBase {
     public void testCaseSensitive() {
         executeTarget("testCaseSensitive");
         assertTrue(getLog().contains("In default"));
-        assertEquals(-1, getLog().indexOf("In case"));
+        assertFalse(getLog().contains("In case"));
     }
 
     /**
@@ -122,6 +122,6 @@ public class SwitchTest extends BuildFileTestBase {
     public void testCaseInSensitive() {
         executeTarget("testCaseInSensitive");
         assertTrue(getLog().contains("In case"));
-        assertEquals(-1, getLog().indexOf("In default"));
+        assertFalse(getLog().contains("In default"));
     }
 }
