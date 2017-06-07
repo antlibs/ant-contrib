@@ -42,8 +42,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShHello() {
-        if (!hasSh)
+        if (!hasSh) {
             return;
+        }
         executeTarget("sh.hello");
         assertTrue(getLog().contains("hello world"));
     }
@@ -53,8 +54,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testBashHello() {
-        if (!hasBash)
+        if (!hasBash) {
             return;
+        }
         executeTarget("bash.hello");
         assertTrue(getLog().contains("hello world"));
     }
@@ -64,8 +66,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShInputString() {
-        if (!hasSh)
+        if (!hasSh) {
             return;
+        }
         executeTarget("sh.inputstring");
         assertTrue(getLog().contains("hello world"));
     }
@@ -75,8 +78,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShProperty() {
-        if (!hasSh)
+        if (!hasSh) {
             return;
+        }
         executeTarget("sh.property");
         assertTrue(getLog().contains("this is a property"));
     }
@@ -86,8 +90,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPythonHello() {
-        if (!hasPython)
+        if (!hasPython) {
             return;
+        }
         executeTarget("python.hello");
         assertTrue(getLog().contains("hello world"));
     }
@@ -97,8 +102,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPerlHello() {
-        if (!hasPerl)
+        if (!hasPerl) {
             return;
+        }
         executeTarget("perl.hello");
         assertTrue(getLog().contains("hello world"));
     }
@@ -117,8 +123,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSed() {
-        if (!hasSed)
+        if (!hasSed) {
             return;
+        }
         executeTarget("sed.test");
         assertTrue(getLog().contains("BAR bar bar bar BAR bar"));
     }
@@ -128,8 +135,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSetProperty() {
-        if (!hasSh)
+        if (!hasSh) {
             return;
+        }
         executeTarget("sh.set.property");
         assertPropertyEquals("sh.set.property", "hello world");
     }
@@ -139,8 +147,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testTmpSuffix() {
-        if (!hasSh)
+        if (!hasSh) {
             return;
+        }
         executeTarget("sh.tmp.suffix");
         assertTrue(getLog().contains(".bat"));
     }
@@ -150,8 +159,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testCmd() {
-        if (!hasCmd)
+        if (!hasCmd) {
             return;
+        }
         executeTarget("cmd.test");
         assertTrue(getLog().contains("hello world"));
     }
@@ -161,8 +171,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testDir() {
-        if (!hasBash)
+        if (!hasBash) {
             return;
+        }
         executeTarget("dir.test");
         assertTrue(
                 getProject().getProperty("dir.test.property").contains("subdir"));
@@ -225,8 +236,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     private void staticInitialize() {
         synchronized (staticMonitor) {
-            if (initialized)
+            if (initialized) {
                 return;
+            }
             initialized = true;
             hasSh = hasShell("hassh");
             hasBash = hasShell("hasbash");

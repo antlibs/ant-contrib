@@ -55,8 +55,9 @@ public class ThreadPoolThread extends Thread {
      */
     public void run() {
         try {
-            if (runnable != null)
+            if (runnable != null) {
                 runnable.run();
+            }
         } finally {
             try {
                 pool.returnThread(this);

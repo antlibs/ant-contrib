@@ -65,15 +65,17 @@ public class ClassPathParser {
             Throwable throwable = exc.getException();
             if (throwable instanceof BuildException) {
                 BuildException be = (BuildException) throwable;
-                if (be.getLocation() == Location.UNKNOWN_LOCATION)
+                if (be.getLocation() == Location.UNKNOWN_LOCATION) {
                     be.setLocation(location);
+                }
                 throw be;
             }
             throw new BuildException(exc.getMessage(), throwable, location);
         } catch (SAXException exc) {
             Throwable throwable = exc.getException();
-            if (throwable instanceof BuildException)
+            if (throwable instanceof BuildException) {
                 throw (BuildException) throwable;
+            }
             throw new BuildException(exc.getMessage(), throwable);
         } catch (FileNotFoundException exc) {
             throw new BuildException(exc);

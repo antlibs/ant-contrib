@@ -98,7 +98,8 @@ public class IniProperty implements IniPart {
      */
     public void write(Writer writer) throws IOException {
         writer.write(name);
-        if (!name.trim().startsWith(";"))
+        if (!name.trim().startsWith(";")) {
             writer.write("=" + value);
+        }
     }
 }

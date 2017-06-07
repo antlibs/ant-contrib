@@ -72,8 +72,9 @@ public class GUIInputHandler implements InputHandler {
             do {
                 Object input = JOptionPane.showInputDialog(parent, prompt,
                         title, optionType, icon, choices, initialChoice);
-                if (input == null)
+                if (input == null) {
                     throw new BuildException("User cancelled.");
+                }
                 request.setInput(input.toString());
             } while (!request.isInputValid());
         } else {

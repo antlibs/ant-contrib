@@ -15,7 +15,7 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import net.sf.antcontrib.BuildFileTestBase;
@@ -90,8 +90,8 @@ public class IfTaskTest extends BuildFileTestBase {
         executeTarget("normalOperation");
         assertTrue(getLog().contains("In then"));
         assertTrue(getLog().contains("some value"));
-        assertEquals(-1, getLog().indexOf("${inner}"));
-        assertEquals(-1, getLog().indexOf("In else"));
+        assertFalse(getLog().contains("${inner}"));
+        assertFalse(getLog().contains("In else"));
     }
 
     /**
@@ -101,7 +101,7 @@ public class IfTaskTest extends BuildFileTestBase {
     public void testNormalOperation2() {
         executeTarget("normalOperation2");
         assertTrue(getLog().contains("In else"));
-        assertEquals(-1, getLog().indexOf("In then"));
+        assertFalse(getLog().contains("In then"));
     }
 
     /**
@@ -130,8 +130,8 @@ public class IfTaskTest extends BuildFileTestBase {
     public void testNormalOperationElseif() {
         executeTarget("normalOperationElseif");
         assertTrue(getLog().contains("In elseif"));
-        assertEquals(-1, getLog().indexOf("In then"));
-        assertEquals(-1, getLog().indexOf("In else-branch"));
+        assertFalse(getLog().contains("In then"));
+        assertFalse(getLog().contains("In else-branch"));
     }
 
     /**
@@ -141,7 +141,7 @@ public class IfTaskTest extends BuildFileTestBase {
     public void testNormalOperationElseif2() {
         executeTarget("normalOperationElseif2");
         assertTrue(getLog().contains("In else-branch"));
-        assertEquals(-1, getLog().indexOf("In then"));
-        assertEquals(-1, getLog().indexOf("In elseif"));
+        assertFalse(getLog().contains("In then"));
+        assertFalse(getLog().contains("In elseif"));
     }
 }

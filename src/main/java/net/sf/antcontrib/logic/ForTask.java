@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2005 Ant-Contrib project.  All rights reserved.
+ * Copyright (c) 2003-2007 Ant-Contrib project.  All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,16 +29,17 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.MacroDef;
 import org.apache.tools.ant.taskdefs.MacroInstance;
 import org.apache.tools.ant.taskdefs.Parallel;
-import org.apache.tools.ant.types.DirSet;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Resource;
+import org.apache.tools.ant.types.ResourceCollection;
 
 /**
  * Task definition for the for task.  This is based on
  * the foreach task but takes a sequential element
- * instead of a target and only works for Ant 1.6+
+ * instead of a target and only works for Ant 1.7+
+ * since it adds support for ResourceCollections.
  *
  * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
+ * @author <a href="mailto:mattinger@yahoo.com">Matt Inger</a>
  */
 public class ForTask extends Task {
     /**
@@ -56,11 +56,6 @@ public class ForTask extends Task {
      * Field delimiter.
      */
     private String delimiter = ",";
-
-    /**
-     * Field currPath.
-     */
-    private Path currPath;
 
     /**
      * Field trim.
@@ -113,6 +108,11 @@ public class ForTask extends Task {
     private int step = 1;
 
     /**
+     * Field resourceCollections.
+     */
+    private List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
+
+    /**
      * Field taskCount.
      */
     private int taskCount = 0;
@@ -126,6 +126,15 @@ public class ForTask extends Task {
      * Creates a new <code>For</code> instance.
      */
     public ForTask() {
+    }
+
+    /***
+     * Add a resource collection
+     * @param resourceCollection The resource collection to add
+     * @since Ant 1.7
+     */
+    public void add(ResourceCollection resourceCollection) {
+        this.resourceCollections.add(resourceCollection);
     }
 
     /**
@@ -202,47 +211,11 @@ public class ForTask extends Task {
     }
 
     /**
-     * Method getOrCreatePath.
-     *
-     * @return Path
-     */
-    private Path getOrCreatePath() {
-        if (currPath == null) {
-            currPath = new Path(getProject());
-        }
-        return currPath;
-    }
-
-    /**
-     * This is a path that can be used instead of the list
-     * attribute to iterate over. If this is set, each
-     * path element in the path is used for an iterator of the
-     * sequential element.
-     *
-     * @param path the path to be set by the ant script.
-     */
-    public void addConfigured(Path path) {
-        getOrCreatePath().append(path);
-    }
-
-    /**
-     * This is a path that can be used instead of the list
-     * attribute to iterate over. If this is set, each
-     * path element in the path is used for an iterator of the
-     * sequential element.
-     *
-     * @param path the path to be set by the ant script.
-     */
-    public void addConfiguredPath(Path path) {
-        addConfigured(path);
-    }
-
-    /**
      * createSequential() method.
      *
      * @return a MacroDef#NestedSequential object to be configured
      */
-    public Object createSequential() {
+    public MacroDef.NestedSequential createSequential() {
         macroDef = new MacroDef();
         macroDef.setProject(getProject());
         return macroDef.createSequential();
@@ -269,7 +242,7 @@ public class ForTask extends Task {
     /**
      * Set step attribute.
      *
-     * @param step int
+     * @param step The increment step when using begin and end attributes.
      */
     public void setStep(int step) {
         this.step = step;
@@ -285,14 +258,15 @@ public class ForTask extends Task {
     public void execute() {
         if (parallel) {
             parallelTasks = (Parallel) getProject().createTask("parallel");
+            parallelTasks.setFailOnAny(!keepgoing);
             if (threadCount != null) {
                 parallelTasks.setThreadCount(threadCount);
             }
         }
-        if (list == null && currPath == null && hasIterators.size() == 0
+        if (list == null && resourceCollections.isEmpty() && hasIterators.size() == 0
                 && end == null) {
             throw new BuildException(
-                    "You must have a list or path or sequence to iterate through");
+                    "You must have a list or resources or sequence to iterate through");
         }
         if (param == null) {
             throw new BuildException(
@@ -399,23 +373,21 @@ public class ForTask extends Task {
             }
         }
 
-        // Take Care of the path element
-        String[] pathElements = new String[0];
-        if (currPath != null) {
-            pathElements = currPath.list();
-        }
-        for (String pathElement : pathElements) {
-            File nextFile = new File(pathElement);
-            doToken(nextFile.getAbsolutePath());
+        // Take care of resources
+        for (ResourceCollection collection : resourceCollections) {
+            for (Resource resource : collection) {
+                doToken(resource.toString());
+            }
         }
 
         // Take care of iterators
         for (HasIterator hasIterator : hasIterators) {
-            Iterator<?> it = hasIterator.iterator();
+            Iterator<Object> it = hasIterator.iterator();
             while (it.hasNext()) {
                 doToken(it.next().toString());
             }
         }
+
         if (keepgoing && (errorCount != 0)) {
             throw new BuildException(
                     "Keepgoing execution: " + errorCount
@@ -428,44 +400,8 @@ public class ForTask extends Task {
      *
      * @param map a Map object - iterate over the values.
      */
-    public void add(Map<?, ?> map) {
+    public void add(Map<Object, Object> map) {
         hasIterators.add(new MapIterator(map));
-    }
-
-    /**
-     * Add a fileset to be iterated over.
-     *
-     * @param fileset a <code>FileSet</code> value
-     */
-    public void add(FileSet fileset) {
-        getOrCreatePath().addFileset(fileset);
-    }
-
-    /**
-     * Add a fileset to be iterated over.
-     *
-     * @param fileset a <code>FileSet</code> value
-     */
-    public void addFileSet(FileSet fileset) {
-        add(fileset);
-    }
-
-    /**
-     * Add a dirset to be iterated over.
-     *
-     * @param dirset a <code>DirSet</code> value
-     */
-    public void add(DirSet dirset) {
-        getOrCreatePath().addDirset(dirset);
-    }
-
-    /**
-     * Add a dirset to be iterated over.
-     *
-     * @param dirset a <code>DirSet</code> value
-     */
-    public void addDirSet(DirSet dirset) {
-        add(dirset);
     }
 
     /**
@@ -473,7 +409,7 @@ public class ForTask extends Task {
      *
      * @param collection a <code>Collection</code> value.
      */
-    public void add(Collection<?> collection) {
+    public void add(Collection<Object> collection) {
         hasIterators.add(new ReflectIterator(collection));
     }
 
@@ -482,7 +418,7 @@ public class ForTask extends Task {
      *
      * @param iterator an <code>Iterator</code> value
      */
-    public void add(Iterator<?> iterator) {
+    public void add(Iterator<Object> iterator) {
         hasIterators.add(new IteratorIterator(iterator));
     }
 
@@ -503,9 +439,9 @@ public class ForTask extends Task {
         /**
          * Method iterator.
          *
-         * @return Iterator&lt;?&gt;
+         * @return Iterator&lt;Object&gt;
          */
-        Iterator<?> iterator();
+        Iterator<Object> iterator();
     }
 
     /**
@@ -514,23 +450,23 @@ public class ForTask extends Task {
         /**
          * Field iterator.
          */
-        private final Iterator<?> iterator;
+        private final Iterator<Object> iterator;
 
         /**
          * Constructor for IteratorIterator.
          *
-         * @param iterator Iterator&lt;?&gt;
+         * @param iterator Iterator&lt;Object&gt;
          */
-        public IteratorIterator(Iterator<?> iterator) {
+        public IteratorIterator(Iterator<Object> iterator) {
             this.iterator = iterator;
         }
 
         /**
          * Method iterator.
          *
-         * @return Iterator&lt;?&gt;
+         * @return Iterator&lt;Object&gt;
          */
-        public Iterator<?> iterator() {
+        public Iterator<Object> iterator() {
             return this.iterator;
         }
     }
@@ -541,23 +477,23 @@ public class ForTask extends Task {
         /**
          * Field map.
          */
-        private final Map<?, ?> map;
+        private final Map<Object, Object> map;
 
         /**
          * Constructor for MapIterator.
          *
-         * @param map Map&lt;?,?&gt;
+         * @param map Map&lt;Object,Object&gt;
          */
-        public MapIterator(Map<?, ?> map) {
+        public MapIterator(Map<Object, Object> map) {
             this.map = map;
         }
 
         /**
          * Method iterator.
          *
-         * @return Iterator&lt;?&gt;
+         * @return Iterator&lt;Object&gt;
          */
-        public Iterator<?> iterator() {
+        public Iterator<Object> iterator() {
             return map.values().iterator();
         }
     }
@@ -594,11 +530,11 @@ public class ForTask extends Task {
         /**
          * Method iterator.
          *
-         * @return Iterator&lt;?&gt;
+         * @return Iterator&lt;Object&gt;
          */
-        public Iterator<?> iterator() {
+        public Iterator<Object> iterator() {
             try {
-                return (Iterator<?>) method.invoke(obj, new Object[]{});
+                return (Iterator<Object>) method.invoke(obj, new Object[]{});
             } catch (Throwable t) {
                 throw new BuildException(t);
             }

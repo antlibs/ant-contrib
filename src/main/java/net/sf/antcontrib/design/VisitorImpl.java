@@ -150,8 +150,9 @@ class VisitorImpl extends EmptyVisitor {
         log("      method=" + m.getName(), Project.MSG_VERBOSE);
         String retType = Utility.methodSignatureReturnType(m.getSignature());
         log("         method ret type=" + retType, Project.MSG_VERBOSE);
-        if (!"void".equals(retType))
+        if (!"void".equals(retType)) {
             design.checkClass(retType);
+        }
 
         String[] types = Utility.methodSignatureArgumentTypes(m.getSignature());
         for (int i = 0; i < types.length; i++) {
@@ -232,8 +233,9 @@ class VisitorImpl extends EmptyVisitor {
 
         int catch_type = c.getCatchType();
 
-        if (catch_type == 0)
+        if (catch_type == 0) {
             return;
+        }
 
         String temp = pool.getConstantString(catch_type,
                 Constants.CONSTANT_Class);
@@ -254,8 +256,9 @@ class VisitorImpl extends EmptyVisitor {
     public void visitCode(Code c) {
         LineNumberTable table = c.getLineNumberTable();
         // LocalVariableTable table = c.getLocalVariableTable();
-        if (table == null)
+        if (table == null) {
             throw new BuildException(getNoDebugMsg(design.getCurrentClass()), location);
+        }
     }
 
     /**

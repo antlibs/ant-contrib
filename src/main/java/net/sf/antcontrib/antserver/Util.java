@@ -57,8 +57,9 @@ public class Util {
         }
 
         try {
-            if (closeInput)
+            if (closeInput) {
                 input.close();
+            }
         } catch (IOException e) {
             // gulp
         }

@@ -102,20 +102,24 @@ public class StopWatchTask extends Task {
      * Method execute.
      */
     public void execute() {
-        if (name == null)
+        if (name == null) {
             throw new BuildException("name is null");
-        if (action == null)
+        }
+        if (action == null) {
             action = START;
-        if (watches == null)
+        }
+        if (watches == null) {
             watches = new HashMap<String, StopWatch>();
+        }
         StopWatch sw = watches.get(name);
         if (sw == null && action.equals(START)) {
             sw = new StopWatch(name);
             watches.put(name, sw);
             return;
         }
-        if (sw == null)
+        if (sw == null) {
             return;
+        }
         if (action.equals(START)) {
             sw.start();
             return;

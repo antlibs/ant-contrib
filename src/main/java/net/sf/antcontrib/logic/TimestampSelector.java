@@ -161,10 +161,9 @@ public class TimestampSelector extends Task {
      * @return int
      */
     protected int compare(File a, File b) {
-        if (age.equalsIgnoreCase(AGE_ELDEST))
-            return new Long(a.lastModified()).compareTo(new Long(b.lastModified()));
-        else
-            return new Long(b.lastModified()).compareTo(new Long(a.lastModified()));
+        return age.equalsIgnoreCase(AGE_ELDEST)
+                ? new Long(a.lastModified()).compareTo(new Long(b.lastModified()))
+                : new Long(b.lastModified()).compareTo(new Long(a.lastModified()));
     }
 
     /**
@@ -186,12 +185,18 @@ public class TimestampSelector extends Task {
         right = end;
         for (;;) {
             while (compare(partitionElement, array.get(++left)) == 1) {
-                if (left == end) break;
+                if (left == end) {
+                    break;
+                }
             }
             while (compare(partitionElement, array.get(--right)) == -1) {
-                if (right == start) break;
+                if (right == start) {
+                    break;
+                }
             }
-            if (left >= right) break;
+            if (left >= right) {
+                break;
+            }
             swap(array, left, right);
         }
         swap(array, left, end);
@@ -220,18 +225,21 @@ public class TimestampSelector extends Task {
      * @throws BuildException if attributes or elements are missing
      */
     public void execute() throws BuildException {
-        if (property == null && outputSetId == null)
+        if (property == null && outputSetId == null) {
             throw new BuildException("Property or OutputSetId must be specified.");
-        if (path == null)
+        }
+        if (path == null) {
             throw new BuildException("A path element or pathref attribute must be specified.");
+        }
 
         // Figure out the list of existing file elements
         // from the designated path
         List<File> v = new ArrayList<File>();
         for (String value : path.list()) {
             File f = new File(value);
-            if (f.exists())
+            if (f.exists()) {
                 v.add(f);
+            }
         }
 
         // Sort the vector, need to make java 1.1 compliant
@@ -256,12 +264,15 @@ public class TimestampSelector extends Task {
             // "pathSep" attribute as the separator
             StringBuilder sb = new StringBuilder();
             for (String paths : path.list()) {
-                if (sb.length() != 0) sb.append(pathSep);
+                if (sb.length() != 0) {
+                    sb.append(pathSep);
+                }
                 sb.append(paths);
             }
 
-            if (sb.length() != 0)
+            if (sb.length() != 0) {
                 getProject().setProperty(property, sb.toString());
+            }
         }
     }
 
@@ -271,9 +282,9 @@ public class TimestampSelector extends Task {
      * @param property String
      */
     public void setProperty(String property) {
-        if (outputSetId != null)
+        if (outputSetId != null) {
             throw new BuildException("Cannot set both Property and OutputSetId.");
-
+        }
         this.property = property;
     }
 
@@ -292,11 +303,10 @@ public class TimestampSelector extends Task {
      * @param age String
      */
     public void setAge(String age) {
-        if (age.equalsIgnoreCase(AGE_ELDEST)
-                || age.equalsIgnoreCase(AGE_YOUNGEST))
-            this.age = age;
-        else
+        if (!age.equalsIgnoreCase(AGE_ELDEST) && !age.equalsIgnoreCase(AGE_YOUNGEST)) {
             throw new BuildException("Invalid age: " + age);
+        }
+        this.age = age;
     }
 
     /**
@@ -314,8 +324,9 @@ public class TimestampSelector extends Task {
      * @param outputSetId String
      */
     public void setOutputSetId(String outputSetId) {
-        if (property != null)
+        if (property != null) {
             throw new BuildException("Cannot set both Property and OutputSetId.");
+        }
         this.outputSetId = outputSetId;
     }
 
@@ -326,12 +337,11 @@ public class TimestampSelector extends Task {
      * @throws BuildException if path element is specified
      */
     public void setPathRef(Reference ref) throws BuildException {
-        if (path == null) {
-            path = new Path(getProject());
-            path.setRefid(ref);
-        } else {
+        if (path != null) {
             throw new BuildException("Path element already specified.");
         }
+        path = new Path(getProject());
+        path.setRefid(ref);
     }
 
     /**
@@ -341,10 +351,10 @@ public class TimestampSelector extends Task {
      * @throws BuildException if path element is specified
      */
     public Path createPath() throws BuildException {
-        if (path == null)
-            path = new Path(getProject());
-        else
+        if (path != null) {
             throw new BuildException("Path element already specified.");
+        }
+        path = new Path(getProject());
         return path;
     }
 }

@@ -164,12 +164,12 @@ public class InstructionVisitor extends EmptyVisitor {
         log.log("         instr(putstatic)f=" + six, Project.MSG_DEBUG);
 
         String className = s.getFieldName(poolGen);
-        if ("staticField".equals(className))
+        if ("staticField".equals(className)) {
             return;
-
-        if (className.startsWith("class$") || className.startsWith("array$"))
-            ;
-        else return;
+        }
+        if (!className.startsWith("class$") && !className.startsWith("array$")) {
+            return;
+        }
 
         log.log("         instr(putstatic)1=" + className, Project.MSG_DEBUG);
         className = className.substring(6, className.length());

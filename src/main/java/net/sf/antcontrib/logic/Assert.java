@@ -128,8 +128,8 @@ public class Assert extends BooleanConditionBase {
      * Method execute.
      */
     public void execute() {
-        String use_asserts = getProject().getProperty("ant.enable.asserts");
-        boolean assertsEnabled = Project.toBoolean(use_asserts);
+        String enable = getProject().getProperty("ant.enable.asserts");
+        boolean assertsEnabled = Project.toBoolean(enable);
 
         if (assertsEnabled) {
             if (name != null) {
@@ -156,15 +156,11 @@ public class Assert extends BooleanConditionBase {
                     fail.setMessage(message);
                     fail.execute();
                 }
-            } else {
-                if (execute && sequential != null) {
-                    this.sequential.execute();
-                }
-            }
-        } else {
-            if (execute && sequential != null) {
+            } else if (execute && sequential != null) {
                 this.sequential.execute();
             }
+        } else if (execute && sequential != null) {
+            this.sequential.execute();
         }
     }
 }

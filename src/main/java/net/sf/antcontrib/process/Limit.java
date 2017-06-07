@@ -117,8 +117,9 @@ public class Limit extends Task implements TaskContainer {
      *             "minute", "hour", "day", and "week".
      */
     public void setUnit(String unit) {
-        if (unit == null)
+        if (unit == null) {
             return;
+        }
         if (unit.equals(TimeUnit.SECOND)) {
             setMaxWaitUnit(TimeUnit.SECOND_UNIT);
             return;
@@ -143,7 +144,6 @@ public class Limit extends Task implements TaskContainer {
             setMaxWaitUnit(TimeUnit.WEEK_UNIT);
             return;
         }
-
     }
 
     /**

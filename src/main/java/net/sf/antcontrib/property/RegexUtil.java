@@ -62,10 +62,8 @@ public class RegexUtil {
          * @return String
          */
         public String select(List<String> groups) {
-            if (groupNumber < groups.size())
-                return groups.get(groupNumber);
-            else
-                return "\\" + groupNumber;
+            return (groupNumber < groups.size()) ? groups.get(groupNumber)
+                    : "\\" + groupNumber;
         }
 
         /**

@@ -11,8 +11,15 @@ import org.apache.tools.ant.BuildException;
 import fr.jayasoft.ivy.ant.IvyCacheFileset;
 import fr.jayasoft.ivy.ant.IvyConfigure;
 
+/**
+ *
+ */
 public class Ivy14Adapter implements IvyAdapter {
-
+    /**
+     * Method configure().
+     *
+     * @param task URLImportTask
+     */
     public void configure(URLImportTask task) {
         IvyConfigure configure = new IvyConfigure();
         configure.setProject(task.getProject());
@@ -55,17 +62,17 @@ public class Ivy14Adapter implements IvyAdapter {
                 temp.deleteOnExit();
                 fw = new FileWriter(temp);
                 fw.write("<ivyconf>");
-                fw.write("<conf defaultResolver=\"default\" />");
+                fw.write("<conf defaultResolver=\"default\"/>");
                 fw.write("<resolvers>");
                 if (repositoryDir != null) {
                     fw.write("<filesystem name=\"default\">");
-                    fw.write("<ivy pattern=\"" + repositoryDir + "/" + ivyPattern + "\"  />");
-                    fw.write("<artifact pattern=\"" + repositoryDir + "/" + artifactPattern + "\"  />");
+                    fw.write("<ivy pattern=\"" + repositoryDir + "/" + ivyPattern + "\"/>");
+                    fw.write("<artifact pattern=\"" + repositoryDir + "/" + artifactPattern + "\"/>");
                     fw.write("</filesystem>");
                 } else {
                     fw.write("<url name=\"default\">");
-                    fw.write("<ivy pattern=\"" + repositoryUrl + "/" + ivyPattern + "\"  />");
-                    fw.write("<artifact pattern=\"" + repositoryUrl + "/" + artifactPattern + "\"  />");
+                    fw.write("<ivy pattern=\"" + repositoryUrl + "/" + ivyPattern + "\"/>");
+                    fw.write("<artifact pattern=\"" + repositoryUrl + "/" + artifactPattern + "\"/>");
                     fw.write("</url>");
                 }
                 fw.write("</resolvers>");
@@ -96,6 +103,12 @@ public class Ivy14Adapter implements IvyAdapter {
         configure.execute();
     }
 
+    /**
+     * Method fileset().
+     *
+     * @param task URLImportTask
+     * @param setId String
+     */
     public void fileset(URLImportTask task, String setId) {
         String org = task.getOrg();
         String module = task.getModule();

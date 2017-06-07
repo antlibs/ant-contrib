@@ -62,8 +62,9 @@ public abstract class AbstractPropertySetterTask extends Task {
      * Method validate.
      */
     protected void validate() {
-        if (property == null)
+        if (property == null) {
             throw new BuildException("You must specify a property to set.");
+        }
     }
 
     /**
@@ -74,10 +75,11 @@ public abstract class AbstractPropertySetterTask extends Task {
     protected final void setPropertyValue(String value) {
         if (value != null) {
             if (override) {
-                if (getProject().getUserProperty(property) == null)
+                if (getProject().getUserProperty(property) == null) {
                     getProject().setProperty(property, value);
-                else
+                } else {
                     getProject().setUserProperty(property, value);
+                }
             } else {
                 Property p = (Property) getProject().createTask("property");
                 p.setName(property);

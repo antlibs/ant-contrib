@@ -105,8 +105,9 @@ public class PropertyCopy extends AbstractPropertySetterTask {
      */
     protected void validate() throws BuildException {
         super.validate();
-        if (from == null)
+        if (from == null) {
             throw new BuildException("Missing the 'from' attribute.");
+        }
     }
 
     /**
@@ -119,10 +120,12 @@ public class PropertyCopy extends AbstractPropertySetterTask {
 
         String value = getProject().getProperty(from);
 
-        if (value == null && !silent)
+        if (value == null && !silent) {
             throw new BuildException("Property '" + from + "' is not defined.");
+        }
 
-        if (value != null)
+        if (value != null) {
             setPropertyValue(value);
+        }
     }
 }

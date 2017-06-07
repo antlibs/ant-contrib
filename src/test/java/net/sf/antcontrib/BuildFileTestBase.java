@@ -73,11 +73,13 @@ public abstract class BuildFileTestBase extends BuildFileTest {
         File f = new File(filename);
         if (!f.exists()) {
             URL url = getClass().getClassLoader().getResource(filename);
-            if (url == null)
+            if (url == null) {
                 throw new BuildException("Can't find " + filename);
+            }
             f = new File(url.getPath());
-            if (!f.exists())
+            if (!f.exists()) {
                 throw new BuildException("Can't find " + filename);
+            }
         }
         super.configureProject(f.getAbsolutePath());
     }
@@ -90,7 +92,8 @@ public abstract class BuildFileTestBase extends BuildFileTest {
      * @param cause    information string to reader of report
      * @param contains substring of the build exception to look for
      */
-    protected void expectBuildExceptionStackTraceContaining(String target, String cause, String contains) {
+    protected void expectBuildExceptionStackTraceContaining(String target, String cause,
+                                                            String contains) {
         try {
             executeTarget(target);
         } catch (BuildException ex) {

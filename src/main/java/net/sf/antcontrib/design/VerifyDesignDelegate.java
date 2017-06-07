@@ -214,8 +214,9 @@ public class VerifyDesignDelegate implements Log {
      * @throws BuildException if parsing of design file fails
      */
     public void execute() throws BuildException {
-        if (!designFile.exists() || designFile.isDirectory())
+        if (!designFile.exists() || designFile.isDirectory()) {
             throw new BuildException("design attribute in verifydesign element specified an invalid file=" + designFile);
+        }
 
         verifyJarFilesExist();
 
@@ -242,22 +243,24 @@ public class VerifyDesignDelegate implements Log {
 
             //only put unused errors if there are no other errors
             //this is because you end up with false unused errors if you don't do this.
-            if (designErrors.isEmpty())
+            if (designErrors.isEmpty()) {
                 design.fillInUnusedPackages(designErrors);
+            }
 
             if (!designErrors.isEmpty()) {
                 log(designErrors.size() + " errors.", Project.MSG_WARN);
-                if (!fillInBuildException)
+                if (!fillInBuildException) {
                     throw new BuildException("Design check failed due to previous errors");
+                }
                 throwAllErrors();
             }
 
         } catch (SAXException e) {
             maybeDeleteFiles();
             if (e.getException() != null
-                    && e.getException() instanceof RuntimeException)
+                    && e.getException() instanceof RuntimeException) {
                 throw (RuntimeException) e.getException();
-            else if (e instanceof SAXParseException) {
+            } else if (e instanceof SAXParseException) {
                 SAXParseException pe = (SAXParseException) e;
                 throw new BuildException("\nProblem parsing design file='"
                         + designFile + "'.  \nline=" + pe.getLineNumber()
@@ -277,8 +280,9 @@ public class VerifyDesignDelegate implements Log {
         } finally {
         }
 
-        if (!verifiedAtLeastOne)
+        if (!verifiedAtLeastOne) {
             throw new BuildException("Did not find any class or jar files to verify");
+        }
     }
 
     //some auto builds like cruisecontrol can only report all the
@@ -307,8 +311,9 @@ public class VerifyDesignDelegate implements Log {
             for (String fileName : p.list()) {
                 File file = new File(fileName);
 
-                if (!file.exists())
+                if (!file.exists()) {
                     throw new BuildException(VisitorImpl.getNoFileMsg(file));
+                }
             }
         }
     }
@@ -372,8 +377,9 @@ public class VerifyDesignDelegate implements Log {
                 for (String scannerFile : scannerFiles) {
                     verifyPartOfPath(scannerFile, new File(file, scannerFile), d);
                 }
-            } else
+            } else {
                 verifyPartOfPath(fileName, file, d);
+            }
         }
     }
 
@@ -395,9 +401,10 @@ public class VerifyDesignDelegate implements Log {
             verifyJarAdheresToDesign(d, jarFile, file);
         } else if (fileName.endsWith(".class")) {
             verifyClassAdheresToDesign(d, file);
-        } else
+        } else {
             throw new BuildException("Only directories, jars, wars, and class files can be supplied to verify design, not file="
                     + file.getAbsolutePath());
+        }
     }
 
     /**
@@ -486,8 +493,9 @@ public class VerifyDesignDelegate implements Log {
             JavaClass javaClass = parser.parse();
             String className = javaClass.getClassName();
 
-            if (!d.needEvalCurrentClass(className))
+            if (!d.needEvalCurrentClass(className)) {
                 return;
+            }
 
             ConstantPool pool = javaClass.getConstantPool();
             processConstantPool(pool);
@@ -526,8 +534,10 @@ public class VerifyDesignDelegate implements Log {
      * @param i    int
      */
     private void processConstant(ConstantPool pool, Constant c, int i) {
-        if (c == null) //don't know why, but constant[0] seems to be always null.
+        if (c == null) {
+            //don't know why, but constant[0] seems to be always null.
             return;
+        }
 
         log("      const[" + i + "]=" + pool.constantToString(c) + " inst=" + c.getClass().getName(),
                 Project.MSG_DEBUG);
@@ -541,8 +551,9 @@ public class VerifyDesignDelegate implements Log {
                 log("      classNamePre=" + className, Project.MSG_DEBUG);
                 className = getRidOfArray(className);
                 String firstLetter = className.charAt(0) + "";
-                if (primitives.contains(firstLetter))
+                if (primitives.contains(firstLetter)) {
                     return;
+                }
                 log("      className=" + className, Project.MSG_VERBOSE);
                 design.checkClass(className);
                 break;
@@ -557,8 +568,9 @@ public class VerifyDesignDelegate implements Log {
      * @return String
      */
     private static String getRidOfArray(String className) {
-        while (className.startsWith("["))
+        while (className.startsWith("[")) {
             className = className.substring(1, className.length());
+        }
         return className;
     }
 
@@ -571,8 +583,9 @@ public class VerifyDesignDelegate implements Log {
     public static String getPackageName(String className) {
         String packageName = Package.DEFAULT;
         int index = className.lastIndexOf(".");
-        if (index > 0)
+        if (index > 0) {
             packageName = className.substring(0, index);
+        }
         // TODO test the else scenario here (it is a corner case)...
 
         return packageName;

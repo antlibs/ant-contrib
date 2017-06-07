@@ -80,10 +80,11 @@ public class ConnectionHandler implements Runnable {
      */
     public void start() {
         long gid = nextGroupId;
-        if (nextGroupId == Long.MAX_VALUE)
+        if (nextGroupId == Long.MAX_VALUE) {
             nextGroupId = 0;
-        else
+        } else {
             nextGroupId++;
+        }
 
         ThreadGroup group = new ThreadGroup("server-tg-" + gid);
         Thread thread = new Thread(group, this);
@@ -148,8 +149,9 @@ public class ConnectionHandler implements Runnable {
                     response.setSucceeded(false);
                     response.setThrowable(t);
                 } finally {
-                    if (cbl != null)
+                    if (cbl != null) {
                         task.getProject().removeBuildListener(cbl);
+                    }
                 }
 
                 StringWriter xmlWriter = new StringWriter();

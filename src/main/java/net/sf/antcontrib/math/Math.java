@@ -39,8 +39,9 @@ public class Math {
                                         String datatype,
                                         boolean strict,
                                         Evaluateable[] operands) {
-        if (datatype == null)
+        if (datatype == null) {
             datatype = "double";
+        }
 
         try {
             operation = operation.toLowerCase();
@@ -87,19 +88,27 @@ public class Math {
 
         if (datatype.equalsIgnoreCase("int")) {
             int sum = 0;
-            for (Number number : numbers) sum += number.intValue();
+            for (Number number : numbers) {
+                sum += number.intValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("long")) {
             long sum = 0;
-            for (Number number : numbers) sum += number.longValue();
+            for (Number number : numbers) {
+                sum += number.longValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("float")) {
             float sum = 0;
-            for (Number number : numbers) sum += number.floatValue();
+            for (Number number : numbers) {
+                sum += number.floatValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("double")) {
             double sum = 0;
-            for (Number number : numbers) sum += number.doubleValue();
+            for (Number number : numbers) {
+                sum += number.doubleValue();
+            }
             result = sum;
         }
         return result;
@@ -124,23 +133,27 @@ public class Math {
 
         if (datatype.equalsIgnoreCase("int")) {
             int sum = numbers[0].intValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum -= numbers[i].intValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("long")) {
             long sum = numbers[0].longValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum -= numbers[i].longValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("float")) {
             float sum = numbers[0].floatValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum -= numbers[i].floatValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("double")) {
             double sum = numbers[0].doubleValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum -= numbers[i].doubleValue();
+            }
             result = sum;
         }
         return result;
@@ -160,24 +173,33 @@ public class Math {
         Number result = null;
 
         Number[] numbers = new Number[operands.length];
-        for (int i = 0; i < operands.length; i++)
+        for (int i = 0; i < operands.length; i++) {
             numbers[i] = operands[i].evaluate();
+        }
 
         if (datatype.equalsIgnoreCase("int")) {
             int sum = 1;
-            for (Number number : numbers) sum *= number.intValue();
+            for (Number number : numbers) {
+                sum *= number.intValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("long")) {
             long sum = 1;
-            for (Number number : numbers) sum *= number.longValue();
+            for (Number number : numbers) {
+                sum *= number.longValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("float")) {
             float sum = 1;
-            for (Number number : numbers) sum *= number.floatValue();
+            for (Number number : numbers) {
+                sum *= number.floatValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("double")) {
             double sum = 1;
-            for (Number number : numbers) sum *= number.doubleValue();
+            for (Number number : numbers) {
+                sum *= number.doubleValue();
+            }
             result = sum;
         }
         return result;
@@ -197,28 +219,33 @@ public class Math {
         Number result = null;
 
         Number[] numbers = new Number[operands.length];
-        for (int i = 0; i < operands.length; i++)
+        for (int i = 0; i < operands.length; i++) {
             numbers[i] = operands[i].evaluate();
+        }
 
         if (datatype.equalsIgnoreCase("int")) {
             int sum = numbers[0].intValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum /= numbers[i].intValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("long")) {
             long sum = numbers[0].longValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum /= numbers[i].longValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("float")) {
             float sum = numbers[0].floatValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum /= numbers[i].floatValue();
+            }
             result = sum;
         } else if (datatype.equalsIgnoreCase("double")) {
             double sum = numbers[0].doubleValue();
-            for (int i = 1; i < numbers.length; i++)
+            for (int i = 1; i < numbers.length; i++) {
                 sum /= numbers[i].doubleValue();
+            }
             result = sum;
         }
         return result;
@@ -348,16 +375,21 @@ public class Math {
      * @return Class&lt;? extends Number&lt;
      */
     private static Class<? extends Number> getPrimitiveClass(String datatype) {
-        if (datatype == null)
+        if (datatype == null) {
             return Double.TYPE;
-        if (datatype.equals("int"))
+        }
+        if (datatype.equals("int")) {
             return Integer.TYPE;
-        if (datatype.equals("long"))
+        }
+        if (datatype.equals("long")) {
             return Long.TYPE;
-        if (datatype.equals("float"))
+        }
+        if (datatype.equals("float")) {
             return Float.TYPE;
-        if (datatype.equals("double"))
+        }
+        if (datatype.equals("double")) {
             return Double.TYPE;
+        }
         throw new BuildException("Invalid datatype.");
 
     }

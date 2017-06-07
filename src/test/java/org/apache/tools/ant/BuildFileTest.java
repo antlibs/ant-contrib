@@ -27,8 +27,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
-import org.apache.tools.ant.Project;
-
 /**
  * A BuildFileTest provides extra methods for JUnit tests which
  * execute targets from an Ant buildfile.

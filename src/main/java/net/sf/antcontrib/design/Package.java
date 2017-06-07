@@ -80,8 +80,9 @@ public class Package {
      * @param name String
      */
     public void setName(String name) {
-        if ("".equals(name))
+        if ("".equals(name)) {
             name = DEFAULT;
+        }
         this.name = name;
     }
 
@@ -118,8 +119,9 @@ public class Package {
      * @param d Depends
      */
     public void addDepends(Depends d) {
-        if (depends == null)
+        if (depends == null) {
             depends = new ArrayList<Depends>();
+        }
         depends.add(d);
         unusedDepends.add(d);
     }
@@ -131,9 +133,7 @@ public class Package {
      */
     public Depends[] getDepends() {
         Depends[] d = new Depends[0];
-        if (depends == null)
-            return d;
-        return depends.toArray(d);
+        return depends == null ? d : depends.toArray(d);
     }
 
     /**

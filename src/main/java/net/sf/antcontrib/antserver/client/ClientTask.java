@@ -177,8 +177,9 @@ public class ClientTask extends Task {
                                 Project.MSG_ERR);
                         log(r.getErrorMessage(), Project.MSG_ERR);
                         log(r.getErrorStackTrace(), Project.MSG_DEBUG);
-                        if (!persistent)
+                        if (!persistent) {
                             keepGoing = false;
+                        }
                     }
 
                     try {
@@ -200,15 +201,18 @@ public class ClientTask extends Task {
                         client.shutdown();
                     }
 
-                    if (!keepGoing)
+                    if (!keepGoing) {
                         break;
+                    }
                 }
 
-                if (failCount > 0 && failOnError)
+                if (failCount > 0 && failOnError) {
                     throw new BuildException("One or more commands failed.");
+                }
             } finally {
-                if (client != null)
+                if (client != null) {
                     client.disconnect();
+                }
             }
         } catch (ParserConfigurationException ex) {
             throw new BuildException(ex);

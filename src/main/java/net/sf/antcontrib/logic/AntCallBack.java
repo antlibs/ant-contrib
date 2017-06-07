@@ -411,7 +411,8 @@ public class AntCallBack extends Task {
      */
     @SuppressWarnings("unchecked")
     private void addReferences() throws BuildException {
-        Hashtable<String, Object> thisReferences = (Hashtable<String, Object>) getProject().getReferences().clone();
+        Hashtable<String, Object> thisReferences = (Hashtable<String, Object>)
+                getProject().getReferences().clone();
         Hashtable<String, Object> newReferences = newProject.getReferences();
         if (references.size() > 0) {
             for (Reference ref : references) {

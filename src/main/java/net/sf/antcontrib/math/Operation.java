@@ -148,8 +148,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
      * @param numeric Numeric
      */
     public void addConfiguredNumeric(Numeric numeric) {
-        if (hasLocalOperands)
+        if (hasLocalOperands) {
             throw new BuildException("Cannot combine operand attributes with subelements");
+        }
 
         operands.add(numeric);
     }
@@ -160,8 +161,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
      * @param operation Operation
      */
     public void addConfiguredOperation(Operation operation) {
-        if (hasLocalOperands)
+        if (hasLocalOperands) {
             throw new BuildException("Cannot combine operand attributes with subelements");
+        }
 
         operands.add(operation);
     }
@@ -172,8 +174,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
      * @param numeric Numeric
      */
     public void addConfiguredNum(Numeric numeric) {
-        if (hasLocalOperands)
+        if (hasLocalOperands) {
             throw new BuildException("Cannot combine operand attributes with subelements");
+        }
 
         operands.add(numeric);
     }
@@ -184,8 +187,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
      * @param operation Operation
      */
     public void addConfiguredOp(Operation operation) {
-        if (hasLocalOperands)
+        if (hasLocalOperands) {
             throw new BuildException("Cannot combine operand attributes with subelements");
+        }
 
         operands.add(operation);
     }
@@ -205,18 +209,11 @@ public class Operation implements Evaluateable, DynamicConfigurator {
      * @param operation String
      */
     public void setOperation(String operation) {
-        if (operation.equals("+"))
-            this.operation = "add";
-        else if (operation.equals("-"))
-            this.operation = "subtract";
-        else if (operation.equals("*"))
-            this.operation = "multiply";
-        else if (operation.equals("/"))
-            this.operation = "divide";
-        else if (operation.equals("%"))
-            this.operation = "mod";
-        else
-            this.operation = operation;
+        this.operation = operation.equals("+") ? "add"
+                : operation.equals("-") ? "subtract"
+                : operation.equals("*") ? "multiply"
+                : operation.equals("/") ? "divide"
+                : operation.equals("%") ? "mod" : operation;
     }
 
     /**
@@ -249,8 +246,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
         if (hasLocalOperands) {
             List<Numeric> localOps = new ArrayList<Numeric>();
             for (Numeric localOperand : localOperands) {
-                if (localOperand != null)
+                if (localOperand != null) {
                     localOps.add(localOperand);
+                }
             }
 
             ops = localOps.toArray(new Evaluateable[localOps.size()]);

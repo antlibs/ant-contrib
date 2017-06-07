@@ -320,14 +320,15 @@ public class CompileWithWallsTest extends BuildFileTestBase {
         //must test that it is testing the correct directory.
         //It wasn't before.
         File f1 = new File(baseDir, file);
-        if (shouldExist)
+        if (shouldExist) {
             assertTrue("The java file=" + f1.getAbsolutePath()
                             + " didn't exist, we can't run this test.  It will pass with false results",
                     f1.exists());
-        else
+        } else {
             assertTrue("The java file=" + f1.getAbsolutePath()
                             + " exists and shouldn't, we can't run this test.  It will pass with false results",
                     !f1.exists());
+        }
     }
 
     /**
@@ -338,16 +339,17 @@ public class CompileWithWallsTest extends BuildFileTestBase {
      */
     private void ensureClassFileExists(String file, boolean shouldExist) {
         File f1 = new File(baseDir + "/compilewithwalls/classes", file);
-        if (shouldExist)
+        if (shouldExist) {
             assertTrue("The class file=" + f1.getAbsolutePath()
                             + " didn't get created, No build exception\nwas thrown,"
                             + " but the build failed because a class\nfile should have been created",
                     f1.exists());
-        else
+        } else {
             assertTrue("The class file=" + f1.getAbsolutePath()
                             + " exists and shouldn't\n"
                             + "Test may be inaccurate if this file already exists...correct the test",
                     !f1.exists());
+        }
     }
 
 }

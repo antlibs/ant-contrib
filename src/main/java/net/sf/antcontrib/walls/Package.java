@@ -134,11 +134,12 @@ public class Package {
      */
     public FileSet getJavaCopyFileSet(Project p, Location l) throws BuildException {
 
-        if (failureReason != null)
+        if (failureReason != null) {
             throw new BuildException(failureReason, l);
-        else if (pack.contains("/") || pack.contains("\\"))
+        } else if (pack.contains("/") || pack.contains("\\")) {
             throw new BuildException("A package name cannot contain '\\' or '/' like package="
                     + pack + "\nIt must look like biz.xsoftware.* for example", l);
+        }
         FileSet set = new FileSet();
 
         String match = getMatch(p, pack, ".java");

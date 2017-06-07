@@ -64,7 +64,9 @@ public class Relentless extends Task implements TaskContainer {
             if (desc == null) {
                 desc = "task " + taskNo;
             }
-            if (!terse) log("Executing: " + desc);
+            if (!terse) {
+                log("Executing: " + desc);
+            }
             try {
                 t.perform();
             } catch (BuildException x) {

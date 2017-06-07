@@ -50,8 +50,9 @@ public final class IsPropertyFalse extends ProjectComponent implements Condition
      * @see org.apache.tools.ant.taskdefs.condition.Condition#eval()
      */
     public boolean eval() throws BuildException {
-        if (name == null)
+        if (name == null) {
             throw new BuildException("Property name must be set.");
+        }
         String value = getProject().getProperty(name);
         return value == null || !Project.toBoolean(value);
     }

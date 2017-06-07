@@ -83,8 +83,9 @@ public class StopWatch {
      * @return the start time, the long returned System.currentTimeMillis().
      */
     public long start() {
-        if (!running)
+        if (!running) {
             startTime = System.currentTimeMillis();
+        }
         running = true;
         return startTime;
     }
@@ -144,9 +145,9 @@ public class StopWatch {
         String total = String.valueOf(ms);
         String frontpad = "000";
         int pad_length = 3 - total.length();
-        if (pad_length >= 0)
+        if (pad_length >= 0) {
             total = "0." + frontpad.substring(0, pad_length) + total;
-        else {
+        } else {
             String dec = total.substring(total.length() - 3);
             total = "";
             int min = 0;
@@ -170,8 +171,9 @@ public class StopWatch {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        if (name != null)
+        if (name != null) {
             sb.append(name).append(": ");
+        }
         sb.append(format(totalTime));
         sb.append("]");
         return sb.toString();
