@@ -110,9 +110,9 @@ public final class TaskDoclet {
      * @return true if class is an Ant type.
      */
     private static boolean isType(final ClassDoc clazz) {
-        if (clazz == null) return false;
-        return "org.apache.tools.ant.types.DataType".equals(clazz.qualifiedTypeName())
-                || isType(clazz.superclass());
+        return clazz != null
+                && ("org.apache.tools.ant.types.DataType".equals(clazz.qualifiedTypeName())
+                || isType(clazz.superclass()));
     }
 
     /**
@@ -284,7 +284,7 @@ public final class TaskDoclet {
             //
             //   attempt to fabricate an XHTML fragment
             //
-            StringBuffer buf = new StringBuffer(description);
+            StringBuilder buf = new StringBuilder(description);
             buf.insert(0, "<body xmlns='" + XHTML_URI + "'>");
             buf.append("</body>");
             try {
@@ -371,7 +371,7 @@ public final class TaskDoclet {
         tf.setResult(result);
         AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(null, "name", "name", "CDATA", clazz.name());
-        StringBuffer firstSentence = new StringBuffer();
+        StringBuilder firstSentence = new StringBuilder();
         for (Tag tag : clazz.firstSentenceTags()) {
             firstSentence.append(tag.text());
         }
