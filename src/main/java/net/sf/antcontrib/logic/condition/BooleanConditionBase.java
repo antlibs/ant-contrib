@@ -15,6 +15,11 @@
  */
 package net.sf.antcontrib.logic.condition;
 
+import java.lang.reflect.Field;
+import java.util.Vector;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.condition.Condition;
 import org.apache.tools.ant.taskdefs.condition.ConditionBase;
 
 /**
@@ -26,6 +31,30 @@ import org.apache.tools.ant.taskdefs.condition.ConditionBase;
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
 public class BooleanConditionBase extends ConditionBase {
+    /**
+     * Field conditions.
+     */
+    @SuppressWarnings("unused")
+    private Vector<Condition> conditions = new Vector<Condition>();
+
+    public BooleanConditionBase() {
+        @SuppressWarnings("unused")
+        Vector<Condition> conditions = getParentConditions();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Vector<Condition> getParentConditions() {
+        try {
+            Field f = ConditionBase.class.getDeclaredField("conditions");
+            f.setAccessible(true);
+            return (Vector<Condition>) f.get(this);
+        } catch (NoSuchFieldException e) {
+            throw new BuildException(e);
+        } catch (IllegalAccessException e) {
+            throw new BuildException(e);
+        }
+    }
+
     /**
      * Adds a feature to the IsPropertyTrue attribute of the
      * BooleanConditionBase object.
