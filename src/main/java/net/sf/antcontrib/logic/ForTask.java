@@ -532,6 +532,7 @@ public class ForTask extends Task {
          *
          * @return Iterator&lt;Object&gt;
          */
+        @SuppressWarnings("unchecked")
         public Iterator<Object> iterator() {
             try {
                 return (Iterator<Object>) method.invoke(obj, new Object[]{});

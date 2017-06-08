@@ -15,18 +15,18 @@
  limitations under the License.
 
 -->
-<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:taskdocs="http://ant-contrib.sf.net/taskdocs"
                xmlns:xhtml="http://www.w3.org/1999/xhtml"
                xsl:version="1.0">
 
-   <xsl:output method="xml" indent="yes"/>
+    <xsl:output method="xml" indent="yes"/>
 
-   <xsl:apply-templates select="/"/>
+    <xsl:apply-templates select="/"/>
 
-   <xsl:template match="/">
+    <xsl:template match="/">
 
-  <xsl:comment>
+	<xsl:comment>
 
 Licensed to the Ant-Contrib Project under one or more
  contributor license agreements.  See the NOTICE file distributed with
@@ -43,11 +43,11 @@ Licensed to the Ant-Contrib Project under one or more
  See the License for the specific language governing permissions and
  limitations under the License.
 
-  </xsl:comment>
-       <document>
-           <xsl:apply-templates/>
-       </document>
-</xsl:template>
+	</xsl:comment>
+	<document>
+	    <xsl:apply-templates/>
+	</document>
+    </xsl:template>
 
     <xsl:template match="xhtml:*">
         <xsl:element name="{local-name()}">
@@ -58,7 +58,7 @@ Licensed to the Ant-Contrib Project under one or more
     <xsl:template match="text()">
         <xsl:value-of select="."/>
     </xsl:template>
-    
+
     <xsl:template name="pretty-name">
         <xsl:param name="name"/>
         <xsl:choose>
@@ -141,7 +141,6 @@ Licensed to the Ant-Contrib Project under one or more
             </xsl:if>
         </section>
         </body>
-        
     </xsl:template>
 
     <xsl:template match="taskdocs:attribute">
@@ -158,7 +157,6 @@ Licensed to the Ant-Contrib Project under one or more
                 </xsl:for-each>
             </td>
         </tr>
-
     </xsl:template>
 
     <xsl:template name="attribute-type">
@@ -189,7 +187,7 @@ Licensed to the Ant-Contrib Project under one or more
             <xsl:value-of select="$anchor"/>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="taskdocs:child">
             <dt>
                 <xsl:variable name="anchor">
@@ -205,6 +203,5 @@ Licensed to the Ant-Contrib Project under one or more
             </dt>
             <dd><xsl:value-of select="taskdocs:comment"/></dd>
     </xsl:template>
-
 
 </xsl:transform>

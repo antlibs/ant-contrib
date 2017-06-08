@@ -19,6 +19,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 
+import static org.apache.tools.ant.Project.toBoolean;
+
 /**
  * Checks the value of a specified property.
  * <p>Developed for use with Antelope, migrated to ant-contrib Oct 2003.
@@ -53,6 +55,6 @@ public final class IsPropertyTrue extends ProjectComponent implements Condition 
             throw new BuildException("Property name must be set.");
         }
         String value = getProject().getProperty(name);
-        return value != null && getProject().toBoolean(value);
+        return value != null && toBoolean(value);
     }
 }
