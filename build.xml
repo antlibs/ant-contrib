@@ -85,10 +85,9 @@
         </javac>
 
         <copy todir="${target.test-classes.dir}">
-            <fileset dir="${resources.test.dir}"
-                     includes="**/*.java,**/*.properties,**/*.xml,**/*.txt"/>
 	    <!-- antclipse expects .classpath in basedir -->
-	    <fileset file="${resources.test.dir}/antclipse/.classpath"/>
+            <fileset dir="${resources.test.dir}"
+                     includes="**/*.java,**/*.properties,**/*.xml,**/*.txt,.classpath"/>
         </copy>
     </target>
 
