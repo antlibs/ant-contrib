@@ -41,7 +41,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -66,9 +65,7 @@ public final class TaskDoclet {
 
         Map<String, Type> referencedTypes = new HashMap<String, Type>();
         Map<String, ClassDoc> documentedTypes = new HashMap<String, ClassDoc>();
-        ClassDoc[] classes = root.classes();
-        for (int i = 0; i < classes.length; ++i) {
-            ClassDoc clazz = classes[i];
+        for (ClassDoc clazz : root.classes()) {
             if (clazz.isPublic() && !clazz.isAbstract()) {
                 if (isTask(clazz) || isType(clazz)) {
                     writeClass(typeHandler, clazz, referencedTypes);
@@ -78,8 +75,7 @@ public final class TaskDoclet {
         }
 
         Map<String, Type> additionalTypes = new HashMap<String, Type>();
-        for (Iterator<String> iter = referencedTypes.keySet().iterator(); iter.hasNext();) {
-            String referencedName = (String) iter.next();
+        for (String referencedName : referencedTypes.keySet()) {
             if (documentedTypes.get(referencedName) == null) {
                 ClassDoc referencedClass = root.classNamed(referencedName);
                 if (referencedClass != null) {
@@ -115,10 +111,8 @@ public final class TaskDoclet {
      */
     private static boolean isType(final ClassDoc clazz) {
         if (clazz == null) return false;
-        if ("org.apache.tools.ant.types.DataType".equals(clazz.qualifiedTypeName())) {
-            return true;
-        }
-        return isType(clazz.superclass());
+        return "org.apache.tools.ant.types.DataType".equals(clazz.qualifiedTypeName())
+                || isType(clazz.superclass());
     }
 
     /**
@@ -316,9 +310,7 @@ public final class TaskDoclet {
                                         final ClassDoc clazz,
                                         final Map<String, MethodDoc> processed,
                                         final Map<String, Type> referencedTypes) throws Exception {
-        MethodDoc[] methods = clazz.methods();
-        for (int i = 0; i < methods.length; i++) {
-            MethodDoc method = methods[i];
+        for (MethodDoc method : clazz.methods()) {
             if (processed.get(method.name()) == null) {
                 if (method.name().startsWith("set") && method.isPublic() && method.parameters().length == 1) {
                     writeAttribute(tf, method);
@@ -345,9 +337,7 @@ public final class TaskDoclet {
                                             final ClassDoc clazz,
                                             final Map<String, MethodDoc> processed,
                                             final Map<String, Type> referencedTypes) throws Exception {
-        MethodDoc[] methods = clazz.methods();
-        for (int i = 0; i < methods.length; i++) {
-            MethodDoc method = methods[i];
+        for (MethodDoc method : clazz.methods()) {
             if (processed.get(method.name()) == null) {
                 if (method.name().startsWith("addConfigured") && method.isPublic() && method.parameters().length == 1) {
                     writeChild(tf, method, method.name().substring(13), method.parameters()[0].type(), referencedTypes);
@@ -382,9 +372,8 @@ public final class TaskDoclet {
         AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(null, "name", "name", "CDATA", clazz.name());
         StringBuffer firstSentence = new StringBuffer();
-        Tag[] tags = clazz.firstSentenceTags();
-        for (int i = 0; i < tags.length; i++) {
-            firstSentence.append(tags[i].text());
+        for (Tag tag : clazz.firstSentenceTags()) {
+            firstSentence.append(tag.text());
         }
         if (firstSentence.length() > 0) {
             attributes.addAttribute(null, "firstSentence", "firstSentence", "CDATA", firstSentence.toString());
