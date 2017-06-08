@@ -15,8 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertTrue;
-
 import net.sf.antcontrib.BuildFileTestBase;
 
 import org.junit.Before;
@@ -39,8 +37,7 @@ public class ForTest extends BuildFileTestBase {
      */
     @Test
     public void testLoop() {
-        executeTarget("loop");
-        assertTrue(getLog().contains("i is 10"));
+        expectLogContaining("loop", "i is 10");
     }
 
     /**
@@ -49,7 +46,7 @@ public class ForTest extends BuildFileTestBase {
     @Test
     public void testStep() {
         executeTarget("step");
-        assertTrue(getLog().contains("i is 10"));
-        assertTrue(!getLog().contains("i is 3"));
+        assertLogContaining("i is 10");
+        assertLogNotContaining("i is 3");
     }
 }

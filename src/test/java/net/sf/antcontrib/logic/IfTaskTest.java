@@ -15,9 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import net.sf.antcontrib.BuildFileTestBase;
 
 import org.junit.Before;
@@ -88,10 +85,10 @@ public class IfTaskTest extends BuildFileTestBase {
     @Test
     public void testNormalOperation() {
         executeTarget("normalOperation");
-        assertTrue(getLog().contains("In then"));
-        assertTrue(getLog().contains("some value"));
-        assertFalse(getLog().contains("${inner}"));
-        assertFalse(getLog().contains("In else"));
+        assertLogContaining("In then");
+        assertLogContaining("some value");
+        assertLogNotContaining("${inner}");
+        assertLogNotContaining("In else");
     }
 
     /**
@@ -100,8 +97,8 @@ public class IfTaskTest extends BuildFileTestBase {
     @Test
     public void testNormalOperation2() {
         executeTarget("normalOperation2");
-        assertTrue(getLog().contains("In else"));
-        assertFalse(getLog().contains("In then"));
+        assertLogContaining("In else");
+        assertLogNotContaining("In then");
     }
 
     /**
@@ -129,9 +126,9 @@ public class IfTaskTest extends BuildFileTestBase {
     @Test
     public void testNormalOperationElseif() {
         executeTarget("normalOperationElseif");
-        assertTrue(getLog().contains("In elseif"));
-        assertFalse(getLog().contains("In then"));
-        assertFalse(getLog().contains("In else-branch"));
+        assertLogContaining("In elseif");
+        assertLogNotContaining("In then");
+        assertLogNotContaining("In else-branch");
     }
 
     /**
@@ -140,8 +137,8 @@ public class IfTaskTest extends BuildFileTestBase {
     @Test
     public void testNormalOperationElseif2() {
         executeTarget("normalOperationElseif2");
-        assertTrue(getLog().contains("In else-branch"));
-        assertFalse(getLog().contains("In then"));
-        assertFalse(getLog().contains("In elseif"));
+        assertLogContaining("In else-branch");
+        assertLogNotContaining("In then");
+        assertLogNotContaining("In elseif");
     }
 }

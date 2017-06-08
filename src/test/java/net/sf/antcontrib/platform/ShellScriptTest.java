@@ -42,11 +42,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShHello() {
-        if (!hasSh) {
-            return;
+        if (hasSh) {
+            expectLogContaining("sh.hello", "hello world");
         }
-        executeTarget("sh.hello");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -54,11 +52,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testBashHello() {
-        if (!hasBash) {
-            return;
+        if (hasBash) {
+            expectLogContaining("bash.hello", "hello world");
         }
-        executeTarget("bash.hello");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -66,11 +62,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShInputString() {
-        if (!hasSh) {
-            return;
+        if (hasSh) {
+            expectLogContaining("sh.inputstring", "hello world");
         }
-        executeTarget("sh.inputstring");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -78,11 +72,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShProperty() {
-        if (!hasSh) {
-            return;
+        if (hasSh) {
+            expectLogContaining("sh.property", "this is a property");
         }
-        executeTarget("sh.property");
-        assertTrue(getLog().contains("this is a property"));
     }
 
     /**
@@ -90,11 +82,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPythonHello() {
-        if (!hasPython) {
-            return;
+        if (hasPython) {
+            expectLogContaining("python.hello", "hello world");
         }
-        executeTarget("python.hello");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -102,11 +92,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPerlHello() {
-        if (!hasPerl) {
-            return;
+        if (hasPerl) {
+            expectLogContaining("perl.hello", "hello world");
         }
-        executeTarget("perl.hello");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -123,11 +111,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSed() {
-        if (!hasSed) {
-            return;
+        if (hasSed) {
+            expectLogContaining("sed.test", "BAR bar bar bar BAR bar");
         }
-        executeTarget("sed.test");
-        assertTrue(getLog().contains("BAR bar bar bar BAR bar"));
     }
 
     /**
@@ -135,11 +121,10 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSetProperty() {
-        if (!hasSh) {
-            return;
+        if (hasSh) {
+            executeTarget("sh.set.property");
+            assertPropertyEquals("sh.set.property", "hello world");
         }
-        executeTarget("sh.set.property");
-        assertPropertyEquals("sh.set.property", "hello world");
     }
 
     /**
@@ -147,11 +132,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testTmpSuffix() {
-        if (!hasSh) {
-            return;
+        if (hasSh) {
+            expectLogContaining("sh.tmp.suffix", ".bat");
         }
-        executeTarget("sh.tmp.suffix");
-        assertTrue(getLog().contains(".bat"));
     }
 
     /**
@@ -159,11 +142,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testCmd() {
-        if (!hasCmd) {
-            return;
+        if (hasCmd) {
+            expectLogContaining("cmd.test", "hello world");
         }
-        executeTarget("cmd.test");
-        assertTrue(getLog().contains("hello world"));
     }
 
     /**
@@ -171,12 +152,10 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testDir() {
-        if (!hasBash) {
-            return;
+        if (hasBash) {
+            executeTarget("dir.test");
+            assertTrue(getProject().getProperty("dir.test.property").contains("subdir"));
         }
-        executeTarget("dir.test");
-        assertTrue(
-                getProject().getProperty("dir.test.property").contains("subdir"));
     }
 
     /**

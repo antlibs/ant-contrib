@@ -60,8 +60,7 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testVerbose() {
-        executeTarget("verbose");
-        assertTrue(getLog().contains("outofdate with regard to"));
+        expectLogContaining("verbose", "outofdate with regard to");
     }
 
     /**
@@ -87,7 +86,7 @@ public class OutOfDateTest extends BuildFileTestBase {
     public void testDeleteQuiet() {
         executeTarget("init");
         executeTarget("delete-quiet");
-        assertTrue("No deleting message", !getLog().contains("Deleting"));
+        assertLogNotContaining("Deleting");
     }
 
     /**
@@ -97,7 +96,7 @@ public class OutOfDateTest extends BuildFileTestBase {
     public void testFileset() {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
-        assertTrue(getLog().contains("outofdate triggered"));
+        assertLogContaining("outofdate triggered");
         String outofdateSources =
                 getProject().getProperty("outofdate.sources");
         // switch \ to / if present

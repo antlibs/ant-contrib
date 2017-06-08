@@ -65,8 +65,8 @@ public class ForeachTaskTest extends BuildFileTestBase {
     @Test
     public void testFileset() {
         simpleTest("fileset");
-        assertTrue(getLog().contains("The nested fileset element is deprecated,"
-                + " use a nested path instead"));
+        assertLogContaining("The nested fileset element is deprecated,"
+                + " use a nested path instead");
     }
 
     /**
@@ -75,8 +75,8 @@ public class ForeachTaskTest extends BuildFileTestBase {
     @Test
     public void testFilesetAndList() {
         simpleTest("filesetAndList");
-        assertTrue(getLog().contains("The nested fileset element is deprecated,"
-                + " use a nested path instead"));
+        assertLogContaining("The nested fileset element is deprecated,"
+                + " use a nested path instead");
     }
 
     /**
@@ -111,8 +111,7 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNestedParam() {
-        executeTarget("nestedParam");
-        assertTrue(getLog().contains("Called with param: rincewind"));
+        expectLogContaining("nestedParam", "Called with param: rincewind");
     }
 
     /**
@@ -120,8 +119,7 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNestedReference() {
-        executeTarget("nestedReference");
-        assertTrue(getLog().contains("Called with param: twoflower"));
+        expectLogContaining("nestedReference", "Called with param: twoflower");
     }
 
     /**
