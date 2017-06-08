@@ -15,7 +15,7 @@
  */
 package net.sf.antcontrib;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -50,10 +50,19 @@ public abstract class BuildFileTestBase extends BuildFileTest {
      */
     protected void expectLogNotContaining(String target, String log) {
         executeTarget(target);
+        assertLogNotContaining(log);
+    }
+
+    /**
+     * Assert that the given substring is NOT in the log messages.
+     *
+     * @param substring String
+     */
+    protected void assertLogNotContaining(String substring) {
         String realLog = getLog();
-        assertTrue("expecting log to NOT contain \"" + log + "\" log was \""
+        assertFalse("expecting log to NOT contain \"" + substring + "\" log was \""
                         + realLog + "\"",
-                !realLog.contains(log));
+                realLog.contains(substring));
     }
 
     /**

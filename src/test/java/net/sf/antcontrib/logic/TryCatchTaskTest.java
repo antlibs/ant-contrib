@@ -94,12 +94,9 @@ public class TryCatchTaskTest extends BuildFileTestBase {
     @Test
     public void testNoException() {
         executeTarget("noException");
-        int message = getLog().indexOf("Tada!");
-        int catchBlock = getLog().indexOf("In <catch>");
-        int finallyBlock = getLog().indexOf("In <finally>");
-        assertTrue(message > -1);
-        assertEquals(-1, catchBlock);
-        assertTrue(finallyBlock > message);
+        assertLogContaining("Tada!");
+        assertLogNotContaining("In <catch>");
+        assertTrue(getLog().indexOf("In <finally>") > getLog().indexOf("Tada!"));
         assertNull(getProject().getProperty("foo"));
         assertNull(getProject().getReference("bar"));
     }

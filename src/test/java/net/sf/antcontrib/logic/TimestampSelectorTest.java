@@ -15,8 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertTrue;
-
 import net.sf.antcontrib.BuildFileTestBase;
 
 import org.junit.After;
@@ -48,7 +46,7 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testFileStampFL() {
-        simpleTest("filestamp.fl", "file2.txt");
+        expectLogContaining("filestamp.fl", "file2.txt");
     }
 
     /**
@@ -56,7 +54,7 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testFileStampPR() {
-        simpleTest("filestamp.pr", "file2.txt");
+        expectLogContaining("filestamp.pr", "file2.txt");
     }
 
     /**
@@ -64,7 +62,7 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testDirStampDL() {
-        simpleTest("dirstamp.dl", "dir2");
+        expectLogContaining("dirstamp.dl", "dir2");
     }
 
     /**
@@ -72,17 +70,6 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testDirStampPR() {
-        simpleTest("dirstamp.pr", "dir2");
-    }
-
-    /**
-     * Method simpleTest.
-     *
-     * @param target   String
-     * @param expected String
-     */
-    private void simpleTest(String target, String expected) {
-        executeTarget(target);
-        assertTrue(getLog().contains(expected));
+        expectLogContaining("dirstamp.pr", "dir2");
     }
 }
