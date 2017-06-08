@@ -17,29 +17,34 @@
 -->
   <document>
   <properties>
-    <title>cpptasks: Compile tasks for Apache Ant</title>
+    <title>Ant Contrib tasks for Apache Ant</title>
   </properties>
   <body>
-  
-    <release version="1.0-beta5" date="2007-12-31" description="">
-       <!-- xsl:apply-templates select='/rss/channel/item'>
-           <xsl:sort select="substring-after(key, '-')" data-type="number"/>
-       </xsl:apply-templates -->
-     </release>
+    <release version="1.0-beta3" date="2006-11-02" description="">
+    </release>
 
-    <release version="1.0-beta4" date="2006-05-19" description="">
-     </release>
+    <release version="1.0-beta2" date="2005-02-04" description="">
+    </release>
 
-    <release version="1.0-beta3" date="2004-04-28" description="">
-     </release>
+    <release version="1.0-beta1" date="2004-05-13" description="">
+    </release>
 
-    <release version="1.0-beta2" date="2004-02-27" description="">
-     </release>
+    <release version="0.6" date="2004-02-18" description="">
+    </release>
 
-    <release version="1.0-beta1" date="2002-08-17" description="">
-     </release>
+    <release version="0.5" date="2004-02-18" description="">
+    </release>
 
-    <release version="1.0-alpha1" date="2002-01-08" description="">
-     </release>
+    <release version="0.4" date="2003-07-29" description="">
+    </release>
+
+    <release version="0.3" date="2003-03-21" description="">
+    </release>
+
+    <release version="0.2" date="2003-03-04" description="">
+    </release>
+
+    <release version="0.1" date="2003-02-11" description="">
+    </release>
   </body>
 </document>
