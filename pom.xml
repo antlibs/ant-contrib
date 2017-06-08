@@ -78,6 +78,8 @@
         <version>2.20</version>
         <configuration>
           <reportFormat>plain</reportFormat>
+          <forkCount>1</forkCount>
+          <reuseForks>false</reuseForks>
           <basedir>target/test-classes</basedir>
         </configuration>
       </plugin>
