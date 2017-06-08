@@ -1,9 +1,9 @@
-
 package mod.modB;
 
 import mod.modA.TrialBModuleA;
 
-public class TrialBModuleB
-{
+public class TrialBModuleB {
+
     private TrialBModuleA temp;
-};
+
+}

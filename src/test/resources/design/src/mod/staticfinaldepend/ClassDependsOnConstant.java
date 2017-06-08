@@ -26,7 +26,8 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnConstant {
 
-	public void doNothing() {
-		String s = ""+DummyClass.CONSTANT;
-	}
+    public void doNothing() {
+        String s = "" + DummyClass.CONSTANT;
+    }
+
 }

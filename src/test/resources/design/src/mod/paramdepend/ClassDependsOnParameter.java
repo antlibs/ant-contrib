@@ -26,7 +26,7 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnParameter {
 
-	public void setSomething(String dummy, DummyClass c) {
+    public void setSomething(String dummy, DummyClass c) {
+    }
 
-	}
 }

@@ -26,6 +26,6 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnReferenceInFieldDeclaration {
 
-	private Class c = DummyClass.class;
+    private Class c = DummyClass.class;
 
 }

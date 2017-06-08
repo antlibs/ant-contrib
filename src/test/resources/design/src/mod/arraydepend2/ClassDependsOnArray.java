@@ -18,15 +18,14 @@
  */
 package mod.arraydepend2;
 
-
-
 /**
  *
  * @author dhiller
  */
 public class ClassDependsOnArray {
 
-	public void testArray() throws Exception {
-		Class c = String[].class;
-	}
+    public void testArray() throws Exception {
+        Class c = String[].class;
+    }
+
 }

@@ -26,7 +26,7 @@ import mod.dummy.DummyClass;
  */
 public class InnerClassDependsOnSuper {
 
-	private class Inner extends DummyClass {
+    private class Inner extends DummyClass {
+    }
 
-	}
 }

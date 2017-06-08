@@ -38,8 +38,7 @@ public class BooleanConditionBase extends ConditionBase {
     private Vector<Condition> conditions = new Vector<Condition>();
 
     public BooleanConditionBase() {
-        @SuppressWarnings("unused")
-        Vector<Condition> conditions = getParentConditions();
+        conditions = getParentConditions();
     }
 
     @SuppressWarnings("unchecked")

@@ -26,7 +26,8 @@ import mod.recursion2.dependency.Dependency;
  */
 public class SubpackageClassDependsOnPackage {
 
-	public Dependency doNothing() {
-		return null;
-	}
+    public Dependency doNothing() {
+        return null;
+    }
+
 }

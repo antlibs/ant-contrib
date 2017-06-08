@@ -26,7 +26,7 @@ import mod.recursion3.svc.DependencyClass;
  */
 public class SubpackageClassDependsOnSubpackage {
 
-	public void doSomething(DependencyClass c) {
+    public void doSomething(DependencyClass c) {
+    }
 
-	}
 }

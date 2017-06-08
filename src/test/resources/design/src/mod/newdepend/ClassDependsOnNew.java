@@ -26,7 +26,8 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnNew {
 
-	public void doNothing() {
-		new DummyClass();
-	}
+    public void doNothing() {
+        new DummyClass();
+    }
+
 }

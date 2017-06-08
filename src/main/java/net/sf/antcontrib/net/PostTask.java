@@ -546,8 +546,9 @@ public class PostTask extends Task {
             if (start > -1 && end > -1 && end > start) {
                 String name = token.substring(start + 1, end - start);
                 String value = project.getProperty(name);
-                if (value != null)
+                if (value != null) {
                     p.setProperty(name, value);
+                }
             }
         }
         addProperties(p);

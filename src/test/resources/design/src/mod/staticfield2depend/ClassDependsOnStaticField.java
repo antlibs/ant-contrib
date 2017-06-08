@@ -26,7 +26,6 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnStaticField {
 
-	public static DummyClass x = null;
-
+    public static DummyClass x = null;
 
 }

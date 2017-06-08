@@ -222,14 +222,14 @@ public class Package {
         pack = pack.replace('.', File.separatorChar);
 
         String match;
-        @SuppressWarnings("unused")
-        String classMatch;
+
         if (pack.endsWith("**")) {
             match = pack + File.separatorChar + "*" + postFix;
         } else if (pack.endsWith("*")) {
             match = pack + postFix;
-        } else
+        } else {
             throw new RuntimeException("Please report this bug");
+        }
 
         return match;
     }

@@ -26,5 +26,6 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnNewInField {
 
-	public Object o = new DummyClass();
+    public Object o = new DummyClass();
+
 }

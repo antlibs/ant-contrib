@@ -26,6 +26,6 @@ import javax.swing.JButton;
  */
 public class ClassDependsOnJavax {
 
-	public JButton b = null;
+    public JButton b = null;
 
 }

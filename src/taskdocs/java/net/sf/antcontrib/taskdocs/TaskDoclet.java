@@ -96,7 +96,9 @@ public final class TaskDoclet {
      * @return true if class is an Ant task.
      */
     private static boolean isTask(final ClassDoc clazz) {
-        if (clazz == null) return false;
+        if (clazz == null) {
+            return false;
+        }
         if ("org.apache.tools.ant.Task".equals(clazz.qualifiedTypeName())) {
             System.out.print("true");
             return true;
@@ -203,7 +205,9 @@ public final class TaskDoclet {
          * @param tf output handler, may not be null.
          */
         public RedirectHandler(final TransformerHandler tf) {
-            if (tf == null) { throw new IllegalArgumentException("tf"); }
+            if (tf == null) {
+                throw new IllegalArgumentException("tf");
+            }
             this.tf = tf;
         }
 
@@ -333,10 +337,10 @@ public final class TaskDoclet {
      * @param referencedTypes map of referenced types.
      * @throws Exception if IO or other exception.
      */
-    private static final void writeChildren(final TransformerHandler tf,
-                                            final ClassDoc clazz,
-                                            final Map<String, MethodDoc> processed,
-                                            final Map<String, Type> referencedTypes) throws Exception {
+    private static void writeChildren(final TransformerHandler tf,
+                                      final ClassDoc clazz,
+                                      final Map<String, MethodDoc> processed,
+                                      final Map<String, Type> referencedTypes) throws Exception {
         for (MethodDoc method : clazz.methods()) {
             if (processed.get(method.name()) == null) {
                 if (method.name().startsWith("addConfigured") && method.isPublic() && method.parameters().length == 1) {

@@ -194,7 +194,7 @@ public class Design {
             throw new BuildException(getErrorMessage(currentClass, className), location);
         }
         p.setUsed(true); //set package to used since we have classes in it
-        if (p != null && !p.isNeedDeclarations()) {
+        if (!p.isNeedDeclarations()) {
             return;
         }
 

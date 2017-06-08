@@ -26,7 +26,8 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnStaticField {
 
-	public void doNothing() {
-		String s = DummyClass.staticField;
-	}
+    public void doNothing() {
+        String s = DummyClass.staticField;
+    }
+
 }

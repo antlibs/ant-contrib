@@ -1,6 +1,4 @@
-
 package mod.modB;
 
-public class ModuleB
-{
-};
+public class ModuleB {
+}
