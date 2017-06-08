@@ -222,8 +222,7 @@ public class Package {
         pack = pack.replace('.', File.separatorChar);
 
         String match;
-        @SuppressWarnings("unused")
-        String classMatch;
+
         if (pack.endsWith("**")) {
             match = pack + File.separatorChar + "*" + postFix;
         } else if (pack.endsWith("*")) {

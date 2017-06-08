@@ -213,19 +213,12 @@ public abstract class BuildFileTest {
      */
     private String cleanBuffer(StringBuffer buffer) {
         StringBuilder cleanedBuffer = new StringBuilder();
-        boolean cr = false;
         for (int i = 0; i < buffer.length(); i++) {
             char ch = buffer.charAt(i);
             if (ch == '\r') {
-                cr = true;
                 continue;
             }
-
-            if (!cr) {
-                cleanedBuffer.append(ch);
-            } else {
-                cleanedBuffer.append(ch);
-            }
+            cleanedBuffer.append(ch);
         }
         return cleanedBuffer.toString();
     }
@@ -255,7 +248,9 @@ public abstract class BuildFileTest {
         project.init();
         project.setUserProperty("ant.file", new File(filename).getAbsolutePath());
         project.addBuildListener(new AntTestListener(logLevel));
-        ProjectHelper.configureProject(project, new File(filename));
+        final ProjectHelper loader = ProjectHelper.getProjectHelper();
+        project.addReference("ant.projectHelper", loader);
+        loader.parse(project, new File(filename));
     }
 
     /**

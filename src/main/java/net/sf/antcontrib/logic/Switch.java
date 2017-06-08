@@ -210,12 +210,7 @@ public class Switch extends Task {
          * @return boolean
          */
         public boolean equals(Object o) {
-            boolean res = false;
-            Case c = (Case) o;
-            if (c.value.equals(value)) {
-                res = true;
-            }
-            return res;
+            return (o instanceof Case) && ((Case) o).value.equals(value);
         }
     }
 
