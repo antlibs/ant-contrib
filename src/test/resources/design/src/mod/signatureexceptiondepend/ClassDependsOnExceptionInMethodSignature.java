@@ -26,7 +26,8 @@ import mod.dummy.DummyException;
  */
 public class ClassDependsOnExceptionInMethodSignature {
 
-	public String doNothing() throws DummyException {
-		return null;
-	}
+    public String doNothing() throws DummyException {
+        return null;
+    }
+
 }

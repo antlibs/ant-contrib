@@ -26,7 +26,8 @@ import mod.recursion.rec.a.FakeClass;
  */
 public class ClassDependsOnSubPackage {
 
-	public FakeClass getSoemthing() {
-		return null;
-	}
+    public FakeClass getSoemthing() {
+        return null;
+    }
+
 }

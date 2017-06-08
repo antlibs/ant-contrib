@@ -210,7 +210,8 @@ public class Variable extends Task {
     @SuppressWarnings("unchecked")
     private void forceProperty(String name, String value) {
         try {
-            Map<String, String> properties = (HashMap<String, String>) getValue(getProject(), "properties");
+            Map<String, String> properties =
+                    (HashMap<String, String>) getValue(getProject(), "properties");
             if (properties == null) {
                 getProject().setUserProperty(name, value);
             } else {

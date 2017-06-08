@@ -26,10 +26,11 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnLocalVar {
 
-	public void doSomething() {
-		DummyClass c = null;
-		//without debug option enabled, the type DummyClass is lost so we
-		//must fail with the error saying class wasn't compiled with -g option
-		//enabled in javac.
-	}
+    public void doSomething() {
+        DummyClass c = null;
+        //without debug option enabled, the type DummyClass is lost so we
+        // must fail with the error saying class wasn't compiled with -g option
+        // enabled in javac.
+    }
+
 }

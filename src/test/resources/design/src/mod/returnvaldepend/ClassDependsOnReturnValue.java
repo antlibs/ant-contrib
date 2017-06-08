@@ -26,7 +26,8 @@ import mod.dummy.DummyInterface;
  */
 public class ClassDependsOnReturnValue {
 
-	public DummyInterface getSomething() {
-		return null;
-	}
+    public DummyInterface getSomething() {
+        return null;
+    }
+
 }

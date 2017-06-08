@@ -421,7 +421,8 @@ public class VerifyDesignTest extends BuildFileTestBase {
     public void testSignatureExceptionDepend() {
         String class1 = "mod.signatureexceptiondepend.ClassDependsOnExceptionInMethodSignature";
         String class2 = "mod.dummy.DummyException";
-        expectDesignCheckFailure("testSignatureExceptionDepend", Design.getErrorMessage(class1, class2));
+        expectDesignCheckFailure("testSignatureExceptionDepend",
+                Design.getErrorMessage(class1, class2));
     }
 
     /**

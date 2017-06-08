@@ -26,7 +26,8 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnStatic {
 
-	public String getSomething() {
-		return DummyClass.returnSomething();
-	}
+    public String getSomething() {
+        return DummyClass.returnSomething();
+    }
+
 }

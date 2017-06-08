@@ -26,7 +26,8 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnArray {
 
-	public void something() {
-		Object[] o = new DummyClass[5];
-	}
+    public void something() {
+        Object[] o = new DummyClass[5];
+    }
+
 }

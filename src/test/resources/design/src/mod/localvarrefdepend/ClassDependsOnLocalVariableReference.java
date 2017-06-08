@@ -26,7 +26,8 @@ import mod.dummy.DummyInterface;
  */
 public class ClassDependsOnLocalVariableReference {
 
-	public void doNothing() {
-		Class c = DummyInterface.class;
-	}
+    public void doNothing() {
+        Class c = DummyInterface.class;
+    }
+
 }

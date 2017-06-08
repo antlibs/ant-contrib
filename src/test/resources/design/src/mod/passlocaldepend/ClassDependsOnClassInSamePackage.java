@@ -24,7 +24,7 @@ package mod.passlocaldepend;
  */
 public class ClassDependsOnClassInSamePackage {
 
-	public void doSomething(FakeClass c) {
+    public void doSomething(FakeClass c) {
+    }
 
-	}
 }

@@ -26,9 +26,10 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnLocalVar {
 
-	public String doNothing() {
-		DummyClass c = null;
+    public String doNothing() {
+        DummyClass c = null;
 
-		return ""+c;
-	}
+        return "" + c;
+    }
+
 }

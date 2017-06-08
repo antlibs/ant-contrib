@@ -227,8 +227,9 @@ public class Package {
             match = pack + File.separatorChar + "*" + postFix;
         } else if (pack.endsWith("*")) {
             match = pack + postFix;
-        } else
+        } else {
             throw new RuntimeException("Please report this bug");
+        }
 
         return match;
     }

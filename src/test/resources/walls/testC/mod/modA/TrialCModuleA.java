@@ -1,7 +1,4 @@
-
 package mod.modA;
 
-public class TrialCModuleA
-{
-
-};
+public class TrialCModuleA {
+}

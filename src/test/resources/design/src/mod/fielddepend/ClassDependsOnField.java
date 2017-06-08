@@ -27,5 +27,6 @@ import mod.dummy.DummyClass;
  */
 public class ClassDependsOnField {
 
-	private DummyClass f;
+    private DummyClass f;
+
 }

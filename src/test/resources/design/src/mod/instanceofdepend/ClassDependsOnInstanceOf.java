@@ -26,10 +26,11 @@ import mod.dummy.DummyInterface;
  */
 public class ClassDependsOnInstanceOf {
 
-	public void getSomething(Object o) {
-		int x = 0;
-		if(o instanceof DummyInterface) {
-			x = 4;
-		}
-	}
+    public void getSomething(Object o) {
+        int x = 0;
+        if (o instanceof DummyInterface) {
+            x = 4;
+        }
+    }
+
 }
