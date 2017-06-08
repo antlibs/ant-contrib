@@ -21,8 +21,11 @@ import java.io.File;
 
 import net.sf.antcontrib.BuildFileTestBase;
 
+import org.apache.tools.ant.DefaultLocaleRule;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -45,6 +48,12 @@ public class VerifyDesignTest extends BuildFileTestBase {
      * Field baseDir.
      */
     private static String baseDir = "";
+
+    /**
+     * Default locale rule.
+     */
+    @Rule
+    public DefaultLocaleRule defaultLocaleRule = DefaultLocaleRule.en();
 
     /**
      * Method setUp.
