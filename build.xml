@@ -1,7 +1,5 @@
 <project name="ant-contrib" default="jar" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <property file="build.properties"/>
-
     <property name="root.dir" location="."/>
     <property name="src.main.dir" location="src/main/java"/>
     <property name="resources.main.dir" location="src/main/resources"/>
@@ -20,6 +18,7 @@
     <property name="xml.log.dir" value="${target.dir}/test-report"/>
     <property name="dist.dir" location="dist"/>
     <property name="skip.tests" value="walls"/>
+    <property name="project.java.baseline" value="1.5"/>
 
     <!-- Ivy -->
     <property name="central.repo" value="http://repo1.maven.org/maven2"/>
@@ -60,8 +59,8 @@
                destdir="${target.classes.dir}"
                debug="true"
                classpathref="compile.classpath"
-               source="${jdk.source}"
-               target="${jdk.target}"
+               source="${project.java.baseline}"
+               target="${project.java.baseline}"
                includeantruntime="false"/>
 
         <copy todir="${target.classes.dir}">
@@ -75,8 +74,8 @@
         <javac srcdir="${src.test.dir}"
                destdir="${target.test-classes.dir}"
                debug="true"
-               source="${jdk.source}"
-               target="${jdk.target}"
+               source="${project.java.baseline}"
+               target="${project.java.baseline}"
                includeantruntime="true">
             <classpath>
                 <path refid="test.classpath"/>
