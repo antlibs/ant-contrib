@@ -1,7 +1,5 @@
 <project name="ant-contrib" default="jar" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <property file="build.properties"/>
-
     <property name="root.dir" location="."/>
     <property name="src.main.dir" location="src/main/java"/>
     <property name="resources.main.dir" location="src/main/resources"/>
@@ -11,15 +9,18 @@
     <property name="xdoc.dir" location="src/site/xdoc"/>
     <property name="target.dir" location="target"/>
     <property name="lib.dir" value="${target.dir}/lib"/>
+    <property name="jacoco.log" value="${target.dir}/jacoco.data"/>
     <property name="target.classes.dir" location="${target.dir}/classes"/>
     <property name="target.test-classes.dir" location="${target.dir}/test-classes"/>
     <property name="target.docs.dir" location="${target.dir}/docs"/>
     <property name="checkstyle.src.dir" location="src/config"/>
-    <property name="checkstyle.report.dir" location="${target.dir}/docs/checkstyle"/>
+    <property name="checkstyle.report.dir" location="${target.docs.dir}/checkstyle"/>
+    <property name="coverage.report.dir" location="${target.docs.dir}/coverage"/>
     <property name="target.stage.dir" location="${target.dir}/stage"/>
     <property name="xml.log.dir" value="${target.dir}/test-report"/>
     <property name="dist.dir" location="dist"/>
     <property name="skip.tests" value="walls"/>
+    <property name="project.java.baseline" value="1.5"/>
 
     <!-- Ivy -->
     <property name="central.repo" value="http://repo1.maven.org/maven2"/>
@@ -60,8 +61,8 @@
                destdir="${target.classes.dir}"
                debug="true"
                classpathref="compile.classpath"
-               source="${jdk.source}"
-               target="${jdk.target}"
+               source="${project.java.baseline}"
+               target="${project.java.baseline}"
                includeantruntime="false"/>
 
         <copy todir="${target.classes.dir}">
@@ -75,8 +76,8 @@
         <javac srcdir="${src.test.dir}"
                destdir="${target.test-classes.dir}"
                debug="true"
-               source="${jdk.source}"
-               target="${jdk.target}"
+               source="${project.java.baseline}"
+               target="${project.java.baseline}"
                includeantruntime="true">
             <classpath>
                 <path refid="test.classpath"/>
@@ -106,7 +107,14 @@
         </jar>
     </target>
 
-    <target name="test-internal" depends="jar">
+    <target name="init-jacoco" depends="jar">
+        <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="0.7.9"
+                       inline="true" conf="default" pathid="jacoco.classpath" log="download-only"/>
+        <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml"
+                 classpathref="jacoco.classpath"/>
+    </target>
+
+    <target name="test-internal" depends="init-jacoco">
         <mkdir dir="${xml.log.dir}"/>
         <loadresource property="exclude.tests">
             <propertyresource name="skip.tests"/>
@@ -116,6 +124,10 @@
                 </tokenfilter>
             </filterchain>
         </loadresource>
+        <!-- multiple runs into the same logfile cause the later report generation fail -->
+        <delete file="${jacoco.log}"/>
+        <jacoco:coverage xmlns:jacoco="antlib:org.jacoco.ant" destfile="${jacoco.log}"
+                         exclclassloader="sun.reflect.DelegatingClassLoader:javassist.Loader">
         <junit fork="true" tempdir="${target.dir}"
                haltonerror="false" haltonfailure="false"
                errorproperty="junit.error" failureproperty="junit.failure"
@@ -134,6 +146,7 @@
                 <pathelement location="${target.test-classes.dir}"/>
             </classpath>
         </junit>
+        </jacoco:coverage>
     </target>
 
     <target name="test" depends="test-internal" description="o Run JUnit tests">
@@ -141,13 +154,30 @@
         <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) for details (use the target test-report to run the test with a report)" if="junit.failure"/>
     </target>
 
-    <target name="test-report" depends="test-internal" description="o Make report of JUnit tests">
+    <target name="test-report" depends="test-internal" description="o Make report of JUnit tests and code coverage">
         <junitreport todir="${xml.log.dir}">
             <fileset dir="${xml.log.dir}">
                 <include name="TEST-*.xml"/>
             </fileset>
             <report format="frames" todir="${target.docs.dir}/test-reports"/>
         </junitreport>
+        <mkdir dir="${coverage.report.dir}"/>
+        <jacoco:report xmlns:jacoco="antlib:org.jacoco.ant">
+            <executiondata>
+                <file file="${jacoco.log}"/>
+            </executiondata>
+
+            <structure name="Ant Contrib">
+                <classfiles>
+                    <fileset dir="${target.classes.dir}"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${src.main.dir}"/>
+                </sourcefiles>
+            </structure>
+
+            <html destdir="${coverage.report.dir}"/>
+        </jacoco:report>
         <fail message="JUnit error (${junit.error}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.error"/>
         <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${xml.log.dir}) or report (in ${target.docs.dir}/test-reports)" if="junit.failure"/>
     </target>
@@ -176,7 +206,7 @@
     </target>
 
     <target name="checkstyle" depends="checkstyle-internal"
-	    description="checks Ivy codebase according to ${checkstyle.src.dir}/checkstyle.xml">
+	    description="o Check Ivy codebase according to src/config/checkstyle.xml">
         <fail if="checkstyle.failed"
             message="Checkstyle has errors. See report in ${checkstyle.report.dir}"/>
     </target>
