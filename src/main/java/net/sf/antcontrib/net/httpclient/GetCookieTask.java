@@ -129,6 +129,15 @@ public class GetCookieTask extends AbstractHttpStateTypeTask {
     }
 
     /**
+     * Method setPrefix.
+     *
+     * @param prefix String
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    /**
      * Method findCookie.
      *
      * @param cookies Cookie[]
@@ -155,6 +164,9 @@ public class GetCookieTask extends AbstractHttpStateTypeTask {
             throw new BuildException("'realm' and 'path' attributes are required");
         }
 
+        if (prefix != null && property != null) {
+            throw new BuildException("'prefix' and 'property' attributes are mutually exclusive");
+        }
         HttpState state = stateType.getState();
         CookieSpec spec = CookiePolicy.getCookieSpec(cookiePolicy);
         Cookie[] cookies = state.getCookies();

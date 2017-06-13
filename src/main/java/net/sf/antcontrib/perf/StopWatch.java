@@ -142,25 +142,11 @@ public class StopWatch {
      * @return the time formatted as mm:ss.ddd
      */
     public String format(long ms) {
-        String total = String.valueOf(ms);
-        String frontpad = "000";
-        int pad_length = 3 - total.length();
-        if (pad_length >= 0) {
-            total = "0." + frontpad.substring(0, pad_length) + total;
-        } else {
-            String dec = total.substring(total.length() - 3);
-            total = "";
-            int min = 0;
-            int sec = 0;
-            min = (int) (ms / 60000);
-            sec = min > 0 ? (int) ((ms - (min * 60000)) / 1000) : (int) (ms / 1000);
-            if (min > 0) {
-                total = String.valueOf(min) + ":" + (sec < 10 ? "0" : "") + String.valueOf(sec) + "." + dec;
-            } else {
-                total = String.valueOf(sec) + "." + dec;
-            }
-        }
-        return total + " sec";
+        long min = ms / 60000;
+        long sec = (min > 0) ? (ms - (min * 60000)) / 1000 : ms / 1000;
+        return (ms < 1000) ? String.format("0.%03d sec", ms)
+                : (min > 0) ? String.format("%d:%02d.%03d min", min, sec, ms % 1000)
+                : String.format("%d.%03d sec", sec, ms % 1000);
     }
 
     /**
@@ -193,6 +179,7 @@ public class StopWatch {
         System.out.println(sw.format(100));
         System.out.println(sw.format(1000));
         System.out.println(sw.format(100000));
+        System.out.println(sw.format(128000));
         System.out.println(sw.format(1000000));
 
         // test the stopwatch

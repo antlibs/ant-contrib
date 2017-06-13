@@ -313,8 +313,8 @@ public class Variable extends Task {
         PropertyHelper propertyHelper
                 = PropertyHelper.getPropertyHelper(getProject());
         Map<String, Object> properties = new HashMap<String, Object>();
-        for (Object key : props.keySet()) {
-            properties.put(key.toString(), props.get(key));
+        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            properties.put(entry.getKey().toString(), entry.getValue());
         }
         new ResolvePropertyMap(
                 getProject(),

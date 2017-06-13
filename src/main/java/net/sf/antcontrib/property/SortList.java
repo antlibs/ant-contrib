@@ -166,8 +166,8 @@ public class SortList extends AbstractPropertySetterTask {
         }
 
         // Recursively sort halves of dest into src
-        // >> 1 == / 2
-        int mid = (low + high) >> 1;
+        // >>> 1 (unsigned right shift) == / 2
+        int mid = (low + high) >>> 1;
         mergeSort(dest, src, low, mid, caseSensitive, numeric);
         mergeSort(dest, src, mid, high, caseSensitive, numeric);
 

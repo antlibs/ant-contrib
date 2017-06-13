@@ -17,10 +17,12 @@ package net.sf.antcontrib.perf;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.tools.ant.BuildEvent;
@@ -90,16 +92,14 @@ public class AntPerformanceListener implements BuildListener {
 
         // sort targets, key is StopWatch, value is Target
         TreeMap<StopWatch, Target> sortedTargets = new TreeMap<StopWatch, Target>(new StopWatchComparator());
-        for (Target key : targetStats.keySet()) {
-            StopWatch value = targetStats.get(key);
-            sortedTargets.put(value, key);
+        for (Map.Entry<Target, StopWatch> entry : targetStats.entrySet()) {
+            sortedTargets.put(entry.getValue(), entry.getKey());
         }
 
         // sort tasks, key is StopWatch, value is Task
         TreeMap<StopWatch, Task> sortedTasks = new TreeMap<StopWatch, Task>(new StopWatchComparator());
-        for (Task key : taskStats.keySet()) {
-            StopWatch value = taskStats.get(key);
-            sortedTasks.put(value, key);
+        for (Map.Entry<Task, StopWatch> entry : taskStats.entrySet()) {
+            sortedTasks.put(entry.getValue(), entry.getKey());
         }
 
         // print the sorted results
@@ -107,27 +107,27 @@ public class AntPerformanceListener implements BuildListener {
         String lSep = System.getProperty("line.separator");
         msg.append(lSep).append("Statistics:").append(lSep);
         msg.append("-------------- Target Results ---------------------").append(lSep);
-        for (StopWatch key : sortedTargets.keySet()) {
+        for (Map.Entry<StopWatch, Target> entry : sortedTargets.entrySet()) {
             StringBuilder sb = new StringBuilder();
-            Target target = sortedTargets.get(key);
+            Target target = entry.getValue();
             if (target != null) {
                 Project p = target.getProject();
                 if (p != null && p.getName() != null) {
                     sb.append(p.getName()).append(".");
                 }
-                String total = format(key.total());
-                String target_name = target.getName();
-                if (target_name == null || target_name.length() == 0) {
-                    target_name = "<implicit>";
+                String total = format(entry.getKey().total());
+                String targetName = target.getName();
+                if (targetName == null || targetName.length() == 0) {
+                    targetName = "<implicit>";
                 }
-                sb.append(target_name).append(": ").append(total);
+                sb.append(targetName).append(": ").append(total);
             }
             msg.append(sb.toString()).append(lSep);
         }
         msg.append(lSep);
         msg.append("-------------- Task Results -----------------------").append(lSep);
-        for (StopWatch key : sortedTasks.keySet()) {
-            Task task = sortedTasks.get(key);
+        for (Map.Entry<StopWatch, Task> entry : sortedTasks.entrySet()) {
+            Task task = entry.getValue();
             StringBuilder sb = new StringBuilder();
             Target target = task.getOwningTarget();
             if (target != null) {
@@ -141,7 +141,7 @@ public class AntPerformanceListener implements BuildListener {
                 }
                 sb.append(target_name).append(".");
             }
-            sb.append(task.getTaskName()).append(": ").append(format(key.total()));
+            sb.append(task.getTaskName()).append(": ").append(format(entry.getKey().total()));
             msg.append(sb.toString()).append(lSep);
         }
 
@@ -187,16 +187,8 @@ public class AntPerformanceListener implements BuildListener {
      * @return String
      */
     private String format(long ms) {
-        String total = String.valueOf(ms);
-        String frontpad = "000";
-        int pad_length = 3 - total.length();
-        if (pad_length >= 0) {
-            total = "0." + frontpad.substring(0, pad_length) + total;
-        } else {
-            total = total.substring(0, total.length() - 3) + "."
-                    + total.substring(total.length() - 3);
-        }
-        return total + " sec";
+        return (ms < 1000) ? String.format("0.%03d sec", ms)
+                : String.format("%d.%03d sec", ms / 1000, ms % 1000);
     }
 
     /**
@@ -260,7 +252,8 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * Compares the total times for two StopWatches.
      */
-    public class StopWatchComparator implements Comparator<StopWatch> {
+    @SuppressWarnings("serial")
+    public static class StopWatchComparator implements Comparator<StopWatch>, Serializable {
         /**
          * Compares the total times for two StopWatches.
          *
@@ -279,7 +272,7 @@ public class AntPerformanceListener implements BuildListener {
      * <a href="mailto:danson@germane-software.com">Dale Anson</a>
      * @version $Revision: 1.5 $
      */
-    public class StopWatch {
+    public static class StopWatch {
 
         /**
          * storage for start time.

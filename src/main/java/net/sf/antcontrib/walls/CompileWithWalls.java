@@ -433,7 +433,7 @@ public class CompileWithWalls extends Task {
     /**
      */
     @SuppressWarnings("serial")
-    private class ParsingWallsException extends RuntimeException {
+    private static class ParsingWallsException extends RuntimeException {
         /**
          * Field message.
          */
