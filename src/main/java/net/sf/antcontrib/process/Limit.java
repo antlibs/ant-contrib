@@ -283,11 +283,11 @@ public class Limit extends Task implements TaskContainer {
                 taskRunner = null;
                 runner.interrupt();
                 int index = tasks.indexOf(currentTask);
-                StringBuilder not_ran = new StringBuilder();
+                StringBuilder notRan = new StringBuilder();
                 for (int i = index + 1; i < tasks.size(); i++) {
-                    not_ran.append('<').append(tasks.get(i).getTaskName()).append('>');
+                    notRan.append('<').append(tasks.get(i).getTaskName()).append('>');
                     if (i < tasks.size() - 1) {
-                        not_ran.append(", ");
+                        notRan.append(", ");
                     }
                 }
 
@@ -303,8 +303,8 @@ public class Limit extends Task implements TaskContainer {
                         .append(">. Waited ")
                         .append((maxwait)).append(" ").append(unit.getValue())
                         .append(", but this task did not complete.")
-                        .append((not_ran.length() > 0
-                                ? " The following tasks did not execute: " + not_ran.toString() + "."
+                        .append((notRan.length() > 0
+                                ? " The following tasks did not execute: " + notRan.toString() + "."
                                 : ""));
 
                 // deal with it

@@ -624,19 +624,19 @@ public class PostTask extends Task {
             String[] args = raw.split("[;]");
             for (int i = 0; i < args.length; i++) {
                 String part = args[i];
-                int eq_index = part.indexOf("=");
-                if (eq_index == -1) {
+                int eqIndex = part.indexOf("=");
+                if (eqIndex == -1) {
                     continue;
                 }
-                String first_part = part.substring(0, eq_index).trim();
-                String second_part = part.substring(eq_index + 1);
+                String firstPart = part.substring(0, eqIndex).trim();
+                String secondPart = part.substring(eqIndex + 1);
                 if (i == 0) {
-                    name = first_part;
-                    value = second_part;
-                } else if (first_part.equalsIgnoreCase("Path")) {
-                    path = second_part;
-                } else if (first_part.equalsIgnoreCase("Domain")) {
-                    domain = second_part;
+                    name = firstPart;
+                    value = secondPart;
+                } else if (firstPart.equalsIgnoreCase("Path")) {
+                    path = secondPart;
+                } else if (firstPart.equalsIgnoreCase("Domain")) {
+                    domain = secondPart;
                 }
             }
             if (name == null) {

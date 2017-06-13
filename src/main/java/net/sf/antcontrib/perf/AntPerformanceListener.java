@@ -66,9 +66,9 @@ public class AntPerformanceListener implements BuildListener {
     private StopWatch master = null;
 
     /**
-     * Field start_time.
+     * Field swStartTime.
      */
-    private long start_time = 0;
+    private long swStartTime = 0;
 
     /**
      * Starts a 'running total' stopwatch.
@@ -78,7 +78,7 @@ public class AntPerformanceListener implements BuildListener {
      */
     public void buildStarted(BuildEvent be) {
         master = new StopWatch();
-        start_time = master.start();
+        swStartTime = master.start();
     }
 
     /**
@@ -88,7 +88,7 @@ public class AntPerformanceListener implements BuildListener {
      * @see org.apache.tools.ant.BuildListener#buildFinished(BuildEvent)
      */
     public void buildFinished(BuildEvent be) {
-        long stop_time = master.stop();
+        long swStopTime = master.stop();
 
         // sort targets, key is StopWatch, value is Target
         TreeMap<StopWatch, Target> sortedTargets = new TreeMap<StopWatch, Target>(new StopWatchComparator());
@@ -135,11 +135,11 @@ public class AntPerformanceListener implements BuildListener {
                 if (p != null && p.getName() != null) {
                     sb.append(p.getName()).append(".");
                 }
-                String target_name = target.getName();
-                if (target_name == null || target_name.length() == 0) {
-                    target_name = "<implicit>";
+                String targetName = target.getName();
+                if (targetName == null || targetName.length() == 0) {
+                    targetName = "<implicit>";
                 }
-                sb.append(target_name).append(".");
+                sb.append(targetName).append(".");
             }
             sb.append(task.getTaskName()).append(": ").append(format(entry.getKey().total()));
             msg.append(sb.toString()).append(lSep);
@@ -148,8 +148,8 @@ public class AntPerformanceListener implements BuildListener {
         msg.append(lSep);
         msg.append("-------------- Totals -----------------------------").append(lSep);
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss.SSS");
-        msg.append("Start time: ").append(format.format(new Date(start_time))).append(lSep);
-        msg.append("Stop time: ").append(format.format(new Date(stop_time))).append(lSep);
+        msg.append("Start time: ").append(format.format(new Date(swStartTime))).append(lSep);
+        msg.append("Stop time: ").append(format.format(new Date(swStopTime))).append(lSep);
         msg.append("Total time: ").append(format(master.total())).append(lSep);
         System.out.println(msg.toString());
 
@@ -277,18 +277,18 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * storage for start time.
          */
-        private long _start_time = 0;
+        private long startTime = 0;
 
         /**
          * storage for stop time.
          */
         @SuppressWarnings("unused")
-        private long _stop_time = 0;
+        private long stopTime = 0;
 
         /**
          * cumulative elapsed time.
          */
-        private long _total_time = 0;
+        private long totalTime = 0;
 
         /**
          * Starts the stopwatch.
@@ -303,8 +303,8 @@ public class AntPerformanceListener implements BuildListener {
          * @return the start time, the long returned System.currentTimeMillis().
          */
         public long start() {
-            _start_time = System.currentTimeMillis();
-            return _start_time;
+            startTime = System.currentTimeMillis();
+            return startTime;
         }
 
         /**
@@ -313,11 +313,11 @@ public class AntPerformanceListener implements BuildListener {
          * @return the stop time, the long returned System.currentTimeMillis().
          */
         public long stop() {
-            long stop_time = System.currentTimeMillis();
-            _total_time += stop_time - _start_time;
-            _start_time = 0;
-            _stop_time = 0;
-            return stop_time;
+            stopTime = System.currentTimeMillis();
+            totalTime += stopTime - startTime;
+            startTime = 0;
+            this.stopTime = 0;
+            return stopTime;
         }
 
         /**
@@ -326,7 +326,7 @@ public class AntPerformanceListener implements BuildListener {
          * @return the total time
          */
         public long total() {
-            return _total_time;
+            return totalTime;
         }
 
         /**
@@ -335,7 +335,7 @@ public class AntPerformanceListener implements BuildListener {
          * @return the elapsed time
          */
         public long elapsed() {
-            return System.currentTimeMillis() - _start_time;
+            return System.currentTimeMillis() - startTime;
         }
     }
 
