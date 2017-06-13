@@ -23,7 +23,7 @@
   <name>ant-contrib</name>
   <version>1.1-SNAPSHOT</version>
   <description>Ant Contrib tasks for Apache Ant</description>
-  <url>http://ant-contrib.sourceforge.net:80</url>
+  <url>http://ant-contrib.sourceforge.net/</url>
   <issueManagement>
     <system>SourceForge Tracker</system>
     <url>http://sourceforge.net/tracker/?group_id=36177/</url>
@@ -46,7 +46,7 @@
   </mailingLists>
   <organization>
     <name>Ant-Contrib Project</name>
-    <url>http://ant-contrib.sourceforge.net</url>
+    <url>${project.url}</url>
   </organization>
   <licenses>
     <license>
@@ -96,16 +96,14 @@
         <version>3.0.2</version>
         <configuration>
           <archive>
-            <manifestSections>
-              <manifestSection>
-                <name>net.sf.antcontrib</name>
-                <manifestEntries>
-                  <Implementation-Title>Ant Contrib Tasks for Apache Ant</Implementation-Title>
-                  <Implementation-Version>${project.version}</Implementation-Version>
-                  <Implementation-Vendor>Ant Contrib Project</Implementation-Vendor>
-                </manifestEntries>
-              </manifestSection>
-            </manifestSections>
+            <manifest>
+              <Main-Class>net.sf.antcontrib.AntContribVersion</Main-Class>
+            </manifest>
+            <manifestEntries>
+              <Implementation-Title>${project.description}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-Vendor>${project.url}</Implementation-Vendor>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>

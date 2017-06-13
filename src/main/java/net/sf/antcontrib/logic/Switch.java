@@ -172,7 +172,7 @@ public class Switch extends Task {
 
     /**
      */
-    public final class Case extends Sequential {
+    public static final class Case extends Sequential {
         /**
          * Field value.
          */

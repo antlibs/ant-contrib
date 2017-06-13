@@ -231,13 +231,13 @@ class VisitorImpl extends EmptyVisitor {
     public void visitCodeException(CodeException c) {
         String s = c.toString(pool, false);
 
-        int catch_type = c.getCatchType();
+        int catchType = c.getCatchType();
 
-        if (catch_type == 0) {
+        if (catchType == 0) {
             return;
         }
 
-        String temp = pool.getConstantString(catch_type,
+        String temp = pool.getConstantString(catchType,
                 Constants.CONSTANT_Class);
         String str = Utility.compactClassName(temp, false);
 

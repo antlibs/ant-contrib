@@ -97,10 +97,9 @@ public class OutOfDateTest extends BuildFileTestBase {
         executeTarget("outofdate.init");
         executeTarget("outofdate.test");
         assertLogContaining("outofdate triggered");
-        String outofdateSources =
-                getProject().getProperty("outofdate.sources");
         // switch \ to / if present
-        outofdateSources.replace('\\', '/');
+        String outofdateSources =
+                getProject().getProperty("outofdate.sources").replace('\\', '/');
         assertTrue("newer.text empty", outofdateSources.contains("newer.text"));
         assertTrue("file.notdone", outofdateSources.contains("outofdate/source/1/2/file.notdone"));
         assertTrue("file.done", !outofdateSources.contains("outofdate/source/1/2/file.done"));

@@ -353,11 +353,9 @@ public class PostTask extends Task {
                         try {
                             if (connection instanceof HttpURLConnection) {
                                 // read and store cookies
-                                Map<String, List<String>> map = connection.getHeaderFields();
-                                for (String name : map.keySet()) {
-                                    if (name != null && name.equals("Set-Cookie")) {
-                                        List<String> cookies = map.get(name);
-                                        for (String raw : cookies) {
+                                for (Map.Entry<String, List<String>> entry : connection.getHeaderFields().entrySet()) {
+                                    if (entry.getKey() != null && entry.getKey().equals("Set-Cookie")) {
+                                        for (String raw : entry.getValue()) {
                                             Cookie cookie = new Cookie(raw);
                                             cookieStorage.put(cookie.getId(), cookie);
                                         }
@@ -369,10 +367,9 @@ public class PostTask extends Task {
                                     log(String.valueOf(((HttpURLConnection) connection).getResponseCode()));
                                     log(((HttpURLConnection) connection).getResponseMessage());
                                     StringBuilder sb = new StringBuilder();
-                                    map = connection.getHeaderFields();
-                                    for (String name : map.keySet()) {
-                                        sb.append(name).append("=");
-                                        List<String> values = map.get(name);
+                                    for (Map.Entry<String, List<String>> entry : connection.getHeaderFields().entrySet()) {
+                                        sb.append(entry.getKey()).append("=");
+                                        List<String> values = entry.getValue();
                                         if (values != null) {
                                             if (values.size() == 1) {
                                                 sb.append(values.get(0));
@@ -513,14 +510,13 @@ public class PostTask extends Task {
 
         StringBuilder content = new StringBuilder();
         try {
-            for (String name : props.keySet()) {
+            for (Map.Entry<String, String> entry : props.entrySet()) {
                 if (content.length() != 0) {
                     content.append("&");
                 }
-                String value = props.get(name);
-                content.append(URLEncoder.encode(name, encoding));
+                content.append(URLEncoder.encode(entry.getKey(), encoding));
                 content.append("=");
-                content.append(URLEncoder.encode(value, encoding));
+                content.append(URLEncoder.encode(entry.getValue(), encoding));
             }
         } catch (IOException ex) {
             if (failOnError) {
@@ -581,8 +577,8 @@ public class PostTask extends Task {
         PropertyHelper propertyHelper
                 = PropertyHelper.getPropertyHelper(getProject());
         Map<String, Object> properties = new HashMap<String, Object>();
-        for (Object key : props.keySet()) {
-            properties.put(key.toString(), props.get(key));
+        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            properties.put(entry.getKey().toString(), entry.getValue());
         }
         new ResolvePropertyMap(
                 getProject(),
@@ -594,7 +590,7 @@ public class PostTask extends Task {
     /**
      * Represents a cookie.  See RFC 2109 and 2965.
      */
-    public class Cookie {
+    public static class Cookie {
         /**
          * Field name.
          */
@@ -628,19 +624,19 @@ public class PostTask extends Task {
             String[] args = raw.split("[;]");
             for (int i = 0; i < args.length; i++) {
                 String part = args[i];
-                int eq_index = part.indexOf("=");
-                if (eq_index == -1) {
+                int eqIndex = part.indexOf("=");
+                if (eqIndex == -1) {
                     continue;
                 }
-                String first_part = part.substring(0, eq_index).trim();
-                String second_part = part.substring(eq_index + 1);
+                String firstPart = part.substring(0, eqIndex).trim();
+                String secondPart = part.substring(eqIndex + 1);
                 if (i == 0) {
-                    name = first_part;
-                    value = second_part;
-                } else if (first_part.equalsIgnoreCase("Path")) {
-                    path = second_part;
-                } else if (first_part.equalsIgnoreCase("Domain")) {
-                    domain = second_part;
+                    name = firstPart;
+                    value = secondPart;
+                } else if (firstPart.equalsIgnoreCase("Path")) {
+                    path = secondPart;
+                } else if (firstPart.equalsIgnoreCase("Domain")) {
+                    domain = secondPart;
                 }
             }
             if (name == null) {
