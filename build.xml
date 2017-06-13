@@ -100,8 +100,11 @@
         </tstamp>
         <jar file="${jar.file}">
             <manifest>
-                <attribute name="Version" value="${ivy.revision}"/>
+                <attribute name="Implementation-Title" value="Ant Contrib Tasks for Apache Ant"/>
+                <attribute name="Implementation-Vendor" value="http://ant-contrib.sourceforge.net/"/>
+                <attribute name="Implementation-Version" value="${ivy.revision}"/>
                 <attribute name="Build-Timestamp" value="${tstamp}"/>
+                <attribute name="Main-Class" value="net.sf.antcontrib.AntContribVersion"/>
             </manifest>
             <fileset dir="${target.classes.dir}"/>
         </jar>
@@ -241,7 +244,7 @@
         </javadoc>
     </target>
 
-    <target name="site" description="o Build manual from xdoc files" depends="test-report,javadoc">
+    <target name="site" description="o Build manual from xdoc files" depends="test-report,checkstyle-report,javadoc">
         <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${jar.file}" onerror="ignore"/>
         <for param="xdoc.source">
             <path>
