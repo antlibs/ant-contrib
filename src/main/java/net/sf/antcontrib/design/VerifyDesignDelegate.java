@@ -215,7 +215,8 @@ public class VerifyDesignDelegate implements Log {
      */
     public void execute() throws BuildException {
         if (!designFile.exists() || designFile.isDirectory()) {
-            throw new BuildException("design attribute in verifydesign element specified an invalid file=" + designFile);
+            throw new BuildException("design attribute in verifydesign element specified an invalid file="
+                    + designFile);
         }
 
         verifyJarFilesExist();
@@ -295,12 +296,11 @@ public class VerifyDesignDelegate implements Log {
      * Method throwAllErrors.
      */
     private void throwAllErrors() {
-        String result = "Design check failed due to following errors";
+        StringBuilder result = new StringBuilder("Design check failed due to following errors");
         for (BuildException be : designErrors) {
-            String message = be.getMessage();
-            result += "\n" + message;
+            result.append("\n").append(be.getMessage());
         }
-        throw new BuildException(result);
+        throw new BuildException(result.toString());
     }
 
     /**

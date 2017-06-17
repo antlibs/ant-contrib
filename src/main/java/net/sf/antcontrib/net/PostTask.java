@@ -120,7 +120,7 @@ public class PostTask extends Task {
     /**
      * storage for cookies.
      */
-    private static final Map<String, Cookie> cookieStorage = new HashMap<String, Cookie>();
+    private static final Map<String, Cookie> COOKIE_STORAGE = new HashMap<String, Cookie>();
 
     /**
      * connection to the server.
@@ -294,9 +294,9 @@ public class PostTask extends Task {
                                 "application/x-www-form-urlencoded");
 
                         // check if there are cookies to be included
-                        for (String key : cookieStorage.keySet()) {
+                        for (String key : COOKIE_STORAGE.keySet()) {
                             if (key != null) {
-                                Cookie cookie = cookieStorage.get(key);
+                                Cookie cookie = COOKIE_STORAGE.get(key);
                                 if (to.getPath().startsWith(cookie.getPath())) {
                                     connection.addRequestProperty("Cookie", cookie.toString());
                                 }
@@ -357,7 +357,7 @@ public class PostTask extends Task {
                                     if (entry.getKey() != null && entry.getKey().equals("Set-Cookie")) {
                                         for (String raw : entry.getValue()) {
                                             Cookie cookie = new Cookie(raw);
-                                            cookieStorage.put(cookie.getId(), cookie);
+                                            COOKIE_STORAGE.put(cookie.getId(), cookie);
                                         }
                                     }
                                 }

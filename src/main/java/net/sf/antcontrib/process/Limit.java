@@ -393,7 +393,7 @@ public class Limit extends Task implements TaskContainer {
         /**
          * Field units.
          */
-        private static final String[] units = {
+        private static final String[] UNITS = {
                 MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK
         };
 
@@ -450,7 +450,7 @@ public class Limit extends Task implements TaskContainer {
          * @return String[]
          */
         public String[] getValues() {
-            return units;
+            return UNITS;
         }
 
         /**

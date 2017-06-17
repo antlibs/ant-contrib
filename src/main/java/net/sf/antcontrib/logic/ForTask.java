@@ -110,7 +110,7 @@ public class ForTask extends Task {
     /**
      * Field resourceCollections.
      */
-    private List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
+    private final List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
 
     /**
      * Field taskCount.
@@ -518,8 +518,7 @@ public class ForTask extends Task {
         public ReflectIterator(Object obj) {
             this.obj = obj;
             try {
-                method = obj.getClass().getMethod(
-                        "iterator", new Class[]{});
+                method = obj.getClass().getMethod("iterator");
             } catch (Throwable t) {
                 throw new BuildException(
                         "Invalid type " + obj.getClass() + " used in For task, it does"
@@ -535,7 +534,7 @@ public class ForTask extends Task {
         @SuppressWarnings("unchecked")
         public Iterator<Object> iterator() {
             try {
-                return (Iterator<Object>) method.invoke(obj, new Object[]{});
+                return (Iterator<Object>) method.invoke(obj);
             } catch (Throwable t) {
                 throw new BuildException(t);
             }

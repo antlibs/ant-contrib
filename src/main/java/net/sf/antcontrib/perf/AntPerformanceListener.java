@@ -282,7 +282,6 @@ public class AntPerformanceListener implements BuildListener {
         /**
          * storage for stop time.
          */
-        @SuppressWarnings("unused")
         private long stopTime = 0;
 
         /**

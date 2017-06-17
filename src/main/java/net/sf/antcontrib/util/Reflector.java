@@ -15,10 +15,7 @@
  */
 package net.sf.antcontrib.util;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -45,11 +42,7 @@ public class Reflector {
      */
     public Reflector(String name) {
         try {
-            Class<?> clazz;
-            clazz = Class.forName(name);
-            Constructor<?> constructor;
-            constructor = clazz.getConstructor(new Class[]{});
-            obj = constructor.newInstance(new Object[]{});
+            obj = Class.forName(name).getConstructor().newInstance();
         } catch (Throwable t) {
             throw new BuildException(t);
         }
@@ -81,10 +74,7 @@ public class Reflector {
      */
     public Object call(String methodName) {
         try {
-            Method method;
-            method = obj.getClass().getMethod(
-                    methodName, new Class[]{});
-            return method.invoke(obj, new Object[]{});
+            return obj.getClass().getMethod(methodName).invoke(obj);
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -107,11 +97,7 @@ public class Reflector {
      */
     public Object callExplicit(String methodName, String className, Object o) {
         try {
-            Method method;
-            Class<?> clazz = Class.forName(className);
-            method = obj.getClass().getMethod(
-                    methodName, new Class[]{clazz});
-            return method.invoke(obj, new Object[]{o});
+            return obj.getClass().getMethod(methodName, Class.forName(className)).invoke(obj, o);
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -134,10 +120,7 @@ public class Reflector {
      */
     public Object callExplicit(String methodName, Class<?> classType, Object o) {
         try {
-            Method method;
-            method = obj.getClass().getMethod(
-                    methodName, new Class[]{classType});
-            return method.invoke(obj, new Object[]{o});
+            return obj.getClass().getMethod(methodName, classType).invoke(obj, o);
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -159,10 +142,7 @@ public class Reflector {
      */
     public Object call(String methodName, Object o) {
         try {
-            Method method;
-            method = obj.getClass().getMethod(
-                    methodName, new Class[]{o.getClass()});
-            return method.invoke(obj, new Object[]{o});
+            return obj.getClass().getMethod(methodName, o.getClass()).invoke(obj, o);
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {
@@ -186,10 +166,8 @@ public class Reflector {
      */
     public Object call(String methodName, Object o1, Object o2) {
         try {
-            Method method;
-            method = obj.getClass().getMethod(
-                    methodName, new Class[]{o1.getClass(), o2.getClass()});
-            return method.invoke(obj, new Object[]{o1, o2});
+            return obj.getClass().getMethod(methodName, o1.getClass(),
+                    o2.getClass()).invoke(obj, o1, o2);
         } catch (InvocationTargetException t) {
             Throwable t2 = t.getTargetException();
             if (t2 instanceof BuildException) {

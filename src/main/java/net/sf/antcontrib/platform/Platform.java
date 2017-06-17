@@ -147,20 +147,20 @@ public class Platform {
     /**
      * Field familyNames.
      */
-    private static final Map<Integer, String> familyNames;
+    private static final Map<Integer, String> FAMILY_NAMES;
 
     static {
-        familyNames = new HashMap<Integer, String>();
-        familyNames.put(FAMILY_WINDOWS, FAMILY_NAME_WINDOWS);
-        familyNames.put(FAMILY_OS2, FAMILY_NAME_OS2);
-        familyNames.put(FAMILY_ZOS, FAMILY_NAME_ZOS);
-        familyNames.put(FAMILY_OS400, FAMILY_NAME_OS400);
-        familyNames.put(FAMILY_DOS, FAMILY_NAME_DOS);
-        familyNames.put(FAMILY_MAC, FAMILY_NAME_MAC);
-        familyNames.put(FAMILY_MACOSX, FAMILY_NAME_UNIX);
-        familyNames.put(FAMILY_TANDEM, FAMILY_NAME_TANDEM);
-        familyNames.put(FAMILY_UNIX, FAMILY_NAME_UNIX);
-        familyNames.put(FAMILY_OPENVMS, FAMILY_NAME_OPENVMS);
+        FAMILY_NAMES = new HashMap<Integer, String>();
+        FAMILY_NAMES.put(FAMILY_WINDOWS, FAMILY_NAME_WINDOWS);
+        FAMILY_NAMES.put(FAMILY_OS2, FAMILY_NAME_OS2);
+        FAMILY_NAMES.put(FAMILY_ZOS, FAMILY_NAME_ZOS);
+        FAMILY_NAMES.put(FAMILY_OS400, FAMILY_NAME_OS400);
+        FAMILY_NAMES.put(FAMILY_DOS, FAMILY_NAME_DOS);
+        FAMILY_NAMES.put(FAMILY_MAC, FAMILY_NAME_MAC);
+        FAMILY_NAMES.put(FAMILY_MACOSX, FAMILY_NAME_UNIX);
+        FAMILY_NAMES.put(FAMILY_TANDEM, FAMILY_NAME_TANDEM);
+        FAMILY_NAMES.put(FAMILY_UNIX, FAMILY_NAME_UNIX);
+        FAMILY_NAMES.put(FAMILY_OPENVMS, FAMILY_NAME_OPENVMS);
     }
 
     /**
@@ -203,7 +203,7 @@ public class Platform {
      * @return String
      */
     public static final String getOsFamilyName() {
-        return familyNames.get(getOsFamily());
+        return FAMILY_NAMES.get(getOsFamily());
     }
 
     /**

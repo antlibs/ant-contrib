@@ -162,8 +162,15 @@ public class TimestampSelector extends Task {
      */
     protected int compare(File a, File b) {
         return age.equalsIgnoreCase(AGE_ELDEST)
-                ? new Long(a.lastModified()).compareTo(new Long(b.lastModified()))
-                : new Long(b.lastModified()).compareTo(new Long(a.lastModified()));
+                ? compare(a.lastModified(), b.lastModified())
+                : compare(b.lastModified(), a.lastModified());
+    }
+
+    /*
+     * TODO Remove when Java 7 is the baseline.
+     */
+    private int compare(long x, long y) {
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 
     /**
