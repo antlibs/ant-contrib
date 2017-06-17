@@ -47,18 +47,14 @@ public class Math {
             operation = operation.toLowerCase();
 
             Method m = Math.class.getDeclaredMethod(operation,
-                    new Class[]{
-                            String.class,
-                            Boolean.TYPE,
-                            operands.getClass()
-                    });
+                    String.class,
+                    Boolean.TYPE,
+                    operands.getClass());
 
             return (Number) m.invoke(null,
-                    new Object[]{
-                            datatype,
-                            strict ? Boolean.TRUE : Boolean.FALSE,
-                            operands
-                    });
+                    datatype,
+                    strict ? Boolean.TRUE : Boolean.FALSE,
+                    operands);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

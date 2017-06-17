@@ -339,9 +339,9 @@ class DesignFileHandler implements ContentHandler {
         Package p = new Package();
         p.setName(name);
         p.setPackage(thePackage);
-        p.setIncludeSubpackages("exclude".equals(subpackages) ? false : true);
-        p.setNeedDeclarations("true".equals(needDeclarations) ? true : false);
-        p.setNeedDepends("true".equals(needDepends) ? true : false);
+        p.setIncludeSubpackages(!"exclude".equals(subpackages));
+        p.setNeedDeclarations("true".equals(needDeclarations));
+        p.setNeedDepends("true".equals(needDepends));
 
         if (depends != null) {
             p.addDepends(new Depends(depends));
