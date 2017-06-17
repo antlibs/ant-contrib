@@ -78,9 +78,11 @@
         <version>2.20</version>
         <configuration>
           <reportFormat>plain</reportFormat>
-          <forkCount>1</forkCount>
-          <reuseForks>false</reuseForks>
           <basedir>target/test-classes</basedir>
+          <!-- make sure we test the freshly built jar -->
+          <systemPropertyVariables>
+            <antcontrib.jar>${project.build.directory}/${project.build.finalName}.jar</antcontrib.jar>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <plugin>
