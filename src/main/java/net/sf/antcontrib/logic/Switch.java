@@ -204,6 +204,15 @@ public class Switch extends Task {
         }
 
         /**
+         * Method hashCode.
+         *
+         * @return int
+         */
+        public int hashCode() {
+            return value.hashCode();
+        }
+
+        /**
          * Method equals.
          *
          * @param o Object

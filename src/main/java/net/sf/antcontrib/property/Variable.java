@@ -177,10 +177,10 @@ public class Variable extends Task {
         // Ant 1.6 uses a PropertyHelper, can check for it by checking for a
         // reference to "ant.PropertyHelper"
         try {
-            Object property_helper = getProject().getReference("ant.PropertyHelper");
-            if (property_helper != null) {
+            Object propertyHelper = getProject().getReference("ant.PropertyHelper");
+            if (propertyHelper != null) {
                 try {
-                    properties = (Hashtable<String, Object>) getValue(property_helper, "properties");
+                    properties = (Hashtable<String, Object>) getValue(propertyHelper, "properties");
                     if (properties != null) {
                         properties.remove(name);
                     }
@@ -188,7 +188,7 @@ public class Variable extends Task {
                     // ignore
                 }
                 try {
-                    properties = (Hashtable<String, Object>) getValue(property_helper, "userProperties");
+                    properties = (Hashtable<String, Object>) getValue(propertyHelper, "userProperties");
                     if (properties != null) {
                         properties.remove(name);
                     }

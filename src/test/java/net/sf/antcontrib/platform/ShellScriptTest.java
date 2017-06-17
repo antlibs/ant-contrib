@@ -206,7 +206,7 @@ public class ShellScriptTest extends BuildFileTestBase {
     /**
      * Field staticMonitor.
      */
-    private static final Object staticMonitor = new Object();
+    private static final Object STATIC_MONITOR = new Object();
 
     /**
      * check if the env contains the shells
@@ -214,7 +214,7 @@ public class ShellScriptTest extends BuildFileTestBase {
      * assume cmd.exe exists for windows.
      */
     private void staticInitialize() {
-        synchronized (staticMonitor) {
+        synchronized (STATIC_MONITOR) {
             if (initialized) {
                 return;
             }

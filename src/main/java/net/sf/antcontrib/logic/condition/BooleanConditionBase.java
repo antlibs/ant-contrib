@@ -37,6 +37,11 @@ public class BooleanConditionBase extends ConditionBase {
     @SuppressWarnings("unused")
     private Vector<Condition> conditions = new Vector<Condition>();
 
+    /**
+     * Constructor.
+     *
+     * Copies parent conditions.
+     */
     public BooleanConditionBase() {
         conditions = getParentConditions();
     }
