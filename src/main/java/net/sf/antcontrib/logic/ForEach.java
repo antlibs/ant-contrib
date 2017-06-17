@@ -401,7 +401,7 @@ public class ForEach extends Task {
      *
      * @return Path
      */
-    private Path createPath() {
+    public Path createPath() {
         if (currPath == null) {
             currPath = new Path(getProject());
         }
