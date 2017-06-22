@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Forget Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -27,40 +26,31 @@
       <tr>
         <td valign="top">daemon</td>
         <td valign="top">
-	  Should the created thread be a daemon thread.  That is,
-	  should the ANT program be allowed to exit if the thread is
-	  still running.
-	</td>
+          Should the created thread be a daemon thread. That is,
+          should the Ant program be allowed to exit if the thread is
+          still running.
+        </td>
         <td align="center" valign="top">No. Defaults to true.</td>
       </tr>
     </table>
     </subsection>
     <subsection name="Example">
       <p>The following code</p>
-      <source>
-	<![CDATA[
-    <forget>
-        <exec executeable="${env.CATALINA_HOME}/bin/catalina.bat}">
-            <arg line="start -security"/>
-        </exec>
-    </forget>
+      <source><![CDATA[<forget>
+    <exec executeable="${env.CATALINA_HOME}/bin/catalina.bat}">
+        <arg line="start -security"/>
+    </exec>
+</forget>
 
-    <waitfor maxwait="1" maxwaitunit="minute"
-                checkevery="100" checkeveryunit="millisecond">
-        <http url="http://localhost:8080"/>
-    </waitfor>
-	]]>
-      </source>
+<waitfor maxwait="1" maxwaitunit="minute"
+         checkevery="100" checkeveryunit="millisecond">
+    <http url="http://localhost:8080"/>
+</waitfor>]]></source>
       <p>
-	Would start the Tomcat webserver as a background process, then
-	waiting for the server to become available.
+        Would start the Tomcat webserver as a background process, then
+        waiting for the server to become available.
       </p>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

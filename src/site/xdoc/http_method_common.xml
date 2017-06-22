@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Http Tasks</title>
     <author email="danson@germane-software.com">Dale Anson</author>
@@ -26,41 +25,41 @@
         <td valign="top"><i>url</i></td>
         <td valign="top">The url that is being called.</td>
         <td align="center" valign="top">
-	  No, if the client host configuration is defined, and the
+          No, if the client host configuration is defined, and the
           path attribute is specified.
-	</td>
+        </td>
       </tr>
       <tr>
         <td valign="top"><i>path</i></td>
         <td valign="top">
-	  The path which we are going to connect to. If this is used,
+          The path which we are going to connect to. If this is used,
           you must declare an httpClient subelement, or set the
           clientRefId attribute for an HttpClient instance with
           configured host parameters.
-	</td>
+        </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top"><i>queryString</i></td>
         <td valign="top">
-	  The queryString which we are posting to. If this is used,
-	  you must declare an httpClient subelement, or set the
-	  clientRefId attribute for an HttpClient instance with
-	  configured host parameters.
-	</td>
+          The queryString which we are posting to. If this is used,
+          you must declare an httpClient subelement, or set the
+          clientRefId attribute for an HttpClient instance with
+          configured host parameters.
+        </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top"><i>clientRefId</i></td>
         <td valign="top">
-	  The reference id of a previously declared
-	  <code>httpClient</code> data type instance. This is
-	  necessary if you want to retain state (cookies) across
-	  multiple requests, or you want specific client configuration
-	  and host configuration parameters. If not specified, we
-	  create a new <code>httpClient</code> with the default
-	  settings.
-	</td>
+          The reference id of a previously declared
+          <code>httpClient</code> data type instance. This is
+          necessary if you want to retain state (cookies) across
+          multiple requests, or you want specific client configuration
+          and host configuration parameters. If not specified, we
+          create a new <code>httpClient</code> with the default
+          settings.
+        </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
@@ -82,11 +81,11 @@
         <td valign="top"><i>doAuthentication</i></td>
         <td valign="top">Should we perform authentication.</td>
         <td align="center" valign="top">
-	  No. If set, you must either declare an
-	  <code>httpClient</code> instance, or set the clientRefId
-	  attribute for an HttpClient which has credentials installed
-	  into it.
-	</td>
+          No. If set, you must either declare an
+          <code>httpClient</code> instance, or set the clientRefId
+          attribute for an HttpClient which has credentials installed
+          into it.
+        </td>
       </tr>
       <tr>
         <td valign="top"><i>followRedirects</i></td>
@@ -107,10 +106,10 @@
     <table summary="HttpClient Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>
-	  Please see
+          Please see
           the <a href="http_client_type.html">httpClient</a>
           documentation for more details on this element
-	</th>
+        </th>
       </tr>
     </table>
     <p>
@@ -227,12 +226,6 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
-    <h2>Examples</h2>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All
-      rights Reserved.
-    </p>
     </section>
   </body>
 </document>

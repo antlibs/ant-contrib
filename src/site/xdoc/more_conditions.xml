@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>More Conditions</title>
     <author email="danson@germane-software.com">Dale Anson</author>
@@ -10,224 +9,195 @@
   <body>
     <section name="More Conditions">
       <p>
-	These conditions are suitable for use in the <code>bool</code>
-	element. Unfortunately, they cannot be used in the
-	<code>condition</code> task, although all conditions for the
-	<code>condition</code> task can be used with the
-	<code>bool</code> and the <code>bool</code> can be used
-	anywhere that <code>condition</code> can be used.
+        These conditions are suitable for use in the <code>bool</code>
+        element. Unfortunately, they cannot be used in the
+        <code>condition</code> task, although all conditions for the
+        <code>condition</code> task can be used with the
+        <code>bool</code> and the <code>bool</code> can be used
+        anywhere that <code>condition</code> can be used.
       </p>
       <subsection id="IfPropertyTrue" name="IfPropertyTrue">
-	<p>
-	  Given a property name, tests whether the value for that
-	  property equals "true" (or "yes" or "on").
-	</p>
-	<table summary="IfPropertyTrue Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>IfPropertyTrue Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>property</td>
-	      <td>The name of a property to test the value of.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<ispropertytrue property="myprop"/>
-<ispropertytrue property="${someprop}"/>
-	  ]]>
-	</source>
+        <p>
+          Given a property name, tests whether the value for that
+          property equals "true" (or "yes" or "on").
+        </p>
+        <table summary="IfPropertyTrue Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>IfPropertyTrue Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>property</td>
+              <td>The name of a property to test the value of.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<ispropertytrue property="myprop"/>
+<ispropertytrue property="${someprop}"/>]]></source>
       </subsection>
       <subsection id="IfPropertyFalse" name="IfPropertyFalse">
-	<p>
-	  Given a property name, tests whether the value for that
-	  property equals "false" (or "no" or "off").
-	</p>
-	<table summary="IfPropertyFalse Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>IfPropertyFalse Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>property</td>
-	      <td>The name of a property to test the value of.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<ispropertyfalse property="myprop"/>
-<ispropertyfalse property="${someprop}"/>
-	  ]]>
-	</source>
+        <p>
+          Given a property name, tests whether the value for that
+          property equals "false" (or "no" or "off").
+        </p>
+        <table summary="IfPropertyFalse Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>IfPropertyFalse Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>property</td>
+              <td>The name of a property to test the value of.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<ispropertyfalse property="myprop"/>
+<ispropertyfalse property="${someprop}"/>]]></source>
       </subsection>
       <subsection id="StartsWith" name="StartsWith">
-	<p>
-	  Given a property name, tests whether the value for that
-	  property starts with a specified string.
-	</p>
-	<table summary="StartsWith Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>StartsWith Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>string</td>
-	      <td>The string to test.</td>
-	      <td>Yes</td>
-	    </tr>
-	    <tr>
-	      <td>with</td>
-	      <td>Check if 'string' starts with this value.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<startswith string="abcdefg" with="abc"/>
-<startswith string="${myprop}" with="foo"/>
-	  ]]>
-	</source>
+        <p>
+          Given a property name, tests whether the value for that
+          property starts with a specified string.
+        </p>
+        <table summary="StartsWith Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>StartsWith Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>string</td>
+              <td>The string to test.</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>with</td>
+              <td>Check if 'string' starts with this value.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<startswith string="abcdefg" with="abc"/>
+<startswith string="${myprop}" with="foo"/>]]></source>
       </subsection>
       <subsection id="EndsWith" name="EndsWith">
-	<p>
-	  Given a property name, tests whether the value for that ends
-	  with with a specified string.
-	</p>
-	<table summary="EndsWith Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>EndsWith Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>string</td>
-	      <td>The string to test.</td>
-	      <td>Yes</td>
-	    </tr>
-	    <tr>
-	      <td>with</td>
-	      <td>Check if 'string' ends with this value.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<endswith string="abcdefg" with="efg"/>
-<endswith string="${myprop}" with="bar"/>
-	  ]]>
-	</source>
+        <p>
+          Given a property name, tests whether the value for that ends
+          with with a specified string.
+        </p>
+        <table summary="EndsWith Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>EndsWith Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>string</td>
+              <td>The string to test.</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>with</td>
+              <td>Check if 'string' ends with this value.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<endswith string="abcdefg" with="efg"/>
+<endswith string="${myprop}" with="bar"/>]]></source>
       </subsection>
       <subsection id="IsGreaterThan" name="IsGreaterThan">
-	<p>
-	  Tests whether the first argument is greater than the second
-	  argument. Will automatically treat the arguments as numbers
-	  if both arguments consists of only the characters 0 through
-	  9 and optionally a decimal point. Otherwise, a String
-	  comparison is used.
-	</p>
-	<table summary="IsGreaterThan Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>IsGreaterThan Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>arg1</td>
-	      <td>The first argument.</td>
-	      <td>Yes</td>
-	    </tr>
-	    <tr>
-	      <td>arg2</td>
-	      <td>The second argument.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<!-- evaluates to true -->
+        <p>
+          Tests whether the first argument is greater than the second
+          argument. Will automatically treat the arguments as numbers
+          if both arguments consists of only the characters 0 through
+          9 and optionally a decimal point. Otherwise, a String
+          comparison is used.
+        </p>
+        <table summary="IsGreaterThan Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>IsGreaterThan Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>arg1</td>
+              <td>The first argument.</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>arg2</td>
+              <td>The second argument.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<!-- evaluates to true -->
 <isgreaterthan arg1="6.02" arg2="4"/>
 
 <!-- evaluates to false -->
-<isgreaterthan arg1="bar" arg2="foo"/>
-	  ]]>
-	</source>
+<isgreaterthan arg1="bar" arg2="foo"/>]]></source>
       </subsection>
       <subsection id="IsLessThan" name="IsLessThan">
-	<p>
-	  Tests whether the first argument is less than the second
-	  argument. Will automatically treat the arguments as numbers
-	  if both arguments consists of only the characters 0 through
-	  9 and optionally a decimal point. Otherwise, a String
-	  comparison is used.
-	</p>
-	<table summary="IsLessThan Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <caption>IsLessThan Attributes</caption>
-	  <thead>
-	    <tr>
-	      <th>Attribute</th>
-	      <th>Description</th>
-	      <th>Required</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      <td>arg1</td>
-	      <td>The first argument.</td>
-	      <td>Yes</td>
-	    </tr>
-	    <tr>
-	      <td>arg2</td>
-	      <td>The second argument.</td>
-	      <td>Yes</td>
-	    </tr>
-	  </tbody>
-	</table>
-	<source>
-	  <![CDATA[
-<!-- evaluates to false -->
+        <p>
+          Tests whether the first argument is less than the second
+          argument. Will automatically treat the arguments as numbers
+          if both arguments consists of only the characters 0 through
+          9 and optionally a decimal point. Otherwise, a String
+          comparison is used.
+        </p>
+        <table summary="IsLessThan Attributes" border="1" cellpadding="2" cellspacing="0">
+          <caption>IsLessThan Attributes</caption>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>arg1</td>
+              <td>The first argument.</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>arg2</td>
+              <td>The second argument.</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <source><![CDATA[<!-- evaluates to false -->
 <islessthan arg1="6.02" arg2="4"/>
 
 <!-- evaluates to true -->
-<islessthan arg1="bar" arg2="foo"/>
-	  ]]>
-	</source>
+<islessthan arg1="bar" arg2="foo"/>]]></source>
       </subsection>
-      <hr/>
-      <p align="center">
-	Copyright &copy; 2003 Ant-Contrib Project. All rights
-	Reserved.
-      </p>
     </section>
   </body>
 </document>

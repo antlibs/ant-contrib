@@ -2,12 +2,11 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>URLEncode Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
-</properties>
-<body>
+  </properties>
+  <body>
     <section name="URLEncode">
     <p>
       The URLEncode task will encode a given property for use within a
@@ -31,17 +30,17 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-	  If the property is already set, should we change it's value.
+          If the property is already set, should we change it's value.
           Can be <code>true</code> or <code>false</code>
-	</td>
+        </td>
         <td align="center" valign="top">No. Defaults to <code>false</code></td>
       </tr>
       <tr>
         <td valign="top">name <i>Deprecated</i></td>
         <td valign="top">The name of the property to set.</td>
         <td align="center" valign="top">
-	  No.  Use the <code>property</code> attribute instead
-	</td>
+          No. Use the <code>property</code> attribute instead
+        </td>
       </tr>
       <tr>
         <td valign="top">value</td>
@@ -51,17 +50,17 @@
       <tr>
         <td valign="top">location</td>
         <td valign="top">
-	  The location of a file whose absolute path will be the value
+          The location of a file whose absolute path will be the value
           of the property.
-	</td>
+        </td>
         <td align="center" valign="top">No, if value or refid is specified.</td>
       </tr>
       <tr>
         <td valign="top">refid</td>
         <td valign="top">
-	  The id of a saved reference whose value will be the value of
+          The id of a saved reference whose value will be the value of
           the property.
-	</td>
+        </td>
         <td align="center" valign="top">No, defaults to ",".</td>
       </tr>
     </table>
@@ -77,11 +76,6 @@
       could then be used in a URL.
     </p>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

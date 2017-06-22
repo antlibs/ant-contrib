@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Osfamily Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -26,17 +25,12 @@
       <tr>
         <td valign="top">property</td>
         <td valign="top">
-	  The name of the property to set with the OS family name.
-	</td>
+          The name of the property to set with the OS family name.
+        </td>
         <td align="center" valign="top">Yes.</td>
       </tr>
     </table>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

@@ -6,7 +6,7 @@
   <properties>
     <title>Http Tasks</title>
     <author email="danson@germane-software.com">Dale Anson</author>
-</properties>
+  </properties>
   <body>
     <section name="Post-Method">
     <p>
@@ -22,9 +22,9 @@
     </ul>
     <p>
       This method inherits
-	the <a href="http_method_common.html">Common Method</a>
-	attributes and subelements. It also contains the following
-	additional attributes and subelements:
+        the <a href="http_method_common.html">Common Method</a>
+        attributes and subelements. It also contains the following
+        additional attributes and subelements:
     </p>
     <subsection name="Parameters">
     <table summary="Post Method Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -36,9 +36,9 @@
       <tr>
         <td valign="top"><i>multipart</i></td>
         <td valign="top">
-	  Should multipart content be forced, even if only a single
+          Should multipart content be forced, even if only a single
           file or text part is specified.
-	</td>
+        </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
@@ -125,9 +125,9 @@
       <tr>
         <td valign="top"><i>value</i></td>
         <td valign="top">
-	  The string value to send.  This may also be specified as
+          The string value to send. This may also be specified as
           nested text to this element.
-	</td>
+        </td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
@@ -142,11 +142,6 @@
       </tr>
     </table>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

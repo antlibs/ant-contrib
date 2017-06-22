@@ -2,14 +2,13 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Switch Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
   </properties>
   <body>
     <section name="Switch">
-    <p>Task definition for the ANT task to switch on a particular value.</p>
+    <p>Task definition for the Ant task to switch on a particular value.</p>
     <subsection name="Parameters">
     <table summary="Switch Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
@@ -60,9 +59,7 @@
     </p>
     </subsection>
     <subsection name="Example">
-      <source>
-	<![CDATA[
-<switch value="${foo}">
+      <source><![CDATA[<switch value="${foo}">
   <case value="bar">
     <echo message="The value of property foo is bar"/>
   </case>
@@ -72,15 +69,8 @@
   <default>
     <echo message="The value of property foo is not sensible"/>
   </default>
-</switch>
-	]]>
-      </source>
+</switch>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

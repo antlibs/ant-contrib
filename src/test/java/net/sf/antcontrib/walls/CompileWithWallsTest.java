@@ -28,13 +28,11 @@ import org.junit.Test;
 
 /**
  * BIG NOTE
- * <p>
  * <p>Always expect specific exceptions.  Most of these test cases when
  * first submitted were not and therefore were not testing what they said
  * they were testing.  Exceptions were being caused by other things and the
  * tests were still passing.  Now all tests expect a specific exception
  * so if any other is thrown we will fail the test case.</p>
- * <p>
  * <p>Testcase for &lt;propertycopy&gt;.</p>
  */
 public class CompileWithWallsTest extends BuildFileTestBase {

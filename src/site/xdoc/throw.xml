@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Throw Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -11,7 +10,7 @@
     <section name="Throw">
     <p>
       Extension of Ant's built-in <code>fail</code> task that can
-      throw an exception that is given by a reference.  This may be
+      throw an exception that is given by a reference. This may be
       useful if you want to rethrow the exception that has been caught
       by a <code>trycatch</code> task in the <code>catch</code> block.
     </p>
@@ -31,14 +30,9 @@
     <p>
       In addition, all attributes of
       the <a href="https://ant.apache.org/manual/Tasks/fail.html"><code>fail</code>
-	task</a> are supported.
+        task</a> are supported.
     </p>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

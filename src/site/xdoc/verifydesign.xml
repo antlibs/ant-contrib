@@ -16,24 +16,27 @@
     </ul>
     <p>Feedback on task and documentation are welcome!</p>
     <subsection name="Description">
-    <p>Describe your design dependencies in an xml file, and this task will enforce them so they are not violated</p>
-    <p>For example, if there are three packages in one source tree</p>
-    <ul>
-      <li>biz.xsoftware.presentation</li>
-      <li>biz.xsoftware.business</li>
-      <li>biz.xsoftware.dataaccess</li>
-    </ul>
-    <p>
-      and naturally presentation should only depend on business
-      package, and business should depend on dataaccess.  If you
-      define your design this way and it is violated the build will
-      fail when the verifydesign ant task is called.  For example, if
-      I created a class in biz.xsoftware.presentation and that class
-      depended on a class in biz.xsoftware.dataaccess, the build would
-      fail.  This ensures the design actually follows what is
-      documented(to some degree at least).  This is especially nice
-      with automated builds.
-    </p>
+      <p>
+        Describe your design dependencies in an xml file, and this
+        task will enforce them so they are not violated.
+      </p>
+      <p>For example, if there are three packages in one source tree</p>
+      <ul>
+        <li>biz.xsoftware.presentation</li>
+        <li>biz.xsoftware.business</li>
+        <li>biz.xsoftware.dataaccess</li>
+      </ul>
+      <p>
+        and naturally presentation should only depend on business
+        package, and business should depend on dataaccess. If you
+        define your design this way and it is violated the build will
+        fail when the verifydesign ant task is called. For example, if
+        I created a class in biz.xsoftware.presentation and that class
+        depended on a class in biz.xsoftware.dataaccess, the build
+        would fail. This ensures the design actually follows what is
+        documented(to some degree at least). This is especially nice
+        with automated builds.
+      </p>
     </subsection>
     <subsection name="Getting Started">
     <p>
@@ -50,17 +53,13 @@
       released. This version of ant-contrib will work with both 5.0
       jdk and 1.4 jdk. 1.3 and before is not tested.
     </p>
-    <source>
-      <![CDATA[
-    <taskdef resource="net/sf/antcontrib/antlib.xml">
-        <classpath>
-           <fileset dir="XXXXXX">
-               <include name="**/*.jar"/>
-           </fileset>
-        </classpath>
-    </taskdef>
-      ]]>
-    </source>
+    <source><![CDATA[<taskdef resource="net/sf/antcontrib/antlib.xml">
+  <classpath>
+    <fileset dir="XXXXXX">
+      <include name="**/*.jar"/>
+    </fileset>
+  </classpath>
+</taskdef>]]></source>
     <p>
       Now, you can skip to
       the <a href="verifylegacytutorial.html">VerifyDesign Legacy
@@ -74,78 +73,78 @@
     <subsection name="Parameters">
     <table summary="VerifyDesign Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
-	<td valign="top"><b>Attribute</b></td>
-	<td valign="top"><b>Description</b></td>
-	<td align="center" valign="top"><b>Required</b></td>
+        <td valign="top"><b>Attribute</b></td>
+        <td valign="top"><b>Description</b></td>
+        <td align="center" valign="top"><b>Required</b></td>
       </tr>
       <tr>
-	<td valign="top">design</td>
-	<td valign="top">
-	  The file that specifies the design in xml format (see
-	  examples below)
-	</td>
-	<td align="center" valign="top">required</td>
+        <td valign="top">design</td>
+        <td valign="top">
+          The file that specifies the design in xml format (see
+          examples below)
+        </td>
+        <td align="center" valign="top">required</td>
       </tr>
       <tr>
-	<td valign="top">jar</td>
-	<td valign="top">The jar file of who's design we want to validate</td>
-	<td align="center" valign="top">required</td>
+        <td valign="top">jar</td>
+        <td valign="top">The jar file of who's design we want to validate</td>
+        <td align="center" valign="top">required</td>
       </tr>
       <tr>
-	<td valign="top">circularDesign</td>
-	<td valign="top">
-	  I strongly encourage you not to use this. This turns on
-	  allowing circular dependencies. There is always a way to get
-	  around circular dependencies, and I suggest you use it
-	  instead of introducing a circular dependency. If you think
-	  you have found one you can't work around, send me mail and
-	  maybe I can give you some ideas.
-	</td>
-	<td align="center" valign="top">optional(default=false)</td>
+        <td valign="top">circularDesign</td>
+        <td valign="top">
+          I strongly encourage you not to use this. This turns on
+          allowing circular dependencies. There is always a way to get
+          around circular dependencies, and I suggest you use it
+          instead of introducing a circular dependency. If you think
+          you have found one you can't work around, send me mail and
+          maybe I can give you some ideas.
+        </td>
+        <td align="center" valign="top">optional(default=false)</td>
       </tr>
       <tr>
-	<td valign="top">deleteFiles</td>
-	<td valign="top">
-	  Deletes jar/class files upon build failure to prevent usage.
-	  Use this option for new projects so the binaries are not
-	  used without the design being met.
-	</td>
-	<td align="center" valign="top">optional(default=false)</td>
+        <td valign="top">deleteFiles</td>
+        <td valign="top">
+          Deletes jar/class files upon build failure to prevent usage.
+          Use this option for new projects so the binaries are not
+          used without the design being met.
+        </td>
+        <td align="center" valign="top">optional(default=false)</td>
       </tr>
       <tr>
-	<td valign="top">fillInBuildException</td>
-	<td valign="top">
-	  Fills the BuildException with all the same errors reported
-	  in the logs.  This is for products like cruisecontrol who
-	  only see standard ant task logs and would miss reporting
-	  these errors otherwise(ie. instead it just reports build
-	  failed with look at the design errors)
-	</td>
-	<td align="center" valign="top">optional(default=false)</td>
+        <td valign="top">fillInBuildException</td>
+        <td valign="top">
+          Fills the BuildException with all the same errors reported
+          in the logs. This is for products like cruisecontrol who
+          only see standard ant task logs and would miss reporting
+          these errors otherwise(ie. instead it just reports build
+          failed with look at the design errors)
+        </td>
+        <td align="center" valign="top">optional(default=false)</td>
       </tr>
       <tr>
-	<td valign="top">needDeclarationsDefault</td>
-	<td valign="top">
-	  false is saying that for this particular package, no other
-	  package needs to declare that they depend on this package.
-	  It is basically saying the needDeclarations attribute in the
-	  package element in the design file is whatever the value of
-	  this attribute is in the build.xml file if the design file
-	  does not override it.
-	</td>
-	<td align="center" valign="top">optional(default=true)</td>
+        <td valign="top">needDeclarationsDefault</td>
+        <td valign="top">
+          false is saying that for this particular package, no other
+          package needs to declare that they depend on this package.
+          It is basically saying the needDeclarations attribute in the
+          package element in the design file is whatever the value of
+          this attribute is in the build.xml file if the design file
+          does not override it.
+        </td>
+        <td align="center" valign="top">optional(default=true)</td>
       </tr>
       <tr>
-	<td valign="top">needDependsDefault</td>
-	<td valign="top">
-	  false is saying that by default no package in the design
-	  file has to declare it's dependencies. It is basically
-	  saying the needDepends attribute in the package element in
-	  the design file is whatever the value of this attribute is
-	  in the build.xml file if the design file does not override
-	  it.
-	</td>
-	<td align="center" valign="top">optional(default=true)</td>
+        <td valign="top">needDependsDefault</td>
+        <td valign="top">
+          false is saying that by default no package in the design
+          file has to declare it's dependencies. It is basically
+          saying the needDepends attribute in the package element in
+          the design file is whatever the value of this attribute is
+          in the build.xml file if the design file does not override
+          it.
+        </td>
+        <td align="center" valign="top">optional(default=true)</td>
       </tr>
     </table>
     </subsection>
@@ -158,99 +157,103 @@
     <section name="Design File">
     <p>
       The design file is an xml based file specifying dependencies
-      that are ok.  Any dependencies not specified will not be allowed
-      and will make sure the build fails.  Examples of the contents of
+      that are ok. Any dependencies not specified will not be allowed
+      and will make sure the build fails. Examples of the contents of
       the design file can be found below.
     </p>
     <subsection name="design Root Element">
     <p>
-      The root element of the design file is 'design'.  Here are
+      The root element of the design file is 'design'. Here are
       design's allowed subelements.
     </p>
     <table summary="Design Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
-	<td valign="top"><b>Subelement</b></td>
-	<td valign="top"><b>Description</b></td>
-	<td align="center" valign="top"><b>Required</b></td>
+        <td valign="top"><b>Subelement</b></td>
+        <td valign="top"><b>Description</b></td>
+        <td align="center" valign="top"><b>Required</b></td>
       </tr>
       <tr>
-	<td valign="top">package</td>
-	<td valign="top">subelement representing a package and it's dependencies</td>
-	<td align="center" valign="top">One or more Required</td>
+        <td valign="top">package</td>
+        <td valign="top">subelement representing a package and it's dependencies</td>
+        <td align="center" valign="top">One or more Required</td>
       </tr>
     </table>
     <h3>package SubElement</h3>
     <p>Here are package elements allowed attributes and subelements</p>
     <table summary="Package Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
-	<td valign="top"><b>Attribute</b></td>
-	<td valign="top"><b>Description</b></td>
-	<td align="center" valign="top"><b>Required</b></td>
+        <td valign="top"><b>Attribute</b></td>
+        <td valign="top"><b>Description</b></td>
+        <td align="center" valign="top"><b>Required</b></td>
       </tr>
       <tr>
-	<td valign="top">name</td>
-	<td valign="top">A smaller nickname for the package to reference in the depends subelement or attribute</td>
-	<td align="center" valign="top">Required</td>
+        <td valign="top">name</td>
+        <td valign="top">A smaller nickname for the package to reference in the depends subelement or attribute</td>
+        <td align="center" valign="top">Required</td>
       </tr>
       <tr>
-	<td valign="top">package</td>
-	<td valign="top">The package to compile such as biz.xsoftware.presentation</td>
-	<td align="center" valign="top">Required</td>
+        <td valign="top">package</td>
+        <td valign="top">The package to compile such as biz.xsoftware.presentation</td>
+        <td align="center" valign="top">Required</td>
       </tr>
       <tr>
-	<td valign="top">depends</td>
-	<td valign="top">
-	  Contains one and only one 'name' of a package to depend
-	  on(taken from name attribute above).  If you want to specify
-	  more, use the depends subelement
-	</td>
-	<td align="center" valign="top">Optional(Default=no dependencies)</td>
+        <td valign="top">depends</td>
+        <td valign="top">
+          Contains one and only one 'name' of a package to depend
+          on(taken from name attribute above). If you want to specify
+          more, use the depends subelement
+        </td>
+        <td align="center" valign="top">Optional(Default=no dependencies)</td>
       </tr>
       <tr>
-	<td valign="top">subpackages</td>
-	<td valign="top">Can be set to include or exclude.  Basically allows classes in subpackages to be part of the package specified.(see examples below)</td>
-	<td align="center" valign="top">Optional(default=exclude)</td>
+        <td valign="top">subpackages</td>
+        <td valign="top">
+          Can be set to include or exclude. Basically allows classes
+          in subpackages to be part of the package specified. (see
+          examples below)
+        </td>
+        <td align="center" valign="top">Optional(default=exclude)</td>
       </tr>
       <tr>
-	<td valign="top">needdeclarations</td>
-	<td valign="top">
-	  Can be set to true or false.  True means if other packages
-	  depend on this package, a depends subelement or attribute
-	  must exist stating the dependency.  False means other
-	  packages need not declare they depend on this package.  This
-	  should be used sparingly for things like java.lang.  By
-	  default "java" package and all subpackages are set
-	  to false.  This can be overridden if you need however so you
-	  can make sure only certain packages depend on java.util or
-	  something if you really need that.  (see examples below)
-	</td>
-	<td align="center" valign="top">Optional(default=true)</td>
+        <td valign="top">needdeclarations</td>
+        <td valign="top">
+          Can be set to true or false. True means if other packages
+          depend on this package, a depends subelement or attribute
+          must exist stating the dependency. False means other
+          packages need not declare they depend on this package. This
+          should be used sparingly for things like java.lang. By
+          default "java" package and all subpackages are set to
+          false. This can be overridden if you need however so you can
+          make sure only certain packages depend on java.util or
+          something if you really need that. (see examples below)
+        </td>
+        <td align="center" valign="top">Optional(default=true)</td>
       </tr>
       <tr>
-	<td valign="top">needdepends</td>
-	<td valign="top">
-	  Can be set to true or false. True means if this package
-	  depends on other packages, those dependencies must be
-	  defined(unless those other packages have needdeclarations
-	  set to false). False means this package must list all the
-	  packages it depends on. This is typically for legacy code
-	  where you don't want to deal with what this package depends
-	  on right now. On a new project, I never use this.
-	</td>
-	<td align="center" valign="top">Optional(default=true)</td>
+        <td valign="top">needdepends</td>
+        <td valign="top">
+          Can be set to true or false. True means if this package
+          depends on other packages, those dependencies must be
+          defined(unless those other packages have needdeclarations
+          set to false). False means this package must list all the
+          packages it depends on. This is typically for legacy code
+          where you don't want to deal with what this package depends
+          on right now. On a new project, I never use this.
+        </td>
+        <td align="center" valign="top">Optional(default=true)</td>
       </tr>
     </table>
     <br/>
     <table summary="Subelement Description" border="1" cellpadding="2" cellspacing="0">
       <tr>
-	<td valign="top"><b>Subelement</b></td>
-	<td valign="top"><b>Description</b></td>
-	<td align="center" valign="top"><b>Required</b></td>
+        <td valign="top"><b>Subelement</b></td>
+        <td valign="top"><b>Description</b></td>
+        <td align="center" valign="top"><b>Required</b></td>
       </tr>
       <tr>
-	<td valign="top">depends</td>
-	<td valign="top">Contains one and only one 'name' of a package to depend on(taken from name attribute above)</td>
-	<td align="center" valign="top">One or more Optional</td>
+        <td valign="top">depends</td>
+        <td valign="top">Contains one and only one 'name' of a package to depend on(taken from name attribute above)</td>
+        <td align="center" valign="top">One or more Optional</td>
       </tr>
     </table>
     </subsection>
@@ -262,149 +265,122 @@
     <subsection name="Ant's build.xml File">
     <source><![CDATA[<verifydesign jar="application.jar" design="design.xml"/>]]></source>
     <p>
-      That is simple enough.  application.jar is the jar I am
-      verifying the design of.  design.xml contains the design I want
-      the jar file to adhere to.  There is no need to include third
-      party jars(unless you want to verify their design which you
-      shouldn't).  The design file can still define what your stuff
+      That is simple enough. application.jar is the jar I am verifying
+      the design of. design.xml contains the design I want the jar
+      file to adhere to. There is no need to include third party
+      jars(unless you want to verify their design which you
+      shouldn't). The design file can still define what your stuff
       depends on in those third party libraries without requiring
-      those libraries to be present.  If it does not adhere to that
-      design, the build fails.  Examples of a design.xml can be found
+      those libraries to be present. If it does not adhere to that
+      design, the build fails. Examples of a design.xml can be found
       further below.
     </p>
     <p>
-      Another example equivalent to the above is below.  verifydesign
-      takes a path like structure(see ant documentation).  <b>I highly
+      Another example equivalent to the above is below. verifydesign
+      takes a path like structure(see ant documentation). <b>I highly
       advise breaking the design on purpose and verifying that the
-      build fails.  This ensures you have the ant task set up
+      build fails. This ensures you have the ant task set up
       correctly.</b>
     </p>
-    <source>
-      <![CDATA[
-  <verifydesign design="design.xml">
-     <path>
-        <pathelement jar="application.jar"/>
-     </path>
-  </verifydesign>
-      ]]>
-    </source>
+    <source><![CDATA[<verifydesign design="design.xml">
+  <path>
+    <pathelement jar="application.jar"/>
+  </path>
+</verifydesign>]]></source>
     <p>One last example would be like so</p>
-    <source>
-      <![CDATA[
-  <verifydesign design="design.xml">
-     <path>
-        <fileset dir="${classesDir}">
-            <include name="**/*.class"/>
-        </fileset>
-     </path>
-  </verifydesign>
-      ]]>
-    </source>
+    <source><![CDATA[<verifydesign design="design.xml">
+  <path>
+    <fileset dir="${classesDir}">
+      <include name="**/*.class"/>
+    </fileset>
+  </path>
+</verifydesign>]]></source>
     <p>Now let's move on to define the contents of design.xml file.</p>
     </subsection>
     <subsection name="design.xml File">
       <p>These lines would be in <code>dependencies.xml</code>...</p>
-      <source>
-	<![CDATA[
-  <design>
-     <package name="alljavax" package="javax" subpackages="include" needdeclarations="false"/>
-     <package name="util" package="biz.xsoftware.util" subpackages="include"/>
-     <package name="dataaccess" package="biz.xsoftware.dataaccess"/>
-     <package name="business" package="biz.xsoftware.business" depends="dataaccess"/>
-     <package name="presentation" package="biz.xsoftware.presentation">
-        <depends>business</depends>
-        <depends>util</depends>
-     </package>
-  </design>
-	]]>
-      </source>
+      <source><![CDATA[<design>
+  <package name="alljavax" package="javax" subpackages="include" needdeclarations="false"/>
+  <package name="util" package="biz.xsoftware.util" subpackages="include"/>
+  <package name="dataaccess" package="biz.xsoftware.dataaccess"/>
+  <package name="business" package="biz.xsoftware.business" depends="dataaccess"/>
+  <package name="presentation" package="biz.xsoftware.presentation">
+    <depends>business</depends>
+    <depends>util</depends>
+  </package>
+</design>]]></source>
       <p>
-	Notice in this example, if biz.xsoftware.dataaccess.XYZClass
-	depended on biz.xsoftware.util.Util, the build would fail
-	since that package dependency is not defined.  Similarly, any
-	class in biz.xsoftware.presentation cannot depend on any class
-	in biz.xsoftware.dataaccess
+        Notice in this example, if biz.xsoftware.dataaccess.XYZClass
+        depended on biz.xsoftware.util.Util, the build would fail
+        since that package dependency is not defined. Similarly, any
+        class in biz.xsoftware.presentation cannot depend on any class
+        in biz.xsoftware.dataaccess
       </p>
       <p>
-	Also, notice that biz.xsoftware.presentation.Gui is allowed to
-	depend on biz.xsoftware.util.pres.ClassInSubpackage because
-	subpackages is set to include.  This allows subpackages of
-	biz.xsoftware.util to also be included in the design without
-	having to define every subpackage.
+        Also, notice that biz.xsoftware.presentation.Gui is allowed to
+        depend on biz.xsoftware.util.pres.ClassInSubpackage because
+        subpackages is set to include. This allows subpackages of
+        biz.xsoftware.util to also be included in the design without
+        having to define every subpackage.
       </p>
       <p>
-	Lastly, notice the first line so javax and all javax
-	subpackages can be depended on without declaring them.  Use
-	this sparingly though as sometimes you might want to isolate
-	dependencies like depending on JMX to a certain package.  For
-	example, you may want only biz.xsoftware.management to depend
-	on JMX and nothing else to depend on it.  If you declare the
-	same declaration I declared here for javax, you will not be
-	able to guarantee that.
+        Lastly, notice the first line so javax and all javax
+        subpackages can be depended on without declaring them. Use
+        this sparingly though as sometimes you might want to isolate
+        dependencies like depending on JMX to a certain package. For
+        example, you may want only biz.xsoftware.management to depend
+        on JMX and nothing else to depend on it. If you declare the
+        same declaration I declared here for javax, you will not be
+        able to guarantee that.
       </p>
       <h4>The wad design.xml file</h4>
       <p>
-	If you really want to, you could design for a wad.  This is
-	not suggested and if you want to do this, don't use this ant
-	task please.
+        If you really want to, you could design for a wad. This is not
+        suggested and if you want to do this, don't use this ant task
+        please.
       </p>
-      <source>
-	<![CDATA[
-  <design>
-     <package name="wad" package="<default package>" subpackages="include"/>
-  </design>
-	]]>
-      </source>
+      <source><![CDATA[<design>
+  <package name="wad" package="<default package>" subpackages="include"/>
+</design>]]></source>
       <h4>Including subpackages design.xml</h4>
-      <source>
-	<![CDATA[
-  <design>
-     <package name="service1" package="biz.xsoftware.service1" subpackages="include"/>
-     <package name="client1"  package="biz.xsoftware.client1"  depends="service1"/>
-     <package name="service2" package="biz.xsoftware.service2"/>
-     <package name="client2"  package="biz.xsoftware.client2"
-	      depends="service2" subpackages="include"/>
-  </design>
-	]]>
-      </source>
+      <source><![CDATA[<design>
+  <package name="service1" package="biz.xsoftware.service1" subpackages="include"/>
+  <package name="client1"  package="biz.xsoftware.client1"  depends="service1"/>
+  <package name="service2" package="biz.xsoftware.service2"/>
+  <package name="client2"  package="biz.xsoftware.client2"
+           depends="service2" subpackages="include"/>
+</design>]]></source>
       <p>
-	Note that here for service 1, classes in package
-	biz.xsoftware.client1 can depend on any classes in
-	biz.xsoftware.service1 and can also depend on classes in
-	subpackages of biz.xsoftware.service1.
+        Note that here for service 1, classes in package
+        biz.xsoftware.client1 can depend on any classes in
+        biz.xsoftware.service1 and can also depend on classes in
+        subpackages of biz.xsoftware.service1.
       </p>
       <p>
-	Note that for service 2, classes in biz.xsoftware.client2 and
-	client2's subpackages are all allowed to depend on classes in
-	biz.xsoftware.service2.
+        Note that for service 2, classes in biz.xsoftware.client2 and
+        client2's subpackages are all allowed to depend on classes in
+        biz.xsoftware.service2.
       </p>
       <h4>One Design Note</h4>
       <p>
-	One big note to consider, there is one design dependency that
-	verifydesign cannot see from the class file. This is due to
-	the String constants (This only happens with static final
-	<b>Strings</b> and static final <b>primitives</b> being
-	compiled into the class file. Here is example code
-	demonstrating this task cannot catch these dependencies...
+        One big note to consider, there is one design dependency that
+        verifydesign cannot see from the class file. This is due to
+        the String constants (This only happens with static final
+        <b>Strings</b> and static final <b>primitives</b> being
+        compiled into the class file. Here is example code
+        demonstrating this task cannot catch these dependencies...
       </p>
-      <source>
-public class Client {
+      <source>public class Client {
     public void fakeMethod() {
-	     String s = Dependency.CONSTANT;  //verifydesign task can't tell this depends on
-		                                  //DependencyClass as that info is lost after compiling
-	}
+        String s = Dependency.CONSTANT;  //verifydesign task can't tell this depends on
+                                         //DependencyClass as that info is lost after compiling
+    }
 }
 
 public class DependencyClass {
     public static final String CONSTANT = "asdf";
-}
-      </source>
+}</source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2004 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

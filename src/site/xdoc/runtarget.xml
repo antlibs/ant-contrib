@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>RunTarget Task</title>
     <author email="nicolaken@apache.org">Nicola Ken Barozzi</author>
@@ -26,10 +25,6 @@
       </tr>
     </table>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
-    </p>
     </section>
   </body>
 </document>

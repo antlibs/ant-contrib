@@ -27,26 +27,26 @@
     <target name="everything" depends="make.fs.libs, make.fs.output, make.fs.sources, make.cp">
         <echo message="The output path is ${ecl1outpath}"/>
         <echo message="The source path is ${ecl2srcpath}"/>
-	<loadresource property="ecl1outfileset">
-	  <propertyresource name="ecl1outpath"/>
-	  <filterchain>
-	  <tokenfilter>
-	    <replacestring from="/" to="-"/>
-	  </tokenfilter>
-	  </filterchain>
-	</loadresource>
-	<loadresource property="ecl2srcfileset">
-	  <propertyresource name="ecl2srcpath"/>
-	  <filterchain>
-	  <tokenfilter>
-	    <replacestring from="/" to="-"/>
-	  </tokenfilter>
-	  </filterchain>
-	</loadresource>
+        <loadresource property="ecl1outfileset">
+          <propertyresource name="ecl1outpath"/>
+          <filterchain>
+          <tokenfilter>
+            <replacestring from="/" to="-"/>
+          </tokenfilter>
+          </filterchain>
+        </loadresource>
+        <loadresource property="ecl2srcfileset">
+          <propertyresource name="ecl2srcpath"/>
+          <filterchain>
+          <tokenfilter>
+            <replacestring from="/" to="-"/>
+          </tokenfilter>
+          </filterchain>
+        </loadresource>
         <echo message="The output fileset is ecl1-${ecl1outfileset}"/>
         <echo message="The source path is ecl2-${ecl2srcfileset}"/>
-	<property name="archive.dir" value="../test-output"/>
-	<mkdir dir="${archive.dir}"/>
+        <property name="archive.dir" value="../test-output"/>
+        <mkdir dir="${archive.dir}"/>
         <!-- makes a jar file with the content of the output directory -->
         <zip destfile="${archive.dir}/out.jar"><fileset refid="ecl1-${ecl1outfileset}"/></zip>
         <!-- makes a zip file with all your sources (supposing you have only source directory) -->

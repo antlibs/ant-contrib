@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Http Tasks</title>
     <author email="danson@germane-software.com">Dale Anson</author>
@@ -178,9 +177,9 @@
     <table summary="Additional HostParams Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>
-	  <code>hostParams</code> subelements are identical to those of
+          <code>hostParams</code> subelements are identical to those of
           <code>clientParams</code>
-	</th>
+        </th>
       </tr>
     </table>
     <p>
@@ -194,25 +193,16 @@
     <table summary="HttpState Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>
-	  Please see the <a href="http_state_type.html">httpState</a>
+          Please see the <a href="http_state_type.html">httpState</a>
           documentation for more details on this element</th>
       </tr>
     </table>
     </subsection>
     <subsection name="Examples">
-      <source>
-	<![CDATA[
-    <httpClient id="client1">
-        <clientParams cookiePolicy="RFC_2109"/>
-    </httpClient>
-	]]>
-      </source>
+      <source><![CDATA[<httpClient id="client1">
+   <clientParams cookiePolicy="RFC2109"/>
+</httpClient>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

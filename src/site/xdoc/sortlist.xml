@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>SortList Tasks</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -30,44 +29,44 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-	  If the property is already set, should we change it's value.
+          If the property is already set, should we change it's value.
           Can be <code>true</code> or <code>false</code>
-	</td>
+        </td>
         <td align="center" valign="top">No. Defaults to <code>false</code></td>
       </tr>
       <tr>
         <td valign="top">value</td>
         <td valign="top">
-	  The list of values to process, with the delimiter character,
+          The list of values to process, with the delimiter character,
           indicated by the "delimiter" attribute, separating
           each value.
-	</td>
+        </td>
         <td align="center" valign="top">
-	  Yes, unless "refid" is specified.
-	</td>
+          Yes, unless "refid" is specified.
+        </td>
       </tr>
       <tr>
         <td valign="top">refid</td>
         <td valign="top">
-	  The id of where the list of values to sort is stored.
-	</td>
+          The id of where the list of values to sort is stored.
+        </td>
         <td align="center" valign="top">
-	  Yes, unless "value" is specified.
-	</td>
+          Yes, unless "value" is specified.
+        </td>
       </tr>
       <tr>
         <td valign="top">delimiter</td>
         <td valign="top">
-	  The delimiter string that separates the values in the
+          The delimiter string that separates the values in the
           "list" attribute.
-	</td>
+        </td>
         <td align="center" valign="top">No, defaults to ",".</td>
       </tr>
       <tr>
         <td valign="top">casesensitive</td>
         <td valign="top">
-	  If <code>true</code>, does a case sensitive sorting of the
-          strings.  If <code>false</code> does case insensitive
+          If <code>true</code>, does a case sensitive sorting of the
+          strings. If <code>false</code> does case insensitive
           sorting.
         </td>
         <td align="center" valign="top">No. Defaults to true.</td>
@@ -75,7 +74,7 @@
       <tr>
         <td valign="top">numeric</td>
         <td valign="top">
-	  If <code>true</code>, does a numeric sorting, treating all
+          If <code>true</code>, does a numeric sorting, treating all
           list entries as if they were numbers.
         </td>
         <td align="center" valign="top">No. Defaults to false.</td>
@@ -83,20 +82,20 @@
       <tr>
         <td valign="top">orderPropertyFile</td>
         <td valign="top">
-	  If specified, the list will sorted as if they were property
-	  names, and will be sorted in the order those properties
-	  appear in the given property file.  Any properties in the
-	  <code>value</code> attribute which do not appear in the
-	  properties file will be inserted at the end of the list.
-	  This property is most useful when used in conjunction with
-	  the <code>propertyselector</code> task (see Example 2).
+          If specified, the list will sorted as if they were property
+          names, and will be sorted in the order those properties
+          appear in the given property file. Any properties in the
+          <code>value</code> attribute which do not appear in the
+          properties file will be inserted at the end of the list.
+          This property is most useful when used in conjunction with
+          the <code>propertyselector</code> task (see Example 2).
         </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top">orderPropertyFilePrefix</td>
         <td valign="top">
-	  If <code>orderPropertyFile</code> is specified, this value
+          If <code>orderPropertyFile</code> is specified, this value
           (with a trailing '.') will be prefixed to each property in
           the specified <code>orderPropertyFile</code> to determine
           sorting order
@@ -106,58 +105,44 @@
     </table>
     </subsection>
     <subsection name="Example 1">
-      <source>
-	<![CDATA[
-    <property name="my.list" value="z,y,x,w,v,u,t"/>
-    <sortlist property="my.sorted.list" value="${my.list}"
-                 delimiter=","/>
-    <echo message="${my.sorted.list}"/>
-	]]>
-      </source>
+      <source><![CDATA[<property name="my.list" value="z,y,x,w,v,u,t"/>
+<sortlist property="my.sorted.list" value="${my.list}"
+          delimiter=","/>
+<echo message="${my.sorted.list}"/>]]></source>
       <p>
-	prints
+        prints
       </p>
       <code>[echo] t,u,v,w,x,y,z</code>
     </subsection>
     <subsection name="Example 2">
-      <source>
-	<![CDATA[
-    test.properties
-    ---------------
-    a.name=a
-    c.name=c
-    b.name=b
+      <source><![CDATA[test.properties
+---------------
+a.name=a
+c.name=c
+b.name=b
 
-    <property file="test.properties" prefix="test"/>
-    <propertyselector property="my.list"
-                         delimiter=","
-                         match="test\..*\.name"
-                         select="\0"/>
-    <sortlist property="my.sorted.list"
-                 value="${my.list}"
-                 delimiter=","
-                 orderPropertyFile="test.properties"
-                 orderPropertyFilePrefix="test"/>
+<property file="test.properties" prefix="test"/>
+<propertyselector property="my.list"
+                  delimiter=","
+                  match="test\..*\.name"
+                  select="\0"/>
+<sortlist property="my.sorted.list"
+          value="${my.list}"
+          delimiter=","
+          orderPropertyFile="test.properties"
+          orderPropertyFilePrefix="test"/>
 
-    <echo message="${my.sorted.list}"/>
-	]]>
-      </source>
+<echo message="${my.sorted.list}"/>]]></source>
       <p>
-	prints
+        prints
       </p>
-      <code>[echo] test.a.name,test.c.name,test.b.name</code>
+      <source>[echo] test.a.name,test.c.name,test.b.name</source>
       <p>
-	Notice that the <code>test.properties</code> file did not have
-	"test."  prefixing all the
-	properties. The <code>orderPropertyFilePrefix</code> was used to
-	do that.
+        Notice that the <code>test.properties</code> file did not have
+        "test." prefixing all the properties. The
+        <code>orderPropertyFilePrefix</code> was used to do that.
       </p>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

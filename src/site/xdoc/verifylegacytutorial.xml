@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>VerifyDesign Legacy System Tutorial</title>
     <author email="dean@xsoftware.biz">Dean Hiller</author>
@@ -25,17 +24,13 @@
       set the needDepends attribute to false for all of them so your
       <code>design.xml</code> should look like so
     </p>
-    <source>
-      <![CDATA[
-  <design>
-      <package name="first" package="your.first.package" needDepends="false"/>
-      <package name="second" package="your.second.package" needDepends="false"/>
-      <package name="third" package="your.third.package" needDepends="false"/>
-      <package name="fourth" package="your.fourth.package" needDepends="false"/>
-      <package name="fifth" package="your.fifth.package" needDepends="false"/>
-  </design>
-      ]]>
-    </source>
+    <source><![CDATA[<design>
+  <package name="first" package="your.first.package" needDepends="false"/>
+  <package name="second" package="your.second.package" needDepends="false"/>
+  <package name="third" package="your.third.package" needDepends="false"/>
+  <package name="fourth" package="your.fourth.package" needDepends="false"/>
+  <package name="fifth" package="your.fifth.package" needDepends="false"/>
+</design>]]></source>
     <p>
       Please give them better names then first, second, third, etc.
       You may have 100 packages on some projects and this may take a
@@ -50,37 +45,29 @@
       take your.first.package and create the new
       <code>design.xml</code> file like so...
     </p>
-    <source>
-      <![CDATA[
-  <design>
-      <package name="first" package="your.first.package"/>
-      <package name="second" package="your.second.package" needDepends="false"/>
-      <package name="third" package="your.third.package" needDepends="false"/>
-      <package name="fourth" package="your.fourth.package" needDepends="false"/>
-      <package name="fifth" package="your.fifth.package" needDepends="false"/>
-  </design>
-      ]]>
-    </source>
+    <source><![CDATA[<design>
+  <package name="first" package="your.first.package"/>
+  <package name="second" package="your.second.package" needDepends="false"/>
+  <package name="third" package="your.third.package" needDepends="false"/>
+  <package name="fourth" package="your.fourth.package" needDepends="false"/>
+  <package name="fifth" package="your.fifth.package" needDepends="false"/>
+</design>]]></source>
     <p>
       Now we run the build and we get errors that your.first.package
-      depends on second, third, and fourth.  Let's pretend we only
-      wanted to depend on second and third.  We then change our design
+      depends on second, third, and fourth. Let's pretend we only
+      wanted to depend on second and third. We then change our design
       file to so...
     </p>
-    <source>
-      <![CDATA[
-  <design>
-      <package name="first" package="your.first.package"
-         <depends>second</depends>
-         <depends>third</depends>
-      </package>
-      <package name="second" package="your.second.package" needDepends="false"/>
-      <package name="third" package="your.third.package" needDepends="false"/>
-      <package name="fourth" package="your.fourth.package" needDepends="false"/>
-      <package name="fifth" package="your.fifth.package" needDepends="false"/>
-  </design>
-      ]]>
-</source>
+    <source><![CDATA[<design>
+  <package name="first" package="your.first.package"
+    <depends>second</depends>
+    <depends>third</depends>
+  </package>
+  <package name="second" package="your.second.package" needDepends="false"/>
+  <package name="third" package="your.third.package" needDepends="false"/>
+  <package name="fourth" package="your.fourth.package" needDepends="false"/>
+  <package name="fifth" package="your.fifth.package" needDepends="false"/>
+</design>]]></source>
     <p>
       Now we run the build and clean up all the code so that first
       doesn't depend on fourth anymore. This first step can typically
@@ -95,11 +82,6 @@
       this task. This ant task guarantees that you are actually
       heading in your defined direction. Whether the direction is
       correct or not is another story :).
-    </p>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2004 Ant-Contrib Project. All rights
-      Reserved.
     </p>
     </section>
   </body>

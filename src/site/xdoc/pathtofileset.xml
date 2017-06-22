@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Pathtofileset Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -33,7 +32,7 @@
       <tr>
         <td valign="top">ignorenonrelative</td>
         <td valign="top">
-	  This boolean controls what will happen if any of the files
+          This boolean controls what will happen if any of the files
           in the path are not in the directory for the fileset. If
           this is "true" the files are ignored, if this is "false" a
           build exception is thrown. (Note: if files are not present
@@ -44,9 +43,9 @@
       <tr>
         <td valign="top">name</td>
         <td valign="top">
-	  This is the identifier of the fileset to create. This
+          This is the identifier of the fileset to create. This
           fileset will contain the files that are relative to the
-          directory root.  Any files that are not present will not be
+          directory root. Any files that are not present will not be
           placed in the set.
         </td>
         <td align="center" valign="top">Yes</td>
@@ -54,30 +53,22 @@
     </table>
     </subsection>
     <subsection name="Example">
-      <source>
-	<![CDATA[
-    <outofdate outputsourcespath="modified.sources.path">
-      <sourcefiles>
-        <fileset dir="a/b/c" includes="**/*.java"/>
-      </sourcefiles>
-      <mapper dir="a/b/c" type="glob" from="*.java" to="output/*.xml"/>
-      <sequential>
-        <pathtofileset name="modified.sources.fileset"
-                       pathrefid="modified.sources.path"
-                       dir="a/b/c"/>
-        <copy todir="output">
-          <fileset refid="modified.sources.fileset"/>
-          <mapper type="glob" from="*.java" to="*.xml"/>
-        </copy>
-      </sequential>
-    </outofdate>
-	]]>
-      </source>
+      <source><![CDATA[<outofdate outputsourcespath="modified.sources.path">
+  <sourcefiles>
+    <fileset dir="a/b/c" includes="**/*.java"/>
+  </sourcefiles>
+  <mapper dir="a/b/c" type="glob" from="*.java" to="output/*.xml"/>
+  <sequential>
+    <pathtofileset name="modified.sources.fileset"
+                   pathrefid="modified.sources.path"
+                   dir="a/b/c"/>
+    <copy todir="output">
+      <fileset refid="modified.sources.fileset"/>
+      <mapper type="glob" from="*.java" to="*.xml"/>
+    </copy>
+  </sequential>
+</outofdate>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
-    </p>
     </section>
   </body>
 </document>

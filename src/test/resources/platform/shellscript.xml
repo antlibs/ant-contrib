@@ -24,31 +24,31 @@
 
     <target name="hassed">
         <!-- Temporary hack, since SED is hanging the tests on windows -->
-	<fail>
-	    <condition>
-	      <os family="windows"/>
-	    </condition>
-	</fail>
-	<shellscript shell="sed"/>
+        <fail>
+            <condition>
+              <os family="windows"/>
+            </condition>
+        </fail>
+        <shellscript shell="sed"/>
     </target>
 
     <target name="hascmd">
         <shellscript shell="cmd.exe" tmpsuffix=".bat">
             <arg value="/C"/>
             echo a
-	</shellscript>
+        </shellscript>
     </target>
 
     <target name="sh.hello">
         <shellscript shell="sh">
-	    echo "hello world"
-	</shellscript>
+            echo "hello world"
+        </shellscript>
     </target>
 
     <target name="bash.hello">
         <shellscript shell="bash">
-	    echo "hello world"
-	</shellscript>
+            echo "hello world"
+        </shellscript>
     </target>
 
     <!-- python needs to start on the first col -->
@@ -60,8 +60,8 @@ print "hello world"
 
     <target name="perl.hello">
         <shellscript shell="perl">
-	    print STDOUT "hello world\n";
-	</shellscript>
+            print STDOUT "hello world\n";
+        </shellscript>
     </target>
 
     <target name="noshell">
@@ -74,46 +74,46 @@ print "hello world"
 
     <target name="sed.test">
         <shellscript shell="sed" >
-	  <arg value="-e"/>
-	  <arg value="s/FOO/BAR/g"/>
-	      FOO bar bar bar FOO bar bar
-	</shellscript>
+          <arg value="-e"/>
+          <arg value="s/FOO/BAR/g"/>
+              FOO bar bar bar FOO bar bar
+        </shellscript>
     </target>
 
     <target name="sh.property">
         <property name="my.sh.property" value="this is a property"/>
-	<shellscript executable="sh">
-	    echo ${my.sh.property}
-	</shellscript>
+        <shellscript executable="sh">
+            echo ${my.sh.property}
+        </shellscript>
     </target>
 
     <target name="sh.set.property">
         <shellscript shell="sh" outputproperty="sh.set.property">
-	    echo hello world
-	</shellscript>
+            echo hello world
+        </shellscript>
     </target>
 
     <target name="sh.tmp.suffix">
         <shellscript shell="sh" tmpsuffix=".bat">
-	    echo $0
-	</shellscript>
+            echo $0
+        </shellscript>
     </target>
 
     <target name="cmd.test">
         <shellscript shell="cmd.exe" tmpsuffix=".bat">
-	    <arg value="/C"/>
-	    <arg value="call"/>
-	    echo hello world
-	</shellscript>
+            <arg value="/C"/>
+            <arg value="call"/>
+            echo hello world
+        </shellscript>
     </target>
 
     <target name="dir.test">
         <mkdir dir="subdir"/>
-	<shellscript shell="sh" dir="subdir" outputproperty="dir.test.property">
-	    current=`pwd`
-	    echo "dir is $current"
-	</shellscript>
-	<delete dir="subdir"/>
+        <shellscript shell="sh" dir="subdir" outputproperty="dir.test.property">
+            current=`pwd`
+            echo "dir is $current"
+        </shellscript>
+        <delete dir="subdir"/>
     </target>
 
     <target name="command.test">

@@ -49,7 +49,7 @@
     </target>
 
     <target name="testIntermediaryDirAndDestDirSame" depends="init">
-    	<mkdir dir="${test.dir}/dir1"/>
+        <mkdir dir="${test.dir}/dir1"/>
         <compilewithwalls intermediaryBuildDir="${test.dir}/dir1">
             <walls/>
 
@@ -58,7 +58,7 @@
     </target>
 
     <target name="testIntermediaryDirInsideDestDir" depends="init">
-    	<mkdir dir="${test.dir}/dir1"/>
+        <mkdir dir="${test.dir}/dir1"/>
         <compilewithwalls intermediaryBuildDir="${test.dir}/dir1/insideDestDir">
             <walls/>
 
@@ -184,8 +184,8 @@
 
 <!--
 *********************************************************
-	These are mostly the same tests above but making sure it works with
-	external walls.xml file.
+        These are mostly the same tests above but making sure it works with
+        external walls.xml file.
 *********************************************************
 -->
     <target name="testDependsOnPackageAfterExternalWalls" depends="init">

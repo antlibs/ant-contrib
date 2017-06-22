@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Trycatch Task</title>
     <author email="stefan.bodewig@freenet.de">Stefan Bodewig</author>
@@ -22,20 +21,20 @@
     </p>
     <ul>
       <li>
-	If there is no <code>catch</code> block, the exception will be
-	passed through to Ant.
+        If there is no <code>catch</code> block, the exception will be
+        passed through to Ant.
       </li>
       <li>
-	If the property attribute has been set, a property of the
-	given name will be set to the message of the exception.
+        If the property attribute has been set, a property of the
+        given name will be set to the message of the exception.
       </li>
       <li>
-	If the reference attribute has been set, a reference of the
-	given id will be created and point to the exception object.
+        If the reference attribute has been set, a reference of the
+        given id will be created and point to the exception object.
       </li>
       <li>
-	If there is a <code>catch</code> block, the tasks nested into
-	it will be run.
+        If there is a <code>catch</code> block, the tasks nested into
+        it will be run.
       </li>
     </ul>
     <p>
@@ -53,25 +52,23 @@
       <tr>
         <td valign="top">property</td>
         <td valign="top">
-	  Name of a property that will receive the message of the
+          Name of a property that will receive the message of the
           exception that has been caught (if any)
-	</td>
+        </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top">reference</td>
         <td valign="top">
-	  Id of a reference that will point to the exception object
+          Id of a reference that will point to the exception object
           that has been caught (if any)
-	</td>
+        </td>
         <td align="center" valign="top">No</td>
       </tr>
     </table>
     </subsection>
     <subsection name="Example">
-      <source>
-	<![CDATA[
-<trycatch property="foo" reference="bar">
+      <source><![CDATA[<trycatch property="foo" reference="bar">
   <try>
     <fail>Tada!</fail>
   </try>
@@ -87,25 +84,14 @@
 
 <echo>As property: ${foo}</echo>
 <property name="baz" refid="bar"/>
-<echo>From reference: ${baz}</echo>
-	]]>
-      </source>
+<echo>From reference: ${baz}</echo>]]></source>
       <p>results in</p>
-      <source>
-	<![CDATA[
-  [trycatch] Caught exception: Tada!
-      [echo] In <catch>.
-      [echo] In <finally>.
-      [echo] As property: Tada!
-      [echo] From reference: Tada!
-	]]>
-      </source>
+      <source><![CDATA[[trycatch] Caught exception: Tada!
+   [echo] In <catch>.
+   [echo] In <finally>.
+   [echo] As property: Tada!
+   [echo] From reference: Tada!]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

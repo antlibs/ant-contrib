@@ -153,27 +153,18 @@
     </table>
     </subsection>
     <subsection name="Examples">
-      <source>
-	<![CDATA[
-    <httpState id="myState">
-       <cookie name="loginId" value="username" realm="sourceforge.net"/>
-    </httpState>
+      <source><![CDATA[<httpState id="myState">
+  <cookie name="loginId" value="username" realm="sourceforge.net"/>
+</httpState>
 
-    <httpClient id="myClient" stateRefId="myState"/>
+<httpClient id="myClient" stateRefId="myState"/>
 
-    <httpClient id="myClient>
-      <httpState >
-        <cookie name="loginId" value="username" realm="sourceforge.net"/>
-      </httpState>
-    </httpClient>
-	]]>
-      </source>
+<httpClient id="myClient>
+  <httpState>
+    <cookie name="loginId" value="username" realm="sourceforge.net"/>
+  </httpState>
+</httpClient>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

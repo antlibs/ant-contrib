@@ -15,7 +15,63 @@
   <version/>
   <body>
     <menu name="Ant Contrib">
-      <item name="Manual" href="manual.html"/>
+      <item name="Introduction" href="intro.html"/>
     </menu>
+    <menu name="Logic Tasks">
+      <item name="AntCallBack" href="antcallback.html"/>
+      <item name="AntFetch" href="antfetch.html"/>
+      <item name="Assert" href="assert.html"/>
+      <item name="Foreach" href="foreach.html"/>
+      <item name="For" href="for.html"/>
+      <item name="If" href="if.html"/>
+      <item name="OutOfDate" href="outofdate.html"/>
+      <item name="Relentless" href="relentless.html"/>
+      <item name="RunTarget" href="runtarget.html"/>
+      <item name="Switch" href="switch.html"/>
+      <item name="Throw" href="throw.html"/>
+      <item name="TimestampSelector" href="timestampselector.html"/>
+      <item name="Trycatch" href="trycatch.html"/>
+    </menu>
+    <menu name="Network Tasks">
+      <item name="HTTP Post" href="post.html"/>
+      <item name="AntServer/RemoteAnt" href="server_tasks.html"/>
+      <item name="ImportURL" href="importurl.html"/>
+    </menu>
+    <menu name="Http Tasks and Types">
+      <item name="HttpClient" href="http_client_type.html"/>
+      <item name="HttpState" href="http_state_type.html"/>
+      <item name="PostMethod" href="post_method.html"/>
+      <item name="GetMethod" href="get_method.html"/>
+      <item name="HeadMethod" href="head_method.html"/>
+    </menu>
+    <menu name="Performance Monitoring and Tasks">
+      <item name="Performance Monitor" href="performance_monitor.html"/>
+      <item name="Stopwatch" href="stopwatch.html"/>
+    </menu>
+    <menu name="Platform Tasks">
+      <item name="Osfamily" href="osfamily.html"/>
+      <item name="Shellscript" href="shellscript.html"/>
+    </menu>
+    <menu name="Property Tasks">
+      <item name="Math" href="math.html"/>
+      <item name="Propertycopy" href="propertycopy.html"/>
+      <item name="PropertySelector" href="propertyselector.html"/>
+      <item name="Pathtofileset" href="pathtofileset.html"/>
+      <item name="PropertyRegex" href="propertyregex.html"/>
+      <item name="SortList" href="sortlist.html"/>
+      <item name="URLEncode" href="urlencode.html"/>
+      <item name="Variable" href="variable.html"/>
+    </menu>
+    <menu name="Process Tasks">
+      <item name="Forget" href="forget.html"/>
+      <item name="Limit" href="limit.html"/>
+    </menu>
+    <menu name="Other Tasks">
+      <item name="Antclipse" href="antclipse.html"/>
+      <item name="CompileWithWalls" href="compilewithwalls.html"/>
+      <item name="IniFile" href="inifile.html"/>
+      <item name="VerifyDesign" href="verifydesign.html"/>
+    </menu>
+    <menu ref="reports"/>
   </body>
 </project>
