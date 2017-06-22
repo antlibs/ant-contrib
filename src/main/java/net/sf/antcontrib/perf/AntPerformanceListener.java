@@ -21,9 +21,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
@@ -53,12 +53,12 @@ public class AntPerformanceListener implements BuildListener {
     /**
      * Field targetStats.
      */
-    private HashMap<Target, StopWatch> targetStats = new HashMap<Target, StopWatch>();
+    private Map<Target, StopWatch> targetStats = new ConcurrentHashMap<Target, StopWatch>();
 
     /**
      * Field taskStats.
      */
-    private HashMap<Task, StopWatch> taskStats = new HashMap<Task, StopWatch>();
+    private Map<Task, StopWatch> taskStats = new ConcurrentHashMap<Task, StopWatch>();
 
     /**
      * Field master.
@@ -176,8 +176,8 @@ public class AntPerformanceListener implements BuildListener {
 
         // reset the stats registers
 
-        targetStats = new HashMap<Target, StopWatch>();
-        taskStats = new HashMap<Task, StopWatch>();
+        targetStats = new ConcurrentHashMap<Target, StopWatch>();
+        taskStats = new ConcurrentHashMap<Task, StopWatch>();
     }
 
     /**
