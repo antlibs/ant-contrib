@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>PropertySelector Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -28,29 +27,29 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-	  If the property is already set, should we change it's value.
+          If the property is already set, should we change it's value.
           Can be <code>true</code> or <code>false</code>
-	</td>
+        </td>
         <td align="center" valign="top">No. Defaults to <code>false</code></td>
       </tr>
       <tr>
         <td valign="top">match</td>
         <td valign="top">
-	  The regular expression which is used to select property
-          names for inclusion in the list.  This follows the standard
+          The regular expression which is used to select property
+          names for inclusion in the list. This follows the standard
           regular expression syntax accepted by ant's regular
           expression tasks.
-	</td>
+        </td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
         <td valign="top">select</td>
         <td valign="top">
-	  A pattern which indicates what selection pattern you want in
-          the returned list.  This used the substitution pattern
-          syntax to indicate where to insert groupings created as a
-          result of the regular expression match.
-	</td>
+          A pattern which indicates what selection pattern you want in
+          the returned list. This used the substitution pattern syntax
+          to indicate where to insert groupings created as a result of
+          the regular expression match.
+        </td>
         <td align="center" valign="top">No. default is "\0".</td>
       </tr>
       <tr>
@@ -61,17 +60,17 @@
       <tr>
         <td valign="top">delimiter</td>
         <td valign="top">
-	  The delimiter used to seperate entries in the resulting
+          The delimiter used to seperate entries in the resulting
           property
-	</td>
+        </td>
         <td align="center" valign="top">No. default is ",".</td>
       </tr>
       <tr>
         <td valign="top">distinct</td>
         <td valign="top">
-	  Should the returned entries be a distinct set (no duplicate
+          Should the returned entries be a distinct set (no duplicate
           entries)
-	</td>
+        </td>
         <td align="center" valign="top">No. default is "false".</td>
       </tr>
     </table>
@@ -92,20 +91,16 @@
     <p>
       The following code
     </p>
-    <source>
-      <![CDATA[
-    <property name="package.ABC.name" value="abc pack name"/>
-    <property name="package.DEF.name" value="def pack name"/>
-    <property name="package.GHI.name" value="ghi pack name"/>
-    <property name="package.JKL.name" value="jkl pack name"/>
+    <source><![CDATA[<property name="package.ABC.name" value="abc pack name"/>
+<property name="package.DEF.name" value="def pack name"/>
+<property name="package.GHI.name" value="ghi pack name"/>
+<property name="package.JKL.name" value="jkl pack name"/>
 
-    <propertyselector property="pack.list"
-                         delimiter=","
-                         match="package\.([^\.]*)\.name"
-                         select="\1"
-                         casesensitive="false"/>
-      ]]>
-    </source>
+<propertyselector property="pack.list"
+                  delimiter=","
+                  match="package\.([^\.]*)\.name"
+                  select="\1"
+                  casesensitive="false"/>]]></source>
     <p>
       would yield the results
     </p>
@@ -114,33 +109,23 @@
       You could then iterate through this list using
       the <a href="foreach.html">ForEach Task</a> as follows:
     </p>
-    <source>
-      <![CDATA[
-    <foreach list="${pack.list}"
-                delimiter=","
-                target="print.name"
-                param="pack.id"/>
+    <source><![CDATA[<foreach list="${pack.list}"
+         delimiter=","
+         target="print.name"
+         param="pack.id"/>
 
-    <target name="print.name" >
-      <propertycopy name="pack.name" value="package.${pack.id}.name"/>
-      <echo message="${pack.name}"/>
-    </target>
-      ]]>
-    </source>
+<target name="print.name">
+  <propertycopy name="pack.name" value="package.${pack.id}.name"/>
+  <echo message="${pack.name}"/>
+</target>]]></source>
     <p>
       Would print
     </p>
-    <source>
-      [echo] abc pack name
-      [echo] def pack name
-      [echo] ghi pack name
-      [echo] jkl pack name
-    </source>
+    <source>[echo] abc pack name
+[echo] def pack name
+[echo] ghi pack name
+[echo] jkl pack name</source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2003 Ant-Contrib Project. All rights Reserved.
-    </p>
     </section>
   </body>
 </document>

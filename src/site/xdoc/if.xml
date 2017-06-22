@@ -58,9 +58,7 @@
     </p>
     </subsection>
     <subsection name="Example">
-      <source>
-	<![CDATA[
-<if>
+      <source><![CDATA[<if>
  <equals arg1="${foo}" arg2="bar"/>
  <then>
    <echo message="The value of property foo is bar"/>
@@ -86,15 +84,8 @@
  <else>
    <echo message="The value of property foo is not 'foo' or 'bar'"/>
  </else>
-</if>
-	]]>
-      </source>
+</if>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

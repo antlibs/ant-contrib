@@ -86,7 +86,7 @@
         </javac>
 
         <copy todir="${target.test-classes.dir}">
-	    <!-- antclipse expects .classpath in basedir -->
+            <!-- antclipse expects .classpath in basedir -->
             <fileset dir="${resources.test.dir}"
                      includes="**/*.java,**/*.properties,**/*.xml,**/*.txt,.classpath"/>
         </copy>
@@ -196,8 +196,8 @@
     <target name="checkstyle-internal" depends="init-checkstyle">
         <mkdir dir="${checkstyle.report.dir}"/>
         <cs:checkstyle xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant"
-		       config="${checkstyle.src.dir}/checkstyle.xml"
-		       failOnViolation="false" failureProperty="checkstyle.failed">
+                       config="${checkstyle.src.dir}/checkstyle.xml"
+                       failOnViolation="false" failureProperty="checkstyle.failed">
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
@@ -209,7 +209,7 @@
     </target>
 
     <target name="checkstyle" depends="checkstyle-internal"
-	    description="o Check Ivy codebase according to src/config/checkstyle.xml">
+            description="o Check Ivy codebase according to src/config/checkstyle.xml">
         <fail if="checkstyle.failed"
             message="Checkstyle has errors. See report in ${checkstyle.report.dir}"/>
     </target>

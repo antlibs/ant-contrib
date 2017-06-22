@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>IniFile Task</title>
     <author email="mattinger@yahoo.com">Matthew Inger</author>
@@ -10,8 +9,8 @@
   <body>
     <section name="IniFile">
     <p>
-      Build and Edit Windows .ini files.  Only the simple edits,
-      <code>remove</code> and <code>set</code> are allowed.  Set has
+      Build and Edit Windows .ini files. Only the simple edits,
+      <code>remove</code> and <code>set</code> are allowed. Set has
       limited computation capability which is described later.
     </p>
     <subsection name="Parameters">
@@ -49,8 +48,8 @@
         <td valign="top">property</td>
         <td valign="top">The name property.</td>
         <td align="center" valign="top">
-	  No. If not supplied, the entire section will be removed
-	</td>
+          No. If not supplied, the entire section will be removed
+        </td>
       </tr>
     </table>
     <code>set</code>
@@ -74,40 +73,31 @@
         <td valign="top">value</td>
         <td valign="top">The value to set the property to.</td>
         <td align="center" valign="top">
-	  No, if <code>operation</code> is specified.
-	</td>
+          No, if <code>operation</code> is specified.
+        </td>
       </tr>
       <tr>
         <td valign="top">operation</td>
         <td valign="top">
-	  The operation to perform on the existing value.  Possible
+          The operation to perform on the existing value. Possible
           values are "+" and "-", which add and subtract 1,
-          respectively from the existing value.  If the value doesn't
+          respectively from the existing value. If the value doesn't
           already exist, the set is not performed.
-	</td>
+        </td>
         <td align="center" valign="top">
-	  No, if <code>value</code> is specified.
-	</td>
+          No, if <code>value</code> is specified.
+        </td>
       </tr>
     </table>
     </subsection>
     <subsection name="Example">
-      <source>
-	<![CDATA[
-<inifile source="myprog.ini" dest="myprog.new.ini">
+      <source><![CDATA[<inifile source="myprog.ini" dest="myprog.new.ini">
    <set section="Section1" property="release-date" value="${todays.date}"/>
    <set section="Section1" property="build-number" operation="+"/>
    <remove section="Section2" property="useless"/>
    <remove section="OutdatedSection"/>
-</inifile>
-	]]>
-      </source>
+</inifile>]]></source>
     </subsection>
-    <hr/>
-    <p align="center">
-      Copyright &copy; 2002-2003 Ant-Contrib Project. All rights
-      Reserved.
-    </p>
     </section>
   </body>
 </document>

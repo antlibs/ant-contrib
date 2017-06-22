@@ -10,192 +10,186 @@
   <body>
     <section name="For">
       <subsection name="Description">
-	<p>
-	  The for task iterates over a list, a list of paths, or any
-	  type that has a public iterator() method. The list will be
-	  evaluated first. Nested paths are evaluated in the order
-	  they appear in the task. Nested types will then be
-	  evaluated.
-	</p>
-	<p>
-	  This task is the same as the <code>foreach</code> task, except that
-	</p>
-	<ul>
+        <p>
+          The for task iterates over a list, a list of paths, or any
+          type that has a public iterator() method. The list will be
+          evaluated first. Nested paths are evaluated in the order
+          they appear in the task. Nested types will then be
+          evaluated.
+        </p>
+        <p>
+          This task is the same as the <code>foreach</code> task, except that
+        </p>
+        <ul>
           <li>it uses a nested sequential for each iteration; and</li>
           <li>it implements an additional "keepgoing" attribute.</li>
-	</ul>
-	<p>
-	  <code>for</code> makes use of ant's macrodef task, so the @{}
-	  notation is used for parameter substition.
-	</p>
+        </ul>
+        <p>
+          <code>for</code> makes use of ant's macrodef task, so the @{}
+          notation is used for parameter substition.
+        </p>
       </subsection>
       <subsection name="Parameters">
-	<table summary="For Attributes" border="1" cellpadding="2" cellspacing="0">
-	  <tr>
+        <table summary="For Attributes" border="1" cellpadding="2" cellspacing="0">
+          <tr>
             <th>Attribute</th>
             <th>Description</th>
             <th>Required</th>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">list</td>
             <td valign="top">
-	      The list of values to process, with the delimiter
-	      character, indicated by the "delimiter"
-	      attribute, separating each value.
-	    </td>
+              The list of values to process, with the delimiter
+              character, indicated by the "delimiter"
+              attribute, separating each value.
+            </td>
             <td align="center" valign="top" rowspan="2">
-	      Yes, one of these need to be set, unless a nested path has
+              Yes, one of these need to be set, unless a nested path has
               been specified.
-	    </td>
-	  </tr>
-	  <tr>
+            </td>
+          </tr>
+          <tr>
             <td valign="top">end</td>
             <td valign="top">
               Sets the ending index value. If this attribute is set,
               the <code>for</code> task will loop from "start" (default 1)
               to "end", using "step" (default 1) increments.
             </td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">param</td>
             <td valign="top">
-	      Name of the parameter to pass the tokens or files in as
-	      to the sequential.
-	    </td>
+              Name of the parameter to pass the tokens or files in as
+              to the sequential.
+            </td>
             <td align="center" valign="top">Yes</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">delimiter</td>
             <td valign="top">
-	      The delimiter characters that separates the values in
-	      the "list" attribute. Each character in the
-	      supplied string can act as a delimiter. This follows the
-	      semantics of the StringTokenizer class.
-	    </td>
+              The delimiter characters that separates the values in
+              the "list" attribute. Each character in the
+              supplied string can act as a delimiter. This follows the
+              semantics of the StringTokenizer class.
+            </td>
             <td align="center" valign="top">No, defaults to ",".</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">parallel</td>
             <td valign="top">
-	      If <code>true</code>, all iterations of the nested
-	      <code>sequential</code> will execute in parallel. Defaults to
-	      <code>false</code>, which forces sequential execution of
-	      the iterations. It is up to the caller to ensure that
-	      parallel execution is safe.
-	    </td>
-            <td align="center" valign="top">No</td>
-	  </tr>
-	  <tr>
-            <td valign="top">keepgoing</td>
-            <td valign="top">
-	      <p>
-		If <code>true</code>, all iterations of the called
-		<code>sequential</code> will be executed, even if a task in
-		one or more of them fails. Defaults to
-		<code>false</code>, which forces execution to stop as
-		soon as a task fails. At the end, if any iterator has
-		failed, the <code>for</code> task will fail, otherwise
-		<code>for</code> will succeed.
-	      </p>
-              <p>
-		Note that execution does not proceed keepgoing from
-		one task to the next within the <code>sequential</code>,
-		but rather from one iteration to the next.
-              </p>
-              <p>
-		It is up to the caller to ensure that keepgoing
-		execution is safe.
-	      </p>
+              If <code>true</code>, all iterations of the nested
+              <code>sequential</code> will execute in parallel. Defaults to
+              <code>false</code>, which forces sequential execution of
+              the iterations. It is up to the caller to ensure that
+              parallel execution is safe.
             </td>
             <td align="center" valign="top">No</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
+            <td valign="top">keepgoing</td>
+            <td valign="top">
+              <p>
+                If <code>true</code>, all iterations of the called
+                <code>sequential</code> will be executed, even if a task in
+                one or more of them fails. Defaults to
+                <code>false</code>, which forces execution to stop as
+                soon as a task fails. At the end, if any iterator has
+                failed, the <code>for</code> task will fail, otherwise
+                <code>for</code> will succeed.
+              </p>
+              <p>
+                Note that execution does not proceed keepgoing from
+                one task to the next within the <code>sequential</code>,
+                but rather from one iteration to the next.
+              </p>
+              <p>
+                It is up to the caller to ensure that keepgoing
+                execution is safe.
+              </p>
+            </td>
+            <td align="center" valign="top">No</td>
+          </tr>
+          <tr>
             <td valign="top">threadCount</td>
             <td valign="top">
-	      The maximum number of allowable threads when executing
-	      in parallel.
-	    </td>
+              The maximum number of allowable threads when executing
+              in parallel.
+            </td>
             <td align="center" valign="top">No. Defaults to 5.</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">trim</td>
             <td valign="top">
-	      If <code>true</code>, any leading or trailing whitespace
+              If <code>true</code>, any leading or trailing whitespace
               will be removed from the list item before it is passed to
               the sequential.
             </td>
             <td align="center" valign="top">No. Defaults to false.</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">begin</td>
             <td valign="top">
               Sets the starting index value. This in only used if the
               "end" attribute is set.
             </td>
             <td align="center" valign="top">No. Defaults to "1".</td>
-	  </tr>
-	  <tr>
+          </tr>
+          <tr>
             <td valign="top">step</td>
             <td valign="top">
               Sets the index increment step. This in only used if the
               "end" attribute is set.
             </td>
             <td align="center" valign="top">No. Defaults to "1".</td>
-	  </tr>
-	</table>
+          </tr>
+        </table>
       </subsection>
       <subsection name="Parameters specified as nested elements">
-	<h3 id="path">path</h3>
-	<p>
-	  <a href="https://ant.apache.org/manual/using.html#path">Path</a>s
-	  are used to select sets of files or directories to iterate over.
-	</p>
-	<p>
-	  Using a path allows you to determine the order by which
-	  files are considered by using
-	  <a href="https://ant.apache.org/manual/Types/filelist.html">filelist</a>s
-	  or explicit <code>pathelements</code>. You also can specify
-	  whether you want to iterate over files or directories by
-	  chosing either filesets or
-	  <a href="https://ant.apache.org/manual/Types/dirset.html">dirset</a>s.
-	</p>
-	<h3 id="fileset">fileset</h3>
-	<p>
-	  <a href="https://ant.apache.org/manual/Types/fileset.html">FileSet</a>s
-	  are used to select sets of files to iterate over.
-	</p>
-	<h3 id="dirset">dirset</h3>
-	<p>
-	  <a href="http://ant.apache.org/manual/Types/dirset.html">DirSet</a>s
-	  are used to select sets of directories to iterate over.
-	</p>
-	<h3 id="sequential">sequential</h3>
-	<p>
-	  This is the list of tasks to be run for each iteration of
-	  the list.
-	</p>
+        <h3 id="path">path</h3>
+        <p>
+          <a href="https://ant.apache.org/manual/using.html#path">Path</a>s
+          are used to select sets of files or directories to iterate over.
+        </p>
+        <p>
+          Using a path allows you to determine the order by which
+          files are considered by using
+          <a href="https://ant.apache.org/manual/Types/filelist.html">filelist</a>s
+          or explicit <code>pathelements</code>. You also can specify
+          whether you want to iterate over files or directories by
+          chosing either filesets or
+          <a href="https://ant.apache.org/manual/Types/dirset.html">dirset</a>s.
+        </p>
+        <h3 id="fileset">fileset</h3>
+        <p>
+          <a href="https://ant.apache.org/manual/Types/fileset.html">FileSet</a>s
+          are used to select sets of files to iterate over.
+        </p>
+        <h3 id="dirset">dirset</h3>
+        <p>
+          <a href="http://ant.apache.org/manual/Types/dirset.html">DirSet</a>s
+          are used to select sets of directories to iterate over.
+        </p>
+        <h3 id="sequential">sequential</h3>
+        <p>
+          This is the list of tasks to be run for each iteration of
+          the list.
+        </p>
       </subsection>
       <subsection name="Example">
-	<p>
-	  To print out the first five letters of the latin alphabet:
-	</p>
-	<source>
-	  <![CDATA[
-<echo message="The first five letters of the alphabet are:"/>
+        <p>
+          To print out the first five letters of the latin alphabet:
+        </p>
+        <source><![CDATA[<echo message="The first five letters of the alphabet are:"/>
 <for list="a,b,c,d,e" param="letter">
   <sequential>
     <echo>Letter @{letter}</echo>
   </sequential>
-</for>
-	  ]]>
-	</source>
-	<p>
-	  A more complicated example to to iterate over a set of c++
-	  source files and invoke the <code>cc</code> task on them:
-	</p>
-	<source>
-	  <![CDATA[
-<for param="file">
+</for>]]></source>
+        <p>
+          A more complicated example to to iterate over a set of c++
+          source files and invoke the <code>cc</code> task on them:
+        </p>
+        <source><![CDATA[<for param="file">
   <path>
     <fileset dir="${test.dir}/mains" includes="*.cpp"/>
   </path>
@@ -212,72 +206,53 @@
       <linker refid="linker-libs"/>
     </cc>
   </sequential>
-</for>
-	  ]]>
-	</source>
-	<p>
-	  The preceding example will stop as soon as one of the
-	  <code>cc</code> tasks fails. If you change the first line of
-	  the example to
-	</p>
-	<source><![CDATA[<for param="file" keepgoing="true">]]></source>
-	<p>
-	  All iterations will be executed, and then <code>for</code>
-	  will fail if any one or more of the <code>cc</code> tasks
-	  failed.
-	</p>
-	<p>
-	  The following example embeds an outofdate type and iterates
-	  over the sources that are newer than their corresponding
-	  targets.
-	</p>
-	<source>
-	  <![CDATA[
-    <ac:for param="xmlfile" xmlns:ac="antlib:net.sf.antcontrib">
-      <ac:outofdate>
-        <ac:sourcefiles>
-          <ac:fileset dir="${basedir}/xdocs" includes="**/*.xml"/>
-        </ac:sourcefiles>
-        <ac:mapper dir="${basedir}/xdocs"
-                   type="glob" from="*.xml" to="${basedir}/docs/*.html"/>
-      </ac:outofdate>
-      <ac:sequential>
-        <echo>Need to generate a target html file from source file @{xmlfile}</echo>
-      </ac:sequential>
-    </ac:for>
-	  ]]>
-	</source>
-	<p>
-	  The following example loops from one to ten.
-	</p>
-	<source>
-	  <![CDATA[
-    <ac:for param="i" end="10">
-      <sequential>
-        <echo>i is @{i}</echo>
-      </sequential>
-    </ac:for>
-	  ]]>
-	</source>
-	<p>
-	  The following example counts down from 10 to 0 in steps of
-	  -2.
-	</p>
-	<source>
-	  <![CDATA[
-    <ac:for param="i" begin="10" step="-2" end="0">
-      <sequential>
-        <echo>i is @{i}</echo>
-      </sequential>
-    </ac:for>
-	  ]]>
-	</source>
+</for>]]></source>
+        <p>
+          The preceding example will stop as soon as one of the
+          <code>cc</code> tasks fails. If you change the first line of
+          the example to
+        </p>
+        <source><![CDATA[<for param="file" keepgoing="true">]]></source>
+        <p>
+          All iterations will be executed, and then <code>for</code>
+          will fail if any one or more of the <code>cc</code> tasks
+          failed.
+        </p>
+        <p>
+          The following example embeds an outofdate type and iterates
+          over the sources that are newer than their corresponding
+          targets.
+        </p>
+        <source><![CDATA[<ac:for param="xmlfile" xmlns:ac="antlib:net.sf.antcontrib">
+ <ac:outofdate>
+   <ac:sourcefiles>
+     <ac:fileset dir="${basedir}/xdocs" includes="**/*.xml"/>
+   </ac:sourcefiles>
+   <ac:mapper dir="${basedir}/xdocs"
+              type="glob" from="*.xml" to="${basedir}/docs/*.html"/>
+ </ac:outofdate>
+ <ac:sequential>
+   <echo>Need to generate a target html file from source file @{xmlfile}</echo>
+ </ac:sequential>
+</ac:for>]]></source>
+        <p>
+          The following example loops from one to ten.
+        </p>
+        <source><![CDATA[<ac:for param="i" end="10">
+ <sequential>
+   <echo>i is @{i}</echo>
+ </sequential>
+</ac:for>]]></source>
+        <p>
+          The following example counts down from 10 to 0 in steps of
+          -2.
+        </p>
+        <source><![CDATA[<ac:for param="i" begin="10" step="-2" end="0">
+ <sequential>
+   <echo>i is @{i}</echo>
+ </sequential>
+</ac:for>]]></source>
       </subsection>
-      <hr/>
-      <p align="center">
-	Copyright &copy; 2003-2006 Ant-Contrib Project. All rights
-	Reserved.
-      </p>
     </section>
   </body>
 </document>

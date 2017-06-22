@@ -66,8 +66,7 @@ public abstract class BuildFileTestBase extends BuildFileTest {
     }
 
     /**
-     * set up to run the named project
-     * <p>
+     * Set up to run the named project.
      * <p>Overrides BuildFileTest.configureProject to first
      * attempt to make a File out of the filename parameter, if the resulting
      * file does not exists, then attempt to locate the file in the classpath.
