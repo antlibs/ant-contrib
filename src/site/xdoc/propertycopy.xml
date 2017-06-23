@@ -29,16 +29,16 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-          If the property is already set, should we change it's value.
-          Can be <code>true</code> or <code>false</code>
+          If the property is already set, should we change it's
+          value? Can be "true" or "false".
         </td>
-        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
       <tr>
         <td valign="top">name <i>Deprecated</i></td>
         <td valign="top">The name of the property to set.</td>
         <td align="center" valign="top">
-          No. Use the <code>property</code> attribute instead
+          No. Use the "property" attribute instead.
         </td>
       </tr>
       <tr>
@@ -51,9 +51,8 @@
       <tr>
         <td valign="top">silent</td>
         <td valign="top">
-          Do you want to suppress the error if the "from"
-          property does not exist, and just not set the property
-          "name".
+          Do you want to suppress the error if the "from" property
+          does not exist, and just not set the property "name"?
         </td>
         <td align="center" valign="top">No, default is "false".</td>
       </tr>

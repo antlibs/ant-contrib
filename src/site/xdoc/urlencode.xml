@@ -9,9 +9,9 @@
   <body>
     <section name="URLEncode">
     <p>
-      The URLEncode task will encode a given property for use within a
-      a URL string. This value which is actually set will be encoded
-      via the <code>java.net.URLEncoder.encode()</code>
+      The <code>urlencode</code> task will encode a given property for
+      use within a a URL string. This value which is actually set will
+      be encoded via the <code>java.net.URLEncoder.encode()</code>
       method. Typically, you must do this for all parameter values
       within a URL.
     </p>
@@ -30,16 +30,16 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-          If the property is already set, should we change it's value.
-          Can be <code>true</code> or <code>false</code>
+          If the property is already set, should we change it's
+          value. Can be "true" or "false".
         </td>
-        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
       <tr>
-        <td valign="top">name <i>Deprecated</i></td>
+        <td valign="top">name (<i>deprecated</i>)</td>
         <td valign="top">The name of the property to set.</td>
         <td align="center" valign="top">
-          No. Use the <code>property</code> attribute instead
+          No. Use the "property" attribute instead.
         </td>
       </tr>
       <tr>
@@ -53,7 +53,7 @@
           The location of a file whose absolute path will be the value
           of the property.
         </td>
-        <td align="center" valign="top">No, if value or refid is specified.</td>
+        <td align="center" valign="top">No, if "value" or "refid" is specified.</td>
       </tr>
       <tr>
         <td valign="top">refid</td>
@@ -61,7 +61,7 @@
           The id of a saved reference whose value will be the value of
           the property.
         </td>
-        <td align="center" valign="top">No, defaults to ",".</td>
+        <td align="center" valign="top">No.</td>
       </tr>
     </table>
     </subsection>

@@ -9,23 +9,29 @@
   <body>
     <section name="Math">
       <p>
-        The Math task provides support for all the basic mathematical
-        operations provided by the java.lang.Math and
-        java.lang.StrictMath classed. It supports int, long, float and
-        double data types. Nesting of operations is supported to allow
-        computation of formulas like (6 + (7.25 * 3.9))/(2 * 3 * 3) or
-        calculating the area of a circle given a radius (I'm sure this
-        comes up often in builds controlled by Ant!).
+        The <code>math</code> task provides support for all the basic
+        mathematical operations provided by the
+        <code>java.lang.Math</code> and
+        <code>java.lang.StrictMath</code> classes. It supports
+        <code>int</code>, <code>long</code>, <code>float</code> and
+        <code>double</code> data types. Nesting of operations is
+        supported to allow computation of formulas like <code>(6 +
+        (7.25 * 3.9))/(2 * 3 * 3)</code> or calculating the area of a
+        circle given a radius (I'm sure this comes up often in builds
+        controlled by Ant!).
       </p>
       <p>
-        In addition to the operations provided by the java.lang.Math
-        and java.lang.StrictMath classes, the Math task provides
-        several additional operations: "add", "subtract", "multiply",
-        "divide", and "mod", which duplicate the basic Java
-        mathematical operations "+", "-", "*", "/", and "%",
-        respectively. In fact, either notation can be used, that is,
-        the operation can be set to "add" or "+", depending only on
-        which you feel is more convenient.
+        In addition to the operations provided by the
+        <code>java.lang.Math</code> and
+        <code>java.lang.StrictMath</code> classes, the
+        <code>math</code> task provides several additional operations:
+        "add", "subtract", "multiply", "divide", and "mod", which
+        duplicate the basic Java mathematical operations
+        "<code>+</code>", "<code>-</code>", "<code>*</code>",
+        "<code>/</code>", and "<code>%</code>", respectively. In fact,
+        either notation can be used, that is, the operation can be set
+        to "add" or "<code>+</code>", depending only on which you feel
+        is more convenient.
       </p>
       <table summary="Math Task Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Math Task Attributes</caption>
@@ -57,8 +63,8 @@
           <tr>
             <td>strict</td>
             <td>
-              If true, use the methods in the java.lang.StrictMath
-              class.
+              If true, use the methods in the
+              <code>java.lang.StrictMath</code> class.
             </td>
             <td>false</td>
             <td>No</td>
@@ -66,51 +72,47 @@
           <tr>
             <td>operation</td>
             <td>
-              If used, any nested Ops will be ignored. This is for
-              convenience for simple calculations.
+              If used, any nested <code>op</code>s will be
+              ignored. This is for convenience with simple
+              calculations.
             </td>
             <td>None</td>
             <td>No</td>
           </tr>
           <tr>
             <td>operand1</td>
-            <td>A number to use with the operation specified in the 'operation' attribute.</td>
+            <td>A number to use with the operation specified in the "operation" attribute.</td>
             <td>None</td>
             <td>Depends on the specific operation.</td>
           </tr>
           <tr>
             <td>operand2</td>
-            <td>A number to use with the operation specified in the 'operation' attribute.</td>
+            <td>A number to use with the operation specified in the "operation" attribute.</td>
             <td>None</td>
             <td>Depends on the specific operation.</td>
           </tr>
         </tbody>
       </table>
       <p>
-        The 'result' property is reusable.
+        The "result" property is reusable.
       </p>
       <p>
-        The Math task supports nested "Op" elements. An Op element
-        represents single mathematical operation, such as "min" or
-        "add". As an alternative, if using Ant 1.5+, you can specify
-        the operation in the tag name itself. However, you must use
-        the text name (+, -, /, *, % are not permitted as tag names)
+        The <code>math</code> task supports nested <code>op</code>
+        elements. An <code>op</code> element represents single
+        mathematical operation, such as "min" or "add". As an
+        alternative, if using Ant 1.5+, you can specify the operation
+        in the tag name itself. However, you must use the text name
+        ("<code>+</code>", "<code>-</code>", "<code>/</code>",
+        "<code>*</code>", "<code>%</code>" are not permitted as tag
+        names).
       </p>
-      <source>
-        <![CDATA[
-  <radians>
-     <num value="90" />
-  </radians>
-        ]]>
-      </source>
+      <source><![CDATA[<radians>
+  <num value="90"/>
+</radians>]]></source>
       <p>instead of</p>
-      <source>
-        <![CDATA[
-  <op op="radians">
-     <num value="90" />
-  </op>
-        ]]>
-      </source>
+      <source><![CDATA[<op op="radians">
+  <num value="90"/>
+</op>]]></source>
       <table summary="Op Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Op Attributes</caption>
         <thead>
@@ -126,12 +128,14 @@
             <td>op</td>
             <td>
               Set the name of this operation. Allowed values are one
-              of the method names from java.lang.Math or
-              java.lang.StrictMath, or one of "add", "subtract",
-              "multiply", "divide", or "mod" (or "+", "-", "*", "/",
-              or "%", respectively). "toRadians" and "toDegrees" can
-              be represented by "radians" and "degrees", respectively,
-              as a shorthand
+              of the method names from <code>java.lang.Math</code> or
+              <code>java.lang.StrictMath</code>, or one of "add",
+              "subtract", "multiply", "divide", or "mod" (or
+              "<code>+</code>", "<code>-</code>", "<code>*</code>",
+              "<code>/</code>", or "<code>%</code>",
+              respectively). "toRadians" and "toDegrees" can be
+              represented by "radians" and "degrees", respectively, as
+              a shorthand.
             </td>
             <td>None</td>
             <td>Yes, if not specified in the tag name.</td>
@@ -141,9 +145,9 @@
             <td>
               Sets the datatype of this calculation. Allowed values
               are "int", "long", "float", or "double". Optional,
-              default is "double". If the parent Math task has a
-              datatype set, this value will be ignored and the
-              datatype specifed in the task will be used.
+              default is "double". If the parent <code>math</code>
+              task has a datatype set, this value will be ignored and
+              the datatype specified in the task will be used.
             </td>
             <td>"int"</td>
             <td>No</td>
@@ -165,15 +169,19 @@
         </tbody>
       </table>
       <p>
-        The Op element supports nested "Op" elements and nested "Num"
-        elements. A Num represents a number. When an Op is nested in
-        another Op, the result of the Op is treated as a Num. The
-        nested elements can be any combination of Op (short form
-        included as mentioned above) or Num as appropriate for the
-        formula being calculated. Most of the operations provided by
-        java.lang.Math and java.lang.StrictMath operate on one or two
-        numbers. The "+", "-", "*", "/", and "%" operations can task
-        any number of nested numbers.
+        The <code>op</code> element supports nested <code>op</code>
+        elements and nested <code>num</code> elements. A
+        <code>num</code> represents a number. When an <code>op</code>
+        is nested in another <code>op</code>, the result of the
+        <code>op</code> is treated as a <code>num</code>. The nested
+        elements can be any combination of <code>op</code> (short form
+        included as mentioned above) or <code>num</code> as
+        appropriate for the formula being calculated. Most of the
+        operations provided by <code>java.lang.Math</code> and
+        <code>java.lang.StrictMath</code> operate on one or two
+        numbers. The "<code>+</code>", "<code>-</code>",
+        "<code>*</code>", "<code>/</code>", and "<code>%</code>"
+        operations can task any number of nested numbers.
       </p>
       <table summary="Num Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Num Attributes</caption>
@@ -192,9 +200,9 @@
               Set the value for this number. Must be able to parse to
               the datatype set by the parent element or the default
               datatype set by the task. Two special numbers, pi and e,
-              can be represented by PI and E respectively. ("PI" is
-              the ratio of the diameter of a circle to its radius, "E"
-              is Euler's e, the base for natural logrithms.)
+              can be represented by "PI" and "E" respectively. ("PI"
+              is the ratio of the diameter of a circle to its radius,
+              "E" is Euler's e, the base for natural logarithms.)
             </td>
             <td>None</td>
             <td>Yes</td>
@@ -204,9 +212,9 @@
             <td>
               Sets the datatype of this number. Allowed values are
               "int", "long", "float", or "double". Optional, default
-              is "double". If the parent Math task has a datatype set,
-              this value will be ignored and the datatype specifed in
-              the task will be used.
+              is "double". If the parent <code>math</code> task has a
+              datatype set, this value will be ignored and the
+              datatype specified in the task will be used.
             </td>
             <td>double</td>
             <td>No</td>

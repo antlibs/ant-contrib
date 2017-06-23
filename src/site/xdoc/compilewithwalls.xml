@@ -11,7 +11,7 @@
       <subsection name="Deprecated">
         <p>
           Use <a href="verifydesign.html">verifydesign</a> task
-          instead
+          instead.
         </p>
       </subsection>
       <subsection name="Description">
@@ -25,14 +25,15 @@
           there are three packages in one source tree
         </p>
         <ul>
-          <li>biz.xsoftware.mod</li>
-          <li>biz.xsoftware.modA</li>
-          <li>biz.xsoftware.modB</li>
+          <li><code>biz.xsoftware.mod</code></li>
+          <li><code>biz.xsoftware.modA</code></li>
+          <li><code>biz.xsoftware.modB</code></li>
         </ul>
         <p>
-          and modB and modA should be able to compiled independently,
-          you can put a wall up in between the two so that if anyone
-          adds a dependency between modA and modB, the build will
+          and <code>modB</code> and <code>modA</code> should be able
+          to compiled independently, you can put a wall up in between
+          the two so that if anyone adds a dependency between
+          <code>modA</code> and <code>modB</code>, the build will
           break. This is particularly good if the builds are
           automated.
         </p>
@@ -40,7 +41,7 @@
           This task is for low level design. For architectural walls
           like client and server, I would suggest using multiple
           source trees and compiling those source trees independently
-          as two different ant compile targets.
+          as two different Ant <code>compile</code> targets.
         </p>
         <p>
           One pattern I personally like to follow can be seen on the
@@ -51,13 +52,13 @@
         </p>
         <ul>
           <li>
-            <code>vmaster/vmasterdiff/conf/build.xml</code> (ant file
+            <code>vmaster/vmasterdiff/conf/build.xml</code> (Ant file
             using compilewithwalls)
           </li>
           <li>
             <code>vmaster/vmasterdiff/conf/dependencies.xml</code>
-            (The compilewithwalls task references this file as the
-            walls)
+            (The <code>compilewithwalls</code> task references this
+            file as the walls)
           </li>
         </ul>
         <p>
@@ -66,17 +67,17 @@
           out for many non-GUI and GUI components in these packages
         </p>
         <ul>
-          <li>api.biz.xsoftware.difflib.file.*</li>
-          <li>api.biz.xsoftware.difflib.dir.*</li>
-          <li>more api.* packages</li>
-          <li>org.vmasterdiff.gui.dirdiff.impl.*</li>
+          <li><code>api.biz.xsoftware.difflib.file.*</code></li>
+          <li><code>api.biz.xsoftware.difflib.dir.*</code></li>
+          <li>more <code>api.*</code> packages</li>
+          <li><code>org.vmasterdiff.gui.dirdiff.impl.*</code></li>
         </ul>
         <p>
-          Looking closely at the api.* packages, each one has a
-          Factory. This factory uses reflection to create the
-          implementation components. Basically, the api should not
+          Looking closely at the <code>api.*</code> packages, each one
+          has a Factory. This factory uses reflection to create the
+          implementation components. Basically, the API should not
           know of the implementation so there are walls around the
-          api. Reflection to instantiate the implementation gets
+          API. Reflection to instantiate the implementation gets
           around these walls. My bigger components that use the
           smaller one's use these factories. In my design you are
           guaranteed these components are replaceable. Feel free to
@@ -97,34 +98,37 @@
               example below)
             </td>
             <td align="center" valign="top">
-              Either this or a nested walls element is required
+              Either this or a nested <code>walls</code> element is required
             </td>
           </tr>
           <tr>
             <td valign="top">intermediaryBuildDir</td>
             <td valign="top">
-              Specifies scratch area for the compilewithwalls task to
-              do the building and ensure dependencies are not violated
+              Specifies scratch area for the
+              <code>compilewithwalls</code> task to do the building
+              and ensure dependencies are not violated
             </td>
             <td align="center" valign="top">required</td>
           </tr>
         </table>
         <h3>Parameters specified as nested elements</h3>
         <p>
-          This task can contain one nested javac task and one nested walls
-          task. See
-          the <a href="https://ant.apache.org/manual/Tasks/javac.html">javac
+          This task can contain one nested <code>javac</code> task and
+          one nested <code>walls</code> task. See the
+          <a href="https://ant.apache.org/manual/Tasks/javac.html">javac
           task</a> for it's attributes and nested elements.
         </p>
       </subsection>
       <subsection name="Walls element">
         <p>
-          The nested walls element or the walls attribute must be
-          specified. Only one may be used. The walls element contains
-          nested package elements. These nested package elements have
-          the following attributes. If any package depends on another,
-          it must be listed after the package it depends on in the
-          walls element.
+          The nested <code>walls</code> element or the "walls"
+          attribute must be specified. Only one may be used. The
+          <code>walls</code> element contains nested
+          <code>package</code> elements. These nested
+          <code>package</code> elements have the following
+          attributes. If any package depends on another, it must be
+          listed after the package it depends on in the
+          <code>walls</code> element.
         </p>
         <table summary="Walls Attributes" border="1" cellpadding="2" cellspacing="0">
           <tr>
@@ -143,17 +147,18 @@
           <tr>
             <td valign="top">package</td>
             <td valign="top">
-              The package to compile such as biz.xsoftware.* to
-              include the immediate package only or biz.xsoftware.**
-              to include biz.xsoftware and all subpackages.
+              The package to compile such as
+              <code>biz.xsoftware.*</code> to include the immediate
+              package only or <code>biz.xsoftware.**</code> to include
+              <code>biz.xsoftware</code> and all subpackages.
             </td>
             <td align="center" valign="top">Required</td>
           </tr>
           <tr>
             <td valign="top">depends</td>
             <td valign="top">
-              If a package need one of the previously specified
-              packages to compile, it's name would be added here in a
+              If a package needs one of the previously specified
+              packages to compile, it's name should be added here in a
               comma separated list. For example
               <code>depends="modA,modB"</code>.
             </td>
@@ -163,9 +168,9 @@
       </subsection>
       <subsection name="Examples">
         <p>
-          In the examples, I will show the javac as a null element,
-          because it's use is documented in
-          the <a href="https://ant.apache.org/manual/Tasks/javac.html">javac
+          In the examples, I will show the <code>javac</code> as a
+          null element, because it's use is documented in the
+          <a href="https://ant.apache.org/manual/Tasks/javac.html">javac
           task</a> documentation.
         </p>
         <h4>Walls Nested Element...</h4>
@@ -178,15 +183,16 @@
   <javac></javac>
 </compilewithwalls>]]></source>
         <p>
-          Notice that the package named mod had to come after the
-          packages it depended on. Now if anybody puts code in modA
-          that uses classes in modB, the build will break telling them
-          they are violating a design constraint. I personally have
-          had many a devoloper accidentally put dependencies in that
-          we agreed in the design should not be there. This includes
-          myself. This prevents this from happening as long as someone
-          doesn't change the ant build file... If someone does though,
-          at least you can view the package dependencies and now what
+          Notice that the package named <code>mod</code> had to come
+          after the packages it depended on. Now if anybody puts code
+          in <code>modA</code> that uses classes in <code>modB</code>,
+          the build will break telling them they are violating a
+          design constraint. I personally have had many a developer
+          accidentally put dependencies in that we agreed in the
+          design should not be there. This includes myself. This
+          prevents this from happening as long as someone doesn't
+          change the Ant build file... If someone does though, at
+          least you can view the package dependencies and now what
           they are.
         </p>
         <h4>Walls attribute...</h4>

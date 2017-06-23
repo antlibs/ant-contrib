@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>For Task</title>
     <author email="peterreilly@users.sf.net">Peter Reilly</author>
@@ -11,22 +10,22 @@
     <section name="For">
       <subsection name="Description">
         <p>
-          The for task iterates over a list, a list of paths, or any
-          type that has a public iterator() method. The list will be
-          evaluated first. Nested paths are evaluated in the order
-          they appear in the task. Nested types will then be
-          evaluated.
+          The <code>for</code> task iterates over a list, a list of
+          paths, or any type that has a public <code>iterator()</code>
+          method. The list will be evaluated first. Nested paths are
+          evaluated in the order they appear in the task. Nested types
+          will then be evaluated.
         </p>
         <p>
           This task is the same as the <code>foreach</code> task, except that
         </p>
         <ul>
-          <li>it uses a nested sequential for each iteration; and</li>
+          <li>it uses a nested <code>sequential</code> for each iteration; and</li>
           <li>it implements an additional "keepgoing" attribute.</li>
         </ul>
         <p>
-          <code>for</code> makes use of ant's macrodef task, so the @{}
-          notation is used for parameter substition.
+          <code>for</code> makes use of Ant's <code>macrodef</code> task, so
+          the <code>@{}</code> notation is used for parameter substitution.
         </p>
       </subsection>
       <subsection name="Parameters">
@@ -44,8 +43,8 @@
               attribute, separating each value.
             </td>
             <td align="center" valign="top" rowspan="2">
-              Yes, one of these need to be set, unless a nested path has
-              been specified.
+              Yes, one of these need to be set, unless a nested
+              <code>path</code> has been specified.
             </td>
           </tr>
           <tr>
@@ -77,11 +76,11 @@
           <tr>
             <td valign="top">parallel</td>
             <td valign="top">
-              If <code>true</code>, all iterations of the nested
-              <code>sequential</code> will execute in parallel. Defaults to
-              <code>false</code>, which forces sequential execution of
-              the iterations. It is up to the caller to ensure that
-              parallel execution is safe.
+              If "true", all iterations of the nested
+              <code>sequential</code> will execute in
+              parallel. Defaults to "false", which forces sequential
+              execution of the iterations. It is up to the caller to
+              ensure that parallel execution is safe.
             </td>
             <td align="center" valign="top">No</td>
           </tr>
@@ -89,12 +88,12 @@
             <td valign="top">keepgoing</td>
             <td valign="top">
               <p>
-                If <code>true</code>, all iterations of the called
-                <code>sequential</code> will be executed, even if a task in
-                one or more of them fails. Defaults to
-                <code>false</code>, which forces execution to stop as
-                soon as a task fails. At the end, if any iterator has
-                failed, the <code>for</code> task will fail, otherwise
+                If "true", all iterations of the called
+                <code>sequential</code> will be executed, even if a
+                task in one or more of them fails. Defaults to
+                "false", which forces execution to stop as soon as a
+                task fails. At the end, if any iterator has failed,
+                the <code>for</code> task will fail, otherwise
                 <code>for</code> will succeed.
               </p>
               <p>
@@ -120,11 +119,11 @@
           <tr>
             <td valign="top">trim</td>
             <td valign="top">
-              If <code>true</code>, any leading or trailing whitespace
-              will be removed from the list item before it is passed to
-              the sequential.
+              If "true", any leading or trailing whitespace will be
+              removed from the list item before it is passed to the
+              sequential.
             </td>
-            <td align="center" valign="top">No. Defaults to false.</td>
+            <td align="center" valign="top">No. Defaults to "false".</td>
           </tr>
           <tr>
             <td valign="top">begin</td>
@@ -145,7 +144,7 @@
         </table>
       </subsection>
       <subsection name="Parameters specified as nested elements">
-        <h3 id="path">path</h3>
+        <h3 id="path"><code>path</code></h3>
         <p>
           <a href="https://ant.apache.org/manual/using.html#path">Path</a>s
           are used to select sets of files or directories to iterate over.
@@ -156,20 +155,21 @@
           <a href="https://ant.apache.org/manual/Types/filelist.html">filelist</a>s
           or explicit <code>pathelements</code>. You also can specify
           whether you want to iterate over files or directories by
-          chosing either filesets or
+          choosing either
+          <a href="https://ant.apache.org/manual/Types/fileset.html">filesets</a> or
           <a href="https://ant.apache.org/manual/Types/dirset.html">dirset</a>s.
         </p>
-        <h3 id="fileset">fileset</h3>
+        <h3 id="fileset"><code>fileset</code></h3>
         <p>
           <a href="https://ant.apache.org/manual/Types/fileset.html">FileSet</a>s
           are used to select sets of files to iterate over.
         </p>
-        <h3 id="dirset">dirset</h3>
+        <h3 id="dirset"><code>dirset</code></h3>
         <p>
           <a href="http://ant.apache.org/manual/Types/dirset.html">DirSet</a>s
           are used to select sets of directories to iterate over.
         </p>
-        <h3 id="sequential">sequential</h3>
+        <h3 id="sequential"><code>sequential</code></h3>
         <p>
           This is the list of tasks to be run for each iteration of
           the list.
@@ -186,7 +186,7 @@
   </sequential>
 </for>]]></source>
         <p>
-          A more complicated example to to iterate over a set of c++
+          A more complicated example to to iterate over a set of C++
           source files and invoke the <code>cc</code> task on them:
         </p>
         <source><![CDATA[<for param="file">

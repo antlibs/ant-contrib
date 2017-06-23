@@ -21,7 +21,7 @@
   <artifactId>ant-contrib</artifactId>
   <packaging>jar</packaging>
   <name>ant-contrib</name>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <description>Ant Contrib tasks for Apache Ant</description>
   <url>http://ant-contrib.sourceforge.net/</url>
   <issueManagement>
@@ -165,12 +165,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-    </testResources>
   </build>
   <dependencies>
     <dependency>
@@ -293,7 +287,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>2.20</version>
         <configuration>
           <linkXRef>false</linkXRef>
         </configuration>

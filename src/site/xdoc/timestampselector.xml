@@ -9,11 +9,11 @@
   <body>
     <section name="TimestampSelector">
     <p>
-      The TimestampSelector task takes either a nested
+      The <code>timestampselector</code> task takes either a nested
       <code>path</code> element, or a path reference, and sets either
       a named property, or a <code>path</code> instance to absolute
       pathnames of the files with either the N latest or earliest
-      modification dates (based on the <code>age</code> attribute)
+      modification dates (based on the "age" attribute)
     </p>
     <subsection name="Parameters">
     <table summary="TimeStampSelector Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -26,46 +26,44 @@
         <td valign="top">property</td>
         <td valign="top">
           The property to set with the most recently modified
-          file. Mutually exclusive with the <code>outputsetid</code>
-          attribute.
+          file. Mutually exclusive with the "outputsetid" attribute.
         </td>
-        <td align="center" valign="top">Yes, if <code>outputsetid</code> is not specified.</td>
+        <td align="center" valign="top">Yes, if "outputsetid" is not specified.</td>
       </tr>
       <tr>
         <td valign="top">outputsetid</td>
         <td valign="top">
           The id of a <code>path</code> instance which will contain
           the resulting list of files. This id should not already
-          exist. Mutually exclusive with the <code>property</code>
-          attribute
+          exist. Mutually exclusive with the "property" attribute
         </td>
-        <td align="center" valign="top">Yes, if <code>property</code> is note specified.</td>
+        <td align="center" valign="top">Yes, if "property" is not specified.</td>
       </tr>
       <tr>
         <td valign="top">count</td>
         <td valign="top">
           The number of files to find. If more than 1, than the files
-          in the output appear in the order indicated by the
-          <code>age</code> attribute.
+          in the output appear in the order indicated by the "age"
+          attribute.
         </td>
-        <td align="center" valign="top">No. Defaults to <code>1</code></td>
+        <td align="center" valign="top">No. Defaults to "1"</td>
       </tr>
       <tr>
         <td valign="top">age</td>
         <td valign="top">
-          The age of the files to retrieve, either <code>eldest</code>
-          or <code>youngest</code>. Defaults to <code>youngest</code>.
+          The age of the files to retrieve, either "eldest" or
+          "youngest".
         </td>
-        <td align="center" valign="top">No. Defaults to <code>1</code></td>
+        <td align="center" valign="top">No. Defaults to "youngest".</td>
       </tr>
       <tr>
         <td valign="top">pathSep</td>
         <td valign="top">
           The path separator to separate paths with when using the
-          <code>property</code> attribute in conjunction with the
-          <code>count</code> attribute
+          "property" attribute in conjunction with the "count"
+          attribute
         </td>
-        <td align="center" valign="top">No. Defaults to <code>,</code></td>
+        <td align="center" valign="top">No. Defaults to ","</td>
       </tr>
       <tr>
         <td valign="top">pathref</td>
@@ -77,11 +75,11 @@
     </table>
     </subsection>
     <subsection name="Parameters specified as nested elements">
-    <h3 id="path">path</h3>
+    <h3 id="path"><code>path</code></h3>
     <p>
       <a href="https://ant.apache.org/manual/using.html#path">Path</a>
       is used to select sets of files or directories in which to find
-      the most recently modified file
+      the most recently modified file.
     </p>
     </subsection>
     <subsection name="Example">

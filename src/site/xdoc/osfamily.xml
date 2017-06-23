@@ -9,7 +9,7 @@
   <body>
     <section name="Osfamily">
     <p>
-      Task definition for the <code>OsFamily</code> task. This task
+      Task definition for the <code>osfamily</code> task. This task
       sets the property indicated in the "property" attribute with the
       string representing the operating system family. Possible values
       include "unix", "dos", "mac", "os/2", "os/400", "z/os", "tandem"

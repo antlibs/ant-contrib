@@ -9,9 +9,9 @@
   <body>
     <section name="Importurl">
     <p>
-      The Importurl task will download a file, and import it's
-      contents into the current project. The file can be in the form
-      of a standard ant .xml project file, or a .jar/.zip file.
+      The <code>importurl</code> task will download a file, and import
+      it's contents into the current project. The file can be in the
+      form of a standard Ant .xml project file, or a .jar/.zip file.
     </p>
     <p>
       In the case of an .xml file, the file is downloaded, and
@@ -23,28 +23,30 @@
       In the case of a .jar/.zip file, the file is downloaded and then
       decompressed. After decompression, the file
       <code>build.xml</code> at the root level of the jar is imported
-      (the name of the imported file can be overriden with the
-      'resource' attribute). By importing a .jar/.zip file, one can
+      (the name of the imported file can be overridden with the
+      "resource" attribute). By importing a .jar/.zip file, one can
       package additional resources along with the
       <code>build.xml</code> file. However, you must be careful how
       you refer to these resources. The <code>build.xml</code> file
       must follow the same rules as any other file imported with the
       <code>import</code> task, in that references relative to the
       <code>build.xml</code> file must be made with the property:
-      <code>ant.file.&lt;projectname&gt;</code> where
-      <code>&lt;projectname&gt;</code> is the name of the project
-      being imported, as specified in the project tag. Example:
+      <code>ant.file.&lt;<i>projectname</i>&gt;</code> where
+      <code>&lt;<i>projectname</i>&gt;</code> is the name of the
+      project being imported, as specified in the project
+      tag. Example:
     </p>
     <source><![CDATA[<project name="common">
     <dirname property="ant.dir.common" file="${ant.file.common}"/>
     <property file="${ant.dir.common}/build.properties"/>
 </project>]]></source>
     <p>
-      This task should be compatible with older versions of ant, but
-       has only been tested with Ant 1.6+. The underlying
-       implementation is done using the
-       <a href="https://ant.apache.org/ivy/">Ivy</a> dependency resolver software,
-       and thus, it needs available to the same classloader that loads this task.
+      This task should be compatible with older versions of Ant, but
+      has only been tested with Ant 1.6+. The underlying
+      implementation is done using the
+      <a href="https://ant.apache.org/ivy/">Ivy</a> dependency
+      resolver software, and thus, it needs available to the same
+      classloader that loads this task.
     </p>
     <subsection name="Parameters">
     <table summary="ImportURL Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -68,7 +70,7 @@
         <td valign="top">The revision of the module to be fetched.</td>
         <td align="center" valign="top">
           No. Defaults to "latest.integration". See the Ivy details
-          for more information on the possible wildcarding that can be
+          for more information on the possible wildcards that can be
           used for this value.
         </td>
       </tr>
@@ -76,16 +78,17 @@
         <td valign="top">type</td>
         <td valign="top">The type of file to be downloaded</td>
         <td align="center" valign="top">
-          No. Defaults to 'jar'. Can be any file extension.
-          However, unless the type is 'xml', the file is assumed to be
-          a compressed file, expandable by Ant's <code>expand</code>
-          task (which is aliased to unjar, unzip).
+          No. Defaults to "jar". Can be any file extension. However,
+          unless the type is "xml", the file is assumed to be a
+          compressed file, expandable by Ant's <code>expand</code>
+          task (which is aliased to <code>unjar</code> or
+          <code>unzip</code>).
         </td>
       </tr>
       <tr>
         <td valign="top">ivyConfUrl</td>
         <td valign="top">
-          The URL of an ivy configuration file to use. We will use
+          The URL of an Ivy configuration file to use. We will use
           the default resolver in this file to find the requested
           resource.
         </td>
@@ -94,7 +97,7 @@
       <tr>
         <td valign="top">ivyConfFile</td>
         <td valign="top">
-          The path of an ivy configuration file to use. We will use
+          The path of an Ivy configuration file to use. We will use
           the default resolver in this file to find the requested
           resource.
         </td>
@@ -121,22 +124,22 @@
         <td valign="top">artifactPattern</td>
         <td valign="top">The pattern used to find artifacts in the repository.</td>
         <td align="center" valign="top">
-          No. If repositoryUrl or repositoryDir are specified, this
-          defaults to the standard repository pattern:
-          "/[org]/[module]/[ext]s/[module]-[revision].[ext]". Please
+          No. If "repositoryUrl" or "repositoryDir" are specified,
+          this defaults to the standard repository pattern:
+          "<code>/[org]/[module]/[ext]s/[module]-[revision].[ext]</code>". Please
           see Ivy documentation for more information on the contents
           of this pattern.
         </td>
       </tr>
       <tr>
         <td valign="top">ivyPattern</td>
-        <td valign="top">The pattern used to find ivy file for the artifact in the repository.</td>
+        <td valign="top">The pattern used to find Ivy file for the artifact in the repository.</td>
         <td align="center" valign="top">
-          No. If repositoryUrl or repositoryDir are specified, this
-          defaults to the standard repository pattern:
-          "/[org]/[module]/ivy-[revision].xml". Please see Ivy
-          documentation for more information on the contents of this
-          pattern.
+          No. If "repositoryUrl" or "repositoryDir" are specified,
+          this defaults to the standard repository pattern:
+          "<code>/[org]/[module]/ivy-[revision].xml</code>". Please
+          see Ivy documentation for more information on the contents
+          of this pattern.
         </td>
       </tr>
       <tr>
@@ -182,8 +185,8 @@
       given ivyConfUrl.
     </p>
     <p>
-      The following build.xml may be packaged into a .jar with it's
-      corresponding build.properties file:
+      The following <code>build.xml</code> may be packaged into a .jar
+      with it's corresponding <code>build.properties</code> file:
     </p>
     <source><![CDATA[<project name="common">
     <basedir property="ant.dir.common" file="${ant.file.common}"/>

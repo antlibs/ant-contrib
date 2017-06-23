@@ -9,15 +9,15 @@
   <body>
     <section name="Variable Task">
       <p>
-        The Variable task provides a mutable property to Ant and works
-        much like variable assignment in Java. This task is similar to
-        the standard Ant Property task, except that THESE PROPERTIES
-        ARE MUTABLE. While this goes against the standard Ant use of
-        properties, occasionally it is useful to be able to change a
-        property value within the build. <b>In general, use of this
-        task is DISCOURAGED, and the standard Ant Property should be
-        used if possible.</b> Having said that, in real life I use
-        this a lot.
+        The <code>variable</code> task provides a mutable property to
+        Ant and works much like variable assignment in Java. This task
+        is similar to the standard Ant <code>property</code> task,
+        except that THESE PROPERTIES ARE MUTABLE. While this goes
+        against the standard Ant use of properties, occasionally it is
+        useful to be able to change a property value within the
+        build. <b>In general, use of this task is DISCOURAGED, and the
+        standard Ant <code>property</code> should be used if
+        possible.</b> Having said that, in real life I use this a lot.
       </p>
       <p>
         Variables can be set individually or loaded from a standard
@@ -41,7 +41,7 @@
             <td>name</td>
             <td>The name of the property to set.</td>
             <td>None</td>
-            <td>Yes, unless 'file' is used.</td>
+            <td>Yes, unless "file" is used.</td>
           </tr>
           <tr>
             <td>value</td>
@@ -87,11 +87,12 @@
 <property name="x" value="12"/>
 <echo>${x}</echo>   <!-- will print 12 -->]]></source>
       <p>
-        The following shows some more uses of the Variable task. It is
-        especially handy for property appending. Notice a couple of
-        things: the property task can't override a var value, in
-        general, you should use var with the unset attribute to change
-        the value of a property.
+        The following shows some more uses of the
+        <code>variable</code> task. It is especially handy for
+        property appending. Notice a couple of things: the
+        <code>property</code> task can't override a <code>var</code>
+        value; in general, you should use <code>var</code> with the
+        "unset" attribute to change the value of a property.
       </p>
       <source><![CDATA[<var name="x" value="6"/>
 <echo>x = ${x}</echo>   <!-- print: 6 -->
@@ -127,10 +128,11 @@
 <echo>Today is ${x}.</echo> <!-- print: Today is Friday. -->]]></source>
       <!--
       <p>
-        The next example shows Variable, If, Assert, and Try working
-        together to make sure e-mail is sent from the right address
-        and that if the mail fails to be sent for any reason, the
-        build will not fail.
+        The next example shows <code>variable</code>, <code>if</code>,
+        <code>assert</code>, and <code>try</code> working together to
+        make sure e-mail is sent from the right address and that if
+        the mail fails to be sent for any reason, the build will not
+        fail.
       </p>
       <source><![CDATA[<var name="valid_email" value="false"/>
 <if name="email_from" value="buildteam@mycompany.com">

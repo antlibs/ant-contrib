@@ -9,9 +9,9 @@
   <body>
     <section name="Stopwatch">
       <p>
-        The Stopwatch task makes it easy to add performance timing to
-        Ant targets. Stopwatches are named so that multiple watches
-        can run simultaneously.
+        The <code>stopwatch</code> task makes it easy to add
+        performance timing to Ant targets. Stopwatches are named so
+        that multiple watches can run simultaneously.
       </p>
       <table summary="Stopwatch Task Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Stopwatch Task Attributes</caption>
@@ -26,7 +26,10 @@
         <tbody>
           <tr>
             <td>name</td>
-            <td>The name for the stopwatch. The elapsed time or total time will be stored as an Ant property with this name.</td>
+            <td>
+              The name for the stopwatch. The elapsed time or total
+              time will be stored as an Ant property with this name.
+            </td>
             <td>None</td>
             <td>Yes</td>
           </tr>

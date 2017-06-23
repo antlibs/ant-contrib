@@ -28,9 +28,9 @@
       </tr>
     </table>
     <p>
-      In addition, all attributes of
-      the <a href="https://ant.apache.org/manual/Tasks/fail.html"><code>fail</code>
-        task</a> are supported.
+      In addition, all attributes of the
+      <a href="https://ant.apache.org/manual/Tasks/fail.html">fail
+      task</a> are supported.
     </p>
     </subsection>
     </section>

@@ -17,6 +17,7 @@
     <menu name="Ant Contrib">
       <item name="Introduction" href="intro.html"/>
     </menu>
+    <menu ref="reports"/>
     <menu name="Logic Tasks">
       <item name="AntCallBack" href="antcallback.html"/>
       <item name="AntFetch" href="antfetch.html"/>
@@ -72,6 +73,5 @@
       <item name="IniFile" href="inifile.html"/>
       <item name="VerifyDesign" href="verifydesign.html"/>
     </menu>
-    <menu ref="reports"/>
   </body>
 </project>

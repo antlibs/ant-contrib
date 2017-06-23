@@ -10,12 +10,12 @@
     <section name="VerifyDesign New Project Tutorial">
     <p>
       This is by far the easiest tutorial. Before you have any code,
-      add this to your build.xml file.
+      add this to your <code>build.xml</code> file.
     </p>
     <source><![CDATA[<verifydesign jar="yourjarname.jar" design="design.xml"/>]]></source>
     <p>
-      Create your design.xml file from the design that is in your head
-      or in documentation like so
+      Create your <code>design.xml</code> file from the design that is
+      in your head or in documentation like so
     </p>
     <source><![CDATA[<design>
   <package name="service1" package="biz.xsoftware.service1" subpackages="include"/>

@@ -9,28 +9,29 @@
   <body>
     <section name="Assert Task">
       <p>
-        The Assert task adds an assertion capability to Ant
-        projects. This task works in a manner very similar to the
+        The <code>assert</code> task adds an assertion capability to
+        Ant projects. This task works in a manner very similar to the
         Java <code>assert</code> keyword, and provides a limited
         "design by contract" facility to Ant. This is very useful for
         testing build scripts prior to putting them into production.
       </p>
       <p>
-        The Assert task verifies that a particular boolean condition
-        is met, and throws a BuildException if it is not.
+        The <code>assert</code> task verifies that a particular
+        boolean condition is met, and throws a BuildException if it is
+        not.
       </p>
       <p>
-        Also like Java's <code>assert</code> keyword, the Assert task
-        must be 'turned on' using the property
-        <code>ant.enable.asserts</code>. If not set, or is set to
-        <code>false</code>, the Assert task works exactly like the
-        Sequential task. If the <a href="variable.html"
-        title="Variable Task">Variable task</a> is used to define this
-        property, then it can be turned on and off as needed
-        throughout a build.
+        Also like Java's <code>assert</code> keyword, the
+        <code>assert</code> task must be 'turned on' using the
+        property <code>ant.enable.asserts</code>. If not set, or is
+        set to "false", the <code>assert</code> task works exactly
+        like the <code>sequential</code> task. If the
+        <a href="variable.html" title="Variable Task">Variable
+        task</a> is used to define this property, then it can be
+        turned on and off as needed throughout a build.
       </p>
       <p>
-        This task can hold other tasks including Assert.
+        This task can hold other tasks including <code>assert</code>.
       </p>
       <p>
         The assert task may contain a single conditional element known
@@ -47,7 +48,7 @@
         Conditions">IsGreaterThan</a>,
         <a href="more_conditions.html#IsLessThan" title="More
         Conditions">IsLessThan</a> and conditions. See the
-        <a href="if.html">If task</a> for examples of using these
+        <a href="if.html">if task</a> for examples of using these
         conditionals.
       </p>
       <table summary="Assert Task Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -98,7 +99,7 @@
             <td>failonerror</td>
             <td>
               Should the build halt if the assertion fails? Setting
-              this to false is contrary to the intented use of
+              this to false is contrary to the intended use of
               assertions, but may be useful in certain situations.
             </td>
             <td>True</td>
@@ -132,7 +133,8 @@
   </sequential>
 </assert>]]></source>
       <p>
-        The next example shows Assert being used in a unit test for the "limit" task:
+        The next example shows <code>assert</code> being used in a
+        unit test for the <code>limit</code> task:
       </p>
       <source><![CDATA[<property name="ant.enable.asserts" value="true"/>
 <target name="test2">
@@ -149,7 +151,7 @@
 </target>]]></source>
       <p>
         If the <code>ant.enable.asserts</code> property is set to
-        false, then in the above example,
+        "false", then in the above example,
         the <code>echo</code>, <code>sleep</code>,
         and <code>echo</code> tasks will all execute.
       </p>

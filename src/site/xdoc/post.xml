@@ -9,35 +9,36 @@
   <body>
     <section name="HTTP Post">
       <p>
-        The Post task is a companion to the standard Ant "Get"
-        task. This task does a post and does not necessarily expect
-        anything in return. Almost always, there will be some sort of
-        returned data, this can be logged or written to a file if
-        needed.
+        The <code>post</code> task is a companion to the standard Ant
+        <code>get</code> task. This task does an HTTP POST request and
+        does not necessarily expect anything in return. Almost always,
+        there will be some sort of returned data, this can be logged
+        or written to a file if needed.
       </p>
       <p>
         Basically, an HTTP POST sends name/value pairs to a web
-        server. A very common usage is for html forms for submitting
-        data. A typical use of this task is to send data to a servlet
+        server. A very common usage is for submitting data in HTML
+        forms. A typical use of this task is to send data to a servlet
         for updating a web page with the status of a build.
       </p>
       <p>
         This task handles cookies correctly, which is useful for
-        websites that set a session id to track logins or whatever.
-        This means that if you do several posts in a row, cookies
-        gathered from the first post will be returned with subsequent
-        posts.
+        websites that set a session id to track logins or
+        whatever. This means that if you do several posts in a row,
+        cookies gathered from the first post will be returned with
+        subsequent posts.
       </p>
       <p>
-        The Post task has three ways of specifying the data to be
-        posted. Nested "prop" elements can be used. A "prop" element
-        represents a single name/value pair. The second way is to
-        specify a property file as an attribute to the Post. All
-        properties from the file will be sent as part of the Post
-        data. The third way is to just type in some defined Ant
-        properties. Is it allowed to use all three ways at once, that
-        is, read some properties from a file, specify others via
-        "prop" elements, and just type in some Ant properties.
+        The <code>post</code> task has three ways of specifying the
+        data to be posted. Nested <code>prop</code> elements can be
+        used. A <code>prop</code> element represents a single
+        name/value pair. The second way is to specify a property file
+        as an attribute to the <code>post</code> task. All properties
+        from the file will be sent as part of the HTTP POST data. The
+        third way is to just type in some defined Ant properties. Is
+        it allowed to use all three ways at once, that is, read some
+        properties from a file, specify others via <code>prop</code>
+        elements, and just type in some Ant properties.
       </p>
       <table summary="Post Task Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Post Task Attributes</caption>
@@ -52,7 +53,7 @@
         <tbody>
           <tr>
             <td>to</td>
-            <td>The URL of the remote server to send the post.</td>
+            <td>The URL of the remote server to send the POST request to.</td>
             <td>None</td>
             <td>Yes</td>
           </tr>
@@ -64,13 +65,13 @@
           </tr>
           <tr>
             <td>logfile</td>
-            <td>The name of a file to write any response to. Ignored if wantresponse is set to false.</td>
+            <td>The name of a file to write any response to. Ignored if "wantresponse" is set to false.</td>
             <td>None</td>
             <td>No</td>
           </tr>
           <tr>
             <td>property</td>
-            <td>The name of a property to write any response to. Ignored if wantresponse is set to false.</td>
+            <td>The name of a property to write any response to. Ignored if "wantresponse" is set to false.</td>
             <td>None</td>
             <td>No</td>
           </tr>
@@ -84,9 +85,9 @@
             <td>file</td>
             <td>
               A file to read POST data from. All Ant properties
-              contained in this file will be resolved (that is, ${}
-              syntax will be expanded to their values) prior to
-              sending the file contents.
+              contained in this file will be resolved (that is,
+              <code>${}</code> syntax will be expanded to their
+              values) prior to sending the file contents.
             </td>
             <td>None</td>
             <td>No</td>
@@ -96,9 +97,9 @@
             <td>
               Should the file be treated as raw file instead of
               property-like file. True - send the content of the file
-              directly to http-post, all properties set by 'property'
-              are ignored!<br/> Has only impact when the property
-              'file' is specified.
+              directly to HTTP POST, all properties set by "property"
+              are ignored!<br/> Has impact only when the property
+              "file" is specified.
             </td>
             <td>False, treat file as property-like</td>
             <td>No</td>
@@ -106,9 +107,9 @@
           <tr>
             <td>rawFileNoEncoding</td>
             <td>
-              Don't encode the raw file prior to sending http post
-              request.<br/> Has only impact when the property
-              'rawFile' is specified.
+              Don't encode the raw file prior to sending HTTP POST
+              request.<br/> Has impact only when the property
+              "rawFile" is specified.
             </td>
             <td>False, http-encode the content of the file</td>
             <td>No</td>
@@ -132,25 +133,26 @@
               may be large and useless to the script. Use this with
               caution - while the response from the server may not be
               required for the client, the server may require that the
-              client accept the response prior to processing the post
-              data.
+              client accept the response prior to processing the
+              <code>post</code> data.
             </td>
             <td>true</td>
             <td>No</td>
           </tr>
           <tr>
             <td>failonerror</td>
-            <td>Whether the build should fail if the post fails.</td>
+            <td>Whether the build should fail if the <code>post</code> fails.</td>
             <td>false</td>
             <td>No</td>
           </tr>
         </tbody>
       </table>
       <p>
-        Post supports nested "prop" elements. As an HTTP POST
-        basically sends a list of names and values, the "prop" element
-        represents one name/value pair. A Post may contain any number
-        of "prop" elements.
+        <code>post</code> supports nested <code>prop</code>
+        elements. As an HTTP POST basically sends a list of names and
+        values, the <code>prop</code> element represents one
+        name/value pair. A <code>post</code> may contain any number of
+        <code>prop</code> elements.
       </p>
       <table summary="Prop Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Prop Attributes</caption>
@@ -191,9 +193,9 @@
 <prop name="src.dir" value="${src.dir}"/>
 <prop name="src.dir" value="/home/user/project/src"/>]]></source>
       <p>
-        Defined Ant properties can be entered directly into the post
-        element. Again, suppose the build file has this property
-        defined:
+        Defined Ant properties can be entered directly into the
+        <code>post</code> element. Again, suppose the build file has
+        this property defined:
       </p>
       <source><![CDATA[<property name="src.dir" value="/home/user/project/src"/>]]></source>
       <p>

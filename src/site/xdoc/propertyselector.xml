@@ -10,7 +10,7 @@
     <section name="PropertySelector">
     <p>
       Selects property names that match a given regular expression and
-      returns them in a delimited list
+      returns them in a delimited list.
     </p>
     <subsection name="Parameters">
     <table summary="PropertySelector Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -27,17 +27,17 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-          If the property is already set, should we change it's value.
-          Can be <code>true</code> or <code>false</code>
+          If the property is already set, should we change it's
+          value. Can be "true" or "false".
         </td>
-        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
       <tr>
         <td valign="top">match</td>
         <td valign="top">
           The regular expression which is used to select property
           names for inclusion in the list. This follows the standard
-          regular expression syntax accepted by ant's regular
+          regular expression syntax accepted by Ant's regular
           expression tasks.
         </td>
         <td align="center" valign="top">Yes.</td>
@@ -60,7 +60,7 @@
       <tr>
         <td valign="top">delimiter</td>
         <td valign="top">
-          The delimiter used to seperate entries in the resulting
+          The delimiter used to separate entries in the resulting
           property
         </td>
         <td align="center" valign="top">No. default is ",".</td>
@@ -69,7 +69,7 @@
         <td valign="top">distinct</td>
         <td valign="top">
           Should the returned entries be a distinct set (no duplicate
-          entries)
+          entries)?
         </td>
         <td align="center" valign="top">No. default is "false".</td>
       </tr>
@@ -119,7 +119,7 @@
   <echo message="${pack.name}"/>
 </target>]]></source>
     <p>
-      Would print
+      it would print
     </p>
     <source>[echo] abc pack name
 [echo] def pack name
