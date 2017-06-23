@@ -13,7 +13,10 @@
       different set of tasks if the first set fails and yet another
       set after the first one has finished.
     </p>
-    <p>This mirrors Java's try/catch/finally.</p>
+    <p>
+    This mirrors Java's
+    <code>try</code>/<code>catch</code>/<code>finally</code>.
+    </p>
     <p>
       The tasks inside of the required <code>try</code> element will
       be run. If one of them should throw a BuildException several

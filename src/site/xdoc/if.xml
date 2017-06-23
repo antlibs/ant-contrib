@@ -22,11 +22,9 @@
     <subsection name="Parameters">
     <p>
       This task doesn't have any attributes, the condition to test is
-      specified by a nested element - see the documentation of your
-      <code>condition</code> task
-      (see <a href="https://ant.apache.org/manual/Tasks/condition.html">the
-      online documentation</a> for example) for a complete list of
-      nested elements.
+      specified by a nested element - see the documentation of the
+      <a href="https://ant.apache.org/manual/Tasks/condition.html">condition
+      task</a> for a complete list of nested elements.
     </p>
     <p>
       Just like the <code>condition</code> task, only a single
@@ -40,9 +38,9 @@
     </p>
     <p>
       Both <code>then</code> and <code>else</code> must not be used
-      more than once inside the if task. Both are containers for Ant
-      tasks, just like Ant's <code>parallel</code> and
-      <code>sequential</code> tasks - in fact they are implemented
+      more than once inside the <code>if</code> task. Both are
+      containers for Ant tasks, just like Ant's <code>parallel</code>
+      and <code>sequential</code> tasks - in fact they are implemented
       using the same class as Ant's <code>sequential</code> task.
     </p>
     <p>

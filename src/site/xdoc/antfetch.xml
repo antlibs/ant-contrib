@@ -9,9 +9,9 @@
   <body>
     <section name="AntFetch">
       <p>
-        AntFetch is identical to the standard 'Ant' task, except that
-        it allows properties from the new project to be set in the
-        original project.
+        <code>antfetch</code> is identical to the standard
+        <code>ant</code> task, except that it allows properties from
+        the new project to be set in the original project.
       </p>
       <p>
         Some background may be in order: When the <code>ant</code>
@@ -21,32 +21,30 @@
         new project is executed. Any properties set in the new project
         remain with that project, they do not get "passed back" to the
         original project. So, for example, if the target in the new
-        project sets a property named "image.directory", there is no
-        reference to that property in the original. Here's an example
-        of what I mean:
+        project sets a property named <code>image.directory</code>,
+        there is no reference to that property in the original. Here's
+        an example of what I mean:
       </p>
       <p>
         Suppose that the "fillImageDirectory" target sets a property
-        named "image.directory" and I call the following:
+        named <code>image.directory</code> and I call the following:
       </p>
       <source><![CDATA[<ant dir="${image.project} target="fillImageDirectory"/>
 <echo>${image.directory}</echo>]]></source>
       <p>
-        The output of the echo task will be ${image.directory}, not
-        whatever was set in the "fillImageDirectory" target.
+        The output of the <code>echo</code> task will be
+        <code>${image.directory}</code>, not whatever was set in the
+        "fillImageDirectory" target.
       </p>
       <p>
-        The AntFetch task allows that image.directory property to be
-        set in the original project. The attributes for AntFetch are
-        identical to the 'Ant' task, with one additional, optional
-        attibute. This attribute is named "return" and can be either a
-        single property name or a comma separated list of property
-        names.
+        The <code>antfetch</code> task allows that
+        <code>image.directory</code> property to be set in the
+        original project.
       </p>
       <p>
         Assuming that "fillImageDirectory" actually sets a property
-        named "image.directory", the following example will print out
-        the directory name:
+        named <code>image.directory</code>, the following example will
+        print out the directory name:
       </p>
       <source><![CDATA[<antfetch dir="${image.project} target="fillImageDirectory" return="image.directory"/>
 <echo>${image.directory}</echo>]]></source>
@@ -57,10 +55,11 @@
 <echo>${image.directory}</echo>
 <echo>${thumbnail.directory}</echo>]]></source>
       <p>
-        The attributes for AntFetch are identical to the 'ant' task,
-        with one additional, optional attibute. This attribute is
-        named "return" and can be either a single property name or a
-        comma separated list of property names.
+        The attributes for <code>antfetch</code> are identical to the
+        <code>ant</code> task, with one additional, optional
+        attribute. This attribute is named "return" and can be either
+        a single property name or a comma separated list of property
+        names.
       </p>
       <table summary="AntFetch Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>AntFetch Attributes</caption>
@@ -87,8 +86,8 @@
       <p>
         For other attribute and nested element information and more
         examples, see the documentation for the
-        <a href="https://ant.apache.org/manual/Tasks/ant.html">ant</a>
-        task in the Ant documentation.
+        <a href="https://ant.apache.org/manual/Tasks/ant.html">ant
+        task</a> in the Ant documentation.
       </p>
     </section>
   </body>

@@ -2,7 +2,6 @@
 <document xmlns="http://maven.apache.org/XDOC/2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
-
   <properties>
     <title>Http Tasks</title>
     <author email="danson@germane-software.com">Dale Anson</author>
@@ -34,7 +33,7 @@
         <th>Required</th>
       </tr>
       <tr>
-        <td valign="top"><i>multipart</i></td>
+        <td valign="top">multipart</td>
         <td valign="top">
           Should multipart content be forced, even if only a single
           file or text part is specified.
@@ -42,7 +41,7 @@
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
-        <td valign="top"><i>parameters</i></td>
+        <td valign="top">parameters</td>
         <td valign="top">A java .properties file which contains post parameters.</td>
         <td align="center" valign="top">No.</td>
       </tr>
@@ -62,12 +61,12 @@
         <th>Required</th>
       </tr>
       <tr>
-        <td valign="top"><i>name</i></td>
+        <td valign="top">name</td>
         <td valign="top">The parameter name.</td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
-        <td valign="top"><i>value</i></td>
+        <td valign="top">value</td>
         <td valign="top">The parameter value.</td>
         <td align="center" valign="top">Yes.</td>
       </tr>
@@ -85,22 +84,22 @@
         <th>Required</th>
       </tr>
       <tr>
-        <td valign="top"><i>name</i></td>
+        <td valign="top">name</td>
         <td valign="top">The parameter name.</td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
-        <td valign="top"><i>path</i></td>
+        <td valign="top">path</td>
         <td valign="top">The file path to send.</td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
-        <td valign="top"><i>contentType</i></td>
+        <td valign="top">contentType</td>
         <td valign="top">The content type of the file.</td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
-        <td valign="top"><i>charSet</i></td>
+        <td valign="top">charSet</td>
         <td valign="top">The character set.</td>
         <td align="center" valign="top">No.</td>
       </tr>
@@ -118,12 +117,12 @@
         <th>Required</th>
       </tr>
       <tr>
-        <td valign="top"><i>name</i></td>
+        <td valign="top">name</td>
         <td valign="top">The parameter name.</td>
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
-        <td valign="top"><i>value</i></td>
+        <td valign="top">value</td>
         <td valign="top">
           The string value to send. This may also be specified as
           nested text to this element.
@@ -131,12 +130,12 @@
         <td align="center" valign="top">Yes.</td>
       </tr>
       <tr>
-        <td valign="top"><i>contentType</i></td>
+        <td valign="top">contentType</td>
         <td valign="top">The content type of the file.</td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
-        <td valign="top"><i>charSet</i></td>
+        <td valign="top">charSet</td>
         <td valign="top">The character set.</td>
         <td align="center" valign="top">No.</td>
       </tr>

@@ -10,8 +10,9 @@
     <section name="IniFile">
     <p>
       Build and Edit Windows .ini files. Only the simple edits,
-      <code>remove</code> and <code>set</code> are allowed. Set has
-      limited computation capability which is described later.
+      <code>remove</code> and <code>set</code> are
+      allowed. <code>set</code> has limited computation capability
+      which is described later.
     </p>
     <subsection name="Parameters">
     <table summary="IniFile Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -32,7 +33,7 @@
       </tr>
     </table>
     <h2>Parameters specified as nested elements</h2>
-    <code>remove</code>
+    <h3><code>remove</code></h3>
     <table summary="Remove Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>Attribute</th>
@@ -52,7 +53,7 @@
         </td>
       </tr>
     </table>
-    <code>set</code>
+    <h3><code>set</code></h3>
     <table summary="Set Attributes" border="1" cellpadding="2" cellspacing="0">
       <tr>
         <th>Attribute</th>
@@ -73,19 +74,20 @@
         <td valign="top">value</td>
         <td valign="top">The value to set the property to.</td>
         <td align="center" valign="top">
-          No, if <code>operation</code> is specified.
+          No, if "operation" is specified.
         </td>
       </tr>
       <tr>
         <td valign="top">operation</td>
         <td valign="top">
           The operation to perform on the existing value. Possible
-          values are "+" and "-", which add and subtract 1,
-          respectively from the existing value. If the value doesn't
-          already exist, the set is not performed.
+          values are "<code>+</code>" and "<code>-</code>", which add
+          and subtract 1, respectively from the existing value. If the
+          value doesn't already exist, the <code>set</code> is not
+          performed.
         </td>
         <td align="center" valign="top">
-          No, if <code>value</code> is specified.
+          No, if "value" is specified.
         </td>
       </tr>
     </table>

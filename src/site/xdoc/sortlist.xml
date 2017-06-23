@@ -9,10 +9,10 @@
   <body>
     <section name="SortList">
     <p>
-      Sort a delimited list of items in their natural string order.
-      Note that the <code>value</code> and <code>refid</code>
-      attributes are mutually exclusive, and the <code>value</code>
-      attribute takes precedence if both are specified.
+      Sort a delimited list of items in their natural string
+      order. Note that the "value" and "refid" attributes are mutually
+      exclusive, and the "value" attribute takes precedence if both
+      are specified.
     </p>
     <subsection name="Parameters">
     <table summary="SortList Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -29,10 +29,10 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-          If the property is already set, should we change it's value.
-          Can be <code>true</code> or <code>false</code>
+          If the property is already set, should we change it's
+          value. Can be "true" or "false"
         </td>
-        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
       <tr>
         <td valign="top">value</td>
@@ -65,19 +65,18 @@
       <tr>
         <td valign="top">casesensitive</td>
         <td valign="top">
-          If <code>true</code>, does a case sensitive sorting of the
-          strings. If <code>false</code> does case insensitive
-          sorting.
+          If "true", does a case sensitive sorting of the strings. If
+          "false" does case insensitive sorting.
         </td>
-        <td align="center" valign="top">No. Defaults to true.</td>
+        <td align="center" valign="top">No. Defaults to "true".</td>
       </tr>
       <tr>
         <td valign="top">numeric</td>
         <td valign="top">
-          If <code>true</code>, does a numeric sorting, treating all
-          list entries as if they were numbers.
+          If "true", does a numeric sorting, treating all list entries
+          as if they were numbers.
         </td>
-        <td align="center" valign="top">No. Defaults to false.</td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
       <tr>
         <td valign="top">orderPropertyFile</td>
@@ -85,20 +84,19 @@
           If specified, the list will sorted as if they were property
           names, and will be sorted in the order those properties
           appear in the given property file. Any properties in the
-          <code>value</code> attribute which do not appear in the
-          properties file will be inserted at the end of the list.
-          This property is most useful when used in conjunction with
-          the <code>propertyselector</code> task (see Example 2).
+          "value" attribute which do not appear in the properties file
+          will be inserted at the end of the list. This property is
+          most useful when used in conjunction with the
+          "propertyselector" task (see Example 2).
         </td>
         <td align="center" valign="top">No.</td>
       </tr>
       <tr>
         <td valign="top">orderPropertyFilePrefix</td>
         <td valign="top">
-          If <code>orderPropertyFile</code> is specified, this value
-          (with a trailing '.') will be prefixed to each property in
-          the specified <code>orderPropertyFile</code> to determine
-          sorting order
+          If "orderPropertyFile" is specified, this value (with a
+          trailing ".") will be prefixed to each property in the
+          specified "orderPropertyFile" to determine sorting order.
         </td>
         <td align="center" valign="top">No.</td>
       </tr>
@@ -112,7 +110,7 @@
       <p>
         prints
       </p>
-      <code>[echo] t,u,v,w,x,y,z</code>
+      <source>[echo] t,u,v,w,x,y,z</source>
     </subsection>
     <subsection name="Example 2">
       <source><![CDATA[test.properties
@@ -140,7 +138,7 @@ b.name=b
       <p>
         Notice that the <code>test.properties</code> file did not have
         "test." prefixing all the properties. The
-        <code>orderPropertyFilePrefix</code> was used to do that.
+        "orderPropertyFilePrefix" was used to do that.
       </p>
     </subsection>
     </section>

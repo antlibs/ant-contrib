@@ -9,11 +9,12 @@
   <body>
     <section name="Limit">
       <p>
-        The Limit task is a task container (that is, it holds other
-        tasks) and sets a time limit on how long the nested tasks are
-        allowed to run. This is useful for unit tests that go awry,
-        hung socket connections, or other potentially long running
-        tasks that need to be shut off without stopping the build.
+        The <code>limit</code> task is a task container (that is, it
+        holds other tasks) and sets a time limit on how long the
+        nested tasks are allowed to run. This is useful for unit tests
+        that go awry, hung socket connections, or other potentially
+        long running tasks that need to be shut off without stopping
+        the build.
       </p>
       <table summary="Limit Task Attributes" border="1" cellpadding="2" cellspacing="0">
         <caption>Limit Task Attributes</caption>
@@ -98,8 +99,9 @@
         Examples:
       </p>
       <p>
-        Neither the echo nor the fail will happen in this example. The
-        build will continue once the time has expired.
+        Neither the <code>echo</code> nor the <code>fail</code> will
+        happen in this example. The build will continue once the time
+        has expired.
       </p>
       <source><![CDATA[<limit maxwait="3">
     <sleep seconds="10"/>
@@ -116,8 +118,9 @@
     <fail>This won't happen either...</fail>
 </limit>]]></source>
       <p>
-        Neither the echo nor the fail will happen in this example. The
-        build will not continue once the time has expired.
+        Neither the <code>echo</code> nor the <code>fail</code> will
+        happen in this example. The build will not continue once the
+        time has expired.
       </p>
       <source><![CDATA[<limit maxwait="3" failonerror="true">
     <sleep seconds="10"/>

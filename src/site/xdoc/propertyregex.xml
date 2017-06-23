@@ -16,7 +16,7 @@
     <ol type="1">
       <li>
         Replacement - The matched regular expression is replaced with
-        a substitition pattern
+        a substitution pattern
       </li>
       <li>
         Selection - Groupings within the regular expression are
@@ -38,10 +38,10 @@
       <tr>
         <td valign="top">override</td>
         <td valign="top">
-          If the property is already set, should we change it's value.
-          Can be <code>true</code> or <code>false</code>
+          If the property is already set, should we change it's
+          value. Can be "true" or "false".
         </td>
-        <td align="center" valign="top">No. Defaults to <code>false</code></td>
+        <td align="center" valign="top">No. Defaults to "false"</td>
       </tr>
       <tr>
         <td valign="top">input</td>
@@ -54,7 +54,7 @@
           The regular expression which is matched in the input string.
         </td>
         <td align="center" valign="top">
-          Yes (can be specified in a <code>regexp</code> subelement).
+          Yes (can be specified in a "regexp"subelement).
         </td>
       </tr>
       <tr>
@@ -65,16 +65,16 @@
           syntax to indicate where to insert groupings created as a
           result of the regular expression match.
         </td>
-        <td align="center" valign="top">Yes, unless a replace is specified</td>
+        <td align="center" valign="top">Yes, unless a "replace" is specified</td>
       </tr>
       <tr>
         <td valign="top">replace</td>
         <td valign="top">
-          A regular expression substitition pattern, which will be
+          A regular expression substitution pattern, which will be
           used to replace the given regular expression in the input
           string.
         </td>
-        <td align="center" valign="top">Yes, unless a select is specified</td>
+        <td align="center" valign="top">Yes, unless a "select" is specified</td>
       </tr>
       <tr>
         <td valign="top">casesensitive</td>
@@ -85,9 +85,9 @@
         <td valign="top">global</td>
         <td valign="top">
           Should a replacement operation be performed on the entire
-          string, rather than just the first occurence
+          string, rather than just the first occurrence?
         </td>
-        <td align="center" valign="top">No. default is <code>false</code>.</td>
+        <td align="center" valign="top">No. default is "false".</td>
       </tr>
       <tr>
         <td valign="top">defaultValue</td>
@@ -127,7 +127,7 @@
                select="\1"
                casesensitive="false"/>]]></source>
       <p>
-        yields <code>ABC</code>
+        yields "ABC",
       </p>
       <source><![CDATA[<propertyregex property="pack.name"
                input="package.ABC.name"
@@ -135,7 +135,7 @@
                replace="\1.DEF.\2"
                casesensitive="false"/>]]></source>
       <p>
-        yields <code>package.DEF.name</code>
+        yields "package.DEF.name"
       </p>
     </subsection>
     </section>

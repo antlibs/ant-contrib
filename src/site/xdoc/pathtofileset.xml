@@ -9,8 +9,8 @@
   <body>
     <section name="Pathtofileset">
     <p>
-      Coverts a path to a fileset. This is usefull if you have a path
-      but need to use a fileset as input in a ant task.
+      Coverts a path to a fileset. This is useful if you have a path
+      but need to use a fileset as input in an Ant task.
     </p>
     <subsection name="Parameters">
     <table summary="PathToFileSet Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -21,7 +21,7 @@
       </tr>
       <tr>
         <td valign="top">dir</td>
-        <td valign="top">The root of the directory tree of this FileSet</td>
+        <td valign="top">The root of the directory tree of this fileset</td>
         <td align="center" valign="top">Yes</td>
       </tr>
       <tr>

@@ -9,7 +9,7 @@
   <body>
     <section name="Performance Monitoring">
       <p>
-        The "Performance Monitor" is a special Ant listener than can
+        The Performance Monitor is a special Ant listener than can
         keep track of the amount of time that each target and task
         takes to execute. At the end of the build, these times will be
         sorted from fastest to slowest and displayed following the
@@ -24,8 +24,8 @@
       <source>ant -listener net.sf.antcontrib.perf.AntPerformanceListener target</source>
       <p>
         Following is an example of the results from using the
-        listener. The result format is projectname.targetname for
-        targets and projectname.targetname.taskname for tasks. All
+        listener. The result format is "projectname.targetname" for
+        targets and "projectname.targetname.taskname" for tasks. All
         times are shown to the nearest millisecond.
       </p>
       <source>

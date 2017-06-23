@@ -9,10 +9,10 @@
   <body>
     <section name="Foreach">
     <p>
-      The foreach task iterates over a list, a list of paths, or
-      both. If both, list and paths, are specified, the list will be
-      evaluated first. Nested paths are evaluated in the order they
-      appear in the task.
+      The <code>foreach</code> task iterates over a list, a list of
+      paths, or both. If both, list and paths, are specified, the list
+      will be evaluated first. Nested <code>path</code>s are evaluated
+      in the order they appear in the task.
     </p>
     <subsection name="Parameters">
     <table summary="Foreach Attributes" border="1" cellpadding="2" cellspacing="0">
@@ -55,33 +55,33 @@
           act as a delimiter. This follows the semantics of the
           StringTokenizer class.
         </td>
-        <td align="center" valign="top">No, defaults to ",".</td>
+        <td align="center" valign="top">No, defaults to "<code>,</code>".</td>
       </tr>
       <tr>
         <td valign="top">inheritall</td>
         <td valign="top">
-          If <code>true</code>, pass all properties to the called
-          target. Defaults to <code>false</code>.
+          If "true", pass all properties to the called
+          target. Defaults to "false".
         </td>
         <td align="center" valign="top">No</td>
       </tr>
       <tr>
         <td valign="top">inheritrefs</td>
         <td valign="top">
-          If <code>true</code>, pass all references to the the called
-          target. Defaults to <code>false</code>.
+          If "true", pass all references to the the called
+          target. Defaults to "false".
         </td>
         <td align="center" valign="top">No</td>
       </tr>
       <tr>
         <td valign="top">parallel</td>
         <td valign="top">
-          If <code>true</code>, all instances of the called target
-          will execute in parallel. Defaults to <code>false</code>,
-          which forces sequential execution of the targets. It is up
-          to the caller to ensure that parallel execution is safe.
-          This is accomplished through the means of the "parallel"
-          task contained in the Ant core.
+          If "true", all instances of the called target will execute
+          in parallel. Defaults to "false", which forces sequential
+          execution of the targets. It is up to the caller to ensure
+          that parallel execution is safe. This is accomplished
+          through the means of the <code>parallel</code> task
+          contained in the Ant core.
         </td>
         <td align="center" valign="top">No</td>
       </tr>
@@ -96,16 +96,16 @@
       <tr>
         <td valign="top">trim</td>
         <td valign="top">
-          If <code>true</code>, any leading or trailing whitespace
-          will be removed from the list item before it is passed to
-          the requested target
+          If "true">, any leading or trailing whitespace will be
+          removed from the list item before it is passed to the
+          requested target
         </td>
-        <td align="center" valign="top">No. Defaults to false.</td>
+        <td align="center" valign="top">No. Defaults to "false".</td>
       </tr>
     </table>
     </subsection>
     <subsection name="Parameters specified as nested elements">
-    <h3 id="path">path</h3>
+    <h3 id="path"><code>path</code></h3>
     <p>
       <a href="https://ant.apache.org/manual/using.html#path">Path</a>s
       are used to select sets of files or directories to iterate over.
@@ -114,25 +114,25 @@
       Using a path allows you to determine the order by which files
       are considered by using
       <a href="https://ant.apache.org/manual/Types/filelist.html">filelist</a>s
-      or explicit <code>pathelements</code>. You also can specify
-      whether you want to iterate over files or directories by chosing
-      either filesets or
-      <a href="https://ant.apache.org/manual/Types/dirset.html">dirset</a>s.
+      or explicit <code>pathelement</code>s. You also can specify
+      whether you want to iterate over files or directories by choosing
+      either <a href="https://ant.apache.org/manual/Types/fileset.html">fileset</a>s
+      or <a href="https://ant.apache.org/manual/Types/dirset.html">dirset</a>s.
     </p>
-    <h3 id="fileset">fileset</h3>
+    <h3 id="fileset"><code>fileset</code></h3>
     <p>
-      <a href="https://ant.apache.org/manual/Types/fileset.html">FileSet</a>s
+      <a href="https://ant.apache.org/manual/Types/fileset.html">fileset</a>s
       are used to select sets of files to iterate over. <strong>This
       element is deprecated, use <a href="#path">nested path
       elements</a> instead.</strong>
     </p>
-    <h3>param</h3>
+    <h3><code>param</code></h3>
     <p>
       Specifies the properties to set before running the specified
       target. See <a href="https://ant.apache.org/manual/Tasks/property.html">property</a>
       for usage guidelines.
     </p>
-    <h3 id="reference">reference</h3>
+    <h3 id="reference"><code>reference</code></h3>
     <p>
       Used to chose references that shall be copied into the new
       project, optionally changing their id.
