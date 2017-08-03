@@ -201,9 +201,7 @@ public class SortList extends AbstractPropertySetterTask {
         int res = 0;
 
         if (numeric) {
-            double d1 = Double.parseDouble(s1);
-            double d2 = Double.parseDouble(s2);
-            res = (d1 < d2) ? -1 : (d1 == d2) ? 0 : 1;
+            res = Double.compare(Double.parseDouble(s1), Double.parseDouble(s2));
         } else if (casesensitive) {
             res = s1.compareTo(s2);
         } else {
