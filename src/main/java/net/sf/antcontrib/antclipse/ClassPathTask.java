@@ -16,8 +16,11 @@
 package net.sf.antcontrib.antclipse;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.FileSet;
@@ -63,10 +66,10 @@ public class ClassPathTask extends Task {
     private boolean includeLibs = true;
 
     /**
-     * Field verbose.
+     * Field verbosity.
      * Default quiet
      */
-    private boolean verbose = false;
+    private int verbosity = Project.MSG_VERBOSE;
 
     /**
      * Field irpm.
@@ -92,8 +95,15 @@ public class ClassPathTask extends Task {
 
     /**
      * Field produce.
+     * classpath by default
      */
-    private String produce = null; //classpath by default
+    private String produce = null;
+
+    /**
+     * Field recursivePaths.
+     * avoid double processing
+     */
+    protected List<String> recursivePaths = new ArrayList<String>();
 
     /**
      * Setter for task parameter.
@@ -122,7 +132,9 @@ public class ClassPathTask extends Task {
      *                each step. Default is false.
      */
     public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
+        if (verbose) {
+            this.verbosity = Project.MSG_WARN;
+        }
     }
 
     /**
@@ -137,7 +149,7 @@ public class ClassPathTask extends Task {
         if (excludes != null) {
             erpm = new RegexpPatternMapper();
             erpm.setFrom(excludes);
-            erpm.setTo("."); //mandatory
+            erpm.setTo("."); // mandatory
         } else {
             erpm = null;
         }
@@ -155,7 +167,7 @@ public class ClassPathTask extends Task {
         if (includes != null) {
             irpm = new RegexpPatternMapper();
             irpm.setFrom(includes);
-            irpm.setTo("."); //mandatory
+            irpm.setTo("."); // mandatory
         } else {
             irpm = null;
         }
@@ -228,6 +240,11 @@ public class ClassPathTask extends Task {
         protected String projDir;
 
         /**
+         * Field task.
+         */
+        protected Task task;
+
+        /**
          * Field ATTRNAME_PATH.
          * (value is ""path"")
          */
@@ -256,6 +273,12 @@ public class ClassPathTask extends Task {
          * (value is ""output"")
          */
         protected static final String ATTR_OUTPUT = "output";
+
+        /**
+         * Field ATTR_VAR (Eclipse variable).
+         * (value is ""var"")
+         */
+         protected static final String ATTR_VAR = "var";
 
         /**
          * Field EMPTY.
@@ -288,6 +311,7 @@ public class ClassPathTask extends Task {
             super();
             this.fileSet = fileSet;
             projDir = getProject().getBaseDir().getAbsolutePath();
+            task = getProject().getThreadTask(Thread.currentThread());
         }
 
         /**
@@ -297,7 +321,7 @@ public class ClassPathTask extends Task {
         public void endDocument() throws SAXException {
             super.endDocument();
             if (fileSet != null && !fileSet.hasPatterns()) {
-                //exclude everything or we'll take all the project dirs
+                // exclude everything or we'll take all the project dirs
                 fileSet.setExcludes("**/*");
             }
         }
@@ -315,7 +339,7 @@ public class ClassPathTask extends Task {
         public void startElement(String uri, String localName, String tag, Attributes attrs)
                 throws SAXParseException {
             if (tag.equalsIgnoreCase("classpathentry")) {
-                //start by checking if the classpath is coherent at all
+                // start by checking if the classpath is coherent at all
                 String kind = attrs.getValue(ATTRNAME_KIND);
                 if (kind == null) {
                     throw new BuildException("classpathentry 'kind' attribute is mandatory");
@@ -325,7 +349,7 @@ public class ClassPathTask extends Task {
                     throw new BuildException("classpathentry 'path' attribute is mandatory");
                 }
 
-                //put the outputdirectory in a property
+                // put the outputdirectory in a property
                 if (kind.equalsIgnoreCase(ATTR_OUTPUT)) {
                     String propName = idContainer + "outpath";
                     Property property = new Property();
@@ -333,12 +357,10 @@ public class ClassPathTask extends Task {
                     property.setValue(path);
                     property.setProject(getProject());
                     property.execute();
-                    if (verbose) {
-                        System.out.println("Setting property " + propName + " to value " + path);
-                    }
+                    getProject().log(task,"Setting property " + propName + " to value " + path, verbosity);
                 }
 
-                //let's put the last source directory in a property
+                // put the last source directory in a property
                 if (kind.equalsIgnoreCase(ATTR_SRC)) {
                     String propName = idContainer + "srcpath";
                     Property property = new Property();
@@ -346,9 +368,7 @@ public class ClassPathTask extends Task {
                     property.setValue(path);
                     property.setProject(getProject());
                     property.execute();
-                    if (verbose) {
-                        System.out.println("Setting property " + propName + " to value " + path);
-                    }
+                    getProject().log(task,"Setting property " + propName + " to value " + path, verbosity);
                 }
 
                 if ((kind.equalsIgnoreCase(ATTR_SRC) && includeSource)
@@ -365,46 +385,35 @@ public class ClassPathTask extends Task {
                         exclResult = erpm.mapFileName(path);
                     }
                     if (inclResult != null && exclResult == null) {
-                        //THIS is the specific code
+                        // THIS is the specific code
                         if (kind.equalsIgnoreCase(ATTR_OUTPUT)) {
-                            //we have included output so let's build a new fileset
+                            // we have included output so let's build a new fileset
                             FileSet outFileSet = new FileSet();
-                            String newReference = idContainer + "-" + path.replace(File.separatorChar, '-');
+                            String newReference = idContainer + "-" + path.replace('/', '-');
                             getProject().addReference(newReference, outFileSet);
-                            if (verbose) {
-                                System.out.println("Created new fileset "
-                                        + newReference
-                                        + " containing all the files from the output dir "
-                                        + projDir + File.separator + path);
-                            }
+                            getProject().log(task, String.format("Created new fileset %s containing all the files from the output dir %s/%s",
+                                    newReference, projDir, path), verbosity);
                             outFileSet.setDefaultexcludes(false);
-                            outFileSet.setDir(new File(projDir + File.separator + path));
-                            outFileSet.setIncludes("**/*"); //get everything
+                            outFileSet.setDir(new File(projDir, path));
+                            outFileSet.setIncludes("**/*"); // get everything
                         } else if (kind.equalsIgnoreCase(ATTR_SRC)) {
                             //we have included source so let's build a new fileset
                             FileSet srcFileSet = new FileSet();
-                            String newReference = idContainer + "-" + path.replace(File.separatorChar, '-');
+                            String newReference = idContainer + "-" + path.replace('/', '-');
                             getProject().addReference(newReference, srcFileSet);
-                            if (verbose) {
-                                System.out.println("Created new fileset "
-                                        + newReference
-                                        + " containing all the files from the source dir "
-                                        + projDir + File.separator + path);
-                            }
+                            getProject().log(task, String.format("Created new fileset %s containing all the files from the source dir %s/%s",
+                                    newReference, projDir, path), verbosity);
                             srcFileSet.setDefaultexcludes(false);
-                            srcFileSet.setDir(new File(projDir + File.separator + path));
-                            srcFileSet.setIncludes("**/*"); //get everything
+                            srcFileSet.setDir(new File(projDir, path));
+                            srcFileSet.setIncludes("**/*"); // get everything
                         } else {
-                            //not output, just add file after file to the fileset
-                            File file = new File(fileSet.getDir(getProject()) + "/" + path);
+                            // not output, just add file after file to the fileset
+                            File file = new File(fileSet.getDir(getProject()), path);
                             if (file.isDirectory()) {
                                 path += "/**/*";
                             }
-                            if (verbose) {
-                                System.out.println("Adding  " + path
-                                        + " to fileset " + idContainer
-                                        + " at " + fileSet.getDir(getProject()));
-                            }
+                            getProject().log(task, String.format("Adding  %s to fileset %s at %s",
+                                    path, idContainer, fileSet.getDir(getProject())), verbosity);
                             fileSet.setIncludes(path);
                         }
                     }
@@ -429,6 +438,7 @@ public class ClassPathTask extends Task {
         public PathCustomHandler(Path path) {
             super();
             this.path = path;
+            this.task = getProject().getThreadTask(Thread.currentThread());
         }
 
         /**
@@ -451,7 +461,7 @@ public class ClassPathTask extends Task {
         public void startElement(String uri, String localName, String tag, Attributes attrs)
                 throws SAXParseException {
             if (tag.equalsIgnoreCase("classpathentry")) {
-                //start by checking if the classpath is coherent at all
+                // start by checking if the classpath is coherent at all
                 String kind = attrs.getValue(ATTRNAME_KIND);
                 if (kind == null) {
                     throw new BuildException("classpathentry 'kind' attribute is mandatory");
@@ -461,7 +471,7 @@ public class ClassPathTask extends Task {
                     throw new BuildException("classpathentry 'path' attribute is mandatory");
                 }
 
-                //put the outputdirectory in a property
+                // put the outputdirectory in a property
                 if (kind.equalsIgnoreCase(ATTR_OUTPUT)) {
                     String propName = idContainer + "outpath";
                     Property property = new Property();
@@ -469,12 +479,29 @@ public class ClassPathTask extends Task {
                     property.setValue(path);
                     property.setProject(getProject());
                     property.execute();
-                    if (verbose) {
-                        System.out.println("Setting property " + propName + " to value " + path);
-                    }
+                    getProject().log(task,"Setting property " + propName + " to value " + path, verbosity);
                 }
 
-                //let's put the last source directory in a property
+                // replace the variable assuming it is a PREFIX in the file path
+                if (kind.equalsIgnoreCase(ATTR_VAR)) {
+                    kind = ATTR_LIB; //change type: after variable substitution this tag is like a "lib" tag...
+                    StringBuilder newPath = new StringBuilder();
+                    for (String aPathSplit : path.split("/")) {
+                        if (newPath.length() == 0) {
+                            String propertyName = aPathSplit;
+                            String propertyValue = getProject().getProperty(propertyName);
+                            if (propertyValue == null) {
+                                throw new BuildException("property must be defined: " + propertyName);
+                            }
+                            newPath.append(propertyValue);
+                        } else {
+                            newPath.append("/").append(aPathSplit);
+                        }
+                    }
+                    path = newPath.toString();
+                }
+
+                // put the last source directory in a property
                 if (kind.equalsIgnoreCase(ATTR_SRC)) {
                     String propName = idContainer + "srcpath";
                     Property property = new Property();
@@ -482,9 +509,7 @@ public class ClassPathTask extends Task {
                     property.setValue(path);
                     property.setProject(getProject());
                     property.execute();
-                    if (verbose) {
-                        System.out.println("Setting property " + propName + " to value " + path);
-                    }
+                    getProject().log(task,"Setting property " + propName + " to value " + path, verbosity);
                 }
 
                 if ((kind.equalsIgnoreCase(ATTR_SRC) && includeSource)
@@ -501,12 +526,21 @@ public class ClassPathTask extends Task {
                         exclResult = erpm.mapFileName(path);
                     }
                     if (inclResult != null && exclResult == null) {
-                        //THIS is the only specific code
-                        if (verbose) {
-                            System.out.println("Adding  " + path + " to classpath " + idContainer);
-                        }
-                        PathElement element = this.path.createPathElement();
-                        element.setLocation(new File(path));
+                         if (kind.equalsIgnoreCase(ATTR_SRC) && path.startsWith("/")) {
+                             // including a project -> recursion is needed...
+                             // assume that the name of the project and its path on disk are equals
+                             File classpath = new File(getProject().getBaseDir().getParentFile(), path + "/.classpath");
+                             if (!recursivePaths.contains(classpath.getAbsolutePath())) { //avoid double-processing
+                                 recursivePaths.add(classpath.getAbsolutePath());
+                                 getProject().log(task,"parsing " + classpath, verbosity);
+                                 new ClassPathParser().parse(classpath, this);
+                             }
+                         } else {
+                             // THIS is the only specific code
+                             getProject().log(task,"Adding  " + path + " to classpath " + idContainer, verbosity);
+                             PathElement element = this.path.createPathElement();
+                             element.setLocation(new File(path));
+                         }
                     }
                 }
             }
