@@ -111,7 +111,7 @@
     </target>
 
     <target name="init-jacoco" depends="jar">
-        <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="0.7.9"
+        <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="0.8.2"
                        inline="true" conf="default" pathid="jacoco.classpath" log="download-only"/>
         <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml"
                  classpathref="jacoco.classpath"/>
@@ -186,7 +186,7 @@
     </target>
 
     <target name="init-checkstyle" depends="jar">
-        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="7.8"
+        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="6.19"
                 inline="true" conf="default" pathid="checkstyle.classpath" log="download-only"/>
         <taskdef uri="antlib:com.puppycrawl.tools.checkstyle.ant"
                  resource="com/puppycrawl/tools/checkstyle/ant/antlib.xml" classpathref="checkstyle.classpath"/>

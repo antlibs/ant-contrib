@@ -16,7 +16,7 @@
 
     <dependencies>
         <dependency org="org.apache.ant" name="ant" rev="1.9.5" conf="compile"/>
-        <dependency org="org.apache.bcel" name="bcel" rev="5.2" conf="runtime"/>
+        <dependency org="org.apache.bcel" name="bcel" rev="6.2" conf="runtime"/>
         <dependency org="org.apache.ivy" name="ivy" rev="2.4.0" conf="runtime"/>
         <dependency org="org.jvnet.hudson" name="ivy" rev="1.4.1" conf="runtime"/>
         <dependency org="commons-httpclient" name="commons-httpclient" rev="3.1" conf="runtime"/>
