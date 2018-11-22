@@ -151,13 +151,9 @@ public class IniFileTask extends Task {
          * @return boolean
          */
         public boolean isActive(Project p) {
-            if (ifCond != null && p.getProperty(ifCond) == null) {
-                return false;
-            } else if (unlessCond != null && p.getProperty(unlessCond) != null) {
-                return false;
-            }
+            return (ifCond == null || p.getProperty(ifCond) != null)
+                    && (unlessCond == null || p.getProperty(unlessCond) == null);
 
-            return true;
         }
 
         /**

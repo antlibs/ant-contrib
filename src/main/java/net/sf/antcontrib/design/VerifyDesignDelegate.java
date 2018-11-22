@@ -541,23 +541,19 @@ public class VerifyDesignDelegate implements Log {
 
         log("      const[" + i + "]=" + pool.constantToString(c) + " inst=" + c.getClass().getName(),
                 Project.MSG_DEBUG);
-        byte tag = c.getTag();
-        switch (tag) {
-            //reverse engineered from ConstantPool.constantToString..
-            case Constants.CONSTANT_Class:
-                int ind = ((ConstantClass) c).getNameIndex();
-                c = pool.getConstant(ind, Constants.CONSTANT_Utf8);
-                String className = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
-                log("      classNamePre=" + className, Project.MSG_DEBUG);
-                className = getRidOfArray(className);
-                String firstLetter = className.charAt(0) + "";
-                if (primitives.contains(firstLetter)) {
-                    return;
-                }
-                log("      className=" + className, Project.MSG_VERBOSE);
-                design.checkClass(className);
-                break;
-            default:
+        //reverse engineered from ConstantPool.constantToString..
+        if (c.getTag() == Constants.CONSTANT_Class) {
+            int ind = ((ConstantClass) c).getNameIndex();
+            c = pool.getConstant(ind, Constants.CONSTANT_Utf8);
+            String className = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+            log("      classNamePre=" + className, Project.MSG_DEBUG);
+            className = getRidOfArray(className);
+            String firstLetter = className.charAt(0) + "";
+            if (primitives.contains(firstLetter)) {
+                return;
+            }
+            log("      className=" + className, Project.MSG_VERBOSE);
+            design.checkClass(className);
         }
     }
 

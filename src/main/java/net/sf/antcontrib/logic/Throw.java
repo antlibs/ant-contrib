@@ -47,10 +47,9 @@ public class Throw extends Exit {
      * @throws BuildException if something goes wrong
      */
     public void execute() throws BuildException {
-        Object reffed = ref != null
-                ? ref.getReferencedObject(getProject())
-                : null;
-        if (reffed != null && reffed instanceof BuildException) {
+        Object reffed = ref == null ? null
+                : ref.getReferencedObject(getProject());
+        if (reffed instanceof BuildException) {
             throw (BuildException) reffed;
         }
         super.execute();
