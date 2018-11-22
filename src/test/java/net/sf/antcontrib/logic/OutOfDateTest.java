@@ -15,8 +15,6 @@
  */
 package net.sf.antcontrib.logic;
 
-import static org.junit.Assert.assertTrue;
-
 import net.sf.antcontrib.BuildFileTestBase;
 
 import org.apache.tools.ant.types.Path;
@@ -24,6 +22,10 @@ import org.apache.tools.ant.types.Path;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Testcase for &lt;outofdate&gt;.
@@ -114,13 +116,13 @@ public class OutOfDateTest extends BuildFileTestBase {
         assertTrue(!outofdateTargets.contains("outofdate/gen/1/done.h"));
 
         Path sourcesPath = getProject().getReference("outofdate.sources.path");
-        assertTrue(sourcesPath != null);
+        assertNotNull(sourcesPath);
         String[] sources = sourcesPath.list();
-        assertTrue(sources.length == 3);
+        assertEquals(3, sources.length);
         Path targetsPath = getProject().getReference("outofdate.targets.path");
         String[] targets = targetsPath.list();
-        assertTrue(targetsPath != null);
-        assertTrue(targets.length == 3);
+        assertNotNull(targetsPath);
+        assertEquals(3, targets.length);
     }
 
     /**

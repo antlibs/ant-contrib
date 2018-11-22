@@ -15,7 +15,7 @@
  */
 package net.sf.antcontrib.antserver;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import net.sf.antcontrib.BuildFileTestBase;
 
@@ -133,8 +133,7 @@ public class AntServerTest extends BuildFileTestBase {
             sb.append("\"").append(log).append("\"");
         }
 
-        assertTrue("expecting log to contain " + sb.toString()
-                        + " log was \"" + realLog + "\"",
-                cnt == logs.length);
+        assertEquals("expecting log to contain " + sb.toString()
+                + " log was \"" + realLog + "\"", cnt, logs.length);
     }
 }
