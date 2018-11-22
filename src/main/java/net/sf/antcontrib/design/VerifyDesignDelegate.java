@@ -565,7 +565,7 @@ public class VerifyDesignDelegate implements Log {
      */
     private static String getRidOfArray(String className) {
         while (className.startsWith("[")) {
-            className = className.substring(1, className.length());
+            className = className.substring(1);
         }
         return className;
     }

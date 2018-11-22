@@ -180,7 +180,7 @@ public class Design {
     public void verifyDependencyOk(String className) {
         log.log("         className=" + className, Project.MSG_DEBUG);
         if (className.startsWith("L")) {
-            className = className.substring(1, className.length());
+            className = className.substring(1);
         }
 
         //get the classPackage our currentAliasPackage depends on....
