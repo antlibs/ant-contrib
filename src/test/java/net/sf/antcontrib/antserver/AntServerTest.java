@@ -15,12 +15,14 @@
  */
 package net.sf.antcontrib.antserver;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -28,13 +30,16 @@ import org.junit.Test;
  *
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
-public class AntServerTest extends BuildFileTestBase {
+public class AntServerTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("antserver/antservertest.xml");
+        buildRule.configureProject("src/test/resources/antserver/antservertest.xml");
     }
 
     /**
@@ -42,7 +47,7 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("cleanup");
+        buildRule.executeTarget("cleanup");
     }
 
     /**
@@ -50,13 +55,10 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        String[] expected = new String[]
-                {
-                        "Test1 Successfully Called",
-                        "[test1_remote]"
-                };
-
-        expectLogContaining("test1", expected);
+        buildRule.executeTarget("test1");
+        assertThat(buildRule.getLog(),
+                both(containsString("Test1 Successfully Called"))
+                        .and(containsString("[test1_remote]")));
     }
 
     /**
@@ -64,13 +66,10 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @Test
     public void test2() {
-        String[] expected = new String[]
-                {
-                        "Test2 Successfully Called",
-                        "[test2_remote]"
-                };
-
-        expectLogContaining("test2", expected);
+        buildRule.executeTarget("test2");
+        assertThat(buildRule.getLog(),
+                both(containsString("Test2 Successfully Called"))
+                        .and(containsString("[test2_remote]")));
     }
 
     /**
@@ -78,13 +77,10 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @Test
     public void test3() {
-        String[] expected = new String[]
-                {
-                        "Test3 Successfully Called",
-                        "[test3_remote]"
-                };
-
-        expectLogContaining("test3", expected);
+        buildRule.executeTarget("test3");
+        assertThat(buildRule.getLog(),
+                both(containsString("Test3 Successfully Called"))
+                        .and(containsString("[test3_remote]")));
     }
 
     /**
@@ -92,13 +88,10 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @Test
     public void test4() {
-        String[] expected = new String[]
-                {
-                        "Test4 Successfully Called",
-                        "[test4_remote]"
-                };
-
-        expectLogContaining("test4", expected);
+        buildRule.executeTarget("test4");
+        assertThat(buildRule.getLog(),
+                both(containsString("Test4 Successfully Called"))
+                        .and(containsString("[test4_remote]")));
     }
 
     /**
@@ -106,34 +99,6 @@ public class AntServerTest extends BuildFileTestBase {
      */
     @Test
     public void test5() {
-        this.executeTarget("test5");
-    }
-
-    /**
-     * Assert that the given message has been logged with a priority
-     * &gt;= INFO when running the given target.
-     *
-     * @param target String
-     * @param logs   String[]
-     */
-    protected void expectLogContaining(String target,
-                                       String[] logs) {
-        executeTarget(target);
-        String realLog = getLog();
-
-        int cnt = 0;
-        StringBuilder sb = new StringBuilder();
-        for (String log : logs) {
-            if (realLog.contains(log)) {
-                cnt++;
-            }
-            if (sb.length() != 0) {
-                sb.append(" and ");
-            }
-            sb.append("\"").append(log).append("\"");
-        }
-
-        assertEquals("expecting log to contain " + sb.toString()
-                + " log was \"" + realLog + "\"", cnt, logs.length);
+        buildRule.executeTarget("test5");
     }
 }

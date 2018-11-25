@@ -15,30 +15,35 @@
  */
 package net.sf.antcontrib.logic;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.apache.tools.ant.types.Path;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
 
 /**
  * Testcase for &lt;outofdate&gt;.
  *
  * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
-public class OutOfDateTest extends BuildFileTestBase {
+public class OutOfDateTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/outofdate.xml");
+        buildRule.configureProject("src/test/resources/logic/outofdate.xml");
     }
 
     /**
@@ -46,7 +51,7 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("cleanup");
+        buildRule.executeTarget("cleanup");
     }
 
     /**
@@ -54,7 +59,7 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testSimple() {
-        executeTarget("simple");
+        buildRule.executeTarget("simple");
     }
 
     /**
@@ -62,7 +67,9 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testVerbose() {
-        expectLogContaining("verbose", "outofdate with regard to");
+        buildRule.executeTarget("verbose");
+        assertThat(buildRule.getLog(),
+                containsString("outofdate with regard to"));
     }
 
     /**
@@ -70,7 +77,7 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testDelete() {
-        executeTarget("delete");
+        buildRule.executeTarget("delete");
     }
 
     /**
@@ -78,7 +85,7 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testDeleteAll() {
-        executeTarget("delete-all");
+        buildRule.executeTarget("delete-all");
     }
 
     /**
@@ -86,9 +93,9 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testDeleteQuiet() {
-        executeTarget("init");
-        executeTarget("delete-quiet");
-        assertLogNotContaining("Deleting");
+        buildRule.executeTarget("init");
+        buildRule.executeTarget("delete-quiet");
+        assertThat(buildRule.getLog(), not(containsString("Deleting")));
     }
 
     /**
@@ -96,30 +103,30 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testFileset() {
-        executeTarget("outofdate.init");
-        executeTarget("outofdate.test");
-        assertLogContaining("outofdate triggered");
+        buildRule.executeTarget("outofdate.init");
+        buildRule.executeTarget("outofdate.test");
+        assertThat(buildRule.getLog(),containsString("outofdate triggered"));
         // switch \ to / if present
         String outofdateSources =
-                getProject().getProperty("outofdate.sources").replace('\\', '/');
-        assertTrue("newer.text empty", outofdateSources.contains("newer.text"));
-        assertTrue("file.notdone", outofdateSources.contains("outofdate/source/1/2/file.notdone"));
-        assertTrue("file.done", !outofdateSources.contains("outofdate/source/1/2/file.done"));
-        assertTrue("done.y", !outofdateSources.contains("outofdate/source/1/done.y"));
-        assertTrue("partial.y", outofdateSources.contains("outofdate/source/1/partial.y"));
+                buildRule.getProject().getProperty("outofdate.sources").replace('\\', '/');
+        assertThat("newer.text empty", outofdateSources, containsString("newer.text"));
+        assertThat("file.notdone", outofdateSources, containsString("outofdate/source/1/2/file.notdone"));
+        assertThat("file.done", outofdateSources, not(containsString("outofdate/source/1/2/file.done")));
+        assertThat("done.y", outofdateSources, not(containsString("outofdate/source/1/done.y")));
+        assertThat("partial.y", outofdateSources, containsString("outofdate/source/1/partial.y"));
         String outofdateTargets =
-                getProject().getProperty("outofdate.targets");
-        assertTrue(outofdateTargets.contains("outofdate.xml"));
-        assertTrue(outofdateTargets.contains("outofdate/gen/1/2/file.notdone"));
-        assertTrue(outofdateTargets.contains("outofdate/gen/1/partial.h"));
-        assertTrue(!outofdateTargets.contains("outofdate/gen/1/partial.c"));
-        assertTrue(!outofdateTargets.contains("outofdate/gen/1/done.h"));
+                buildRule.getProject().getProperty("outofdate.targets");
+        assertThat(outofdateTargets, containsString("outofdate.xml"));
+        assertThat(outofdateTargets, containsString("outofdate/gen/1/2/file.notdone"));
+        assertThat(outofdateTargets, containsString("outofdate/gen/1/partial.h"));
+        assertThat(outofdateTargets, not(containsString("outofdate/gen/1/partial.c")));
+        assertThat(outofdateTargets, not(containsString("outofdate/gen/1/done.h")));
 
-        Path sourcesPath = getProject().getReference("outofdate.sources.path");
+        Path sourcesPath = buildRule.getProject().getReference("outofdate.sources.path");
         assertNotNull(sourcesPath);
         String[] sources = sourcesPath.list();
         assertEquals(3, sources.length);
-        Path targetsPath = getProject().getReference("outofdate.targets.path");
+        Path targetsPath = buildRule.getProject().getReference("outofdate.targets.path");
         String[] targets = targetsPath.list();
         assertNotNull(targetsPath);
         assertEquals(3, targets.length);
@@ -130,6 +137,6 @@ public class OutOfDateTest extends BuildFileTestBase {
      */
     @Test
     public void testEmptySources() {
-        executeTarget("empty-sources");
+        buildRule.executeTarget("empty-sources");
     }
 }

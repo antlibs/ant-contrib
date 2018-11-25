@@ -53,18 +53,19 @@
       <var name="x" value="6"/>
    </target>
 
-   <!-- TODO: uses the Antelope <if>, need to adjust to use ant-contrib <if>
    <target name="test8">
       <var name="x" value="6"/>
-      <if name="x" value="6">
-          <var name="x" value="12"/>
+      <if>
+         <equals arg1="${x}" arg2="6"/>
+         <then>
+            <var name="x" value="12"/>
+         </then>
           <else>
              <var name="x" value="13"/>
           </else>
       </if>
       <echo>${x}</echo>
    </target>
-   -->
 
    <target name="test9">
       <property name="i" value="2"/>

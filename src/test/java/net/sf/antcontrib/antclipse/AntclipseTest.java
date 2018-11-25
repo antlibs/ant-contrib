@@ -15,9 +15,9 @@
  */
 package net.sf.antcontrib.antclipse;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -27,7 +27,10 @@ import org.junit.Test;
  * @author <a href="mailto:aspinei@myrealbox.com">Adrian Spinei</a>
  * @version $Revision: 1.2 $
  */
-public class AntclipseTest extends BuildFileTestBase {
+public class AntclipseTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      *
@@ -35,7 +38,7 @@ public class AntclipseTest extends BuildFileTestBase {
      */
     @Before
     public void setUp() {
-        configureProject("antclipse/antclipsetest.xml");
+        buildRule.configureProject("src/test/resources/antclipse/antclipsetest.xml");
     }
 
     /**
@@ -43,6 +46,11 @@ public class AntclipseTest extends BuildFileTestBase {
      */
     @Test
     public void testExecuteDefaultBuild() {
-        executeTarget("everything");
+        buildRule.executeTarget("everything");
+    }
+
+    @Test
+    public void testExecuteLibsBuild() {
+        buildRule.executeTarget("make.fs.libs");
     }
 }

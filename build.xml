@@ -136,7 +136,6 @@
                errorproperty="junit.error" failureproperty="junit.failure"
                showoutput="off" printsummary="on">
             <formatter type="xml"/>
-            <sysproperty key="basedir" value="${target.test-classes.dir}"/>
             <sysproperty key="antcontrib.jar" file="${jar.file}"/>
             <batchtest todir="${xml.log.dir}">
                 <fileset dir="${target.test-classes.dir}"

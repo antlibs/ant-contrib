@@ -15,10 +15,11 @@
  */
 package net.sf.antcontrib.logic;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-
-import net.sf.antcontrib.BuildFileTestBase;
 
 /**
  * Since AntCallBack is basically a copy and paste of antcall, the only testing
@@ -29,13 +30,16 @@ import net.sf.antcontrib.BuildFileTestBase;
  *
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
-public class AssertTest extends BuildFileTestBase {
+public class AssertTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * The JUnit setup method.
      */
     @Before
     public void setUp() {
-        configureProject("logic/asserttest.xml");
+        buildRule.configureProject("src/test/resources/logic/asserttest.xml");
     }
 
     /**
@@ -43,15 +47,15 @@ public class AssertTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        executeTarget("test1");
+        buildRule.executeTarget("test1");
     }
 
     /**
      * Method test3.
      */
-    @Test
+    @Test(expected = BuildException.class)
     public void test3() {
-        expectBuildException("test3");
+        buildRule.executeTarget("test3");
     }
 
     /**
@@ -59,7 +63,7 @@ public class AssertTest extends BuildFileTestBase {
      */
     @Test
     public void test4() {
-        executeTarget("test4");
+        buildRule.executeTarget("test4");
     }
 
     /**
@@ -67,7 +71,7 @@ public class AssertTest extends BuildFileTestBase {
      */
     @Test
     public void test5() {
-        executeTarget("test5");
+        buildRule.executeTarget("test5");
     }
 
     /**
@@ -75,15 +79,15 @@ public class AssertTest extends BuildFileTestBase {
      */
     @Test
     public void test6() {
-        executeTarget("test6");
+        buildRule.executeTarget("test6");
     }
 
     /**
      * Method test7.
      */
-    @Test
+    @Test(expected = BuildException.class)
     public void test7() {
-        expectBuildException("test7");
+        buildRule.executeTarget("test7");
     }
 
     /**
@@ -91,14 +95,14 @@ public class AssertTest extends BuildFileTestBase {
      */
     @Test
     public void test8() {
-        executeTarget("test8");
+        buildRule.executeTarget("test8");
     }
 
     /**
      * Method test9.
      */
-    @Test
+    @Test(expected = BuildException.class)
     public void test9() {
-        expectBuildException("test9");
+        buildRule.executeTarget("test9");
     }
 }

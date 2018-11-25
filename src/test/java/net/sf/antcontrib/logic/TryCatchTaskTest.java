@@ -15,28 +15,38 @@
  */
 package net.sf.antcontrib.logic;
 
+import org.apache.tools.ant.BuildException;
+
+import org.apache.tools.ant.BuildFileRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import net.sf.antcontrib.BuildFileTestBase;
-
-import org.apache.tools.ant.BuildException;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Testcase for &lt;trycatch&gt;.
  */
-public class TryCatchTaskTest extends BuildFileTestBase {
+public class TryCatchTaskTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/trycatch.xml");
+        buildRule.configureProject("src/test/resources/logic/trycatch.xml");
     }
 
     /**
@@ -44,9 +54,9 @@ public class TryCatchTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testFullTest() {
-        executeTarget("fullTest");
-        assertEquals("Tada!", getProject().getProperty("foo"));
-        Object e = getProject().getReference("bar");
+        buildRule.executeTarget("fullTest");
+        assertEquals("Tada!", buildRule.getProject().getProperty("foo"));
+        Object e = buildRule.getProject().getReference("bar");
         assertNotNull(e);
         assertTrue(e instanceof BuildException);
         assertEquals("Tada!", ((BuildException) e).getMessage());
@@ -58,7 +68,7 @@ public class TryCatchTaskTest extends BuildFileTestBase {
     @Test
     public void testTwoCatches() {
         //  two catch blocks were not supported prior to TryCatchTask.java v 1.4.
-        executeTarget("twoCatches");
+        buildRule.executeTarget("twoCatches");
     }
 
     /**
@@ -66,8 +76,9 @@ public class TryCatchTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testTwoFinallys() {
-        expectSpecificBuildException("twoFinallys", "two finally children",
-                "You must not specify more than one <finally>");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must not specify more than one <finally>");
+        buildRule.executeTarget("twoFinallys");
     }
 
     /**
@@ -75,8 +86,9 @@ public class TryCatchTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testTwoTrys() {
-        expectSpecificBuildException("twoTrys", "two try children",
-                "You must not specify more than one <try>");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must not specify more than one <try>");
+        buildRule.executeTarget("twoTrys");
     }
 
     /**
@@ -84,8 +96,9 @@ public class TryCatchTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoTry() {
-        expectSpecificBuildException("noTry", "no try child",
-                "A nested <try> element is required");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("A nested <try> element is required");
+        buildRule.executeTarget("noTry");
     }
 
     /**
@@ -93,11 +106,12 @@ public class TryCatchTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoException() {
-        executeTarget("noException");
-        assertLogContaining("Tada!");
-        assertLogNotContaining("In <catch>");
-        assertTrue(getLog().indexOf("In <finally>") > getLog().indexOf("Tada!"));
-        assertNull(getProject().getProperty("foo"));
-        assertNull(getProject().getReference("bar"));
+        buildRule.executeTarget("noException");
+        assertThat(buildRule.getLog(), containsString("Tada!"));
+        assertThat(buildRule.getLog(), not(containsString("In <catch>")));
+        assertTrue(buildRule.getLog().indexOf("In <finally>")
+                > buildRule.getLog().indexOf("Tada!"));
+        assertNull(buildRule.getProject().getProperty("foo"));
+        assertNull(buildRule.getProject().getReference("bar"));
     }
 }

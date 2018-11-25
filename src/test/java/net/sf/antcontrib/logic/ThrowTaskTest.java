@@ -15,23 +15,30 @@
  */
 package net.sf.antcontrib.logic;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
 import org.apache.tools.ant.BuildException;
 
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Testcase for &lt;throw&gt;.
  */
-public class ThrowTaskTest extends BuildFileTestBase {
+public class ThrowTaskTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/throw.xml");
+        buildRule.configureProject("src/test/resources/logic/throw.xml");
     }
 
     /**
@@ -40,8 +47,9 @@ public class ThrowTaskTest extends BuildFileTestBase {
     @Test
     public void testRefid() {
         String message = "exception created by testcase";
-        getProject().addReference("testref", new BuildException(message));
-        expectSpecificBuildException("useRefid", "this is what we've put in",
-                message);
+        thrown.expect(BuildException.class);
+        thrown.expectMessage(message);
+        buildRule.getProject().addReference("testref", new BuildException(message));
+        buildRule.executeTarget("useRefid");
     }
 }

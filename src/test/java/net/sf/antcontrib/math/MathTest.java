@@ -15,23 +15,28 @@
  */
 package net.sf.antcontrib.math;
 
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
-import net.sf.antcontrib.BuildFileTestBase;
+import static org.junit.Assert.assertEquals;
 
 /**
  * MathTest class.
  *
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
-public class MathTest extends BuildFileTestBase {
+public class MathTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * The JUnit setup method.
      */
     @Before
     public void setUp() {
-        configureProject("math/mathtest.xml");
+        buildRule.configureProject("src/test/resources/math/mathtest.xml");
     }
 
     /**
@@ -39,6 +44,7 @@ public class MathTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        expectPropertySet("test1", "result", "18");
+        buildRule.executeTarget("test1");
+        assertEquals(buildRule.getProject().getProperty("result"), "18");
     }
 }

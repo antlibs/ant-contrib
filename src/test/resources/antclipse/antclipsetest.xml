@@ -45,7 +45,7 @@
         </loadresource>
         <echo message="The output fileset is ecl1-${ecl1outfileset}"/>
         <echo message="The source path is ecl2-${ecl2srcfileset}"/>
-        <property name="archive.dir" value="../test-output"/>
+        <property name="archive.dir" value="../../../../target/test-output"/>
         <mkdir dir="${archive.dir}"/>
         <!-- makes a jar file with the content of the output directory -->
         <zip destfile="${archive.dir}/out.jar"><fileset refid="ecl1-${ecl1outfileset}"/></zip>

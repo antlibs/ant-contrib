@@ -15,21 +15,29 @@
  */
 package net.sf.antcontrib.logic;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
 /**
  * Testcase for &lt;for&gt;.
  */
-public class ForTest extends BuildFileTestBase {
+public class ForTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/for.xml");
+        buildRule.configureProject("src/test/resources/logic/for.xml");
     }
 
     /**
@@ -37,7 +45,8 @@ public class ForTest extends BuildFileTestBase {
      */
     @Test
     public void testLoop() {
-        expectLogContaining("loop", "i is 10");
+        buildRule.executeTarget("loop");
+        assertThat(buildRule.getLog(), containsString("i is 10"));
     }
 
     /**
@@ -45,8 +54,8 @@ public class ForTest extends BuildFileTestBase {
      */
     @Test
     public void testStep() {
-        executeTarget("step");
-        assertLogContaining("i is 10");
-        assertLogNotContaining("i is 3");
+        buildRule.executeTarget("step");
+        assertThat(buildRule.getLog(), both(containsString("i is 10"))
+                .and(not(containsString("i is 3"))));
     }
 }

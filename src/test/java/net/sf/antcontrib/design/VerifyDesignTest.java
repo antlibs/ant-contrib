@@ -15,18 +15,22 @@
  */
 package net.sf.antcontrib.design;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.apache.tools.ant.DefaultLocaleRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * BIG NOTE
@@ -37,17 +41,12 @@ import org.junit.Test;
  * so if any other is thrown we will fail the test case.</p>
  * <p>Testcase for &lt;propertycopy&gt;.</p>
  */
-public class VerifyDesignTest extends BuildFileTestBase {
-    /**
-     * Field REASON.
-     * (value is ""Build should have failed with proper message and did not"")
-     */
-    private static final String REASON = "Build should have failed with proper message and did not";
+public class VerifyDesignTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
 
-    /**
-     * Field baseDir.
-     */
-    private static String baseDir = "";
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     /**
      * Default locale rule.
@@ -60,8 +59,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Before
     public void setUp() {
-        configureProject("design/verifydesign.xml");
-        baseDir = getProject().getBaseDir().getAbsolutePath();
+        buildRule.configureProject("src/test/resources/design/verifydesign.xml");
     }
 
     /**
@@ -69,7 +67,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("cleanup");
+        buildRule.executeTarget("cleanup");
     }
 
     /**
@@ -87,7 +85,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testArrayDepend2() {
-        executeTarget("testArrayDepend2");
+        buildRule.executeTarget("testArrayDepend2");
     }
 
     /**
@@ -109,12 +107,13 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testBadXML() {
-        // Tests are run from basedir "target/test-classes"
-        File designFile = new File(baseDir, "design/designfiles/badxml.xml");
+        File designFile = buildRule.getProject().resolveFile("designfiles/badxml.xml");
         String msg = "\nProblem parsing design file='" + designFile.getAbsolutePath()
                 + "'.  \nline=3 column=1 Reason:\n"
                 + "Element type \"design\" must be followed by either attribute specifications, \">\" or \"/>\".\n";
-        expectSpecificBuildException("testBadXML", REASON, msg);
+        thrown.expect(BuildException.class);
+        thrown.expectMessage(msg);
+        buildRule.executeTarget("testBadXML");
     }
 
     /**
@@ -152,7 +151,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testDeclareJavaUtil() {
-        executeTarget("testDeclareJavaUtil");
+        buildRule.executeTarget("testDeclareJavaUtil");
     }
 
     /**
@@ -180,7 +179,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testDeclareJavaxPass() {
-        executeTarget("testDeclareJavaxPass");
+        buildRule.executeTarget("testDeclareJavaxPass");
     }
 
     //tests to write
@@ -266,12 +265,13 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testMissingAttribute() {
-        // Tests are run from basedir "target/test-classes"
-        File designFile = new File(baseDir, "design/designfiles/missingattribute.xml");
+        File designFile = buildRule.getProject().resolveFile("designfiles/missingattribute.xml");
         String msg = "\nProblem parsing design file='"
                 + designFile.getAbsolutePath() + "'.  \nline=3 column=31 Reason:\nError in file="
                 + designFile.getAbsolutePath() + ", package element must contain the 'name' attribute\n";
-        expectSpecificBuildException("testMissingAttribute", REASON, msg);
+        thrown.expect(BuildException.class);
+        thrown.expectMessage(msg);
+        buildRule.executeTarget("testMissingAttribute");
     }
 
     /**
@@ -279,11 +279,9 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testMultipleErrors() {
-        // Tests are run from basedir "target/test-classes"
-        File jarFile = new File(baseDir, "design/build/jar/test.jar");
+        File jarFile = buildRule.getProject().resolveFile("build/jar/test.jar");
         String class1 = "mod.arraydepend.ClassDependsOnArray";
         String class2 = "mod.dummy.DummyClass";
-        //executeTarget("testMultipleErrors");
         String error1 = Design.getWrapperMsg(jarFile, Design.getErrorMessage(class1, class2));
         class1 = "mod.castdepend.ClassDependsOnCast";
         String error2 = Design.getWrapperMsg(jarFile, Design.getNoDefinitionError(class1));
@@ -294,8 +292,6 @@ public class VerifyDesignTest extends BuildFileTestBase {
         s += "\nEvaluating package=mod.castdepend" + error2;
         s += "\nEvaluating package=mod.catchdepend" + error3;
         s += "\nEvaluating package=mod.dummy";
-
-//        executeTarget("testMultipleErrors");
         expectDesignCheckFailure("testMultipleErrors", s);
     }
 
@@ -333,9 +329,10 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testNoJar() {
-        // Tests are run from basedir "target/test-classes"
-        File jar = new File(baseDir, "design/build/jar/test.jar");
-        expectSpecificBuildException("testNoJar", REASON, VisitorImpl.getNoFileMsg(jar));
+        File jar = buildRule.getProject().resolveFile("build/jar/test.jar");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage(VisitorImpl.getNoFileMsg(jar));
+        buildRule.executeTarget("testNoJar");
     }
 
     /**
@@ -353,7 +350,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testPassLocalDepend() {
-        executeTarget("testPassLocalDepend");
+        buildRule.executeTarget("testPassLocalDepend");
     }
 
     /**
@@ -361,7 +358,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testPathElementLocation() {
-        executeTarget("testPathElementLocation");
+        buildRule.executeTarget("testPathElementLocation");
     }
 
     /**
@@ -369,7 +366,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testPathElementPath() {
-        executeTarget("testPathElementPath");
+        buildRule.executeTarget("testPathElementPath");
     }
 
     /**
@@ -377,7 +374,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testPutStatic() {
-        executeTarget("testPutStatic");
+        buildRule.executeTarget("testPutStatic");
     }
 
     /**
@@ -385,7 +382,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testRecursion() {
-        executeTarget("testRecursion");
+        buildRule.executeTarget("testRecursion");
     }
 
     /**
@@ -393,7 +390,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testRecursion2() {
-        executeTarget("testRecursion2");
+        buildRule.executeTarget("testRecursion2");
     }
 
     /**
@@ -401,7 +398,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testRecursion3() {
-        executeTarget("testRecursion3");
+        buildRule.executeTarget("testRecursion3");
     }
 
     /**
@@ -458,6 +455,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
     /**
      * Method testStaticFinalDepend.
      */
+    @Ignore
     @Test
     public void testStaticFinalDepend() {
         //This is an impossible test since javac compiles String and primitive
@@ -466,9 +464,9 @@ public class VerifyDesignTest extends BuildFileTestBase {
         //verify that constant imports don't violate the design!!!!
         //check out mod.staticfinaldepend.ClassDependsOnStaticField to see the
         //code that will pass the design even if it is violating it.
-        //      String class1 = "mod.staticfinaldepend.ClassDependsOnConstant";
-        //      String class2 = "mod.dummy.DummyClass";
-        //      expectDesignCheckFailure("testStaticFinalDepend", Design.getErrorMessage(class1, class2));
+        String class1 = "mod.staticfinaldepend.ClassDependsOnConstant";
+        String class2 = "mod.dummy.DummyClass";
+        expectDesignCheckFailure("testStaticFinalDepend", Design.getErrorMessage(class1, class2));
     }
 
     /**
@@ -476,15 +474,10 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testSuperDepend() {
-        File f = new File(baseDir, "build/jar/test.jar");
-
-        //      executeTarget("testSuperDepend");
         String class1 = "mod.superdepend.ClassDependsOnSuperMod2";
         String class2 = "mod.dummy.DummyClass";
-        expectDesignCheckFailure("testSuperDepend", Design.getErrorMessage(class1, class2));
-
-        //jar file should have been deleted
-        assertTrue("jar file should not exist yet still does", !f.exists());
+        expectDesignCheckFailure("testSuperDepend", Design.getErrorMessage(class1, class2),
+                buildRule.getProject().resolveFile("build/jar/test.jar"));
     }
 
     /**
@@ -492,7 +485,7 @@ public class VerifyDesignTest extends BuildFileTestBase {
      */
     @Test
     public void testWarSuccess() {
-        executeTarget("testWarSuccess");
+        buildRule.executeTarget("testWarSuccess");
     }
 
     /**
@@ -512,8 +505,26 @@ public class VerifyDesignTest extends BuildFileTestBase {
      * @param message String
      */
     private void expectDesignCheckFailure(String target, String message) {
-        expectSpecificBuildException(target, "Design is broken",
-                "Design check failed due to previous errors");
-        assertLogContaining(message);
+        expectDesignCheckFailure(target, message, null);
+    }
+
+    /**
+     * Method expectDesignCheckFailure.
+     *
+     * @param target  String
+     * @param message String
+     */
+    private void expectDesignCheckFailure(String target, String message, File file) {
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Design check failed due to previous errors");
+        try {
+            buildRule.executeTarget(target);
+        } finally {
+            assertThat(buildRule.getLog(), containsString(message));
+            if (file != null) {
+                //jar file should have been deleted
+                assertFalse("jar file should not exist yet still does", file.exists());
+            }
+         }
     }
 }
