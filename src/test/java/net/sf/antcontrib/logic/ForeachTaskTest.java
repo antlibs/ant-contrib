@@ -15,24 +15,34 @@
  */
 package net.sf.antcontrib.logic;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Testcase for &lt;foreach&gt;.
  */
-public class ForeachTaskTest extends BuildFileTestBase {
+public class ForeachTaskTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/foreach.xml");
+        buildRule.configureProject("src/test/resources/logic/foreach.xml");
     }
 
     /**
@@ -40,7 +50,7 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("teardown");
+        buildRule.executeTarget("teardown");
     }
 
     /**
@@ -65,8 +75,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
     @Test
     public void testFileset() {
         simpleTest("fileset");
-        assertLogContaining("The nested fileset element is deprecated,"
-                + " use a nested path instead");
+        assertThat(buildRule.getLog(),
+                containsString("The nested fileset element is deprecated,"
+                        + " use a nested path instead"));
     }
 
     /**
@@ -75,8 +86,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
     @Test
     public void testFilesetAndList() {
         simpleTest("filesetAndList");
-        assertLogContaining("The nested fileset element is deprecated,"
-                + " use a nested path instead");
+        assertThat(buildRule.getLog(),
+                containsString("The nested fileset element is deprecated,"
+                        + " use a nested path instead"));
     }
 
     /**
@@ -84,8 +96,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoList() {
-        expectSpecificBuildException("noList", "neither list nor fileset",
-                "You must have a list or path to iterate through");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must have a list or path to iterate through");
+        buildRule.executeTarget("noList");
     }
 
     /**
@@ -93,8 +106,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoTarget() {
-        expectSpecificBuildException("noTarget", "no target",
-                "You must supply a target to perform");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must supply a target to perform");
+        buildRule.executeTarget("noTarget");
     }
 
     /**
@@ -102,8 +116,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoParam() {
-        expectSpecificBuildException("noParam", "no param",
-                "You must supply a property name to set on each iteration in param");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must supply a property name to set on each iteration in param");
+        buildRule.executeTarget("noParam");
     }
 
     /**
@@ -111,7 +126,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNestedParam() {
-        expectLogContaining("nestedParam", "Called with param: rincewind");
+        buildRule.executeTarget("nestedParam");
+        assertThat(buildRule.getLog(),
+                containsString("Called with param: rincewind"));
     }
 
     /**
@@ -119,7 +136,9 @@ public class ForeachTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNestedReference() {
-        expectLogContaining("nestedReference", "Called with param: twoflower");
+        buildRule.executeTarget("nestedReference");
+        assertThat(buildRule.getLog(),
+                containsString("Called with param: twoflower"));
     }
 
     /**
@@ -144,10 +163,10 @@ public class ForeachTaskTest extends BuildFileTestBase {
      * @param target String
      */
     private void simpleTest(String target) {
-        executeTarget(target);
+        buildRule.executeTarget(target);
         int last = -1;
         for (int i = 1; i < 4; i++) {
-            int thisIdx = getLog().indexOf("Called with param: " + i);
+            int thisIdx = buildRule.getLog().indexOf("Called with param: " + i);
             assertTrue(thisIdx > last);
             last = thisIdx;
         }

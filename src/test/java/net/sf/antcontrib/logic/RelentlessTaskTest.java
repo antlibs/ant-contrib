@@ -17,24 +17,32 @@ package net.sf.antcontrib.logic;
 
 import static org.junit.Assert.assertTrue;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Testcase for &lt;relentless&gt;.
  *
  * @author <a href="mailto:clheiny@users.sf.net">Christopher Heiny</a>
  */
-public class RelentlessTaskTest extends BuildFileTestBase {
+public class RelentlessTaskTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/relentless.xml");
+        buildRule.configureProject("src/test/resources/logic/relentless.xml");
     }
 
     /**
@@ -42,7 +50,7 @@ public class RelentlessTaskTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("teardown");
+        buildRule.executeTarget("teardown");
     }
 
     /**
@@ -58,8 +66,9 @@ public class RelentlessTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testFailTask() {
-        expectSpecificBuildException("failTask", "2 failed tasks",
-                "Relentless execution: 2 of 4 tasks failed.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Relentless execution: 2 of 4 tasks failed.");
+        buildRule.executeTarget("failTask");
     }
 
     /**
@@ -67,8 +76,9 @@ public class RelentlessTaskTest extends BuildFileTestBase {
      */
     @Test
     public void testNoTasks() {
-        expectSpecificBuildException("noTasks", "missing task list",
-                "No tasks specified for <relentless>.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("No tasks specified for <relentless>.");
+        buildRule.executeTarget("noTasks");
     }
 
     /**
@@ -77,10 +87,10 @@ public class RelentlessTaskTest extends BuildFileTestBase {
      * @param target String
      */
     private void simpleTest(String target) {
-        executeTarget(target);
+        buildRule.executeTarget(target);
         int last = -1;
         for (int i = 1; i < 4; i++) {
-            int thisIdx = getLog().indexOf("Called with param: " + i);
+            int thisIdx = buildRule.getLog().indexOf("Called with param: " + i);
             assertTrue(thisIdx > last);
             last = thisIdx;
         }

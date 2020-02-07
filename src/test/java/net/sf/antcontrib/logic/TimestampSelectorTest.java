@@ -15,22 +15,28 @@
  */
 package net.sf.antcontrib.logic;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 
 /**
  * Testcase for &lt;foreach&gt;.
  */
-public class TimestampSelectorTest extends BuildFileTestBase {
+public class TimestampSelectorTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/timestampselector.xml");
+        buildRule.configureProject("src/test/resources/logic/timestampselector.xml");
     }
 
     /**
@@ -38,7 +44,7 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("teardown");
+        buildRule.executeTarget("teardown");
     }
 
     /**
@@ -46,7 +52,8 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testFileStampFL() {
-        expectLogContaining("filestamp.fl", "file2.txt");
+        buildRule.executeTarget("filestamp.fl");
+        assertThat(buildRule.getLog(), containsString("file2.txt"));
     }
 
     /**
@@ -54,7 +61,8 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testFileStampPR() {
-        expectLogContaining("filestamp.pr", "file2.txt");
+        buildRule.executeTarget("filestamp.pr");
+        assertThat(buildRule.getLog(), containsString("file2.txt"));
     }
 
     /**
@@ -62,7 +70,8 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testDirStampDL() {
-        expectLogContaining("dirstamp.dl", "dir2");
+        buildRule.executeTarget("dirstamp.dl");
+        assertThat(buildRule.getLog(), containsString("dir2"));
     }
 
     /**
@@ -70,6 +79,7 @@ public class TimestampSelectorTest extends BuildFileTestBase {
      */
     @Test
     public void testDirStampPR() {
-        expectLogContaining("dirstamp.pr", "dir2");
+        buildRule.executeTarget("dirstamp.pr");
+        assertThat(buildRule.getLog(), containsString("dir2"));
     }
 }

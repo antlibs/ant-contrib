@@ -15,21 +15,29 @@
  */
 package net.sf.antcontrib.property;
 
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 
-import net.sf.antcontrib.BuildFileTestBase;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 /**
+ * Testcase for &lt;variable&gt;.
  */
-public class VariableTest extends BuildFileTestBase {
+public class VariableTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("property/variabletest.xml");
+        buildRule.configureProject("src/test/resources/property/variabletest.xml");
     }
 
     /**
@@ -37,7 +45,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        expectPropertySet("test1", "x", "6");
+        buildRule.executeTarget("test1");
+        assertEquals(buildRule.getProject().getProperty("x"), "6");
     }
 
     /**
@@ -45,7 +54,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test2() {
-        expectPropertySet("test2", "x", "12");
+        buildRule.executeTarget("test2");
+        assertEquals(buildRule.getProject().getProperty("x"), "12");
     }
 
     /**
@@ -53,7 +63,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test3() {
-        expectPropertySet("test3", "x", "6 + 12");
+        buildRule.executeTarget("test3");
+        assertEquals(buildRule.getProject().getProperty("x"), "6 + 12");
     }
 
     /**
@@ -61,7 +72,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test4() {
-        expectPropertySet("test4", "x", "6");
+        buildRule.executeTarget("test4");
+        assertEquals(buildRule.getProject().getProperty("x"), "6");
     }
 
     /**
@@ -69,7 +81,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test5() {
-        expectPropertySet("test5", "str", "I am a string.");
+        buildRule.executeTarget("test5");
+        assertEquals(buildRule.getProject().getProperty("str"), "I am a string.");
     }
 
     /**
@@ -77,7 +90,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test6() {
-        expectPropertySet("test6", "x", "Today is blue.");
+        buildRule.executeTarget("test6");
+        assertEquals(buildRule.getProject().getProperty("x"), "Today is blue.");
     }
 
     /**
@@ -85,18 +99,18 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test7() {
-        expectPropertySet("test7", "x", "6");
+        buildRule.executeTarget("test7");
+        assertEquals(buildRule.getProject().getProperty("x"), "6");
     }
-
-    /* TODO depends on the Antelope <if>, need to adjust to use the ant-contrib <if> */
 
     /**
      * Method test8.
      */
-    @Ignore
+    @Test
     public void test8() {
-        expectPropertySet("test8", "x", "12");
-        expectLogContaining("test8", "12");
+        buildRule.executeTarget("test8");
+        assertEquals(buildRule.getProject().getProperty("x"), "12");
+        assertThat(buildRule.getLog(), containsString("12"));
     }
 
     /**
@@ -104,7 +118,8 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test9() {
-        expectPropertyUnset("test9", "i");
+        buildRule.executeTarget("test9");
+        assertNull(buildRule.getProject().getProperty("i"));
     }
 
     /**
@@ -112,6 +127,7 @@ public class VariableTest extends BuildFileTestBase {
      */
     @Test
     public void test10() {
-        expectPropertySet("test10", "x", "xxx");
+        buildRule.executeTarget("test10");
+        assertEquals(buildRule.getProject().getProperty("x"), "xxx");
     }
 }

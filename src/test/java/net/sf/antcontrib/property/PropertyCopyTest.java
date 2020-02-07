@@ -15,21 +15,32 @@
  */
 package net.sf.antcontrib.property;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Testcase for &lt;propertycopy&gt;.
  */
-public class PropertyCopyTest extends BuildFileTestBase {
+public class PropertyCopyTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("property/propertycopy.xml");
+        buildRule.configureProject("src/test/resources/property/propertycopy.xml");
     }
 
     /**
@@ -37,8 +48,9 @@ public class PropertyCopyTest extends BuildFileTestBase {
      */
     @Test
     public void testMissingName() {
-        expectSpecificBuildException("missingName", "missing name",
-                "You must specify a property to set.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("You must specify a property to set.");
+        buildRule.executeTarget("missingName");
     }
 
     /**
@@ -46,8 +58,9 @@ public class PropertyCopyTest extends BuildFileTestBase {
      */
     @Test
     public void testMissingFrom() {
-        expectSpecificBuildException("missingFrom", "missing from",
-                "Missing the 'from' attribute.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Missing the 'from' attribute.");
+        buildRule.executeTarget("missingFrom");
     }
 
     /**
@@ -55,8 +68,9 @@ public class PropertyCopyTest extends BuildFileTestBase {
      */
     @Test
     public void testNonSilent() {
-        expectSpecificBuildException("nonSilent", "from doesn't exist",
-                "Property 'bar' is not defined.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Property 'bar' is not defined.");
+        buildRule.executeTarget("nonSilent");
     }
 
     /**
@@ -64,8 +78,8 @@ public class PropertyCopyTest extends BuildFileTestBase {
      */
     @Test
     public void testSilent() {
-        executeTarget("silent");
-        assertPropertyEquals("foo", null);
+        buildRule.executeTarget("silent");
+        assertNull(buildRule.getProject().getProperty("foo"));
     }
 
     /**
@@ -73,7 +87,8 @@ public class PropertyCopyTest extends BuildFileTestBase {
      */
     @Test
     public void testNormal() {
-        executeTarget("normal");
-        assertPropertyEquals("displayName", "My Organization");
+        buildRule.executeTarget("normal");
+        assertEquals(buildRule.getProject().getProperty("displayName"),
+                "My Organization");
     }
 }

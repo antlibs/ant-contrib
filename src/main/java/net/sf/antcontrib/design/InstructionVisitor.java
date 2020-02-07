@@ -172,7 +172,7 @@ public class InstructionVisitor extends EmptyVisitor {
         }
 
         log.log("         instr(putstatic)1=" + className, Project.MSG_DEBUG);
-        className = className.substring(6, className.length());
+        className = className.substring(6);
         log.log("         instr(putstatic)2=" + className, Project.MSG_DEBUG);
         className = className.replace('$', '.');
         log.log("         instr(putstatic)3=" + className, Project.MSG_DEBUG);

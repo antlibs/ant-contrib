@@ -15,10 +15,13 @@
  */
 package net.sf.antcontrib.logic;
 
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
-import net.sf.antcontrib.BuildFileTestBase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Since AntCallBack is basically a copy and paste of antcall, the only testing
@@ -29,13 +32,16 @@ import net.sf.antcontrib.BuildFileTestBase;
  *
  * @author <a href="mailto:danson@germane-software.com">Dale Anson</a>
  */
-public class AntCallBackTest extends BuildFileTestBase {
+public class AntCallBackTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * The JUnit setup method.
      */
     @Before
     public void setUp() {
-        configureProject("logic/antcallbacktest.xml");
+        buildRule.configureProject("src/test/resources/logic/antcallbacktest.xml");
     }
 
     /**
@@ -43,7 +49,8 @@ public class AntCallBackTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        expectPropertySet("test1", "prop1", "prop1");
+        buildRule.executeTarget("test1");
+        expectPropertySet("prop1", "prop1");
     }
 
     /**
@@ -51,9 +58,10 @@ public class AntCallBackTest extends BuildFileTestBase {
      */
     @Test
     public void test2() {
-        expectPropertySet("test2", "prop1", "prop1");
-        expectPropertySet("test2", "prop2", "prop2");
-        expectPropertySet("test2", "prop3", "prop3");
+        buildRule.executeTarget("test2");
+        expectPropertySet("prop1", "prop1");
+        expectPropertySet("prop2", "prop2");
+        expectPropertySet("prop3", "prop3");
     }
 
     /**
@@ -61,9 +69,10 @@ public class AntCallBackTest extends BuildFileTestBase {
      */
     @Test
     public void test3() {
-        expectPropertySet("test3", "prop1", "prop1");
-        expectPropertySet("test3", "prop2", "prop2");
-        expectPropertySet("test3", "prop3", "prop3");
+        buildRule.executeTarget("test3");
+        expectPropertySet("prop1", "prop1");
+        expectPropertySet("prop2", "prop2");
+        expectPropertySet("prop3", "prop3");
     }
 
     /**
@@ -71,9 +80,10 @@ public class AntCallBackTest extends BuildFileTestBase {
      */
     @Test
     public void test4() {
-        expectPropertyUnset("test4", "prop1");
-        expectPropertySet("test4", "prop2", "prop2");
-        expectPropertySet("test4", "prop3", "prop3");
+        buildRule.executeTarget("test4");
+        expectPropertyUnset("prop1");
+        expectPropertySet("prop2", "prop2");
+        expectPropertySet("prop3", "prop3");
     }
 
     /**
@@ -81,8 +91,20 @@ public class AntCallBackTest extends BuildFileTestBase {
      */
     @Test
     public void test5() {
-        expectPropertySet("test5", "prop1", "blah");
-        expectPropertySet("test5", "prop2", "prop2");
-        expectPropertySet("test5", "prop3", "prop3");
+        buildRule.executeTarget("test5");
+        expectPropertySet("prop1", "blah");
+        expectPropertySet("prop2", "prop2");
+        expectPropertySet("prop3", "prop3");
+    }
+
+    private void expectPropertySet(String property, String value) {
+        assertEquals("property " + property, value,
+                buildRule.getProject().getProperty(property));
+    }
+
+    private void expectPropertyUnset(String property) {
+        String result = buildRule.getProject().getProperty(property);
+        assertNull("Expected property " + property
+                + " to be unset, but it is set to the value: " + result, result);
     }
 }

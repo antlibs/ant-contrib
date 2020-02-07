@@ -23,15 +23,15 @@
     <property name="project.java.baseline" value="1.5"/>
 
     <!-- Ivy -->
-    <property name="central.repo" value="http://repo1.maven.org/maven2"/>
-    <property name="ivy.version" value="2.4.0"/>
+    <property name="central.repo" value="https://repo1.maven.org/maven2"/>
+    <property name="ivy.version" value="2.5.0"/>
     <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
     <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
     <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
 
     <target name="get-ivy" description="o Get Ivy jar unless already cached" unless="has.ivy">
         <mkdir dir="${ivy.dir}"/>
-        <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
+        <get usetimestamp="true" src="${central.repo}/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
              skipexisting="true"
              dest="${ivy.dir}/${ivy.jar.name}"/>
     </target>
@@ -111,7 +111,7 @@
     </target>
 
     <target name="init-jacoco" depends="jar">
-        <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="0.7.9"
+        <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="0.8.2"
                        inline="true" conf="default" pathid="jacoco.classpath" log="download-only"/>
         <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml"
                  classpathref="jacoco.classpath"/>
@@ -136,7 +136,6 @@
                errorproperty="junit.error" failureproperty="junit.failure"
                showoutput="off" printsummary="on">
             <formatter type="xml"/>
-            <sysproperty key="basedir" value="${target.test-classes.dir}"/>
             <sysproperty key="antcontrib.jar" file="${jar.file}"/>
             <batchtest todir="${xml.log.dir}">
                 <fileset dir="${target.test-classes.dir}"
@@ -186,7 +185,7 @@
     </target>
 
     <target name="init-checkstyle" depends="jar">
-        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="7.8"
+        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="6.19"
                 inline="true" conf="default" pathid="checkstyle.classpath" log="download-only"/>
         <taskdef uri="antlib:com.puppycrawl.tools.checkstyle.ant"
                  resource="com/puppycrawl/tools/checkstyle/ant/antlib.xml" classpathref="checkstyle.classpath"/>
@@ -232,15 +231,14 @@
              version="true"
              windowtitle="Ant Contrib"
              classpathref="compile.classpath">
-        <tag name="ant.task" enabled="false" description="Task:" scope="types"/>
-        <tag name="ant.datatype" enabled="false"
-             description="Data type:" scope="types"/>
-        <tag name="ant.attribute" enabled="false"
-             description="Attribute:" scope="types"/>
-        <tag name="ant.attribute.group" enabled="false"
-             description="Attribute group:" scope="types"/>
-        <tag name="ant.element" enabled="false"
-             description="Nested element:" scope="types"/>
+            <tag name="ant.task" enabled="false" description="Task:" scope="types"/>
+            <tag name="ant.datatype" enabled="false" description="Data type:" scope="types"/>
+            <tag name="ant.attribute" enabled="false" description="Attribute:" scope="types"/>
+            <tag name="ant.attribute.group" enabled="false" description="Attribute group:" scope="types"/>
+            <tag name="ant.element" enabled="false" description="Nested element:" scope="types"/>
+            <doctitle><![CDATA[<h1>Ant contrib tasks ${ivy.revision}</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Ant contrib tasks ${ivy.revision}</i>]]></bottom>
+            <link href="https://docs.oracle.com/javase/6/docs/api/"/>
         </javadoc>
     </target>
 

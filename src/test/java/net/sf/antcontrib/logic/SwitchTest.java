@@ -15,21 +15,34 @@
  */
 package net.sf.antcontrib.logic;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
 /**
  * Testcase for &lt;switch&gt;.
  */
-public class SwitchTest extends BuildFileTestBase {
+public class SwitchTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/switch.xml");
+        buildRule.configureProject("src/test/resources/logic/switch.xml");
     }
 
     /**
@@ -37,8 +50,9 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testNoValue() {
-        expectSpecificBuildException("noValue", "no value",
-                "Value is missing");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Value is missing");
+        buildRule.executeTarget("noValue");
     }
 
     /**
@@ -46,8 +60,9 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testNoChildren() {
-        expectSpecificBuildException("noChildren", "no children",
-                "No cases supplied");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("No cases supplied");
+        buildRule.executeTarget("noChildren");
     }
 
     /**
@@ -55,8 +70,9 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testTwoDefaults() {
-        expectSpecificBuildException("twoDefaults", "two defaults",
-                "Cannot specify multiple default cases");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Cannot specify multiple default cases");
+        buildRule.executeTarget("twoDefaults");
     }
 
     /**
@@ -64,9 +80,10 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testNoMatch() {
-        expectSpecificBuildException("noMatch", "no match",
-                "No case matched the value foo"
-                        + " and no default has been specified.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("No case matched the value foo"
+                + " and no default has been specified.");
+        buildRule.executeTarget("noMatch");
     }
 
     /**
@@ -74,8 +91,9 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testCaseNoValue() {
-        expectSpecificBuildException("caseNoValue", "<case> no value",
-                "Value is required for case.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Value is required for case.");
+        buildRule.executeTarget("caseNoValue");
     }
 
     /**
@@ -83,11 +101,12 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testDefault() {
-        executeTarget("testDefault");
-        assertLogContaining("In default");
-        assertLogContaining("baz");
-        assertLogNotContaining("${inner}");
-        assertLogNotContaining("In case");
+        buildRule.executeTarget("testDefault");
+        String log = buildRule.getLog();
+        assertThat(log, both(containsString("In default"))
+                .and(containsString("baz")));
+        assertThat(log, both(not(containsString("${inner}")))
+                .and(not(containsString("In case"))));
     }
 
     /**
@@ -95,11 +114,12 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testCase() {
-        executeTarget("testCase");
-        assertLogContaining("In case");
-        assertLogContaining("baz");
-        assertLogNotContaining("${inner}");
-        assertLogNotContaining("In default");
+        buildRule.executeTarget("testCase");
+        String log = buildRule.getLog();
+        assertThat(log, both(containsString("In case"))
+                .and(containsString("baz")));
+        assertThat(log, both(not(containsString("${inner}")))
+                .and(not(containsString("In default"))));
     }
 
     /**
@@ -107,9 +127,9 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testCaseSensitive() {
-        executeTarget("testCaseSensitive");
-        assertLogContaining("In default");
-        assertLogNotContaining("In case");
+        buildRule.executeTarget("testCaseSensitive");
+        assertThat(buildRule.getLog(), both(containsString("In default"))
+                .and(not(containsString("In case"))));
     }
 
     /**
@@ -117,8 +137,8 @@ public class SwitchTest extends BuildFileTestBase {
      */
     @Test
     public void testCaseInSensitive() {
-        executeTarget("testCaseInSensitive");
-        assertLogContaining("In case");
-        assertLogNotContaining("In default");
+        buildRule.executeTarget("testCaseInSensitive");
+        assertThat(buildRule.getLog(), both(containsString("In case"))
+                .and(not(containsString("In default"))));
     }
 }

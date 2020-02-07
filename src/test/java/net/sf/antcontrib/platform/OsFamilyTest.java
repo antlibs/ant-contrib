@@ -15,21 +15,31 @@
  */
 package net.sf.antcontrib.platform;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testcase for &lt;osfamily&gt;.
  */
-public class OsFamilyTest extends BuildFileTestBase {
+public class OsFamilyTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("platform/osfamily.xml");
+        buildRule.configureProject("src/test/resources/platform/osfamily.xml");
     }
 
     /**
@@ -37,8 +47,8 @@ public class OsFamilyTest extends BuildFileTestBase {
      */
     @Test
     public void testConsistency() {
-        executeTarget("consistency");
-        assertPropertyEquals("consistent", "true");
+        buildRule.executeTarget("consistency");
+        assertEquals(buildRule.getProject().getProperty("consistent"), "true");
     }
 
     /**
@@ -46,8 +56,9 @@ public class OsFamilyTest extends BuildFileTestBase {
      */
     @Test
     public void testMissingProperty() {
-        expectSpecificBuildException("missingProperty", "no attribute",
-                "The attribute 'property' is required "
-                        + "for the OsFamily task.");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("The attribute 'property' is required "
+                + "for the OsFamily task.");
+        buildRule.executeTarget("missingProperty");
     }
 }

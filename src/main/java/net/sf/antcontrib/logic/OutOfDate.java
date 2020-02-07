@@ -543,8 +543,6 @@ public class OutOfDate extends Task implements Condition {
         eval();
 
         switch (collection) {
-            case CollectionEnum.SOURCES:
-                return sourceSet.values().iterator();
             case CollectionEnum.TARGETS:
                 return targetSet.values().iterator();
             case CollectionEnum.ALLSOURCES:

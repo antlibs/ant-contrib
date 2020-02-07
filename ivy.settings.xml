@@ -1,5 +1,5 @@
 <ivysettings>
-  <property name="central.repo" value="http://repo1.maven.org/maven2" override="false"/>
+  <property name="central.repo" value="https://repo1.maven.org/maven2" override="false"/>
   <settings defaultResolver="default"/>
   <caches defaultCacheDir="${user.home}/.ivy2/cache"
           artifactPattern="[organisation]/[module]/[type]s/[artifact]-[revision](-[classifier]).[ext]"/>
@@ -8,7 +8,7 @@
       <ivy pattern="${ivy.cache.dir}/[module]/ivy-[revision].xml"/>
       <artifact pattern="${ivy.cache.dir}/[module]/[artifact]-[revision](-[classifier]).[ext]"/>
     </filesystem>
-    <ibiblio name="central" m2compatible="true" usepoms="false" root="${central.repo}"
+    <ibiblio name="central" m2compatible="true" usepoms="true" root="${central.repo}"
              pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
     <chain name="default" returnFirst="true">
       <resolver ref="local"/>

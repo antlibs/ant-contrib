@@ -266,8 +266,14 @@ public class PostMethodTask extends AbstractMethodTask {
      * @param parameters File
      */
     public void setParameters(File parameters) {
-        PostMethod post = getPostMethod();
         Properties p = new Properties();
+        try {
+            p.load(new FileInputStream(parameters));
+        } catch (IOException e) {
+            throw new BuildException(e);
+        }
+
+        PostMethod post = getPostMethod();
         for (Map.Entry<Object, Object> entry : p.entrySet()) {
             post.addParameter(entry.getKey().toString(),
                     entry.getValue().toString());

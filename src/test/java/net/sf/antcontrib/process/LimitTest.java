@@ -15,20 +15,27 @@
  */
 package net.sf.antcontrib.process;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
 /**
  */
-public class LimitTest extends BuildFileTestBase {
+public class LimitTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("logic/limittest.xml");
+        buildRule.configureProject("src/test/resources/logic/limittest.xml");
     }
 
     /**
@@ -36,7 +43,8 @@ public class LimitTest extends BuildFileTestBase {
      */
     @Test
     public void test1() {
-        expectLogNotContaining("test1", "_failed_");
+        buildRule.executeTarget("test1");
+        assertThat(buildRule.getLog(), not(containsString("_failed_")));
     }
 
     /**
@@ -44,6 +52,7 @@ public class LimitTest extends BuildFileTestBase {
      */
     @Test
     public void test2() {
-        expectLogContaining("test2", "_passed_");
+        buildRule.executeTarget("test2");
+        assertThat(buildRule.getLog(), containsString("_passed_"));
     }
 }

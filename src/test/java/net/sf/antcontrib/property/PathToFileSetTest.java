@@ -15,24 +15,33 @@
  */
 package net.sf.antcontrib.property;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Testcase for &lt;pathtofileset&gt;.
  */
-public class PathToFileSetTest extends BuildFileTestBase {
+public class PathToFileSetTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("property/pathtofileset.xml");
+        buildRule.configureProject("src/test/resources/property/pathtofileset.xml");
     }
 
     /**
@@ -40,7 +49,7 @@ public class PathToFileSetTest extends BuildFileTestBase {
      */
     @After
     public void tearDown() {
-        executeTarget("cleanup");
+        buildRule.executeTarget("cleanup");
     }
 
     /**
@@ -48,7 +57,7 @@ public class PathToFileSetTest extends BuildFileTestBase {
      */
     @Test
     public void testSimple() {
-        executeTarget("simple");
+        buildRule.executeTarget("simple");
         assertPropertyContains("simple.0.property", "0.java");
         assertPropertyContains("simple.0.property", "1.java");
         assertPropertyNotContains("simple.0.property", "2.java");
@@ -64,8 +73,9 @@ public class PathToFileSetTest extends BuildFileTestBase {
      */
     @Test
     public void testSimpleException() {
-        expectBuildExceptionContaining("simple-exception", "expect not relative to",
-                "is not relative to");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("is not relative to");
+        buildRule.executeTarget("simple-exception");
     }
 
     /**
@@ -75,7 +85,7 @@ public class PathToFileSetTest extends BuildFileTestBase {
      * @param expected String
      */
     private void assertPropertyContains(String property, String expected) {
-        String result = getProject().getProperty(property);
+        String result = buildRule.getProject().getProperty(property);
         assertTrue("property " + property + " contains " + expected,
                 result.contains(expected));
     }
@@ -87,8 +97,8 @@ public class PathToFileSetTest extends BuildFileTestBase {
      * @param expected String
      */
     private void assertPropertyNotContains(String property, String expected) {
-        String result = getProject().getProperty(property);
-        assertTrue("property " + property + " contains " + expected,
-                !result.contains(expected));
+        String result = buildRule.getProject().getProperty(property);
+        assertFalse("property " + property + " contains " + expected,
+                result.contains(expected));
     }
 }

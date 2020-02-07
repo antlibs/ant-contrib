@@ -17,21 +17,24 @@ package net.sf.antcontrib.property;
 
 import static org.junit.Assert.assertTrue;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Testcase for &lt;propertyselector&gt;.
  */
-public class PropertySelectorTest extends BuildFileTestBase {
+public class PropertySelectorTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("property/propertyselector.xml");
+        buildRule.configureProject("src/test/resources/property/propertyselector.xml");
     }
 
     /**
@@ -60,13 +63,12 @@ public class PropertySelectorTest extends BuildFileTestBase {
      * @param expected2 String
      */
     private void simpleTest(String target, String expected1, String expected2) {
-        executeTarget(target);
+        buildRule.executeTarget(target);
         String order1 = expected1 + "," + expected2;
         String order2 = expected2 + "," + expected1;
-        int index1 = getLog().indexOf(order1);
-        int index2 = getLog().indexOf(order2);
+        String log = buildRule.getLog();
         assertTrue("Neither '" + order1 + "' nor '" + order2
-                        + "' was found in '" + getLog() + "'",
-                index1 > -1 || index2 > -1);
+                        + "' was found in '" + log + "'",
+                log.contains(order1) || log.contains(order2));
     }
 }

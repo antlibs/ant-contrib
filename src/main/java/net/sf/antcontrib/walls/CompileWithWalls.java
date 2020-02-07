@@ -243,8 +243,7 @@ public class CompileWithWalls extends Task {
 
         File destDir = javac.getDestdir();
         if (destDir == null) {
-            throw new BuildException(
-                    "destdir was not specified in nested javac task",
+            throw new BuildException("destdir was not specified in nested javac task",
                     getLocation());
         }
 
@@ -274,14 +273,12 @@ public class CompileWithWalls extends Task {
                 log("created directory=" + buildSpace, Project.MSG_VERBOSE);
             }
 
-            FileSet javaIncludes2 =
-                    toCompile.getJavaCopyFileSet(getProject(), getLocation());
+            FileSet javaIncludes2 = toCompile.getJavaCopyFileSet(getProject(), getLocation());
 
-            for (int i = 0; i < srcDirs2.size(); i++) {
-                File srcDir = srcDirs2.get(i);
+            for (File srcDir : srcDirs2) {
                 javaIncludes2.setDir(srcDir);
-                log(toCompile.getPackage() + ": sourceDir[" + i + "]=" + srcDir
-                        + " destDir=" + buildSpace, Project.MSG_VERBOSE);
+                log(toCompile.getPackage() + ": sourceDir[" + srcDirs2.indexOf(srcDir) + "]="
+                        + srcDir + " destDir=" + buildSpace, Project.MSG_VERBOSE);
                 copyFiles(srcDir, buildSpace, javaIncludes2);
             }
 
@@ -336,20 +333,17 @@ public class CompileWithWalls extends Task {
             buildSpaceJavac.setSource(javac.getSource());
             buildSpaceJavac.setCompiler(javac.getCompiler());
 
-            Javac.ImplementationSpecificArgument arg;
             String[] args = javac.getCurrentCompilerArgs();
             if (args != null) {
                 for (String jcarg : args) {
-                    arg = buildSpaceJavac.createCompilerArg();
-                    arg.setValue(jcarg);
+                    buildSpaceJavac.createCompilerArg().setValue(jcarg);
                 }
             }
 
             buildSpaceJavac.setProject(getProject());
             buildSpaceJavac.perform();
 
-            //copy class files to javac's destDir where the user wants
-            //the class files
+            //copy class files to javac's destDir where the user wants the class files
             copyFiles(buildSpace, destDir, toCompile.getClassCopyFileSet(getProject(), getLocation()));
         }
     }

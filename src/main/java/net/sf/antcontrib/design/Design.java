@@ -144,7 +144,7 @@ public class Design {
         }
 
         //result must now be default package
-        return (result != null && result.isIncludeSubpackages()) ? result : null;
+        return result != null && result.isIncludeSubpackages() ? result : null;
     }
 
     /**
@@ -180,7 +180,7 @@ public class Design {
     public void verifyDependencyOk(String className) {
         log.log("         className=" + className, Project.MSG_DEBUG);
         if (className.startsWith("L")) {
-            className = className.substring(1, className.length());
+            className = className.substring(1);
         }
 
         //get the classPackage our currentAliasPackage depends on....
@@ -240,16 +240,9 @@ public class Design {
      * @return boolean
      */
     public boolean isClassInPackage(String className, Package p) {
-        String classPackage = VerifyDesignDelegate.getPackageName(className);
-        if (p.isIncludeSubpackages()) {
-            if (className.startsWith(p.getPackage())) {
-                return true;
-            }
-        } else if (classPackage.equals(p.getPackage())) {
-            //if not including subpackages, the it must be the exact package.
-            return true;
-        }
-        return false;
+        //if not including subpackages, the it must be the exact package.
+        return p.isIncludeSubpackages() ? className.startsWith(p.getPackage())
+                : VerifyDesignDelegate.getPackageName(className).equals(p.getPackage());
     }
 
     /**

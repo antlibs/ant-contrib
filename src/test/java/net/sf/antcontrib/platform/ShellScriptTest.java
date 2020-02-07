@@ -15,25 +15,36 @@
  */
 package net.sf.antcontrib.platform;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
-import net.sf.antcontrib.BuildFileTestBase;
-
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildFileRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Testcase for &lt;shellscript&gt;.
  *
  * @author <a href="mailto:peterreilly@users.sf.net">Peter Reilly</a>
  */
-public class ShellScriptTest extends BuildFileTestBase {
+public class ShellScriptTest {
+    @Rule
+    public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Method setUp.
      */
     @Before
     public void setUp() {
-        configureProject("platform/shellscript.xml");
+        buildRule.configureProject("src/test/resources/platform/shellscript.xml");
         staticInitialize();
     }
 
@@ -42,9 +53,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShHello() {
-        if (hasSh) {
-            expectLogContaining("sh.hello", "hello world");
-        }
+        assumeTrue("No shell", hasSh);
+        buildRule.executeTarget("sh.hello");
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -52,9 +63,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testBashHello() {
-        if (hasBash) {
-            expectLogContaining("bash.hello", "hello world");
-        }
+        assumeTrue("No Bourne Again shell", hasBash);
+        buildRule.executeTarget("bash.hello");
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -62,9 +73,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShInputString() {
-        if (hasSh) {
-            expectLogContaining("sh.inputstring", "hello world");
-        }
+        assumeTrue("No shell", hasSh);
+        buildRule.executeTarget("sh.inputstring");
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -72,9 +83,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testShProperty() {
-        if (hasSh) {
-            expectLogContaining("sh.property", "this is a property");
-        }
+        assumeTrue("No shell", hasSh);
+        buildRule.executeTarget("sh.property");
+        assertThat(buildRule.getLog(), containsString("this is a property"));
     }
 
     /**
@@ -82,9 +93,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPythonHello() {
-        if (hasPython) {
-            expectLogContaining("python.hello", "hello world");
-        }
+        assumeTrue("No Python", hasPython);
+        buildRule.executeTarget("python.hello");
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -92,9 +103,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testPerlHello() {
-        if (hasPerl) {
-            expectLogContaining("perl.hello", "hello world");
-        }
+        assumeTrue("No Perl", hasPerl);
+        buildRule.executeTarget("perl.hello");
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -102,8 +113,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testNoShell() {
-        expectBuildExceptionContaining(
-                "noshell", "Execute failed", "a shell that should not exist");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("a shell that should not exist");
+        buildRule.executeTarget("noshell");
     }
 
     /**
@@ -111,9 +123,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSed() {
-        if (hasSed) {
-            expectLogContaining("sed.test", "BAR bar bar bar BAR bar");
-        }
+        assumeTrue("No Stream EDitor", hasSed);
+        buildRule.executeTarget("sed.test");
+        assertThat(buildRule.getLog(), containsString("BAR bar bar bar BAR bar"));
     }
 
     /**
@@ -121,10 +133,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testSetProperty() {
-        if (hasSh) {
-            executeTarget("sh.set.property");
-            assertPropertyEquals("sh.set.property", "hello world");
-        }
+        assumeTrue("No shell", hasSh);
+        buildRule.executeTarget("sh.set.property");
+        assertEquals(buildRule.getProject().getProperty("sh.set.property"), "hello world");
     }
 
     /**
@@ -132,9 +143,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testTmpSuffix() {
-        if (hasSh) {
-            expectLogContaining("sh.tmp.suffix", ".bat");
-        }
+        assumeTrue("No shell", hasSh);
+        buildRule.executeTarget("sh.tmp.suffix");
+        assertThat(buildRule.getLog(), containsString(".bat"));
     }
 
     /**
@@ -142,9 +153,8 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testCmd() {
-        if (hasCmd) {
-            expectLogContaining("cmd.test", "hello world");
-        }
+        assumeTrue("No Command Prompt", hasCmd);
+        assertThat(buildRule.getLog(), containsString("hello world"));
     }
 
     /**
@@ -152,10 +162,10 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testDir() {
-        if (hasBash) {
-            executeTarget("dir.test");
-            assertTrue(getProject().getProperty("dir.test.property").contains("subdir"));
-        }
+        assumeTrue("No Bourne Again shell", hasBash);
+        buildRule.executeTarget("dir.test");
+        assertThat(buildRule.getProject().getProperty("dir.test.property"),
+                containsString("subdir"));
     }
 
     /**
@@ -163,9 +173,9 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     @Test
     public void testCommand() {
-        expectBuildExceptionContaining(
-                "command.test", "Attribute failed",
-                "Attribute command is not supported");
+        thrown.expect(BuildException.class);
+        thrown.expectMessage("Attribute command is not supported");
+        buildRule.executeTarget("command.test");
     }
 
     /**
@@ -237,7 +247,7 @@ public class ShellScriptTest extends BuildFileTestBase {
      */
     private boolean hasShell(String target) {
         try {
-            executeTarget(target);
+            buildRule.executeTarget(target);
             return true;
         } catch (Throwable t) {
             return false;
