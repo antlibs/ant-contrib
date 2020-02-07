@@ -144,7 +144,7 @@ public class Design {
         }
 
         //result must now be default package
-        return (result != null && result.isIncludeSubpackages()) ? result : null;
+        return result != null && result.isIncludeSubpackages() ? result : null;
     }
 
     /**

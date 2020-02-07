@@ -35,7 +35,7 @@ import org.apache.tools.ant.types.Reference;
  *
  *   Task declaration in the project:
  *   <code>
- *     &lt;taskdef name="latesttimestamp" classname="net.sf.antcontrib.logic.TimestampSelector" /&gt;
+ *     &lt;taskdef name="latesttimestamp" classname="net.sf.antcontrib.logic.TimestampSelector"/&gt;
  *   </code>
  *
  *   Call Syntax:

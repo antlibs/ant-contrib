@@ -31,7 +31,6 @@ import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXTransformerFactory;
@@ -152,9 +151,11 @@ public final class TaskDoclet {
      * @param method set method for property.
      * @throws Exception if IO or other exception.
      */
-    private static void writeAttribute(final TransformerHandler tf, final MethodDoc method) throws Exception {
+    private static void writeAttribute(final TransformerHandler tf, final MethodDoc method)
+            throws Exception {
         AttributesImpl attributes = new AttributesImpl();
-        attributes.addAttribute(null, "name", "name", "CDATA", method.name().substring(3).toLowerCase(Locale.US));
+        attributes.addAttribute(null, "name", "name", "CDATA",
+                method.name().substring(3).toLowerCase(Locale.US));
         tf.startElement(NS_URI, "attribute", "attribute", attributes);
         writeType(tf, method.parameters()[0].type());
         attributes.clear();
@@ -212,7 +213,8 @@ public final class TaskDoclet {
         }
 
         /** {@inheritDoc} */
-        public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        public void characters(final char[] ch, final int start, final int length)
+                throws SAXException {
             tf.characters(ch, start, length);
         }
 
@@ -240,7 +242,8 @@ public final class TaskDoclet {
         }
 
         /** {@inheritDoc} */
-        public void processingInstruction(final String target, final String data) throws SAXException {
+        public void processingInstruction(final String target, final String data)
+                throws SAXException {
             tf.processingInstruction(target, data);
         }
 
@@ -294,8 +297,8 @@ public final class TaskDoclet {
             try {
                 SAXParserFactory sf = SAXParserFactory.newInstance();
                 sf.setNamespaceAware(true);
-                SAXParser parser = sf.newSAXParser();
-                parser.parse(new InputSource(new StringReader(buf.toString())), new RedirectHandler(tf));
+                sf.newSAXParser().parse(new InputSource(new StringReader(buf.toString())),
+                        new RedirectHandler(tf));
             } catch (Exception ex) {
                 tf.characters(ex.toString().toCharArray(), 0, ex.toString().length());
             }
@@ -316,9 +319,11 @@ public final class TaskDoclet {
                                         final Map<String, Type> referencedTypes) throws Exception {
         for (MethodDoc method : clazz.methods()) {
             if (processed.get(method.name()) == null) {
-                if (method.name().startsWith("set") && method.isPublic() && method.parameters().length == 1) {
+                if (method.name().startsWith("set") && method.isPublic()
+                        && method.parameters().length == 1) {
                     writeAttribute(tf, method);
-                    referencedTypes.put(method.parameters()[0].typeName(), method.parameters()[0].type());
+                    referencedTypes.put(method.parameters()[0].typeName(),
+                            method.parameters()[0].type());
                 }
                 processed.put(method.name(), method);
             }

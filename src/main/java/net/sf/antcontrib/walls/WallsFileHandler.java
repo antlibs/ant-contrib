@@ -93,7 +93,8 @@ class WallsFileHandler extends DefaultHandler {
      * @throws SAXParseException if the tag given is not
      *                           <code>"project"</code>
      */
-    public void startElement(String uri, String localName, String name, Attributes attrs) throws SAXParseException {
+    public void startElement(String uri, String localName, String name, Attributes attrs)
+            throws SAXParseException {
         if (name.equals("walls")) {
             if (attrs.getLength() > 0) {
                 throw new SAXParseException("Error in file=" + file.getAbsolutePath()

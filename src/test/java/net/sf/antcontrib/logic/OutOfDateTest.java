@@ -105,7 +105,7 @@ public class OutOfDateTest {
     public void testFileset() {
         buildRule.executeTarget("outofdate.init");
         buildRule.executeTarget("outofdate.test");
-        assertThat(buildRule.getLog(),containsString("outofdate triggered"));
+        assertThat(buildRule.getLog(), containsString("outofdate triggered"));
         // switch \ to / if present
         String outofdateSources =
                 buildRule.getProject().getProperty("outofdate.sources").replace('\\', '/');
