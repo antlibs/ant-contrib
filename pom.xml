@@ -26,9 +26,20 @@
   <url>http://ant-contrib.sourceforge.net/</url>
   <issueManagement>
     <system>SourceForge Tracker</system>
-    <url>http://sourceforge.net/tracker/?group_id=36177/</url>
+    <url>https://sourceforge.net/p/ant-contrib/bugs/</url>
   </issueManagement>
   <inceptionYear>2001</inceptionYear>
+  <organization>
+    <name>Ant-Contrib Project</name>
+    <url>${project.url}</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <mailingLists>
     <mailingList>
       <name>ant-contrib-cvs</name>
@@ -44,17 +55,6 @@
       <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=ant-contrib-developers</archive>
     </mailingList>
   </mailingLists>
-  <organization>
-    <name>Ant-Contrib Project</name>
-    <url>${project.url}</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <connection>scm:svn:https://ant-contrib.svn.sourceforge.net/svnroot/ant-contrib/ant-contrib/trunk</connection>
     <developerConnection>scm:svn:https://ant-contrib.svn.sourceforge.net/svnroot/ant-contrib/ant-contrib/trunk</developerConnection>
@@ -64,18 +64,52 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.9.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.bcel</groupId>
+      <artifactId>bcel</artifactId>
+      <version>5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ivy</groupId>
+      <artifactId>ivy</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+    <!-- for backwards compatibility -->
+    <dependency>
+      <groupId>org.jvnet.hudson</groupId>
+      <artifactId>ivy</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.0</version>
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.6</version>
+        <version>3.7.1</version>
         <configuration>
           <moduleExcludes>
             <xdoc>navigation.xml</xdoc>
@@ -84,7 +118,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20</version>
+        <version>2.22.2</version>
         <configuration>
           <reportFormat>plain</reportFormat>
           <!-- make sure we test the freshly built jar -->
@@ -96,7 +130,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+        <version>3.8.0</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -104,7 +138,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -120,7 +154,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <descriptors>
             <descriptor>src/assembly/bin.xml</descriptor>
@@ -130,7 +164,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
+        <version>3.0.1</version>
         <executions>
           <execution>
             <goals>
@@ -166,40 +200,6 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.9.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.bcel</groupId>
-      <artifactId>bcel</artifactId>
-      <version>5.2</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ivy</groupId>
-      <artifactId>ivy</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-    <!-- for backwards compatibility -->
-    <dependency>
-      <groupId>org.jvnet.hudson</groupId>
-      <artifactId>ivy</artifactId>
-      <version>1.4.1</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <reporting>
     <excludeDefaults>true</excludeDefaults>
     <plugins>
@@ -287,14 +287,14 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.20</version>
+        <version>2.22.1</version>
         <configuration>
           <linkXRef>false</linkXRef>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
+        <version>3.0.1</version>
         <configuration>
           <tags>
             <tag>
