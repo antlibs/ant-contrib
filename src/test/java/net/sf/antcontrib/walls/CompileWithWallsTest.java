@@ -15,6 +15,7 @@
  */
 package net.sf.antcontrib.walls;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -328,9 +329,9 @@ public class CompileWithWallsTest {
                             + " didn't exist, we can't run this test.  It will pass with false results",
                     f1.exists());
         } else {
-            assertTrue("The java file=" + f1.getAbsolutePath()
-                            + " exists and shouldn't, we can't run this test.  It will pass with false results",
-                    !f1.exists());
+            assertFalse("The java file=" + f1.getAbsolutePath()
+                            + " exists and it shouldn't, we can't run this test.  It will pass with false results",
+                    f1.exists());
         }
     }
 
@@ -348,10 +349,9 @@ public class CompileWithWallsTest {
                             + " but the build failed because a class\nfile should have been created",
                     f1.exists());
         } else {
-            assertTrue("The class file=" + f1.getAbsolutePath()
-                            + " exists and shouldn't\n"
+            assertFalse("The class file=" + f1.getAbsolutePath() + " exists and it shouldn't\n"
                             + "Test may be inaccurate if this file already exists...correct the test",
-                    !f1.exists());
+                    f1.exists());
         }
     }
 
