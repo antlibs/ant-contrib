@@ -40,13 +40,13 @@
           from <a href="https://github.com/antlibs/ant-contrib.git">GitHub</a>),
           change into the source directory of ant-contrib and
           type <code>ant</code>. After Ant has completed, you'll
-          find <code>ant-contrib-version.jar</code> in
+          find <code>ant-contrib-<i>version</i>.jar</code> in
           the <code>lib</code> subdirectory.
         </p>
         <p>You now have the choice:</p>
         <ol>
           <li>
-            Copy <code>ant-contrib-version.jar</code> to the
+            Copy <code>ant-contrib-<i>version</i>.jar</code> to the
             <code>lib</code> directory of your Ant installation, or on
             your <code>CLASSPATH</code> environment variable. If you
             want to use one of the tasks in your project, add the line
@@ -54,7 +54,7 @@
             to your build file.
           </li>
           <li>
-            Keep <code>ant-contrib-version.jar</code> in a separate
+            Keep <code>ant-contrib-<i>version</i>.jar</code> in a separate
             location. You now have to tell Ant explicitly where to
             find it (say in <code>/usr/share/java/lib</code>):
             <source><![CDATA[<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="/usr/share/java/lib/ant-contrib-version.jar"/>]]></source>

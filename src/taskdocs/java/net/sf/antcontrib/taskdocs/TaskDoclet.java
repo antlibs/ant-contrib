@@ -1,22 +1,29 @@
 /*
-Licensed to the Ant-Contrib Project under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The Ant-Contrib Project licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
+ * Licensed to the Ant-Contrib Project under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ *
+ * The Ant-Contrib Project licenses this file to You
+ * under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
-*/
 package net.sf.antcontrib.taskdocs;
 
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.Tag;
+import com.sun.javadoc.Type;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -24,12 +31,6 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
-
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.RootDoc;
-import com.sun.javadoc.Tag;
-import com.sun.javadoc.Type;
 
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
@@ -45,12 +46,12 @@ import java.util.Map;
 
 /**
  * This document writes an XML representation of the
- *   Ant related Javadoc through an XSLT transform that creates xdoc files.
- *
+ * Ant related Javadoc through an XSLT transform that creates xdoc files.
  */
 public final class TaskDoclet {
     /**
      * Process Javadoc content.
+     *
      * @param root root of javadoc content.
      * @return true if successful
      * @throws Exception IO exceptions and the like.
@@ -65,11 +66,9 @@ public final class TaskDoclet {
         Map<String, Type> referencedTypes = new HashMap<String, Type>();
         Map<String, ClassDoc> documentedTypes = new HashMap<String, ClassDoc>();
         for (ClassDoc clazz : root.classes()) {
-            if (clazz.isPublic() && !clazz.isAbstract()) {
-                if (isTask(clazz) || isType(clazz)) {
-                    writeClass(typeHandler, clazz, referencedTypes);
-                    documentedTypes.put(clazz.qualifiedTypeName(), clazz);
-                }
+            if (clazz.isPublic() && !clazz.isAbstract() && (isTask(clazz) || isType(clazz))) {
+                writeClass(typeHandler, clazz, referencedTypes);
+                documentedTypes.put(clazz.qualifiedTypeName(), clazz);
             }
         }
 
@@ -77,36 +76,31 @@ public final class TaskDoclet {
         for (String referencedName : referencedTypes.keySet()) {
             if (documentedTypes.get(referencedName) == null) {
                 ClassDoc referencedClass = root.classNamed(referencedName);
-                if (referencedClass != null) {
-                    if (!referencedClass.qualifiedTypeName().startsWith("org.apache.tools.ant")) {
-                        writeClass(typeHandler, referencedClass, additionalTypes);
-                        documentedTypes.put(referencedClass.qualifiedTypeName(), referencedClass);
-                    }
+                if (referencedClass != null
+                        && !referencedClass.qualifiedTypeName().startsWith("org.apache.tools.ant")) {
+                    writeClass(typeHandler, referencedClass, additionalTypes);
+                    documentedTypes.put(referencedClass.qualifiedTypeName(), referencedClass);
                 }
             }
         }
         return true;
     }
 
-
     /**
      * Determine if class is an Ant task.
+     *
      * @param clazz class to test.
      * @return true if class is an Ant task.
      */
     private static boolean isTask(final ClassDoc clazz) {
-        if (clazz == null) {
-            return false;
-        }
-        if ("org.apache.tools.ant.Task".equals(clazz.qualifiedTypeName())) {
-            System.out.print("true");
-            return true;
-        }
-        return isTask(clazz.superclass());
+        return clazz != null
+                && ("org.apache.tools.ant.Task".equals(clazz.qualifiedTypeName())
+                || isTask(clazz.superclass()));
     }
 
     /**
      * Determine if class is an Ant type.
+     *
      * @param clazz class to test.
      * @return true if class is an Ant type.
      */
@@ -127,7 +121,8 @@ public final class TaskDoclet {
 
     /**
      * Write a Java type.
-     * @param tf content handler.
+     *
+     * @param tf   content handler.
      * @param type documented type.
      * @throws Exception if IO or other exception.
      */
@@ -137,22 +132,22 @@ public final class TaskDoclet {
         attributes.addAttribute(null, "qualifiedTypeName", "qualifiedTypeName", "CDATA", type.qualifiedTypeName());
         tf.startElement(NS_URI, "type", "type", attributes);
         ClassDoc typeDoc = type.asClassDoc();
-        if (typeDoc != null && typeDoc.commentText() != null && typeDoc.commentText().length() > 0) {
-            writeDescription(tf, typeDoc.commentText());
-        } else {
+        if (typeDoc == null || typeDoc.commentText() == null || typeDoc.commentText().isEmpty()) {
             tf.characters(type.typeName().toCharArray(), 0, type.typeName().length());
+        } else {
+            writeDescription(tf, typeDoc.commentText());
         }
         tf.endElement(NS_URI, "type", "type");
     }
 
     /**
      * Write an Ant task or type attribute (aka property).
-     * @param tf content handler.
+     *
+     * @param tf     content handler.
      * @param method set method for property.
      * @throws Exception if IO or other exception.
      */
-    private static void writeAttribute(final TransformerHandler tf, final MethodDoc method)
-            throws Exception {
+    private static void writeAttribute(final TransformerHandler tf, final MethodDoc method) throws Exception {
         AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(null, "name", "name", "CDATA",
                 method.name().substring(3).toLowerCase(Locale.US));
@@ -167,10 +162,11 @@ public final class TaskDoclet {
 
     /**
      * Write an Ant nested element.
-     * @param tf content handler.
-     * @param method method to add element to task or type.
-     * @param name name of nested element.
-     * @param type type of nested element.
+     *
+     * @param tf              content handler.
+     * @param method          method to add element to task or type.
+     * @param name            name of nested element.
+     * @param type            type of nested element.
      * @param referencedTypes map of types referenced in documentation.
      * @throws Exception if IO or other exception.
      */
@@ -179,6 +175,10 @@ public final class TaskDoclet {
                                    final String name,
                                    final Type type,
                                    final Map<String, Type> referencedTypes) throws Exception {
+        // skip add(), addConfigured() and create()
+        if (name.isEmpty()) {
+            return;
+        }
         AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(null, "name", "name", "CDATA", name.toLowerCase(Locale.US));
         tf.startElement(NS_URI, "child", "child", attributes);
@@ -203,6 +203,7 @@ public final class TaskDoclet {
 
         /**
          * Create new instance.
+         *
          * @param tf output handler, may not be null.
          */
         public RedirectHandler(final TransformerHandler tf) {
@@ -212,17 +213,23 @@ public final class TaskDoclet {
             this.tf = tf;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void characters(final char[] ch, final int start, final int length)
                 throws SAXException {
             tf.characters(ch, start, length);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void endDocument() {
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void endElement(final String namespaceURI,
                                final String localName,
                                final String qName) throws SAXException {
@@ -231,37 +238,51 @@ public final class TaskDoclet {
             }
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void endPrefixMapping(final String prefix) throws SAXException {
             tf.endPrefixMapping(prefix);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
             tf.ignorableWhitespace(ch, start, length);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void processingInstruction(final String target, final String data)
                 throws SAXException {
             tf.processingInstruction(target, data);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void setDocumentLocator(final Locator locator) {
             tf.setDocumentLocator(locator);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void skippedEntity(String name) throws SAXException {
             tf.skippedEntity(name);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void startDocument() {
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void startElement(final String namespaceURI,
                                  final String localName,
                                  final String qName,
@@ -271,7 +292,9 @@ public final class TaskDoclet {
             }
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void startPrefixMapping(String prefix, String uri) throws SAXException {
             tf.startPrefixMapping(prefix, uri);
         }
@@ -279,13 +302,14 @@ public final class TaskDoclet {
 
     /**
      * Writes description.
-     * @param tf destination.
+     *
+     * @param tf          destination.
      * @param description description, may contain XHTML elements.
      * @throws SAXException if IO or other exception.
      */
     private static void writeDescription(final TransformerHandler tf,
                                          final String description) throws SAXException {
-        if (description.indexOf('<') == -1) {
+        if (!description.contains("<")) {
             tf.characters(description.toCharArray(), 0, description.length());
         } else {
             //
@@ -307,9 +331,10 @@ public final class TaskDoclet {
 
     /**
      * Write all Ant attributes in this class and superclasses.
-     * @param tf destination.
-     * @param clazz class documentation.
-     * @param processed map of processed methods.
+     *
+     * @param tf              destination.
+     * @param clazz           class documentation.
+     * @param processed       map of processed methods.
      * @param referencedTypes map of referenced types.
      * @throws Exception if IO or other exception.
      */
@@ -331,14 +356,14 @@ public final class TaskDoclet {
         if (clazz.superclass() != null) {
             writeAttributes(tf, clazz.superclass(), processed, referencedTypes);
         }
-
     }
 
     /**
      * Write all Ant nested elements in this class and superclasses.
-     * @param tf destination.
-     * @param clazz class documentation.
-     * @param processed map of processed methods.
+     *
+     * @param tf              destination.
+     * @param clazz           class documentation.
+     * @param processed       map of processed methods.
      * @param referencedTypes map of referenced types.
      * @throws Exception if IO or other exception.
      */
@@ -347,17 +372,16 @@ public final class TaskDoclet {
                                       final Map<String, MethodDoc> processed,
                                       final Map<String, Type> referencedTypes) throws Exception {
         for (MethodDoc method : clazz.methods()) {
-            if (processed.get(method.name()) == null) {
-                if (method.name().startsWith("addConfigured") && method.isPublic() && method.parameters().length == 1) {
-                    writeChild(tf, method, method.name().substring(13), method.parameters()[0].type(), referencedTypes);
+            final String methodName = method.name();
+            if (processed.get(methodName) == null) {
+                if (methodName.startsWith("addConfigured") && method.isPublic() && method.parameters().length == 1) {
+                    writeChild(tf, method, methodName.substring(13), method.parameters()[0].type(), referencedTypes);
+                } else if (methodName.startsWith("add") && method.isPublic() && method.parameters().length == 1) {
+                    writeChild(tf, method, methodName.substring(3), method.parameters()[0].type(), referencedTypes);
+                } else if (method.isPublic() && method.parameters().length == 0 && methodName.startsWith("create")) {
+                    writeChild(tf, method, methodName.substring(6), method.returnType(), referencedTypes);
                 }
-                if (method.name().startsWith("add") && method.isPublic() && method.parameters().length == 1) {
-                    writeChild(tf, method, method.name().substring(3), method.parameters()[0].type(), referencedTypes);
-                }
-                if (method.isPublic() && method.parameters().length == 0 && method.name().startsWith("create")) {
-                    writeChild(tf, method, method.name().substring(6), method.returnType(), referencedTypes);
-                }
-                processed.put(method.name(), method);
+                processed.put(methodName, method);
             }
         }
         if (clazz.superclass() != null) {
@@ -365,11 +389,11 @@ public final class TaskDoclet {
         }
     }
 
-
     /**
      * Write Ant documentation for this class.
-     * @param tf destination.
-     * @param clazz class documentation.
+     *
+     * @param tf              destination.
+     * @param clazz           class documentation.
      * @param referencedTypes map of referenced types.
      * @throws Exception if IO or other exception.
      */

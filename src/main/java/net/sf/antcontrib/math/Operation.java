@@ -251,9 +251,9 @@ public class Operation implements Evaluateable, DynamicConfigurator {
                 }
             }
 
-            ops = localOps.toArray(new Evaluateable[localOps.size()]);
+            ops = localOps.toArray(new Evaluateable[0]);
         } else {
-            ops = operands.toArray(new Evaluateable[operands.size()]);
+            ops = operands.toArray(new Evaluateable[0]);
         }
 
         return Math.evaluate(operation,
