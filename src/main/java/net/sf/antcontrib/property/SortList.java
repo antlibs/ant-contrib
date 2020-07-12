@@ -318,12 +318,12 @@ public class SortList extends AbstractPropertySetterTask {
         if (orderPropertyFile != null) {
             try {
                 List<String> sorted = sortByOrderPropertyFile(vec);
-                propList = sorted.toArray(new String[sorted.size()]);
+                propList = sorted.toArray(new String[0]);
             } catch (IOException e) {
                 throw new BuildException(e);
             }
         } else {
-            String[] s = vec.toArray(new String[vec.size()]);
+            String[] s = vec.toArray(new String[0]);
             propList = new String[s.length];
             System.arraycopy(s, 0, propList, 0, s.length);
             mergeSort(s, propList, 0, s.length, casesensitive, numeric);
