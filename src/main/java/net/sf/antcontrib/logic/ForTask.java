@@ -32,6 +32,8 @@ import org.apache.tools.ant.taskdefs.Parallel;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.ResourceCollection;
 
+import net.sf.antcontrib.util.Tools;
+
 /**
  * Task definition for the for task.  This is based on
  * the foreach task but takes a sequential element
@@ -331,7 +333,7 @@ public class ForTask extends Task {
             }
         }
     }
-
+    
     /**
      * Method doTheTasks.
      */
@@ -353,7 +355,7 @@ public class ForTask extends Task {
             while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if (trim) {
-                    tok = tok.trim();
+                    tok = Tools.trim(tok);
                 }
                 doToken(tok);
             }

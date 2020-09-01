@@ -18,6 +18,8 @@ package net.sf.antcontrib.logic.condition;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 
+import net.sf.antcontrib.util.Tools;
+
 /**
  * Condition to test if the first argument is less than the
  * second argument. Will deal with base 10 integer and decimal numbers, otherwise,
@@ -101,8 +103,8 @@ public final class IsLessThan implements Condition {
         }
 
         if (trim) {
-            arg1 = arg1.trim();
-            arg2 = arg2.trim();
+            arg1 = Tools.trim(arg1);
+            arg2 = Tools.trim(arg2);
         }
 
         // check if args are numbers

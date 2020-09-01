@@ -35,6 +35,7 @@ import org.apache.tools.ant.util.FileNameMapper;
 
 import net.sf.antcontrib.util.ThreadPool;
 import net.sf.antcontrib.util.ThreadPoolThread;
+import net.sf.antcontrib.util.Tools;
 
 /**
  * Task definition for the foreach task.  The foreach task iterates
@@ -240,7 +241,7 @@ public class ForEach extends Task {
             while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if (trim) {
-                    tok = tok.trim();
+                    tok = Tools.trim(tok);
                 }
                 values.add(tok);
             }
