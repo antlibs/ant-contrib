@@ -21,6 +21,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
 
+import net.sf.antcontrib.util.StringTools;
+
 /**
  * Subclass of CallTarget which allows us to fetch
  * properties which are set in the scope of the called
@@ -64,7 +66,7 @@ public class AntFetch extends Ant {
         if (returnName != null) {
             StringTokenizer st = new StringTokenizer(returnName, ",");
             while (st.hasMoreTokens()) {
-                String name = st.nextToken().trim();
+                String name = StringTools.trim(st.nextToken());
                 String value = fakeProject.getSubproject().getUserProperty(name);
                 if (value != null) {
                     getProject().setUserProperty(name, value);

@@ -18,6 +18,8 @@ package net.sf.antcontrib.logic.condition;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.condition.Condition;
 
+import net.sf.antcontrib.util.StringTools;
+
 /**
  * Condition to test if the first argument is greater than the
  * second argument. Will deal with base 10 integer and decimal numbers, otherwise,
@@ -101,8 +103,8 @@ public final class IsGreaterThan implements Condition {
         }
 
         if (trim) {
-            arg1 = arg1.trim();
-            arg2 = arg2.trim();
+            arg1 = StringTools.trim(arg1);
+            arg2 = StringTools.trim(arg2);
         }
 
         // check if args are numbers

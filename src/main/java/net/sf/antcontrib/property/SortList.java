@@ -27,6 +27,8 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
 
+import net.sf.antcontrib.util.StringTools;
+
 /**
  * @author <a href="mailto:mattinger@yahoo.com">Matthew Inger</a>
  */
@@ -246,12 +248,12 @@ public class SortList extends AbstractPropertySetterTask {
             while ((line = br.readLine()) != null) {
                 pos = line.indexOf('#');
                 if (pos != -1) {
-                    line = line.substring(0, pos).trim();
+                    line = StringTools.trim(line.substring(0, pos));
                 }
 
                 if (line.length() > 0) {
                     pos = line.indexOf('=');
-                    pname = (pos != -1) ? line.substring(0, pos).trim() : line.trim();
+                    pname = (pos != -1) ? StringTools.trim(line.substring(0, pos)) : StringTools.trim(line);
 
                     String prefPname = pname;
                     if (orderPropertyFilePrefix != null) {
