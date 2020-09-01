@@ -31,6 +31,8 @@ import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.property.ResolvePropertyMap;
 
+import net.sf.antcontrib.util.StringTools;
+
 /**
  * Similar to Property, but this property is mutable. In fact, much of the code
  * in this class is copy and paste from Property. In general, the standard Ant
@@ -72,6 +74,11 @@ public class Variable extends Task {
     private boolean remove = false;
 
     /**
+     * Field trim.
+     */
+    private boolean trim = false;
+
+    /**
      * Set the name of the property. Required unless 'file' is used.
      *
      * @param name the name of the property.
@@ -110,6 +117,15 @@ public class Variable extends Task {
     }
 
     /**
+     * Determines whether the property should be trimmed.
+     *
+     * @param trim set to true to trim the property value.
+     */
+    public void setTrim(boolean trim) {
+        this.trim = trim;
+    }
+
+    /**
      * Execute this task.
      *
      * @throws BuildException Description of the Exception
@@ -126,6 +142,11 @@ public class Variable extends Task {
             // check for the required name attribute
             if (name == null || name.equals("")) {
                 throw new BuildException("The 'name' attribute is required.");
+            }
+
+            // may trim the String
+            if (trim) {
+                value = StringTools.trim(value);
             }
 
             // check for the required value attribute

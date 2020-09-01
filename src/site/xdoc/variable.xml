@@ -61,6 +61,12 @@
             <td>None</td>
             <td>No</td>
           </tr>
+          <tr>
+            <td>trim</td>
+            <td>Trim the value.</td>
+            <td>false</td>
+            <td>No</td>
+          </tr>
         </tbody>
       </table>
       <p>
