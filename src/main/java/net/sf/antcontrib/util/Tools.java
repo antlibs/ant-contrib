@@ -21,7 +21,7 @@ public class Tools {
      * @param tok String
      */
     public static String trim(String string) {
-    	return string.trim().replaceAll("\r\n", System.lineSeparator()).replaceAll("\r[^\\n]", System.lineSeparator()).replaceAll("[^\\r]\n", System.lineSeparator()).replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}&&[^\\s]]", "");
+    	return string.trim().replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}&&[^\\s]]", "");
     	
     }
 }
