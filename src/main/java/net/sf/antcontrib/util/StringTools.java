@@ -34,12 +34,12 @@ public class StringTools {
      * 3. Removing all "invisible unicode characters" except white spaces.
      */
     public static String trim(String string) {
-    	try {
-    		Method strip = String.class.getMethod("strip");
-    		return (String) strip.invoke(string, (Object[])null);
-		} catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassCastException e) {
-			// Just catch if strip not exists because the project works on old java version. No need for logs.
-		}
+			try {
+				Method strip = String.class.getMethod("strip");
+				return (String) strip.invoke(string, (Object[])null);
+			} catch (Exception e) {
+				// Just catch if strip not exists because the project works on old java version. No need for logs.
+			}
     	return string.trim().replaceAll("\r\n", System.lineSeparator()).replaceAll("\r[^\\n]", System.lineSeparator()).replaceAll("[^\\r]\n", System.lineSeparator()).replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}&&[^\\s]]", "");
     	
     }
