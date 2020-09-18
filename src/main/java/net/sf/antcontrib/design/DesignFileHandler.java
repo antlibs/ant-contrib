@@ -27,7 +27,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * Handler for the root element. Its only child must be the "project" element.
@@ -439,7 +439,7 @@ class DesignFileHandler implements ContentHandler {
             if (o instanceof Depends) {
                 String s = new String(ch, start, length);
                 Depends d = (Depends) o;
-                d.setName(d.getName() != null ? d.getName() + Tools.trim(s) : Tools.trim(s));
+                d.setName(d.getName() != null ? d.getName() + StringTools.trim(s) : StringTools.trim(s));
             }
         } catch (RuntimeException e) {
             log.log("exception in characters()", Project.MSG_INFO);

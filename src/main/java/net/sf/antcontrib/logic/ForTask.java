@@ -32,7 +32,7 @@ import org.apache.tools.ant.taskdefs.Parallel;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.ResourceCollection;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * Task definition for the for task.  This is based on
@@ -355,7 +355,7 @@ public class ForTask extends Task {
             while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if (trim) {
-                    tok = Tools.trim(tok);
+                    tok = StringTools.trim(tok);
                 }
                 doToken(tok);
             }

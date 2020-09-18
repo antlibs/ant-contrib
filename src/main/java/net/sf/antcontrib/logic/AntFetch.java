@@ -21,7 +21,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * Subclass of CallTarget which allows us to fetch
@@ -66,7 +66,7 @@ public class AntFetch extends Ant {
         if (returnName != null) {
             StringTokenizer st = new StringTokenizer(returnName, ",");
             while (st.hasMoreTokens()) {
-                String name = Tools.trim(st.nextToken());
+                String name = StringTools.trim(st.nextToken());
                 String value = fakeProject.getSubproject().getUserProperty(name);
                 if (value != null) {
                     getProject().setUserProperty(name, value);

@@ -18,7 +18,7 @@ package net.sf.antcontrib.inifile;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * A single property in an IniSection.
@@ -100,7 +100,7 @@ public class IniProperty implements IniPart {
      */
     public void write(Writer writer) throws IOException {
         writer.write(name);
-        if (!Tools.trim(name).startsWith(";")) {
+        if (!StringTools.trim(name).startsWith(";")) {
             writer.write("=" + value);
         }
     }

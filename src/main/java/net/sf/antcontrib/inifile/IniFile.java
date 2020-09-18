@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * Class representing a windows style .ini file.
@@ -186,7 +186,7 @@ public class IniFile {
         IniSection currentSection = new IniSection("NONE");
 
         while ((line = br.readLine()) != null) {
-            line = Tools.trim(line);
+            line = StringTools.trim(line);
             if (line.length() > 0 && !line.startsWith("#") && !line.startsWith(";")) {
                 if (line.startsWith("[") && line.endsWith("]")) {
                     String secName = line.substring(1, line.length() - 1);

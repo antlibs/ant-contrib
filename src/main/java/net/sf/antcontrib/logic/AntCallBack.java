@@ -36,7 +36,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.util.FileUtils;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * Identical (copy and paste, even) to the 'Ant' task, with the exception that
@@ -362,7 +362,7 @@ public class AntCallBack extends Task {
             if (returnName != null) {
                 StringTokenizer st = new StringTokenizer(returnName, ",");
                 while (st.hasMoreTokens()) {
-                    String name = Tools.trim(st.nextToken());
+                    String name = StringTools.trim(st.nextToken());
                     String value = newProject.getUserProperty(name);
                     if (value != null) {
                         getProject().setUserProperty(name, value);

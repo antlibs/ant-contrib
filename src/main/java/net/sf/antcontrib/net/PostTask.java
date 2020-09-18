@@ -44,7 +44,7 @@ import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.property.ResolvePropertyMap;
 
-import net.sf.antcontrib.util.Tools;
+import net.sf.antcontrib.util.StringTools;
 
 /**
  * This task does an http post. Name/value pairs for the post can be set in
@@ -630,8 +630,8 @@ public class PostTask extends Task {
                 if (eqIndex == -1) {
                     continue;
                 }
-                String firstPart = Tools.trim(part.substring(0, eqIndex));
-                String secondPart = Tools.trim(part.substring(eqIndex + 1));
+                String firstPart = StringTools.trim(part.substring(0, eqIndex));
+                String secondPart = StringTools.trim(part.substring(eqIndex + 1));
                 if (i == 0) {
                     name = firstPart;
                     value = secondPart;
