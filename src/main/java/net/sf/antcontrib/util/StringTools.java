@@ -15,6 +15,9 @@
  */
 package net.sf.antcontrib.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * 
  * 
@@ -23,16 +26,20 @@ package net.sf.antcontrib.util;
 public class StringTools {
 
     /**
-     * Method trim.<br>
+     * Method trim.
+     * Uses {@link String#strip()} if Java 11 or higher is used or self implementation of trimming.<br>
      * 
-     * 1. trimming leading or trailing white spaces <br>
-     * 2. dos2unix<br>
-     * 3. mac2unix<br>
-     * 4. removing all "invisible Unicode characters" except white spaces.
-     * 
-     * @param tok String
+     * 1. Trimming leading or trailing white spaces <br>
+     * 2. Replaces all line endings with {@link System#lineSeparator()} <br>
+     * 3. Removing all "invisible unicode characters" except white spaces.
      */
     public static String trim(String string) {
+    	try {
+    		Method strip = String.class.getMethod("strip");
+    		return (String) strip.invoke(string, (Object[])null);
+		} catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassCastException e) {
+			// Just catch if strip not exists because the project works on old java version. No need for logs.
+		}
     	return string.trim().replaceAll("\r\n", System.lineSeparator()).replaceAll("\r[^\\n]", System.lineSeparator()).replaceAll("[^\\r]\n", System.lineSeparator()).replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}&&[^\\s]]", "");
     	
     }
