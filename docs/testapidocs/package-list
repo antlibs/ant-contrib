@@ -1,0 +1,10 @@
+net.sf.antcontrib.antclipse
+net.sf.antcontrib.antserver
+net.sf.antcontrib.design
+net.sf.antcontrib.logic
+net.sf.antcontrib.math
+net.sf.antcontrib.platform
+net.sf.antcontrib.process
+net.sf.antcontrib.property
+net.sf.antcontrib.walls
+org.apache.tools.ant
