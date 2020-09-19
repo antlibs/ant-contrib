@@ -17,16 +17,16 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.sf.antcontrib</groupId>
+  <groupId>net.sourceforge</groupId>
   <artifactId>ant-contrib</artifactId>
   <packaging>jar</packaging>
   <name>ant-contrib</name>
   <version>1.0-SNAPSHOT</version>
   <description>Ant Contrib tasks for Apache Ant</description>
-  <url>https://github.com/top-logic/ant-contrib/</url>
+  <url>http://ant-contrib.sourceforge.net/</url>
   <issueManagement>
-    <system>Github Tracker</system>
-    <url>https://github.com/top-logic/ant-contrib/issues</url>
+    <system>SourceForge Tracker</system>
+    <url>https://sourceforge.net/p/ant-contrib/bugs/</url>
   </issueManagement>
   <inceptionYear>2001</inceptionYear>
   <organization>
