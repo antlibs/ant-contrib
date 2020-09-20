@@ -1,6 +1,6 @@
 # docs
 The current documentation can now seen here:
-https://github.com/top-logic/ant-contrib/
+https://top-logic.github.io/ant-contrib/
 
 
 # ant-contrib origin
