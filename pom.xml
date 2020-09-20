@@ -40,25 +40,10 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <mailingLists>
-    <mailingList>
-      <name>ant-contrib-cvs</name>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/ant-contrib-cvs</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/ant-contrib-cvs</unsubscribe>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=ant-contrib-cvs</archive>
-    </mailingList>
-    <mailingList>
-      <name>ant-contrib-developers</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/ant-contrib-developers</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/ant-contrib-developers</unsubscribe>
-      <post>ant-contrib-developers@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=ant-contrib-developers</archive>
-    </mailingList>
-  </mailingLists>
   <scm>
-    <connection>scm:svn:https://ant-contrib.svn.sourceforge.net/svnroot/ant-contrib/ant-contrib/trunk</connection>
-    <developerConnection>scm:svn:https://ant-contrib.svn.sourceforge.net/svnroot/ant-contrib/ant-contrib/trunk</developerConnection>
-    <url>http://ant-contrib.svn.sourceforge.net/viewvc/ant-contrib/ant-contrib/trunk/</url>
+    <connection>scm:git:https://github.com/top-logic/ant-contrib.git</connection>
+    <developerConnection>scm:git:https://github.com/top-logic/ant-contrib.git</developerConnection>
+    <url>https://github.com/top-logic/ant-contrib/</url>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
