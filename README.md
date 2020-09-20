@@ -1,4 +1,9 @@
-# ant-contrib
+# docs
+The current documentation can now seen here:
+https://github.com/top-logic/ant-contrib/
+
+
+# ant-contrib origin
 This is a fork of the Ant Contrib project (http://ant-contrib.sourceforge.net/).
 At the time of the fork (October 2011) the project had been inactive for a number
 of years with developers citing lack of time to support it.
