@@ -20,6 +20,9 @@
     <title>Ant Contrib tasks for Apache Ant</title>
   </properties>
   <body>
+    <release version="1.0-beta4" date="2020-09-22" description="Added new trim() for Strings. Corrected docs. Bug fixed math task.">
+    </release>
+  
     <release version="1.0-beta3" date="2006-11-02" description="">
     </release>
 
