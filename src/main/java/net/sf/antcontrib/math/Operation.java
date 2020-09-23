@@ -59,6 +59,13 @@ public class Operation implements Evaluateable, DynamicConfigurator {
     private final Numeric[] localOperands = new Numeric[5];
 
     /**
+     * Constructor for Operation.
+     */
+    public Operation() {
+        super();
+    }
+    
+    /**
      * Method setDynamicAttribute.
      *
      * @param s  String
@@ -213,7 +220,8 @@ public class Operation implements Evaluateable, DynamicConfigurator {
                 : operation.equals("-") ? "subtract"
                 : operation.equals("*") ? "multiply"
                 : operation.equals("/") ? "divide"
-                : operation.equals("%") ? "mod" : operation;
+                : operation.equals("%") ? "mod"
+                : operation;
     }
 
     /**

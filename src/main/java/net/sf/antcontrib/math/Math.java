@@ -778,5 +778,26 @@ public class Math {
                 params,
                 ops);
     }
+    
+    /**
+     * Method pow.
+     *
+     * @param datatype String
+     * @param strict   boolean
+     * @param operands Evaluateable[]
+     * @return Number
+     */
+    public static final Number pow(String datatype,
+                                   boolean strict,
+                                   Evaluateable[] operands) {
+        Object[] ops = new Object[]{convert(operands[0].evaluate(),"double"),
+                					convert(operands[1].evaluate(),"double")};
+        Class<?>[] params = new Class<?>[]{getPrimitiveClass("double"),getPrimitiveClass("double")};
 
+        return execute("pow",
+        		"double",
+                strict,
+                params,
+                ops);
+    }
 }

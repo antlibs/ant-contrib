@@ -85,8 +85,8 @@ public class MathTask extends Task implements DynamicConfigurator {
      * @throws BuildException no dynamic attributes allowed
      * @see org.apache.tools.ant.DynamicAttribute#setDynamicAttribute(String, String)
      */
-    public void setDynamicAttribute(String s, String s1) throws BuildException {
-        throw new BuildException("No dynamic attributes for this task");
+    public void setDynamicAttribute(String name, String value) throws BuildException {
+        throw new BuildException("Math task has no attribute named: '" + name + "'");
     }
 
     /**
@@ -152,6 +152,9 @@ public class MathTask extends Task implements DynamicConfigurator {
      */
     public void setOperation(String operation) {
         getLocalOperation().setOperation(operation);
+        if(datatype != null) {
+    		this.locOperation.setDatatype(datatype);
+        }
     }
 
     /**
@@ -160,7 +163,12 @@ public class MathTask extends Task implements DynamicConfigurator {
      * @param dataType String
      */
     public void setDataType(String dataType) {
-        getLocalOperation().setDatatype(dataType);
+    	datatype = dataType;
+    	if(operation != null) {
+    		operation.setDatatype(dataType);
+    	}else if(locOperation != null) {
+    		locOperation.setDatatype(dataType);
+    	}
     }
 
     /**

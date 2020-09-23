@@ -16,12 +16,19 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<repositories>
+		<repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+	</repositories>
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sf.antcontrib</groupId>
   <artifactId>ant-contrib</artifactId>
   <packaging>jar</packaging>
   <name>ant-contrib</name>
-  <version>1.0b4</version>
+  <version>1.0b5</version>
   <description>Ant Contrib tasks for Apache Ant</description>
   <url>https://github.com/top-logic/ant-contrib/</url>
   <issueManagement>
@@ -94,7 +101,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
@@ -111,7 +118,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
+        <version>0.8.6</version>
         <executions>
           <execution>
             <id>default-prepare-agent</id>
@@ -149,7 +156,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M5</version>
         <configuration>
           <reportFormat>plain</reportFormat>
           <!-- make sure we test the freshly built jar -->
@@ -163,8 +170,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -228,7 +235,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -250,7 +257,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0-M1</version>
         <configuration>
           <goals>site-deploy</goals>
         </configuration>
@@ -311,7 +318,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
+        <version>0.8.6</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -323,7 +330,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M5</version>
         <configuration>
           <linkXRef>false</linkXRef>
         </configuration>
