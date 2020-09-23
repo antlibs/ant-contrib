@@ -80,8 +80,8 @@ public class MathTask extends Task implements DynamicConfigurator {
     /**
      * Method setDynamicAttribute.
      *
-     * @param s  String
-     * @param s1 String
+     * @param name  String
+     * @param value String
      * @throws BuildException no dynamic attributes allowed
      * @see org.apache.tools.ant.DynamicAttribute#setDynamicAttribute(String, String)
      */
