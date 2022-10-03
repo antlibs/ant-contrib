@@ -286,7 +286,7 @@ public class ForTask extends Task {
                 throw new BuildException("step cannot be 0");
             } else if (iEnd > begin && step < 0) {
                 throw new BuildException("end > begin, step needs to be > 0");
-            } else if (iEnd <= begin && step > 0) {
+            } else if (iEnd < begin && step > 0) {
                 throw new BuildException("end <= begin, step needs to be < 0");
             }
         }
